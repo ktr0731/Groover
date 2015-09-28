@@ -31,6 +31,7 @@
     <string name="tv_player_data_coin">Coin</string>
     <string name="tv_player_data_trophy">Trophy</string>
 
+    <string name="tv_music_result_title">Music</string>
     <string name="tv_music_result_play_music">Play Music</string>
     <string name="tv_music_result_clear_stage">Clear Stage</string>
     <string name="tv_music_result_average_score">Average Score</string>
@@ -39,6 +40,6 @@
     <string name="tv_music_result_s">S</string>
     <string name="tv_music_result_ss">S+</string>
     <string name="tv_music_result_sss">S++</string>
-    
-    
+
+
 </resources>
