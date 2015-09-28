@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Groover</string>
+    <string name="activity_login">ログイン</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="serial_no">NESiCA Serial No.</string>
+    <string name="password">Password</string>
+    <string name="login_attention">これらの情報はアプリ内データに保存され、自動ログインの際に使用されます。また、ログインに数回失敗すると１時間ログインができなくなりますのでご注意ください。</string>
+    <string name="login_button">ログイン</string>
+
+    <string name="pref_serial_no">pref_serial_no</string>
+    <string name="pref_password">pref_password</string>
+    <string name="pref_login_cookie">pref_login_cookie</string>
+
+    <string name="request_login">req_login</string>
+
+    <string name="param_serial_no">nesicaCardId</string>
+    <string name="param_password">password</string>
+
+    <string name="const_set_cookie">Set-Cookie</string>
+    <string name="const_cookie_domain">https://mypage.groovecoaster.jp</string>
+
+    <integer name="status_code_login">100</integer>
+
+    <string name="dialog_title_login">プレイデータ取得中</string>
+</resources>

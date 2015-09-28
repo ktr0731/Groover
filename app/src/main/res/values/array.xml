@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tab_name">
+        <item>Play Data</item>
+        <item>Music</item>
+        <item>Ranking</item>
+        <item>Event</item>
+    </string-array>
+</resources>
