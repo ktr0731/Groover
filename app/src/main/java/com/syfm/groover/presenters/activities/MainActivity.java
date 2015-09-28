@@ -23,13 +23,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.container);
-
+        /*
         if (AppController.getInstance().checkLoginCookie()) {
             //Go to LoginActivity
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             int code = getResources().getInteger(R.integer.status_code_login);
             startActivityForResult(intent, code);
-        }
+        }*/
 
         ViewPager pager = (ViewPager) findViewById(R.id.main_pager);
         FragmentManager fragmentManager = getSupportFragmentManager();
