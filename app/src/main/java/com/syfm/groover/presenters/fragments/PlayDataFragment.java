@@ -1,23 +1,16 @@
 package com.syfm.groover.presenters.fragments;
 
-import android.support.v4.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.syfm.groover.data.network.AppController;
 import com.syfm.groover.R;
+import com.syfm.groover.business.usecases.PlayDataUseCase;
 
-import org.json.JSONObject;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by lycoris on 2015/09/22.
@@ -34,12 +27,24 @@ public class PlayDataFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        /*
+        if (AppController.getInstance().checkLoginCookie()) {
+            //Go to LoginActivity
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            int code = getResources().getInteger(R.integer.status_code_login);
+            startActivityForResult(intent, code);
+        }*/
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup group, Bundle savedInstanceState) {
         Bundle bundle = getArguments();
         int position = 0;
         String[] tab_name = getResources().getStringArray(R.array.tab_name);
 
-        if(bundle != null) {
+        if (bundle != null) {
             position = bundle.getInt("position");
         }
 
@@ -56,26 +61,75 @@ public class PlayDataFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        EventBus.getDefault().register(this);
     }
 
-    private void requestPlayData() {
-        String url = "https://mypage.groovecoaster.jp/sp/json/player_data.php";
-        final String tag_json = "json_req";
-        AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url, (String) null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d(AppController.TAG, response.toString());
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                }), tag_json);
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (getResources().getInteger(R.integer.status_code_login) == requestCode) {
+
+            Bundle bundle = new Bundle();
+            bundle.putInt(CommonDialogFragment.FIELD_TITLE, R.string.dialog_title_login);
+            bundle.putInt(CommonDialogFragment.FIELD_MESSAGE, R.string.dialog_title_login);
+            bundle.putInt(CommonDialogFragment.FIELD_LAYOUT, R.layout.dialog_progress);
+            //bundle.putBoolean(CommonDialogFragment.FIELD_PROGRESS_BAR, true);
+
+            final CommonDialogFragment dialogFragment = new CommonDialogFragment();
+            dialogFragment.setArguments(bundle);
+            dialogFragment.show(getActivity().getSupportFragmentManager(), "getDataDialog");
+
+            //Get all data and set db.
+            //After that, get data from db.
+
+            android.os.Handler handler = new android.os.Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    PlayDataUseCase playDataUseCase = new PlayDataUseCase();
+                    playDataUseCase.setPlayData();
+                }
+            }, 1000);
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //eventDataUseCase.setEventData();
+                }
+            }, 2500);
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //musicDataUseCase.setMusicData();
+                }
+            }, 4000);
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //rankingDataUseCase.setRankingData();
+                }
+            }, 5500);
+        }
+    }
+
+    public void onEvent(PlayDataUseCase.SetPlayData event) {
+        if (event.success) {
+            PlayDataUseCase useCase = new PlayDataUseCase();
+            useCase.getPlayData();
+        }
+    }
+
+    public void onEvent(PlayDataUseCase.PlayDataEvent event) {
+        if (event != null) {
+            PlayDataUseCase useCase = new PlayDataUseCase();
+            useCase.getPlayData();
+        }
+    }
 
 }

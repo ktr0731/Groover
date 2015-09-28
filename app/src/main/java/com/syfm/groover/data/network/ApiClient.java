@@ -26,6 +26,8 @@ import java.util.Map;
  */
 public class ApiClient {
 
+    private PlayDataCallback playDataCallback;
+
     public void tryLogin(final String serial, final String pass, final LoginListener listener) {
 
         final String url = "https://mypage.groovecoaster.jp/sp/login/auth_con.php";
@@ -57,7 +59,9 @@ public class ApiClient {
         });
     }
 
-    public void getPlayData(final PlayDataListener listener) {
+    public void getPlayData(PlayDataCallback callback) {
+
+        this.playDataCallback = callback;
         String url = "https://mypage.groovecoaster.jp/sp/json/player_data.php";
         AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url,
                         new Response.Listener<JSONObject>() {
@@ -65,9 +69,9 @@ public class ApiClient {
                             public void onResponse(JSONObject response) {
                                 PlayDataDBController db = new PlayDataDBController();
                                 if(db.insert(response)) {
-                                    listener.onSuccess(db.getLatest());
+                                    playDataCallback.isSuccess(true);
                                 } else {
-                                    listener.onFailure();
+                                    playDataCallback.isSuccess(false);
                                 }
                             }
                         },
@@ -75,7 +79,7 @@ public class ApiClient {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Log.d("getPlayerDataError", error.toString());
-                                listener.onFailure();
+                                playDataCallback.isSuccess(false);
                             }
                         })
         );
@@ -176,9 +180,8 @@ public class ApiClient {
         public void onFailure();
     }
 
-    public interface PlayDataListener extends EventListener {
-        public void onSuccess(PlayData data);
-        public void onFailure();
+    public interface PlayDataCallback {
+        public void isSuccess(Boolean isSuccess);
     }
 
 }
