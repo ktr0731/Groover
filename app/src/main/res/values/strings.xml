@@ -25,4 +25,20 @@
     <integer name="status_code_login">100</integer>
 
     <string name="dialog_title_login">プレイデータ取得中</string>
+    
+    <string name="tv_player_data_total_score">Total Score</string>
+    <string name="tv_player_data_rank">Rank</string>
+    <string name="tv_player_data_coin">Coin</string>
+    <string name="tv_player_data_trophy">Trophy</string>
+
+    <string name="tv_music_result_play_music">Play Music</string>
+    <string name="tv_music_result_clear_stage">Clear Stage</string>
+    <string name="tv_music_result_average_score">Average Score</string>
+    <string name="tv_music_result_no_miss">No Miss</string>
+    <string name="tv_music_result_full_chain">Full Chain</string>
+    <string name="tv_music_result_s">S</string>
+    <string name="tv_music_result_ss">S+</string>
+    <string name="tv_music_result_sss">S++</string>
+    
+    
 </resources>
