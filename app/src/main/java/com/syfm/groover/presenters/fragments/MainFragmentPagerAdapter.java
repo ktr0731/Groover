@@ -1,11 +1,15 @@
 package com.syfm.groover.presenters.fragments;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 
 import com.syfm.groover.R;
+import com.syfm.groover.business.entities.PlayData;
+import com.syfm.groover.business.usecases.PlayDataUseCase;
 import com.syfm.groover.presenters.fragments.PlayDataFragment;
 
 /**
@@ -22,7 +26,12 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return PlayDataFragment.newInstance(position);
+        switch (position) {
+            case 0:
+                return new PlayDataFragment();
+            default:
+                return new PlayDataFragment();
+        }
     }
 
     @Override

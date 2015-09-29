@@ -58,6 +58,7 @@ public class PlayDataDBController {
             try {
                 db.insert(TABLE_NAME, null, values);
             } finally {
+                Log.d("Unko", "InsertSuccess");
                 db.close();
                 return true;
             }
@@ -69,8 +70,8 @@ public class PlayDataDBController {
 
     public boolean isExistsRecord() {
         db = openHelper.getReadableDatabase();
-        String query = "select * from ?;";
-        Cursor c = db.rawQuery(query, new String[]{TABLE_NAME});
+        String query = "select * from " + TABLE_NAME + ";";
+        Cursor c = db.rawQuery(query, null);
         if (c == null) {
             db.close();
             return false;
@@ -84,8 +85,8 @@ public class PlayDataDBController {
         PlayData data = new PlayData();
 
         db = openHelper.getReadableDatabase();
-        String query = "select * from ? order by _id desc limit 1;";
-        Cursor c = db.rawQuery(query, new String[]{TABLE_NAME});
+        String query = "select * from " + TABLE_NAME + " order by _id desc limit 1;";
+        Cursor c = db.rawQuery(query, null);
         boolean isEof = c.moveToFirst();
         if (isEof) {
             data.avatar = c.getString(c.getColumnIndex(AVATAR));

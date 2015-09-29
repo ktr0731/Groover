@@ -205,7 +205,7 @@
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
-                                    android:id="@+id/tv_music_result_play_music_percentage"
+                                    android:id="@+id/tv_music_result_play_music_per"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -234,7 +234,7 @@
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
-                                    android:id="@+id/tv_music_result_clear_stage_percentage"
+                                    android:id="@+id/tv_music_result_clear_stage_per"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -263,7 +263,7 @@
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
-                                    android:id="@+id/tv_music_result_average_score_percentage"
+                                    android:id="@+id/tv_music_result_average_score_per"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -292,7 +292,7 @@
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
-                                    android:id="@+id/tv_music_result_no_miss_percentage"
+                                    android:id="@+id/tv_music_result_no_miss_per"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -321,7 +321,7 @@
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
-                                    android:id="@+id/tv_music_result_full_chain_percentage"
+                                    android:id="@+id/tv_music_result_full_chain_per"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -350,7 +350,7 @@
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
-                                    android:id="@+id/tv_music_result_s_percentage"
+                                    android:id="@+id/tv_music_result_s_per"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -379,7 +379,7 @@
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
-                                    android:id="@+id/tv_music_result_ss_percentage"
+                                    android:id="@+id/tv_music_result_ss_per"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -408,7 +408,7 @@
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
-                                    android:id="@+id/tv_music_result_sss_percentage"
+                                    android:id="@+id/tv_music_result_sss_per"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
