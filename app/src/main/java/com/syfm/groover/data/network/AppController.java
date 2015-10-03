@@ -2,6 +2,7 @@ package com.syfm.groover.data.network;
 
 import android.app.Application;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -48,6 +49,9 @@ public class AppController extends Application {
     }
 
     public RequestQueue getRequestQueue() {
+
+        Log.d("AppController", "API accessed");
+
         if (mRequestQueue == null) {
             mRequestQueue = Volley.newRequestQueue(getApplicationContext(), new HurlStack() {
 

@@ -12,10 +12,14 @@ import android.view.MenuItem;
 import com.astuetz.PagerSlidingTabStrip;
 import com.syfm.groover.R;
 import com.syfm.groover.business.entities.PlayData;
+import com.syfm.groover.business.usecases.LoginUseCase;
 import com.syfm.groover.business.usecases.PlayDataUseCase;
 import com.syfm.groover.data.network.AppController;
+import com.syfm.groover.data.storage.SharedPreferenceHelper;
 import com.syfm.groover.presenters.fragments.CommonDialogFragment;
 import com.syfm.groover.presenters.fragments.MainFragmentPagerAdapter;
+
+import java.util.Map;
 
 import de.greenrobot.event.EventBus;
 
@@ -26,7 +30,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.container);
 
-        if (AppController.getInstance().checkLoginCookie()) {
+        //SPにCookieがあったら
+        SharedPreferenceHelper.create(getApplicationContext());
+        Map<String, String> loginData = SharedPreferenceHelper.getLoginInfo();
+
+        if(loginData.size() != 0 && AppController.getInstance().checkLoginCookie()) {
+            //入力させないでログイン
+            LoginUseCase loginUseCase = new LoginUseCase();
+            String serialNo = loginData.get(getResources().getString(R.string.pref_serial_no));
+            String password = loginData.get(getResources().getString(R.string.pref_password));
+            loginUseCase.checkLogin(serialNo, password);
+
+        } else if (AppController.getInstance().checkLoginCookie()) {
             //Go to LoginActivity
             Intent intent = new Intent(this, LoginActivity.class);
             int code = getResources().getInteger(R.integer.status_code_login);
@@ -78,47 +93,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-/*
-        if (getResources().getInteger(R.integer.status_code_login) == requestCode) {
-
-            Bundle bundle = new Bundle();
-            bundle.putInt(CommonDialogFragment.FIELD_TITLE, R.string.dialog_title_login);
-            bundle.putInt(CommonDialogFragment.FIELD_MESSAGE, R.string.dialog_title_login);
-            bundle.putInt(CommonDialogFragment.FIELD_LAYOUT, R.layout.dialog_progress);
-            //bundle.putBoolean(CommonDialogFragment.FIELD_PROGRESS_BAR, true);
-
-            final CommonDialogFragment dialogFragment = new CommonDialogFragment();
-            dialogFragment.setArguments(bundle);
-            dialogFragment.show(getSupportFragmentManager(), "getDataDialog");
-
-            //Get all data and set db.
-            android.os.Handler handler = new android.os.Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    PlayDataUseCase playDataUseCase = new PlayDataUseCase();
-                    playDataUseCase.setPlayData();
-                }
-            }, 1000);
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    //eventDataUseCase.setEventData();
-                }
-            }, 2500);
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    //musicDataUseCase.setMusicData();
-                }
-            }, 4000);
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    //rankingDataUseCase.setRankingData();
-                }
-            }, 5500);
-        }*/
     }
     /*
     public void onEvent(PlayDataUseCase.SetPlayData event) {

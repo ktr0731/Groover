@@ -29,6 +29,8 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 return new PlayDataFragment();
+            case 1:
+                return new MusicListFragment();
             default:
                 return new PlayDataFragment();
         }

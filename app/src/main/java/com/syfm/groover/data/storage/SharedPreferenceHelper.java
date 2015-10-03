@@ -26,8 +26,12 @@ public class SharedPreferenceHelper {
 
     public static Map<String, String> getLoginInfo() {
         Map<String, String> info = new HashMap<String, String>();
-        info.put(getStr(R.string.pref_serial_no), sp.getString(getStr(R.string.pref_serial_no), ""));
-        info.put(getStr(R.string.pref_password),  sp.getString(getStr(R.string.pref_password),  ""));
+        String serialNo = sp.getString(getStr(R.string.pref_serial_no), "");
+        String password = sp.getString(getStr(R.string.pref_password), "");
+        if(serialNo != "" && password != "") {
+            info.put(getStr(R.string.pref_serial_no), serialNo);
+            info.put(getStr(R.string.pref_password), password);
+        }
         return info;
     }
 

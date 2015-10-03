@@ -6,12 +6,24 @@ package com.syfm.groover.business.entities;
 public class PlayData {
     public String player_name;
     public String avatar;
-    public String level;
+    public int    level;
     public String title;
-    public String total_score;
-    public String total_play_music;
-    public String total_music;
-    public String total_trophy;
+    public int    total_score;
+    public int    total_play_music;
+    public int    total_music;
+    public int    total_trophy;
     public int    rank;
     public String date;
+
+    public int    coin;
+
+    public int    average_score;
+
+    public int    all_stage;
+    public int    clear_stage;
+    public int    fullchain;
+    public int    nomiss;
+    public int    s;
+    public int    ss;
+    public int    sss;
 }
