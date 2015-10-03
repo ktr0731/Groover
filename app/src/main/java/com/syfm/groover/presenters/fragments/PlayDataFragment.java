@@ -1,6 +1,5 @@
 package com.syfm.groover.presenters.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -12,9 +11,6 @@ import android.widget.TextView;
 import com.syfm.groover.R;
 import com.syfm.groover.business.entities.PlayData;
 import com.syfm.groover.business.usecases.PlayDataUseCase;
-import com.syfm.groover.data.network.AppController;
-import com.syfm.groover.data.storage.PlayDataDBController;
-import com.syfm.groover.presenters.activities.LoginActivity;
 
 import de.greenrobot.event.EventBus;
 
@@ -109,7 +105,7 @@ public class PlayDataFragment extends Fragment {
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-        new PlayDataUseCase().getPlayData();
+        new PlayDataUseCase().getPlayerData();
     }
 
     @Override
@@ -119,17 +115,33 @@ public class PlayDataFragment extends Fragment {
     }
 
     public void onEvent(PlayDataUseCase.PlayDataEvent event) {
-        if (event != null) {
+        if (event.playData != null) {
             PlayData d = event.playData;
             player_name.setText(d.player_name);
+            player_level.setText("Lv." + d.level);
             player_avatar_title.setText(d.avatar + "/" + d.title);
-            player_total_score.setText(d.total_score);
+            player_total_score.setText(String.valueOf(d.total_score));
             player_rank.setText(String.valueOf(d.rank));
-            //player_coin.setText(d.coin);
-            player_trophy.setText(d.total_trophy);
+            player_coin.setText(String.valueOf(d.coin));
+            player_trophy.setText(String.valueOf(d.total_trophy));
 
-            music_play_music.setText(d.total_play_music + "/" + d.total_music);
-            music_play_music_per.setText(String.format("%.2f%%", Float.parseFloat(d.total_play_music)/Float.parseFloat(d.total_music)*100));
+            music_play_music.setText(String.valueOf(d.total_play_music) + "/" + String.valueOf(d.total_music));
+            music_play_music_per.setText(String.format("%.2f%%", (float)d.total_play_music / d.total_music * 100));
+            music_clear_stage.setText(String.valueOf(d.clear_stage) + "/" + String.valueOf(d.all_stage));
+            music_clear_stage_per.setText(String.format(("%.2f%%"), (float)d.clear_stage / d.all_stage * 100));
+            music_average_score.setText(String.valueOf(d.average_score));
+            music_average_score_per.setText(String.format("%.2f%%", (float)d.average_score / 1000000 * 100));
+            music_no_miss.setText(String.valueOf(d.nomiss));
+            music_no_miss_per.setText(String.format("%.2f%%", (float)d.nomiss / d.all_stage * 100));
+            music_full_chain.setText(String.valueOf(d.fullchain));
+            music_full_chain_per.setText(String.format("%.2f%%", (float)d.fullchain / d.all_stage * 100));
+            music_s.setText(String.valueOf(d.s));
+            music_s_per.setText(String.format("%.2f%%", (float)d.s / d.all_stage * 100));
+            music_ss.setText(String.valueOf(d.ss));
+            music_ss_per.setText(String.format("%.2f%%", (float)d.ss / d.all_stage * 100));
+            music_sss.setText(String.valueOf(d.sss));
+            music_sss_per.setText(String.format("%.2f%%", (float)d.sss / d.all_stage * 100));
+
 
         }
     }

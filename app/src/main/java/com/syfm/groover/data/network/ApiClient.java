@@ -1,19 +1,13 @@
 package com.syfm.groover.data.network;
 
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.syfm.groover.business.entities.PlayData;
 import com.syfm.groover.data.storage.PlayDataDBController;
-import com.syfm.groover.data.storage.PlayDataDBOpenHelper;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.EventListener;
@@ -39,12 +33,14 @@ public class ApiClient {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.d("Unko", response.toString());
                         listener.onFailure();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        Log.d("Unko", error.networkResponse.toString());
                         listener.onSuccess();
                     }
                 }) {
@@ -59,39 +55,51 @@ public class ApiClient {
         });
     }
 
-    public void getPlayData(PlayDataCallback callback) {
+    /*                                      start of PlayData                                     */
 
+    public void fetchAllPlayData(PlayDataCallback callback) {
         this.playDataCallback = callback;
+        try {
+            fetchPlayerData();
+            fetchShopSalesData();
+            fetchAverageScore();
+            fetchStageData();
+            playDataCallback.isSuccess(true);
+        } catch (Exception e) {
+            //エラー処理
+            playDataCallback.isSuccess(false);
+            Log.d("UnkoException", e.toString());
+        }
+    }
+
+    public void fetchPlayerData() {
         String url = "https://mypage.groovecoaster.jp/sp/json/player_data.php";
         AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
                                 PlayDataDBController db = new PlayDataDBController();
-                                if(db.insert(response)) {
-                                    playDataCallback.isSuccess(true);
-                                } else {
-                                    playDataCallback.isSuccess(false);
-                                }
+                                db.insertToPlayerData(response);
                             }
                         },
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Log.d("getPlayerDataError", error.toString());
-                                playDataCallback.isSuccess(false);
                             }
                         })
         );
     }
 
-    public void getShopData() {
+    public void fetchShopSalesData() {
         String url = "https://mypage.groovecoaster.jp/sp/json/shop_sales_data.php";
-        AppController.getInstance().addToRequestQueue(new MyStringRequest(Request.Method.GET, url,
-                        new Response.Listener<String>() {
+        AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url,
+                        new Response.Listener<JSONObject>() {
                             @Override
-                            public void onResponse(String response) {
+                            public void onResponse(JSONObject response) {
                                 Log.d("getShopDataResponse", response.toString());
+                                PlayDataDBController db = new PlayDataDBController();
+                                db.insertToShopSalesData(response);
                             }
                         },
                         new Response.ErrorListener() {
@@ -103,13 +111,15 @@ public class ApiClient {
         );
     }
 
-    public void getAverageScore() {
+    public void fetchAverageScore() {
         String url = "https://mypage.groovecoaster.jp/sp/json/average_score.php";
-        AppController.getInstance().addToRequestQueue(new MyStringRequest(Request.Method.GET, url,
-                        new Response.Listener<String>() {
+        AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url,
+                        new Response.Listener<JSONObject>() {
                             @Override
-                            public void onResponse(String response) {
+                            public void onResponse(JSONObject response) {
                                 Log.d("getAverageScoreResponse", response.toString());
+                                PlayDataDBController db = new PlayDataDBController();
+                                db.insertToAverageScore(response);
                             }
                         },
                         new Response.ErrorListener() {
@@ -121,12 +131,34 @@ public class ApiClient {
         );
     }
 
+    public void fetchStageData() {
+        String url = "https://mypage.groovecoaster.jp/sp/json/stage_data.php";
+        AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                Log.d("getAverageScoreResponse", response.toString());
+                                PlayDataDBController db = new PlayDataDBController();
+                                db.insertToStageData(response);
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d("stageDataError", error.toString());
+                            }
+                        })
+        );
+    }
+
+    /*                                      end of PlayData                                       */
+
     public void getStageData() {
         String url = "https://mypage.groovecoaster.jp/sp/json/stage_data.php";
-        AppController.getInstance().addToRequestQueue(new MyStringRequest(Request.Method.GET, url,
-                        new Response.Listener<String>() {
+        AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url,
+                        new Response.Listener<JSONObject>() {
                             @Override
-                            public void onResponse(String response) {
+                            public void onResponse(JSONObject response) {
                                 Log.d("getStageDataResponse", response.toString());
                             }
                         },
@@ -139,12 +171,12 @@ public class ApiClient {
         );
     }
 
-    public void getMusicList() {
+    public void fetchMusicList() {
         String url = "https://mypage.groovecoaster.jp/sp/json/music_list.php";
-        AppController.getInstance().addToRequestQueue(new MyStringRequest(Request.Method.GET, url,
-                        new Response.Listener<String>() {
+        AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url,
+                        new Response.Listener<JSONObject>() {
                             @Override
-                            public void onResponse(String response) {
+                            public void onResponse(JSONObject response) {
                                 Log.d("getMusicListResponse", response.toString());
                             }
                         },
@@ -157,12 +189,12 @@ public class ApiClient {
         );
     }
 
-    public void getMusicDetail() {
+    public void fetchMusicDetail() {
         String url = "https://mypage.groovecoaster.jp/sp/json/music_detail.php";
-        AppController.getInstance().addToRequestQueue(new MyStringRequest(Request.Method.GET, url,
-                        new Response.Listener<String>() {
+        AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url,
+                        new Response.Listener<JSONObject>() {
                             @Override
-                            public void onResponse(String response) {
+                            public void onResponse(JSONObject response) {
                                 Log.d("getMusicDetailResponse", response.toString());
                             }
                         },

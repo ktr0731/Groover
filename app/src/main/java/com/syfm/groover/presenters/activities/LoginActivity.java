@@ -13,7 +13,6 @@ import android.widget.Toast;
 import com.syfm.groover.R;
 import com.syfm.groover.business.usecases.LoginUseCase;
 import com.syfm.groover.business.usecases.PlayDataUseCase;
-import com.syfm.groover.data.storage.SharedPreferenceHelper;
 import com.syfm.groover.presenters.fragments.CommonDialogFragment;
 
 import de.greenrobot.event.EventBus;
@@ -34,8 +33,6 @@ public class LoginActivity extends Activity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getString(R.string.activity_login));
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        SharedPreferenceHelper.create(getApplicationContext());
-
         smoothProgressBar = (SmoothProgressBar)findViewById(R.id.progress_bar);
 
         final Button loginButton = (Button)findViewById(R.id.loginButton);
@@ -92,7 +89,26 @@ public class LoginActivity extends Activity {
                     PlayDataUseCase playDataUseCase = new PlayDataUseCase();
                     playDataUseCase.setPlayData();
                 }
-            }, 1000);
+            }, 1000);/*
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //eventDataUseCase.setEventData();
+                }
+            }, 2500);
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //musicDataUseCase.setMusicData();
+                }
+            }, 4000);
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //rankingDataUseCase.setRankingData();
+                }
+            }, 5500);*/
+
         } else {
             Toast.makeText(getApplicationContext(), "ログインに失敗しました", Toast.LENGTH_SHORT).show();
         }
