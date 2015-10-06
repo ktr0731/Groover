@@ -5,30 +5,33 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.syfm.groover.R;
-import com.syfm.groover.business.entities.PlayData;
 import com.syfm.groover.business.usecases.LoginUseCase;
-import com.syfm.groover.business.usecases.PlayDataUseCase;
 import com.syfm.groover.data.network.AppController;
 import com.syfm.groover.data.storage.SharedPreferenceHelper;
-import com.syfm.groover.presenters.fragments.CommonDialogFragment;
 import com.syfm.groover.presenters.fragments.MainFragmentPagerAdapter;
 
 import java.util.Map;
 
-import de.greenrobot.event.EventBus;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
+
+    @Bind(R.id.main_pager)
+    ViewPager pager;
+    @Bind(R.id.tab_strip)
+    PagerSlidingTabStrip tabStrip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.container);
+        ButterKnife.bind(this);
 
         //SPにCookieがあったら
         SharedPreferenceHelper.create(getApplicationContext());
@@ -48,10 +51,8 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(intent, code);
         }
 
-        ViewPager pager = (ViewPager) findViewById(R.id.main_pager);
         FragmentManager fragmentManager = getSupportFragmentManager();
         MainFragmentPagerAdapter mainFragmentPagerAdapter = new MainFragmentPagerAdapter(fragmentManager, this);
-        PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) findViewById(R.id.tab_strip);
         pager.setAdapter(mainFragmentPagerAdapter);
         tabStrip.setViewPager(pager);
     }

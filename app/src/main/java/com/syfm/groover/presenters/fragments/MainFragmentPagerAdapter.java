@@ -1,16 +1,11 @@
 package com.syfm.groover.presenters.fragments;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
 
 import com.syfm.groover.R;
-import com.syfm.groover.business.entities.PlayData;
-import com.syfm.groover.business.usecases.PlayDataUseCase;
-import com.syfm.groover.presenters.fragments.PlayDataFragment;
 
 /**
  * Created by lycoris on 2015/09/22.
@@ -28,6 +23,8 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
+                // FIXME: Fragmentが生成された際、値が表示されない。getPlayDataが呼ばれる前にsetPlayDataが終わっていないっぽい
+                // FIXME: playDataがすべて空だった。
                 return new PlayDataFragment();
             case 1:
                 return new MusicListFragment();
