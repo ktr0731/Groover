@@ -15,6 +15,9 @@ import com.syfm.groover.business.usecases.LoginUseCase;
 import com.syfm.groover.business.usecases.PlayDataUseCase;
 import com.syfm.groover.presenters.fragments.CommonDialogFragment;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 
@@ -23,33 +26,34 @@ import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
  */
 public class LoginActivity extends Activity {
 
-    private SmoothProgressBar smoothProgressBar;
+    @Bind(R.id.progress_bar)
+    SmoothProgressBar smoothProgressBar;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+
+    @Bind(R.id.editTextSerialNo)
+    EditText serialNo;
+    @Bind(R.id.editTextPassword)
+    EditText password;
+
+    @OnClick(R.id.loginButton)
+    public void onClickLoginButton() {
+        smoothProgressBar.setVisibility(View.VISIBLE);
+        smoothProgressBar.progressiveStart();
+
+        LoginUseCase loginUseCase = new LoginUseCase();
+        loginUseCase.checkLogin(serialNo.getText().toString(), password.getText().toString());
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
 
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getString(R.string.activity_login));
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        smoothProgressBar = (SmoothProgressBar)findViewById(R.id.progress_bar);
-
-        final Button loginButton = (Button)findViewById(R.id.loginButton);
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                final EditText serialNo = (EditText) findViewById(R.id.editTextSerialNo);
-                final EditText password = (EditText) findViewById(R.id.editTextPassword);
-
-                smoothProgressBar.setVisibility(View.VISIBLE);
-                smoothProgressBar.progressiveStart();
-
-                LoginUseCase loginUseCase = new LoginUseCase();
-                loginUseCase.checkLogin(serialNo.getText().toString(), password.getText().toString());
-            }
-        });
     }
 
     @Override
@@ -82,14 +86,8 @@ public class LoginActivity extends Activity {
             dialogFragment.show(getFragmentManager(), "getDataDialog");
 
             //Get all data and set db.
-            android.os.Handler handler = new android.os.Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
                     PlayDataUseCase playDataUseCase = new PlayDataUseCase();
-                    playDataUseCase.setPlayData();
-                }
-            }, 1000);/*
+                    playDataUseCase.setPlayData();/*
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {

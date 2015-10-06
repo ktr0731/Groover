@@ -1,8 +1,13 @@
 package com.syfm.groover.business.usecases;
 
-import com.syfm.groover.business.entities.PlayData;
+import android.util.Log;
+
+import com.activeandroid.query.Select;
 import com.syfm.groover.data.network.ApiClient;
-import com.syfm.groover.data.storage.PlayDataDBController;
+import com.syfm.groover.data.storage.databases.AverageScore;
+import com.syfm.groover.data.storage.databases.PlayerData;
+import com.syfm.groover.data.storage.databases.ShopSalesData;
+import com.syfm.groover.data.storage.databases.StageData;
 
 import de.greenrobot.event.EventBus;
 
@@ -11,13 +16,23 @@ import de.greenrobot.event.EventBus;
  */
 public class PlayDataUseCase implements ApiClient.PlayDataCallback {
 
+    // PlayDataを通知するためのクラス
+    // PlayDataFragmentへ通知
     public class PlayDataEvent {
-        public final PlayData playData;
-        public PlayDataEvent(PlayData playData) {
-            this.playData = playData;
+        public final PlayerData playerData;
+        public final ShopSalesData salesData;
+        public final AverageScore averageScore;
+        public final StageData stageData;
+        public PlayDataEvent(PlayerData playerData, ShopSalesData salesData, AverageScore averageScore, StageData stageData) {
+            this.playerData   = playerData;
+            this.salesData    = salesData;
+            this.averageScore = averageScore;
+            this.stageData    = stageData;
         }
     }
 
+    // ログイン判定用のクラス
+    // LoginActivityへ通知
     public class SetPlayData {
         public final boolean success;
         public SetPlayData(boolean success) {
@@ -30,15 +45,13 @@ public class PlayDataUseCase implements ApiClient.PlayDataCallback {
         client.fetchAllPlayData(this);
     }
 
-    public void getPlayerData() {
-        PlayData playData;
+    public void getPlayData() {
         //SQLiteから取得
-        PlayDataDBController controller = new PlayDataDBController();
-        if(controller.isExistsRecord()) {
-            playData = controller.getLatest();
-            EventBus.getDefault().post(new PlayDataEvent(playData));
-        }
-
+        PlayerData player    = new Select().from(PlayerData.class).orderBy("_id desc").executeSingle();
+        ShopSalesData sales  = new Select().from(ShopSalesData.class).orderBy("_id desc").executeSingle();
+        AverageScore average = new Select().from(AverageScore.class).orderBy("_id desc").executeSingle();
+        StageData  stageData = new Select().from(StageData.class).orderBy("_id desc").executeSingle();
+        EventBus.getDefault().post(new PlayDataEvent(player, sales, average, stageData));
     }
 
 

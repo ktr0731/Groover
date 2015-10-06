@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * Created by lycoris on 2015/09/24.
  */
-public class AppController extends Application {
+public class AppController extends com.activeandroid.app.Application {
     public static final String TAG = AppController.class.getSimpleName();
 
     private RequestQueue mRequestQueue;

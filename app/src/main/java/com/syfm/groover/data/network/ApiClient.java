@@ -1,15 +1,22 @@
 package com.syfm.groover.data.network;
 
+import android.text.format.DateFormat;
 import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.syfm.groover.data.storage.PlayDataDBController;
+import com.google.gson.Gson;
+import com.syfm.groover.data.storage.databases.AverageScore;
+import com.syfm.groover.data.storage.databases.PlayerData;
+import com.syfm.groover.data.storage.databases.ShopSalesData;
+import com.syfm.groover.data.storage.databases.StageData;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +28,7 @@ import java.util.Map;
 public class ApiClient {
 
     private PlayDataCallback playDataCallback;
+    private Gson gson = new Gson();
 
     public void tryLogin(final String serial, final String pass, final LoginListener listener) {
 
@@ -55,7 +63,6 @@ public class ApiClient {
         });
     }
 
-    /*                                      start of PlayData                                     */
 
     public void fetchAllPlayData(PlayDataCallback callback) {
         this.playDataCallback = callback;
@@ -64,11 +71,12 @@ public class ApiClient {
             fetchShopSalesData();
             fetchAverageScore();
             fetchStageData();
-            playDataCallback.isSuccess(true);
         } catch (Exception e) {
             //エラー処理
             playDataCallback.isSuccess(false);
             Log.d("UnkoException", e.toString());
+        } finally {
+            playDataCallback.isSuccess(true);
         }
     }
 
@@ -78,8 +86,18 @@ public class ApiClient {
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
-                                PlayDataDBController db = new PlayDataDBController();
-                                db.insertToPlayerData(response);
+                                try {
+                                    Log.d("Unko", response.getJSONObject("player_data").toString());
+                                    JSONObject object = response.getJSONObject("player_data");
+                                    PlayerData playerData = gson.fromJson(object.toString(), PlayerData.class);
+                                    if (playerData != null) {
+                                        playerData.date = DateFormat.format("yyyy/MM/dd kk:mm:ss", Calendar.getInstance()).toString();
+                                        // Active AndroidでSQLiteに保存
+                                        playerData.save();
+                                    }
+                                } catch (JSONException e) {
+                                    Log.d("JSONException", e.toString());
+                                }
                             }
                         },
                         new Response.ErrorListener() {
@@ -98,8 +116,11 @@ public class ApiClient {
                             @Override
                             public void onResponse(JSONObject response) {
                                 Log.d("getShopDataResponse", response.toString());
-                                PlayDataDBController db = new PlayDataDBController();
-                                db.insertToShopSalesData(response);
+                                ShopSalesData shopData = gson.fromJson(response.toString(), ShopSalesData.class);
+                                if (shopData != null) {
+                                    // Active AndroidでSQLiteに保存
+                                    shopData.save();
+                                }
                             }
                         },
                         new Response.ErrorListener() {
@@ -118,8 +139,16 @@ public class ApiClient {
                             @Override
                             public void onResponse(JSONObject response) {
                                 Log.d("getAverageScoreResponse", response.toString());
-                                PlayDataDBController db = new PlayDataDBController();
-                                db.insertToAverageScore(response);
+                                try {
+                                    JSONObject object = response.getJSONObject("average");
+                                    AverageScore averageScore = gson.fromJson(object.toString(), AverageScore.class);
+                                    if (averageScore != null) {
+                                        // Active AndroidでSQLiteに保存
+                                        averageScore.save();
+                                    }
+                                } catch (JSONException e) {
+                                    Log.d("JSONException", e.toString());
+                                }
                             }
                         },
                         new Response.ErrorListener() {
@@ -137,9 +166,17 @@ public class ApiClient {
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
-                                Log.d("getAverageScoreResponse", response.toString());
-                                PlayDataDBController db = new PlayDataDBController();
-                                db.insertToStageData(response);
+                                Log.d("getStageDataResponse", response.toString());
+                                try {
+                                    JSONObject object = response.getJSONObject("stage");
+                                    StageData stageData = gson.fromJson(object.toString(), StageData.class);
+                                    if (stageData != null) {
+                                        // Active AndroidでSQLiteに保存
+                                        stageData.save();
+                                    }
+                                } catch (JSONException e) {
+                                    Log.d("JSONException", e.toString());
+                                }
                             }
                         },
                         new Response.ErrorListener() {
@@ -151,7 +188,6 @@ public class ApiClient {
         );
     }
 
-    /*                                      end of PlayData                                       */
 
     public void getStageData() {
         String url = "https://mypage.groovecoaster.jp/sp/json/stage_data.php";
@@ -209,6 +245,7 @@ public class ApiClient {
 
     public interface LoginListener extends EventListener {
         public void onSuccess();
+
         public void onFailure();
     }
 
