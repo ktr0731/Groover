@@ -7,6 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.syfm.groover.R;
+import com.syfm.groover.business.usecases.MusicListUseCase;
+import com.syfm.groover.business.usecases.PlayDataUseCase;
+
+import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by lycoris on 2015/10/03.
@@ -22,5 +27,25 @@ public class MusicListFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.music_row, group, false);
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+        //new MusicListUseCase().getPlayData();
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 }

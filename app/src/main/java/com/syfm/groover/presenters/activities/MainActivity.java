@@ -13,7 +13,7 @@ import com.syfm.groover.R;
 import com.syfm.groover.business.usecases.LoginUseCase;
 import com.syfm.groover.data.network.AppController;
 import com.syfm.groover.data.storage.SharedPreferenceHelper;
-import com.syfm.groover.presenters.fragments.MainFragmentPagerAdapter;
+import com.syfm.groover.presenters.adapter.MainFragmentPagerAdapter;
 
 import java.util.Map;
 

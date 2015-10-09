@@ -1,4 +1,4 @@
-package com.syfm.groover.presenters.fragments;
+package com.syfm.groover.presenters.adapter;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.syfm.groover.R;
+import com.syfm.groover.presenters.fragments.MusicListFragment;
+import com.syfm.groover.presenters.fragments.PlayDataFragment;
 
 /**
  * Created by lycoris on 2015/09/22.
