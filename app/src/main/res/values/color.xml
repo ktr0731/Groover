@@ -5,4 +5,9 @@
     <color name="light_green">#bce749</color>
     <color name="glay">#f0f0f0</color>
     <color name="dark_glay">#aaa</color>
+
+    <color name="diff_simple">#3a98a3</color>
+    <color name="diff_normal">#a1a33a</color>
+    <color name="diff_hard">#a53b3b</color>
+    <color name="diff_extra">#888</color>
 </resources>
