@@ -57,6 +57,8 @@ public class CommonDialogFragment extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
+        this.setCancelable(false);
+
         if (getTargetFragment() != null) {
             setListener(getTargetFragment());
         } else if (getActivity() != null) {

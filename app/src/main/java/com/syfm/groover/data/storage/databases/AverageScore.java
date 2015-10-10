@@ -13,6 +13,6 @@ public class AverageScore extends Model{
 
     @Column(name = "_id", index = true)
     public int _id;
-    @Column(name = Const.AVERAGE_SCORE)
+    @Column(name = Const.AVERAGE_SCORE_AVERAGE_SCORE)
     public int average_score;
 }
