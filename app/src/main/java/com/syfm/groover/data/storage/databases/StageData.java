@@ -13,19 +13,19 @@ public class StageData extends Model {
 
     @Column(name = "_id", index = true)
     public int _id;
-    @Column(name = Const.ALL)
+    @Column(name = Const.STAGE_DATA_ALL)
     public int all;
-    @Column(name = Const.CLEAR)
+    @Column(name = Const.STAGE_DATA_CLEAR)
     public int clear;
-    @Column(name = Const.FULL_CHAIN)
+    @Column(name = Const.STAGE_DATA_FULL_CHAIN)
     public int fullchain;
-    @Column(name = Const.NO_MISS)
+    @Column(name = Const.STAGE_DATA_NO_MISS)
     public int nomiss;
-    @Column(name = Const.S)
+    @Column(name = Const.STAGE_DATA_S)
     public int s;
-    @Column(name = Const.SS)
+    @Column(name = Const.STAGE_DATA_SS)
     public int ss;
-    @Column(name = Const.SSS)
+    @Column(name = Const.STAGE_DATA_SSS)
     public int sss;
 
 }

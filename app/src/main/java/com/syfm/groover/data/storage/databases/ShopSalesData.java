@@ -13,6 +13,6 @@ public class ShopSalesData extends Model {
 
     @Column(name = "_id", index = true)
     public int _id;
-    @Column(name = Const.COIN)
+    @Column(name = Const.SHOP_SALES_DATA_COIN)
     public int current_coin;
 }

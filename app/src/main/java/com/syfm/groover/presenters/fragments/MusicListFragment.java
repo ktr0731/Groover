@@ -7,15 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.syfm.groover.R;
-import com.syfm.groover.business.usecases.MusicListUseCase;
-import com.syfm.groover.business.usecases.PlayDataUseCase;
 
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
 
 /**
  * Created by lycoris on 2015/10/03.
  */
+
 public class MusicListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,13 +37,13 @@ public class MusicListFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
-        //new MusicListUseCase().getPlayData();
+        //EventBus.getDefault().register(this);
+        //new MusicDataUseCase().getPlayData();
     }
 
     @Override
     public void onStop() {
-        EventBus.getDefault().unregister(this);
+        //EventBus.getDefault().unregister(this);
         super.onStop();
     }
 }

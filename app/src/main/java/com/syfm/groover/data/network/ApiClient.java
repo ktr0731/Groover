@@ -1,24 +1,33 @@
 package com.syfm.groover.data.network;
 
+import android.os.Handler;
 import android.text.format.DateFormat;
 import android.util.Log;
 
+import com.activeandroid.query.Select;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.syfm.groover.business.entities.MusicListEntity;
 import com.syfm.groover.data.storage.databases.AverageScore;
+import com.syfm.groover.data.storage.databases.MusicData;
 import com.syfm.groover.data.storage.databases.PlayerData;
 import com.syfm.groover.data.storage.databases.ShopSalesData;
 import com.syfm.groover.data.storage.databases.StageData;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.EventListener;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -28,7 +37,9 @@ import java.util.Map;
 public class ApiClient {
 
     private PlayDataCallback playDataCallback;
+    private MusicDataCallback musicDataCallback;
     private Gson gson = new Gson();
+    Handler handler = new Handler();
 
     public void tryLogin(final String serial, final String pass, final LoginListener listener) {
 
@@ -66,17 +77,38 @@ public class ApiClient {
 
     public void fetchAllPlayData(PlayDataCallback callback) {
         this.playDataCallback = callback;
+
         try {
-            fetchPlayerData();
-            fetchShopSalesData();
-            fetchAverageScore();
-            fetchStageData();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    fetchPlayerData();
+                }
+            }, 0);
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    fetchShopSalesData();
+                }
+            }, 1000);
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    fetchAverageScore();
+                }
+            }, 2000);
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    fetchStageData();
+                }
+            }, 3000);
+
         } catch (Exception e) {
             //エラー処理
             playDataCallback.isSuccess(false);
             Log.d("UnkoException", e.toString());
         } finally {
-            playDataCallback.isSuccess(true);
         }
     }
 
@@ -173,6 +205,7 @@ public class ApiClient {
                                     if (stageData != null) {
                                         // Active AndroidでSQLiteに保存
                                         stageData.save();
+                                        playDataCallback.isSuccess(true);
                                     }
                                 } catch (JSONException e) {
                                     Log.d("JSONException", e.toString());
@@ -188,32 +221,31 @@ public class ApiClient {
         );
     }
 
-
-    public void getStageData() {
-        String url = "https://mypage.groovecoaster.jp/sp/json/stage_data.php";
-        AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                Log.d("getStageDataResponse", response.toString());
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.d("getStageDataError", error.toString());
-                            }
-                        })
-        );
+    public void fetchAllMusicData() {
+        fetchMusicData();
     }
 
-    public void fetchMusicList() {
+    public void fetchMusicData() {
         String url = "https://mypage.groovecoaster.jp/sp/json/music_list.php";
         AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
                                 Log.d("getMusicListResponse", response.toString());
+                                if(response == null) {
+                                    return;
+                                }
+                                try {
+                                    JSONArray array = response.getJSONArray("music_list");
+                                    Type collectionType = new TypeToken<Collection<MusicListEntity>>(){}.getType();
+                                    List<MusicListEntity> list = gson.fromJson(array.toString(), collectionType);
+                                    /*for (MusicListEntity row : list) {
+                                        fetchMusicDetail(row, list.indexOf(row));
+                                    }*/
+                                    fetchMusicDetail(list.get(0), 0);
+                                } catch (JSONException e) {
+                                    Log.d("JSONException", e.toString());
+                                }
                             }
                         },
                         new Response.ErrorListener() {
@@ -225,22 +257,42 @@ public class ApiClient {
         );
     }
 
-    public void fetchMusicDetail() {
-        String url = "https://mypage.groovecoaster.jp/sp/json/music_detail.php";
-        AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                Log.d("getMusicDetailResponse", response.toString());
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.d("getMusicDetailError", error.toString());
-                            }
-                        })
-        );
+    public void fetchMusicDetail(final MusicListEntity music, int count) {
+        final String url = "https://mypage.groovecoaster.jp/sp/json/music_detail.php?music_id=";
+        Log.d("Unko", count + "番目 delay:" + 1500 * count + ", URL:" + url + music.music_id);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url + music.music_id,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        Log.d("getMusicDetailResponse", response.toString());
+                                        try {
+                                            JSONObject object = response.getJSONObject("music_detail");
+                                            MusicData data = gson.fromJson(object.toString(), MusicData.class);
+                                            data.save();
+                                            MusicData data1 = new Select().from(MusicData.class).orderBy("_id desc").executeSingle();
+                                            if(data1 != null) {
+                                                Log.d("Unko", data1.music_title);
+                                                Log.d("Unko", "rank: " + data1.normal_result_data.score);
+                                            }
+                                        } catch (JSONException e) {
+                                            Log.d("JSONException", e.toString());
+                                        }
+
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Log.d("getMusicDetailError", error.toString());
+                                    }
+                                })
+                );
+            }
+        }, 2000 * count);
+
     }
 
     public interface LoginListener extends EventListener {
@@ -250,6 +302,10 @@ public class ApiClient {
     }
 
     public interface PlayDataCallback {
+        public void isSuccess(Boolean isSuccess);
+    }
+
+    public interface MusicDataCallback {
         public void isSuccess(Boolean isSuccess);
     }
 
