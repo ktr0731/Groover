@@ -150,7 +150,6 @@ public class LoginActivity extends Activity {
     public void onEvent(MusicDataUseCase.SetMusicData event) {
         if (event.success) {
             Log.d("Unko", "SetMusicDataSuccess");
-            setResult(RESULT_OK);
             finish();
         } else {
             Log.d("Unko", "SetMusicDataError");

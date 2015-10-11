@@ -1,6 +1,7 @@
 package com.syfm.groover.presenters.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.syfm.groover.R;
 import com.syfm.groover.data.network.CustomImageLoader;
 import com.syfm.groover.data.storage.CustomLruCache;
@@ -62,7 +65,12 @@ public class MusicListAdapter extends ArrayAdapter<List<ResultData>> {
          *
          */
 
+
         List<ResultData> row = getItem(position);
+
+        //使いまわすとデータが残ってしまうものがあるので毎回消す。
+        clearSetData(holder);
+
         holder.tv_title.setText(row.get(0).musicData.music_title);
         holder.tv_simple_rate.setText(row.get(0).rating);
         holder.tv_simple_score.setText(String.valueOf(row.get(0).score));
@@ -105,10 +113,9 @@ public class MusicListAdapter extends ArrayAdapter<List<ResultData>> {
             imageContainer.cancelRequest();
         }
 
-        CustomImageLoader.ImageListener listener = imageLoader.getImageListener(holder.iv_thumb, holder.image_progress_bar, 0);
-
+        CustomImageLoader.ImageListener listener = CustomImageLoader.getImageListener(holder.iv_thumb, holder.image_progress_bar, 0);
+        Log.d("Unko", "Access to ID:" + row.get(0).musicData.music_id + " name:" + row.get(0).musicData.music_title);
         holder.iv_thumb.setTag(imageLoader.get(url + row.get(0).musicData.music_id, listener));
-
 
         return view;
     }
@@ -144,5 +151,22 @@ public class MusicListAdapter extends ArrayAdapter<List<ResultData>> {
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
+    }
+
+    private void clearSetData(ViewHolder holder) {
+        holder.tv_simple_rate.setText("-");
+        holder.tv_simple_score.setText("0");
+        holder.tv_simple_score.setBackgroundResource(0);
+        holder.tv_normal_rate.setText("-");
+        holder.tv_normal_score.setText("0");
+        holder.tv_normal_score.setBackgroundResource(0);
+        holder.tv_hard_rate.setText("-");
+        holder.tv_hard_score.setText("0");
+        holder.tv_hard_score.setBackgroundResource(0);
+        holder.tv_extra_rate.setText("-");
+        holder.tv_extra_score.setText("0");
+        holder.tv_extra_score.setBackgroundResource(0);
+        holder.ll_extra.setVisibility(View.GONE);
+        holder.iv_thumb.setImageBitmap(null);
     }
 }
