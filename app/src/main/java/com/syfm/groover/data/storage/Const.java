@@ -47,7 +47,7 @@ public class Const {
     /*                      MusicData( MusicData + MusicDetail )                 */
 
     public final static String TABLE_NAME_MUSIC_DATA = "MusicData";
-    public final static String TABLE_NAME_MUSIC_RESULT = "MusicResults";
+    public final static String TABLE_NAME_MUSIC_RESULT = "MusicResult";
     public final static String TABLE_NAME_MUSIC_RANK = "UserRank";
 
     public final static String MUSIC_RELATION_RESULT_SIMPLE = "simple_result_data";
@@ -72,6 +72,7 @@ public class Const {
     public final static String MUSIC_RESULT_NO_MISS = "no_miss";
     public final static String MUSIC_RESULT_RATING = "rating";
     public final static String MUSIC_RESULT_SCORE = "score";
+    public final static String MUSIC_RESULT_LEVEL = "music_level";
 
     public final static String MUSIC_USER_RANK = "rank";
 

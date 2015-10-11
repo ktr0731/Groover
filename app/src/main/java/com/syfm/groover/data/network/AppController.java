@@ -4,11 +4,14 @@ import android.app.Application;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.apache.http.HttpResponse;
 
 import java.io.IOException;
 import java.net.CookieHandler;

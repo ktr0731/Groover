@@ -30,14 +30,11 @@ public class MyStringRequest extends StringRequest {
     @Override
     protected Response<String> parseNetworkResponse(NetworkResponse response) {
         Map<String, String> headers = response.headers;
-        Log.d("UnkoParse", headers.toString());
         return super.parseNetworkResponse(response);
     }
 
     @Override
     public void deliverError(VolleyError error) {
         super.deliverError(error);
-
-        Log.d("UnkoRes", error.networkResponse.headers.toString() + "CODE::" + error.networkResponse.statusCode);
     }
 }

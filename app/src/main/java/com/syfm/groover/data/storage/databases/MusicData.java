@@ -1,8 +1,12 @@
 package com.syfm.groover.data.storage.databases;
 
+import android.content.ClipData;
+import android.util.Log;
+
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 import com.syfm.groover.data.storage.Const;
 
 import java.util.List;
@@ -13,8 +17,6 @@ import java.util.List;
 @Table(name = Const.TABLE_NAME_MUSIC_DATA)
 public class MusicData extends Model {
 
-    @Column(name = "_id", index = true)
-    public int _id;
     @Column(name = Const.MUSIC_DETAIL_ARTIST)
     public String artist;
     @Column(name = Const.MUSIC_DETAIL_EX_FLAG)
@@ -27,16 +29,19 @@ public class MusicData extends Model {
     public String skin_name;
     @Column(name = Const.MUSIC_LIST_LAST_PLAY_TIME)
     public String last_play_time;
-    @Column(name = Const.MUSIC_RELATION_RESULT_SIMPLE)
-    public ResultData simple_result_data;
-    @Column(name = Const.MUSIC_RELATION_RESULT_NORMAL)
-    public ResultData normal_result_data;
-    @Column(name = Const.MUSIC_RELATION_RESULT_HARD)
-    public ResultData hard_result_data;
-    @Column(name = Const.MUSIC_RELATION_RESULT_EXTRA)
-    public ResultData extra_result_data;
-    @Column(name = Const.MUSIC_USER_RANK)
-    public List<UserRank> user_rank;
+
+    public List<ResultData> result() {
+        return getMany(ResultData.class, Const.TABLE_NAME_MUSIC_DATA);
+    }
+
+    public static List<ResultData> getAll(MusicData musicData) {
+        return new Select()
+                .from(ResultData.class)
+                .where(Const.TABLE_NAME_MUSIC_DATA + " = ?", musicData.getId())
+                .orderBy("Id asc")
+                .execute();
+    }
+
 
     public MusicData() {
         super();

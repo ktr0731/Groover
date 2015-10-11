@@ -7,9 +7,13 @@
 
     <ImageView
         android:id="@+id/music_row_thumb"
-        android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/test" />
+        android:layout_width="100dp" />
+
+    <ProgressBar
+        android:id="@+id/image_progress_bar"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,8 +29,8 @@
             android:id="@+id/music_row_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="12dp"
-            android:text="ゆけむり魂温泉"
+            android:paddingBottom="@dimen/list_padding_bottom"
+            android:singleLine="true"
             android:textSize="@dimen/medium_size" />
 
         <LinearLayout
@@ -47,7 +51,7 @@
                     android:textSize="@dimen/small_size"
                     android:textColor="@color/diff_simple"
                     android:paddingBottom="@dimen/list_text_title_padding_bottom"
-                    android:text="SIMPLE"/>
+                    android:text="SIMPLE" />
 
                 <TextView
                     android:id="@+id/music_row_simple_rate"
@@ -55,8 +59,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingBottom="@dimen/list_text_padding_bottom"
-                    android:textSize="@dimen/small_size"
-                    android:text="S++"/>
+                    android:textSize="@dimen/small_size" />
 
                 <TextView
                     android:id="@+id/music_row_simple_score"
@@ -66,10 +69,8 @@
                     android:paddingTop="@dimen/list_text_padding_bottom"
                     android:paddingBottom="@dimen/list_text_padding_bottom"
                     android:textSize="@dimen/small_size"
-                    android:background="@drawable/full_chain_border"
                     android:layout_marginLeft="@dimen/list_border_margin"
-                    android:layout_marginRight="@dimen/list_border_margin"
-                    android:text="1000000"/>
+                    android:layout_marginRight="@dimen/list_border_margin" />
 
             </LinearLayout>
 
@@ -94,20 +95,18 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingBottom="@dimen/list_text_padding_bottom"
-                    android:textSize="@dimen/small_size"
-                    android:text="A"/>
+                    android:textSize="@dimen/small_size" />
 
                 <TextView
                     android:id="@+id/music_row_normal_score"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:paddingTop="@dimen/list_text_padding_bottom"
                     android:paddingBottom="@dimen/list_text_padding_bottom"
                     android:textSize="@dimen/small_size"
-                    android:background="@drawable/no_miss_border"
                     android:layout_marginLeft="@dimen/list_border_margin"
-                    android:layout_marginRight="@dimen/list_border_margin"
-                    android:text="87045"/>
+                    android:layout_marginRight="@dimen/list_border_margin" />
 
             </LinearLayout>
 
@@ -132,23 +131,23 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingBottom="@dimen/list_text_padding_bottom"
-                    android:textSize="@dimen/small_size"
-                    android:text="D"/>
+                    android:textSize="@dimen/small_size" />
 
                 <TextView
                     android:id="@+id/music_row_hard_score"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:paddingTop="@dimen/list_text_padding_bottom"
                     android:paddingBottom="@dimen/list_text_padding_bottom"
                     android:textSize="@dimen/small_size"
                     android:layout_marginLeft="@dimen/list_border_margin"
-                    android:layout_marginRight="@dimen/list_border_margin"
-                    android:text="59004"/>
+                    android:layout_marginRight="@dimen/list_border_margin" />
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_extra"
                 android:visibility="gone"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -170,19 +169,18 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingBottom="@dimen/list_text_padding_bottom"
-                    android:textSize="@dimen/small_size"
-                    android:text="-"/>
+                    android:textSize="@dimen/small_size" />
 
                 <TextView
                     android:id="@+id/music_row_extra_score"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:paddingTop="@dimen/list_text_padding_bottom"
                     android:paddingBottom="@dimen/list_text_padding_bottom"
                     android:textSize="@dimen/small_size"
                     android:layout_marginLeft="@dimen/list_border_margin"
-                    android:layout_marginRight="@dimen/list_border_margin"
-                    android:text="-"/>
+                    android:layout_marginRight="@dimen/list_border_margin" />
 
             </LinearLayout>
 
