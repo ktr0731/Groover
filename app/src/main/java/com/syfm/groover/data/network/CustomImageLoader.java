@@ -25,7 +25,7 @@ public class CustomImageLoader extends ImageLoader {
         return new ImageListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("Unko", error.networkResponse.headers.toString() + "!!");
+                Log.d("Unko", "error : " + error.networkResponse.headers);
                 if (errorImageResId != 0) {
                     view.setImageResource(errorImageResId);
                 } else {
@@ -38,6 +38,7 @@ public class CustomImageLoader extends ImageLoader {
 
             @Override
             public void onResponse(ImageContainer response, boolean isImmediate) {
+                Log.d("Unko", "Success:" + response.getRequestUrl());
                 if (response.getBitmap() != null) {
                     view.setImageBitmap(response.getBitmap());
                     if (progressBar != null) {

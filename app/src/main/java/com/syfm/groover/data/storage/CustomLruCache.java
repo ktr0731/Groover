@@ -2,6 +2,7 @@ package com.syfm.groover.data.storage;
 
 import android.graphics.Bitmap;
 import android.support.v4.util.LruCache;
+import android.util.Log;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.syfm.groover.data.network.CustomImageLoader;
@@ -15,7 +16,7 @@ public class CustomLruCache implements CustomImageLoader.ImageCache{
 
     public CustomLruCache() {
         int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-        int cacheSize = maxMemory / 8;       // 最大メモリに依存
+        int cacheSize = maxMemory;       // 最大メモリに依存
         // int cacheSize = 5 * 1024 * 1024;  // 5MB
 
         mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {

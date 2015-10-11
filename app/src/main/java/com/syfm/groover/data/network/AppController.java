@@ -53,8 +53,6 @@ public class AppController extends com.activeandroid.app.Application {
 
     public RequestQueue getRequestQueue() {
 
-        Log.d("AppController", "API accessed");
-
         if (mRequestQueue == null) {
             mRequestQueue = Volley.newRequestQueue(getApplicationContext(), new HurlStack() {
 
@@ -87,6 +85,7 @@ public class AppController extends com.activeandroid.app.Application {
     public <T> void addToRequestQueue(Request<T> req) {
         req.setTag(TAG);
         getRequestQueue().add(req);
+        Log.d("AppController", "API accessed");
     }
 
     public void cancelPendingRequests(Object tag) {
