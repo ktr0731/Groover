@@ -16,8 +16,11 @@ import java.util.List;
  */
 @Table(name = Const.TABLE_NAME_MUSIC_RESULT)
 public class ResultData extends Model {
+
     @Column(name = Const.MUSIC_RESULT_ADLIB)
     public int    adlib;
+    @Column(name = Const.MUSIC_RESULT_LEVEL)
+    public String music_level;
     @Column(name = Const.MUSIC_RESULT_FULL_CHAIN)
     public int    full_chain;
     @Column(name = Const.MUSIC_RESULT_IS_CLEAR_MARK)
@@ -35,12 +38,6 @@ public class ResultData extends Model {
     @Column(name = Const.MUSIC_RESULT_SCORE)
     public int    score;
 
-    public List<MusicData> resultData() {
-        Log.d("Unko", "getMany");
-        return getMany(MusicData.class, Const.MUSIC_RELATION_RESULT_NORMAL);
-    }
-
-    public ResultData() {
-        super();
-    }
+    @Column(name = Const.TABLE_NAME_MUSIC_DATA)
+    public MusicData musicData;
 }

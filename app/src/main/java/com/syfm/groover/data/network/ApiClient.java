@@ -12,9 +12,11 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.syfm.groover.business.entities.MusicListEntity;
+import com.syfm.groover.data.storage.Const;
 import com.syfm.groover.data.storage.databases.AverageScore;
 import com.syfm.groover.data.storage.databases.MusicData;
 import com.syfm.groover.data.storage.databases.PlayerData;
+import com.syfm.groover.data.storage.databases.ResultData;
 import com.syfm.groover.data.storage.databases.ShopSalesData;
 import com.syfm.groover.data.storage.databases.StageData;
 
@@ -108,7 +110,6 @@ public class ApiClient {
             //エラー処理
             playDataCallback.isSuccess(false);
             Log.d("UnkoException", e.toString());
-        } finally {
         }
     }
 
@@ -221,8 +222,10 @@ public class ApiClient {
         );
     }
 
-    public void fetchAllMusicData() {
+    public void fetchAllMusicData(MusicDataCallback callback) {
+        this.musicDataCallback = callback;
         fetchMusicData();
+
     }
 
     public void fetchMusicData() {
@@ -232,12 +235,12 @@ public class ApiClient {
                             @Override
                             public void onResponse(JSONObject response) {
                                 Log.d("getMusicListResponse", response.toString());
-                                if(response == null) {
+                                if (response == null) {
                                     return;
                                 }
                                 try {
                                     JSONArray array = response.getJSONArray("music_list");
-                                    Type collectionType = new TypeToken<Collection<MusicListEntity>>(){}.getType();
+                                    Type collectionType = new TypeToken<Collection<MusicListEntity>>() {}.getType();
                                     List<MusicListEntity> list = gson.fromJson(array.toString(), collectionType);
                                     /*for (MusicListEntity row : list) {
                                         fetchMusicDetail(row, list.indexOf(row));
@@ -263,20 +266,50 @@ public class ApiClient {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url + music.music_id,
+                AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url + 351/*music.music_id*/,
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
                                         Log.d("getMusicDetailResponse", response.toString());
                                         try {
                                             JSONObject object = response.getJSONObject("music_detail");
+
                                             MusicData data = gson.fromJson(object.toString(), MusicData.class);
                                             data.save();
-                                            MusicData data1 = new Select().from(MusicData.class).orderBy("_id desc").executeSingle();
-                                            if(data1 != null) {
-                                                Log.d("Unko", data1.music_title);
-                                                Log.d("Unko", "rank: " + data1.normal_result_data.score);
+
+                                            // 各難易度をMusicDataの子としてインサート
+                                            // 要素にNULLがあると挙動がおかしくなるので気をつける
+
+                                            resultDataJsonReplaceNull(object, "simple_result_data");
+                                            resultDataJsonReplaceNull(object, "normal_result_data");
+                                            resultDataJsonReplaceNull(object, "hard_result_data");
+                                            resultDataJsonReplaceNull(object, "extra_result_data");
+
+                                            ResultData resultSimple = gson.fromJson(object.getJSONObject("simple_result_data").toString(), ResultData.class);
+                                            resultSimple.musicData = data;
+                                            resultSimple.save();
+
+                                            ResultData resultNormal = gson.fromJson(object.getJSONObject("normal_result_data").toString(), ResultData.class);
+                                            resultNormal.musicData = data;
+                                            resultNormal.save();
+
+                                            ResultData resultHard = gson.fromJson(object.getJSONObject("hard_result_data").toString(), ResultData.class);
+                                            resultHard.musicData = data;
+                                            resultHard.save();
+
+                                            ResultData resultExtra = gson.fromJson(object.getJSONObject("extra_result_data").toString(), ResultData.class);
+                                            resultExtra.musicData = data;
+                                            resultExtra.save();
+
+                                            List<ResultData> res = MusicData.getAll(data);
+                                            for (ResultData d : res) {
+                                                if (d != null) {
+                                                    Log.d("Unko", d.musicData.music_title + ":" + d.music_level + ", " + d.score + ", " + d.rating);
+                                                } else {
+                                                    Log.d("Unko", "NULL");
+                                                }
                                             }
+                                            musicDataCallback.isSuccess(true);
                                         } catch (JSONException e) {
                                             Log.d("JSONException", e.toString());
                                         }
@@ -307,6 +340,30 @@ public class ApiClient {
 
     public interface MusicDataCallback {
         public void isSuccess(Boolean isSuccess);
+    }
+
+    // TODO: すごく汚いから治したい
+    // nullで返ってくるデータをnull以外に整形する
+    private void resultDataJsonReplaceNull(JSONObject obj, String key) {
+        if(obj.isNull(key) && obj.has(key)) {
+            JSONObject result = new JSONObject();
+            try {
+                result.put(Const.MUSIC_RESULT_ADLIB, 0);
+                result.put(Const.MUSIC_RESULT_FULL_CHAIN, 0);
+                result.put(Const.MUSIC_RESULT_IS_CLEAR_MARK, "false");
+                result.put(Const.MUSIC_RESULT_IS_FAILED_MARK, "false");
+                result.put(Const.MUSIC_RESULT_MAX_CHAIN, 0);
+                result.put(Const.MUSIC_RESULT_LEVEL, "-");
+                result.put(Const.MUSIC_RESULT_NO_MISS, 0);
+                result.put(Const.MUSIC_LIST_PLAY_COUNT, 0);
+                result.put(Const.MUSIC_RESULT_RATING, "-");
+                result.put(Const.MUSIC_RESULT_SCORE, 0);
+                obj.put(key, result);
+            } catch (JSONException e) {
+                Log.d("JSONException", e.toString());
+            }
+
+        }
     }
 
 }

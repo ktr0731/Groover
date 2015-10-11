@@ -47,10 +47,10 @@ public class PlayDataUseCase implements ApiClient.PlayDataCallback {
 
     public void getPlayData() {
         //SQLiteから取得
-        PlayerData player    = new Select().from(PlayerData.class).orderBy("_id desc").executeSingle();
-        ShopSalesData sales  = new Select().from(ShopSalesData.class).orderBy("_id desc").executeSingle();
-        AverageScore average = new Select().from(AverageScore.class).orderBy("_id desc").executeSingle();
-        StageData  stageData = new Select().from(StageData.class).orderBy("_id desc").executeSingle();
+        PlayerData player    = new Select().from(PlayerData.class).orderBy("Id desc").executeSingle();
+        ShopSalesData sales  = new Select().from(ShopSalesData.class).orderBy("Id desc").executeSingle();
+        AverageScore average = new Select().from(AverageScore.class).orderBy("Id desc").executeSingle();
+        StageData  stageData = new Select().from(StageData.class).orderBy("Id desc").executeSingle();
         EventBus.getDefault().post(new PlayDataEvent(player, sales, average, stageData));
     }
 
