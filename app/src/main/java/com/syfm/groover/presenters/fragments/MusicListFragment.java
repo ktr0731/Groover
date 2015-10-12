@@ -2,19 +2,27 @@ package com.syfm.groover.presenters.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.syfm.groover.R;
 import com.syfm.groover.business.usecases.MusicDataUseCase;
 import com.syfm.groover.business.usecases.PlayDataUseCase;
 import com.syfm.groover.data.network.AppController;
+import com.syfm.groover.data.storage.databases.MusicData;
+import com.syfm.groover.data.storage.databases.ResultData;
 import com.syfm.groover.presenters.adapter.MusicListAdapter;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnItemClick;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -61,6 +69,14 @@ public class MusicListFragment extends Fragment {
     public void onStop() {
         EventBus.getDefault().unregister(this);
         super.onStop();
+    }
+
+
+    @OnItemClick(R.id.list_view)
+    public void OnListItemClick(AdapterView<?> parent, View view, int position, long id) {
+        ListView listView = (ListView) parent;
+        List<ResultData> item = (List<ResultData>)listView.getItemAtPosition(position);
+
     }
 
     public void onEventMainThread(MusicDataUseCase.MusicDataEvent event) {

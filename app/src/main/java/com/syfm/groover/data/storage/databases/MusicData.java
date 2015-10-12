@@ -29,14 +29,28 @@ public class MusicData extends Model {
     public String skin_name;
     @Column(name = Const.MUSIC_LIST_LAST_PLAY_TIME)
     public String last_play_time;
+    @Column(name = Const.MUSIC_THUMBNAIL)
+    public byte[] music_thumbnail;
 
     public List<ResultData> result() {
         return getMany(ResultData.class, Const.TABLE_NAME_MUSIC_DATA);
     }
 
+    public List<UserRank> rank() {
+        return getMany(UserRank.class, Const.TABLE_NAME_MUSIC_DATA);
+    }
+
     public static List<ResultData> getAll(MusicData musicData) {
         return new Select()
                 .from(ResultData.class)
+                .where(Const.TABLE_NAME_MUSIC_DATA + " = ?", musicData.getId())
+                .orderBy("Id asc")
+                .execute();
+    }
+
+    public static List<UserRank> getAllRank(MusicData musicData) {
+        return new Select()
+                .from(UserRank.class)
                 .where(Const.TABLE_NAME_MUSIC_DATA + " = ?", musicData.getId())
                 .orderBy("Id asc")
                 .execute();

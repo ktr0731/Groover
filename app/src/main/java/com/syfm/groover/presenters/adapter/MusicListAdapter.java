@@ -1,7 +1,8 @@
 package com.syfm.groover.presenters.adapter;
 
 import android.content.Context;
-import android.util.Log;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +13,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 import com.syfm.groover.R;
 import com.syfm.groover.data.network.CustomImageLoader;
-import com.syfm.groover.data.storage.CustomLruCache;
 import com.syfm.groover.data.storage.databases.ResultData;
 
 import java.util.ArrayList;
@@ -33,14 +31,11 @@ public class MusicListAdapter extends ArrayAdapter<List<ResultData>> {
     private ArrayList<List<ResultData>> list;
     private Context context;
 
-    private CustomImageLoader imageLoader;
-
     public MusicListAdapter(Context context, int resource, ArrayList<List<ResultData>> list, RequestQueue queue) {
         super(context, resource, list);
         this.context = context;
         this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.list = list;
-        imageLoader = new CustomImageLoader(queue, new CustomLruCache());
     }
 
     @Override
@@ -50,6 +45,8 @@ public class MusicListAdapter extends ArrayAdapter<List<ResultData>> {
 
         if(view != null) {
             holder = (ViewHolder) view.getTag();
+            //使いまわすとデータが残ってしまうものがあるので毎回消す。
+            clearSetData(holder);
         } else {
             view = inflater.inflate(R.layout.music_row, parent, false);
             holder = new ViewHolder(view);
@@ -67,9 +64,6 @@ public class MusicListAdapter extends ArrayAdapter<List<ResultData>> {
 
 
         List<ResultData> row = getItem(position);
-
-        //使いまわすとデータが残ってしまうものがあるので毎回消す。
-        clearSetData(holder);
 
         holder.tv_title.setText(row.get(0).musicData.music_title);
         holder.tv_simple_rate.setText(row.get(0).rating);
@@ -108,14 +102,10 @@ public class MusicListAdapter extends ArrayAdapter<List<ResultData>> {
             holder.tv_extra_score.setBackgroundResource(R.drawable.no_miss_border);
         }
 
-        CustomImageLoader.ImageContainer imageContainer = (CustomImageLoader.ImageContainer)holder.iv_thumb.getTag();
-        if (imageContainer != null) {
-            imageContainer.cancelRequest();
-        }
 
-        CustomImageLoader.ImageListener listener = CustomImageLoader.getImageListener(holder.iv_thumb, holder.image_progress_bar, 0);
-        Log.d("Unko", "Access to ID:" + row.get(0).musicData.music_id + " name:" + row.get(0).musicData.music_title);
-        holder.iv_thumb.setTag(imageLoader.get(url + row.get(0).musicData.music_id, listener));
+        //いっぱい読込すると落ちるかもしれない
+        Bitmap bmp = BitmapFactory.decodeByteArray(row.get(0).musicData.music_thumbnail, 0, row.get(0).musicData.music_thumbnail.length);
+        holder.iv_thumb.setImageBitmap(bmp);
 
         return view;
     }

@@ -7,9 +7,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.activeandroid.query.Select;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.syfm.groover.data.storage.databases.MusicData;
+
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
 
 /**
  * Created by lycoris on 2015/10/11.
@@ -40,7 +45,12 @@ public class CustomImageLoader extends ImageLoader {
             public void onResponse(ImageContainer response, boolean isImmediate) {
                 Log.d("Unko", "Success:" + response.getRequestUrl());
                 if (response.getBitmap() != null) {
-                    view.setImageBitmap(response.getBitmap());
+                    //view.setImageBitmap(response.getBitmap());
+                    ByteArrayOutputStream byteos = new ByteArrayOutputStream();
+                    response.getBitmap().compress(Bitmap.CompressFormat.JPEG, 100, byteos);
+                    byte[] bytes = byteos.toByteArray();
+                    Log.d("UnkoBin", bytes.toString());
+                    view.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
                     if (progressBar != null) {
                         progressBar.setVisibility(View.GONE);
                     }

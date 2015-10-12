@@ -15,7 +15,6 @@ public class UserRank extends Model {
     @Column(name = Const.MUSIC_USER_RANK)
     public int rank;
 
-    public List<MusicData> musicDatas() {
-        return getMany(MusicData.class, Const.MUSIC_USER_RANK);
-    }
+    @Column(name = Const.TABLE_NAME_MUSIC_DATA)
+    public MusicData musicData;
 }

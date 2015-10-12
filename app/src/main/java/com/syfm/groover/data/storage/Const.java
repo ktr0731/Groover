@@ -76,6 +76,8 @@ public class Const {
 
     public final static String MUSIC_USER_RANK = "rank";
 
+    public final static String MUSIC_THUMBNAIL = "music_thumbnail";
+
     //インスタンス化を禁止
     private Const() {}
 
