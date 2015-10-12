@@ -1,13 +1,16 @@
 package com.syfm.groover.data.network;
 
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.text.format.DateFormat;
 import android.util.Log;
 
+import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Select;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -19,12 +22,15 @@ import com.syfm.groover.data.storage.databases.PlayerData;
 import com.syfm.groover.data.storage.databases.ResultData;
 import com.syfm.groover.data.storage.databases.ShopSalesData;
 import com.syfm.groover.data.storage.databases.StageData;
+import com.syfm.groover.data.storage.databases.UserRank;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.EventListener;
@@ -240,15 +246,26 @@ public class ApiClient {
                                 }
                                 try {
                                     JSONArray array = response.getJSONArray("music_list");
-                                    Type collectionType = new TypeToken<Collection<MusicListEntity>>() {}.getType();
+                                    Type collectionType = new TypeToken<Collection<MusicListEntity>>() {
+                                    }.getType();
                                     List<MusicListEntity> list = gson.fromJson(array.toString(), collectionType);
                                     int i = 0;
-                                    for (MusicListEntity row : list) {
-                                        i++;
-                                        if(i>10) break;
-                                        fetchMusicDetail(row, list.indexOf(row));
-                                        fetchMusicImage(row, list.indexOf(row) + 1);
+
+                                    //バルクインサート
+                                    ActiveAndroid.beginTransaction();
+                                    try {
+                                        for (MusicListEntity row : list) {
+                                            i++;
+                                            if (i > 10) break;
+                                            fetchMusicDetail(row, list.indexOf(row));
+                                        }
+                                        ActiveAndroid.setTransactionSuccessful();
+                                    } finally {
+                                        ActiveAndroid.endTransaction();
                                     }
+                                    musicDataCallback.isSuccess(true);
+
+
                                 } catch (JSONException e) {
                                     Log.d("JSONException", e.toString());
                                 }
@@ -274,6 +291,7 @@ public class ApiClient {
                                     @Override
                                     public void onResponse(JSONObject response) {
                                         Log.d("getMusicDetailResponse", response.toString());
+
                                         try {
                                             JSONObject object = response.getJSONObject("music_detail");
 
@@ -304,18 +322,21 @@ public class ApiClient {
                                             resultExtra.musicData = data;
                                             resultExtra.save();
 
-                                            List<ResultData> res = MusicData.getAll(data);
-                                            /*
-                                            for (ResultData d : res) {
-                                                i++;
-                                                if (d != null) {
-                                                    Log.d("Unko", d.musicData.music_title + ":" + d.music_level + ", " + d.score + ", " + d.rating);
-                                                } else {
-                                                    Log.d("Unko", "NULL");
-                                                }
-                                            }*/
+                                            // UserRankの整形
 
-                                            musicDataCallback.isSuccess(true);
+                                            JSONArray userRankRaw = object.getJSONArray("user_rank");
+                                            userRankJsonReplaceNull(userRankRaw);
+
+                                            for(int i=0; i < userRankRaw.length(); i++) {
+                                                UserRank userRank = gson.fromJson(userRankRaw.get(i).toString(), UserRank.class);
+                                                userRank.musicData = data;
+                                                userRank.save();
+                                            }
+
+                                            List<UserRank> ranks = MusicData.getAllRank(data);
+                                            Log.d("Unko", ranks.get(0).rank + ", " + ranks.get(1).rank + ", " + ranks.get(2).rank + ", " + ranks.get(3).rank);
+
+                                            fetchMusicThumbnail(music.music_id, data);
                                         } catch (JSONException e) {
                                             Log.d("JSONException", e.toString());
                                         }
@@ -330,78 +351,34 @@ public class ApiClient {
                                 })
                 );
             }
-        }, 2000 * count);
+        }, 3000 * count);
 
     }
 
-    public void fetchMusicImage(final MusicListEntity music, int count) {
-        final String url = "https://mypage.groovecoaster.jp/sp/json/music_detail.php?music_id=";
-        Log.d("Unko", count + "番目 delay:" + 2000 * count + ", URL:" + url + music.music_id);
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url + music.music_id,
-                                new Response.Listener<JSONObject>() {
-                                    @Override
-                                    public void onResponse(JSONObject response) {
-                                        Log.d("getMusicDetailResponse", response.toString());
-                                        try {
-                                            JSONObject object = response.getJSONObject("music_detail");
+    public void fetchMusicThumbnail(String id, final MusicData musicData) {
+        final String url = "https://mypage.groovecoaster.jp/sp/music/music_image.php?music_id=";
+        Log.d("Unko", "画像取得: " + id);
+        AppController.getInstance().addToRequestQueue(new ImageRequest(url + id,
+                        new Response.Listener<Bitmap>() {
+                            @Override
+                            public void onResponse(Bitmap response) {
+                                Log.d("Unko", "画像きたー");
 
-                                            MusicData data = gson.fromJson(object.toString(), MusicData.class);
-                                            data.save();
+                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                response.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                                byte[] bytes = baos.toByteArray();
 
-                                            // 各難易度をMusicDataの子としてインサート
-                                            // 要素にNULLがあると挙動がおかしくなるので気をつける
-
-                                            resultDataJsonReplaceNull(object, "simple_result_data");
-                                            resultDataJsonReplaceNull(object, "normal_result_data");
-                                            resultDataJsonReplaceNull(object, "hard_result_data");
-                                            resultDataJsonReplaceNull(object, "extra_result_data");
-
-                                            ResultData resultSimple = gson.fromJson(object.getJSONObject("simple_result_data").toString(), ResultData.class);
-                                            resultSimple.musicData = data;
-                                            resultSimple.save();
-
-                                            ResultData resultNormal = gson.fromJson(object.getJSONObject("normal_result_data").toString(), ResultData.class);
-                                            resultNormal.musicData = data;
-                                            resultNormal.save();
-
-                                            ResultData resultHard = gson.fromJson(object.getJSONObject("hard_result_data").toString(), ResultData.class);
-                                            resultHard.musicData = data;
-                                            resultHard.save();
-
-                                            ResultData resultExtra = gson.fromJson(object.getJSONObject("extra_result_data").toString(), ResultData.class);
-                                            resultExtra.musicData = data;
-                                            resultExtra.save();
-
-                                            List<ResultData> res = MusicData.getAll(data);
-                                            /*
-                                            for (ResultData d : res) {
-                                                i++;
-                                                if (d != null) {
-                                                    Log.d("Unko", d.musicData.music_title + ":" + d.music_level + ", " + d.score + ", " + d.rating);
-                                                } else {
-                                                    Log.d("Unko", "NULL");
-                                                }
-                                            }*/
-
-                                            musicDataCallback.isSuccess(true);
-                                        } catch (JSONException e) {
-                                            Log.d("JSONException", e.toString());
-                                        }
-
-                                    }
-                                },
-                                new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        Log.d("getMusicDetailError", error.toString());
-                                    }
-                                })
-                );
-            }
-        }, 2000 * count);
+                                musicData.music_thumbnail = bytes;
+                                musicData.save();
+                            }
+                        }, 0, 0, Bitmap.Config.ARGB_8888,
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d("getMusicDetailError", error.toString());
+                            }
+                        })
+        );
 
     }
 
@@ -422,7 +399,7 @@ public class ApiClient {
     // TODO: すごく汚いから治したい
     // nullで返ってくるデータをnull以外に整形する
     private void resultDataJsonReplaceNull(JSONObject obj, String key) {
-        if(obj.isNull(key) && obj.has(key)) {
+        if (obj.isNull(key) && obj.has(key)) {
             JSONObject result = new JSONObject();
             try {
                 result.put(Const.MUSIC_RESULT_ADLIB, 0);
@@ -440,6 +417,23 @@ public class ApiClient {
                 Log.d("JSONException", e.toString());
             }
 
+        }
+    }
+
+    // TODO: すごく汚いから治したい
+    // nullで返ってくるデータをnull以外に整形する
+    private void userRankJsonReplaceNull(JSONArray array) {
+        for (int i=0;i < array.length(); i++) {
+            if (array.isNull(i)) {
+                JSONObject rank = new JSONObject();
+                try {
+                    rank.put(Const.MUSIC_USER_RANK, 0);
+                    array.put(i, rank);
+                } catch (JSONException e) {
+                    Log.d("JSONException", e.toString());
+                }
+
+            }
         }
     }
 
