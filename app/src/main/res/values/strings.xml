@@ -31,15 +31,30 @@
     <string name="tv_player_data_coin">Coin</string>
     <string name="tv_player_data_trophy">Trophy</string>
 
-    <string name="tv_music_result_title">Music</string>
+    <string name="tv_music_result_title">Statistics</string>
     <string name="tv_music_result_play_music">Play Music</string>
     <string name="tv_music_result_clear_stage">Clear Stage</string>
     <string name="tv_music_result_average_score">Average Score</string>
-    <string name="tv_music_result_no_miss">No Miss</string>
-    <string name="tv_music_result_full_chain">Full Chain</string>
+    <string name="tv_music_result_no_miss">NO MISS</string>
+    <string name="tv_music_result_full_chain">FULL CHAIN</string>
     <string name="tv_music_result_s">S</string>
     <string name="tv_music_result_ss">S+</string>
     <string name="tv_music_result_sss">S++</string>
+
+    <string name="tv_music_detail_detail">DETAIL</string>
+    <string name="tv_music_detail_num_of_plays">Num of plays</string>
+    <string name="tv_music_detail_last_played">Last played</string>
+    <string name="tv_music_detail_skin">Skin</string>
+    <string name="tv_music_detail_title_simple">SIMPLE</string>
+    <string name="tv_music_detail_title_normal">NORMAL</string>
+    <string name="tv_music_detail_title_hard">HARD</string>
+    <string name="tv_music_detail_title_extra">EXTRA</string>
+
+    <string name="tv_music_detail_score">Score</string>
+    <string name="tv_music_detail_rating">Rating</string>
+    <string name="tv_music_detail_max_chain">Max Chain</string>
+    <string name="tv_music_detail_num_of_full_chain">Num of FULL CHAIN</string>
+    <string name="tv_music_detail_num_of_no_miss">Num of NO MISS</string>
 
 
 </resources>

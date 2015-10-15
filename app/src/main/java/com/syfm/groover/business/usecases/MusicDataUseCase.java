@@ -41,7 +41,7 @@ public class MusicDataUseCase implements ApiClient.MusicDataCallback {
         ArrayList<List<ResultData>> result = new ArrayList<>();
         List<MusicData> musicData = new Select().from(MusicData.class).orderBy("Id desc").execute();
         for (MusicData row : musicData) {
-            result.add(MusicData.getAll(row));
+            result.add(MusicData.getAllResultData(row));
         }
         EventBus.getDefault().post(new MusicDataEvent(result));
     }

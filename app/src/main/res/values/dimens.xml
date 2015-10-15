@@ -20,4 +20,14 @@
     <dimen name="list_text_title_padding_bottom">4dp</dimen>
     <dimen name="list_text_padding_bottom">2dp</dimen>
     <dimen name="list_border_margin">3dp</dimen>
+
+    <dimen name="music_detail_text_size">14sp</dimen>
+    <dimen name="music_detail_thumbnail_size">100dp</dimen>
+    <dimen name="music_detail_thumbnail_margin_top">50dp</dimen>
+    <dimen name="music_detail_margin_top">20dp</dimen>
+    <dimen name="music_detail_artist_margin">46dp</dimen>
+    <dimen name="music_detail_mark_padding_side">3dp</dimen>
+    <dimen name="music_detail_mark_padding_other">10dp</dimen>
+    <dimen name="music_detail_fab_margin">8dp</dimen>
+
 </resources>

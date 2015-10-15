@@ -40,7 +40,14 @@ public class MusicData extends Model {
         return getMany(UserRank.class, Const.TABLE_NAME_MUSIC_DATA);
     }
 
-    public static List<ResultData> getAll(MusicData musicData) {
+    public static MusicData getMusicDataSingle(int id) {
+        return new Select()
+                .from(MusicData.class)
+                .where(Const.MUSIC_LIST_MUSIC_ID + " = ?", id)
+                .executeSingle();
+    }
+
+    public static List<ResultData> getAllResultData(MusicData musicData) {
         return new Select()
                 .from(ResultData.class)
                 .where(Const.TABLE_NAME_MUSIC_DATA + " = ?", musicData.getId())

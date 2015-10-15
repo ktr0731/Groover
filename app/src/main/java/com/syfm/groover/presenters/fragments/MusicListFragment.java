@@ -74,9 +74,17 @@ public class MusicListFragment extends Fragment {
 
     @OnItemClick(R.id.list_view)
     public void OnListItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //選択されたアイテムを取得
         ListView listView = (ListView) parent;
         List<ResultData> item = (List<ResultData>)listView.getItemAtPosition(position);
 
+        //IDをつける
+        Bundle bundle = new Bundle();
+        bundle.putInt("music_id", item.get(0).musicData.music_id);
+
+        MusicDetailDialogFragment dialogFragment = new MusicDetailDialogFragment();
+        dialogFragment.setArguments(bundle);
+        dialogFragment.show(getFragmentManager(), "musicDetailDialogFragment");
     }
 
     public void onEventMainThread(MusicDataUseCase.MusicDataEvent event) {

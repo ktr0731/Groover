@@ -10,4 +10,8 @@
     <color name="diff_normal">#a1a33a</color>
     <color name="diff_hard">#a53b3b</color>
     <color name="diff_extra">#888</color>
+
+    <color name="transparent_glay">#ddffffff</color>
+
+    <color name="dialog_black">#666</color>
 </resources>

@@ -253,17 +253,12 @@ public class ApiClient {
 
                                     //バルクインサート
                                     ActiveAndroid.beginTransaction();
-                                    try {
-                                        for (MusicListEntity row : list) {
-                                            i++;
-                                            if (i > 10) break;
-                                            fetchMusicDetail(row, list.indexOf(row));
-                                        }
-                                        ActiveAndroid.setTransactionSuccessful();
-                                    } finally {
-                                        ActiveAndroid.endTransaction();
+                                    for (MusicListEntity row : list) {
+                                        i++;
+                                        if (i > 50) break;
+                                        fetchMusicDetail(row, list.indexOf(row), 50 - 1); //実際はlist.size() -1
                                     }
-                                    musicDataCallback.isSuccess(true);
+                                    ActiveAndroid.setTransactionSuccessful();
 
 
                                 } catch (JSONException e) {
@@ -280,7 +275,7 @@ public class ApiClient {
         );
     }
 
-    public void fetchMusicDetail(final MusicListEntity music, int count) {
+    public void fetchMusicDetail(final MusicListEntity music, final int count, final int size) {
         final String url = "https://mypage.groovecoaster.jp/sp/json/music_detail.php?music_id=";
         Log.d("Unko", count + "番目 delay:" + 2000 * count + ", URL:" + url + music.music_id);
         handler.postDelayed(new Runnable() {
@@ -296,6 +291,7 @@ public class ApiClient {
                                             JSONObject object = response.getJSONObject("music_detail");
 
                                             MusicData data = gson.fromJson(object.toString(), MusicData.class);
+                                            data.last_play_time = music.last_play_time;
                                             data.save();
 
                                             // 各難易度をMusicDataの子としてインサート
@@ -327,7 +323,7 @@ public class ApiClient {
                                             JSONArray userRankRaw = object.getJSONArray("user_rank");
                                             userRankJsonReplaceNull(userRankRaw);
 
-                                            for(int i=0; i < userRankRaw.length(); i++) {
+                                            for (int i = 0; i < userRankRaw.length(); i++) {
                                                 UserRank userRank = gson.fromJson(userRankRaw.get(i).toString(), UserRank.class);
                                                 userRank.musicData = data;
                                                 userRank.save();
@@ -336,7 +332,7 @@ public class ApiClient {
                                             List<UserRank> ranks = MusicData.getAllRank(data);
                                             Log.d("Unko", ranks.get(0).rank + ", " + ranks.get(1).rank + ", " + ranks.get(2).rank + ", " + ranks.get(3).rank);
 
-                                            fetchMusicThumbnail(music.music_id, data);
+                                            fetchMusicThumbnail(music.music_id, data, count, size);
                                         } catch (JSONException e) {
                                             Log.d("JSONException", e.toString());
                                         }
@@ -351,11 +347,11 @@ public class ApiClient {
                                 })
                 );
             }
-        }, 3000 * count);
+        }, 1500 * count);
 
     }
 
-    public void fetchMusicThumbnail(String id, final MusicData musicData) {
+    public void fetchMusicThumbnail(String id, final MusicData musicData, final int count, final int maxSize) {
         final String url = "https://mypage.groovecoaster.jp/sp/music/music_image.php?music_id=";
         Log.d("Unko", "画像取得: " + id);
         AppController.getInstance().addToRequestQueue(new ImageRequest(url + id,
@@ -370,6 +366,16 @@ public class ApiClient {
 
                                 musicData.music_thumbnail = bytes;
                                 musicData.save();
+
+                                Log.d("Unko", "Size: " + count + " max: " + maxSize);
+
+                                if (maxSize == count) {
+                                    Log.d("Unko", "おわり");
+                                    Log.d("Unko", "ばるくおわり");
+                                    ActiveAndroid.endTransaction();
+                                    musicDataCallback.isSuccess(true);
+                                }
+
                             }
                         }, 0, 0, Bitmap.Config.ARGB_8888,
                         new Response.ErrorListener() {
@@ -423,7 +429,7 @@ public class ApiClient {
     // TODO: すごく汚いから治したい
     // nullで返ってくるデータをnull以外に整形する
     private void userRankJsonReplaceNull(JSONArray array) {
-        for (int i=0;i < array.length(); i++) {
+        for (int i = 0; i < array.length(); i++) {
             if (array.isNull(i)) {
                 JSONObject rank = new JSONObject();
                 try {

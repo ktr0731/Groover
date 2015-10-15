@@ -97,6 +97,8 @@ public class LoginActivity extends Activity {
             //dialogFragment.show(getFragmentManager(), "dialog_fragment");
 
             //Get all data and set db.
+
+            // TODO: 取得パーセント表示
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
