@@ -14,7 +14,9 @@
     <string name="pref_password">pref_password</string>
     <string name="pref_login_cookie">pref_login_cookie</string>
 
-    <string name="toolbar_music_search">Search</string>
+    <string name="toolbar_music_list_search">Search</string>
+    <string name="toolbar_music_list_sort">Sort</string>
+    <string name="toolbar_music_list_filter">Filter</string>
 
     <string name="request_login">req_login</string>
 

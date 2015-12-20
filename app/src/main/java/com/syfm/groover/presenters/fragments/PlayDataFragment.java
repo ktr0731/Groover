@@ -2,7 +2,12 @@ package com.syfm.groover.presenters.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -71,6 +76,9 @@ public class PlayDataFragment extends Fragment {
     @Bind(R.id.tv_music_result_sss_per)
     TextView music_sss_per;
 
+    private Toolbar toolbar;
+    private FragmentPagerAdapter adapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +96,8 @@ public class PlayDataFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_play_data, group, false);
         ButterKnife.bind(this, view);
+
+
         return view;
     }
 

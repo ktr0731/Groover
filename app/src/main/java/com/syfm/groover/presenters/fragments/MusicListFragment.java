@@ -2,8 +2,13 @@ package com.syfm.groover.presenters.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -31,7 +36,7 @@ import de.greenrobot.event.EventBus;
 
 public class MusicListFragment extends Fragment {
 
-    private MusicListAdapter adapter;
+    private ViewPager pager;
 
     @Bind(R.id.list_view)
     ListView listView;
@@ -48,6 +53,14 @@ public class MusicListFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_music_list, group, false);
         ButterKnife.bind(this, view);
+
+//        toolbar = (Toolbar)getActivity().findViewById(R.id.toolbar_main);
+//        toolbar.getMenu().clear();
+//        toolbar.inflateMenu(R.menu.menu_music_list);
+
+        pager = (ViewPager)getActivity().findViewById(R.id.main_pager);
+        pager.getCurrentItem();
+
         return view;
     }
 
@@ -70,7 +83,6 @@ public class MusicListFragment extends Fragment {
         EventBus.getDefault().unregister(this);
         super.onStop();
     }
-
 
     @OnItemClick(R.id.list_view)
     public void OnListItemClick(AdapterView<?> parent, View view, int position, long id) {

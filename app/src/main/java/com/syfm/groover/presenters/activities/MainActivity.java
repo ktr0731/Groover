@@ -2,10 +2,13 @@ package com.syfm.groover.presenters.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -16,6 +19,7 @@ import com.syfm.groover.data.network.AppController;
 import com.syfm.groover.data.storage.SharedPreferenceHelper;
 import com.syfm.groover.presenters.adapter.MainFragmentPagerAdapter;
 
+import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
@@ -29,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
     PagerSlidingTabStrip tabStrip;
     @Bind(R.id.toolbar_main)
     Toolbar toolbar;
+
+    private SearchView searchView;
+    private MainFragmentPagerAdapter mainFragmentPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +62,48 @@ public class MainActivity extends AppCompatActivity {
         }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        MainFragmentPagerAdapter mainFragmentPagerAdapter = new MainFragmentPagerAdapter(fragmentManager, this);
+        mainFragmentPagerAdapter = new MainFragmentPagerAdapter(fragmentManager, this);
         pager.setAdapter(mainFragmentPagerAdapter);
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                toolbar.getMenu().clear();
+                switch (position) {
+                    case 0:
+                        toolbar.inflateMenu(R.menu.menu_play_data);
+                        break;
+                    case 1:
+                        toolbar.inflateMenu(R.menu.menu_music_list);
+                        searchView = (SearchView)toolbar.getMenu().findItem(R.id.menu_music_list_search).getActionView();
+                        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                            @Override
+                            public boolean onQueryTextSubmit(String query) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onQueryTextChange(String newText) {
+                                return false;
+                            }
+                        });
+                        break;
+                    default:
+                        toolbar.inflateMenu(R.menu.menu_play_data);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         tabStrip.setViewPager(pager);
 
         toolbar.setTitle(getResources().getString(R.string.app_name));
@@ -76,11 +123,6 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -109,4 +151,5 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Unko", "SetPlayDataError");
         }
     }*/
+
 }

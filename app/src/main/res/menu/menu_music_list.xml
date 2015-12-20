@@ -5,7 +5,20 @@
     <item
         android:id="@+id/menu_music_list_search"
         android:icon="@android:drawable/ic_menu_search"
-        android:title="@string/toolbar_music_search"
+        android:title="@string/toolbar_music_list_search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_music_list_sort"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:title="@string/toolbar_music_list_sort"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_music_list_filter"
+        android:icon="@android:drawable/ic_menu_info_details"
+        android:title="@string/toolbar_music_list_filter"
+        app:showAsAction="never" />
 
 </menu>

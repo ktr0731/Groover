@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 
 import com.syfm.groover.R;
 import com.syfm.groover.presenters.fragments.MusicListFragment;
@@ -45,4 +46,5 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
         String[] title = context.getResources().getStringArray(R.array.tab_name);
         return title[position];
     }
+
 }
