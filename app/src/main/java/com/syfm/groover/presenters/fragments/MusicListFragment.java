@@ -37,6 +37,7 @@ import de.greenrobot.event.EventBus;
 public class MusicListFragment extends Fragment {
 
     private ViewPager pager;
+    private MusicListAdapter adapter;
 
     @Bind(R.id.list_view)
     ListView listView;
@@ -53,13 +54,6 @@ public class MusicListFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_music_list, group, false);
         ButterKnife.bind(this, view);
-
-//        toolbar = (Toolbar)getActivity().findViewById(R.id.toolbar_main);
-//        toolbar.getMenu().clear();
-//        toolbar.inflateMenu(R.menu.menu_music_list);
-
-        pager = (ViewPager)getActivity().findViewById(R.id.main_pager);
-        pager.getCurrentItem();
 
         return view;
     }
@@ -103,7 +97,16 @@ public class MusicListFragment extends Fragment {
         if(event.resultData == null) {
             return;
         }
-        MusicListAdapter adapter = new MusicListAdapter(getActivity(), 0, event.resultData, AppController.getInstance().getRequestQueue());
+        adapter = new MusicListAdapter(getActivity(), 0, event.resultData, AppController.getInstance().getRequestQueue());
         listView.setAdapter(adapter);
+    }
+
+
+    public void searchMusic(String keyword) {
+        adapter.getFilter().filter(keyword);
+    }
+
+    public void resetMusic() {
+        adapter.reset();
     }
 }

@@ -18,12 +18,15 @@ import com.syfm.groover.business.usecases.LoginUseCase;
 import com.syfm.groover.data.network.AppController;
 import com.syfm.groover.data.storage.SharedPreferenceHelper;
 import com.syfm.groover.presenters.adapter.MainFragmentPagerAdapter;
+import com.syfm.groover.presenters.adapter.MusicListAdapter;
+import com.syfm.groover.presenters.fragments.MusicListFragment;
 
 import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(intent, code);
         }
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        final FragmentManager fragmentManager = getSupportFragmentManager();
         mainFragmentPagerAdapter = new MainFragmentPagerAdapter(fragmentManager, this);
         pager.setAdapter(mainFragmentPagerAdapter);
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -79,7 +82,13 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 1:
                         toolbar.inflateMenu(R.menu.menu_music_list);
+                        // スクロールで移動したら検索を戻す
+                        // FIXME: 下でも同じものを書いてるのでなんとなく行儀悪い
+                        MusicListFragment fragment = (MusicListFragment)mainFragmentPagerAdapter.instantiateItem(pager, 1);
+                        fragment.resetMusic();
+                        // TODO: textColor等の変更
                         searchView = (SearchView)toolbar.getMenu().findItem(R.id.menu_music_list_search).getActionView();
+                        searchView.setQueryHint("Music Name...");
                         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                             @Override
                             public boolean onQueryTextSubmit(String query) {
@@ -88,6 +97,9 @@ public class MainActivity extends AppCompatActivity {
 
                             @Override
                             public boolean onQueryTextChange(String newText) {
+                                // TODO: マジックナンバーの定数化
+                                MusicListFragment fragment = (MusicListFragment)mainFragmentPagerAdapter.instantiateItem(pager, 1);
+                                fragment.searchMusic(newText);
                                 return false;
                             }
                         });
@@ -130,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        // TODO: EventBusを実行すると落ちる
         //EventBus.getDefault().register(this);
     }
 

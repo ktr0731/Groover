@@ -40,7 +40,7 @@ public class AppController extends com.activeandroid.app.Application {
 
     @Override
     public void onCreate() {
-        super.onCreate();
+        super.onCreate(); // FIXME: SOL26でクラッシュする箇所
         sInstance = this;
         cookieManager = new CookieManager();
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);

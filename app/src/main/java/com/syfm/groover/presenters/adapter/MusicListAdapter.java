@@ -3,22 +3,28 @@ package com.syfm.groover.presenters.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.activeandroid.query.Select;
 import com.android.volley.RequestQueue;
 import com.syfm.groover.R;
 import com.syfm.groover.data.network.CustomImageLoader;
+import com.syfm.groover.data.storage.Const;
+import com.syfm.groover.data.storage.databases.MusicData;
 import com.syfm.groover.data.storage.databases.ResultData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedSet;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -158,5 +164,50 @@ public class MusicListAdapter extends ArrayAdapter<List<ResultData>> {
         holder.tv_extra_score.setBackgroundResource(0);
         holder.ll_extra.setVisibility(View.GONE);
         holder.iv_thumb.setImageBitmap(null);
+    }
+
+    // 検索用にオーバーライド
+    public Filter getFilter()  {
+        return new Filter() {
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults results = new FilterResults();
+                ArrayList<List<ResultData>> list = new ArrayList<>();
+
+                // FIXME: whereでPlace Holderが１つしか使えないので直す
+                List<MusicData> musicFilterData = new Select().from(MusicData.class).where(Const.MUSIC_LIST_MUSIC_TITLE + " like ?", "%" + constraint.toString() + "%").orderBy("Id desc").execute();
+                for (MusicData row : musicFilterData) {
+                    list.add(MusicData.getAllResultData(row));
+                }
+
+                results.count = list.size();
+                results.values = list;
+
+                Log.d("Unko", "unko:" + list.size());
+
+
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                    ArrayList<List<ResultData>> items = (ArrayList<List<ResultData>>) results.values;
+
+                    clear();
+                    addAll(items);
+                    notifyDataSetChanged();
+            }
+
+        };
+    }
+
+    public void reset() {
+        list.clear();
+        List<MusicData> musicFilterData = new Select().from(MusicData.class).orderBy("Id desc").execute();
+        for (MusicData row : musicFilterData) {
+            list.add(MusicData.getAllResultData(row));
+        }
+        notifyDataSetChanged();
     }
 }
