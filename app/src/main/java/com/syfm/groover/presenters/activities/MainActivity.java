@@ -1,6 +1,7 @@
 package com.syfm.groover.presenters.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
 
     private SearchView searchView;
+    private SearchView.SearchAutoComplete autoComplete;
     private MainFragmentPagerAdapter mainFragmentPagerAdapter;
 
     @Override
@@ -88,6 +90,10 @@ public class MainActivity extends AppCompatActivity {
                         fragment.resetMusic();
                         // TODO: textColor等の変更
                         searchView = (SearchView)toolbar.getMenu().findItem(R.id.menu_music_list_search).getActionView();
+                        autoComplete = (SearchView.SearchAutoComplete)searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+
+                        autoComplete.setTextColor(Color.WHITE);
+
                         searchView.setQueryHint("Music Name...");
                         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                             @Override
