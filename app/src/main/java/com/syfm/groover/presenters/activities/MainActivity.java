@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.syfm.groover.R;
@@ -90,11 +91,9 @@ public class MainActivity extends AppCompatActivity {
                         fragment.resetMusic();
                         // TODO: textColor等の変更
                         searchView = (SearchView)toolbar.getMenu().findItem(R.id.menu_music_list_search).getActionView();
-                        autoComplete = (SearchView.SearchAutoComplete)searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-
-                        autoComplete.setTextColor(Color.WHITE);
 
                         searchView.setQueryHint("Music Name...");
+                        searchView.setMinimumWidth(ViewGroup.LayoutParams.MATCH_PARENT);
                         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                             @Override
                             public boolean onQueryTextSubmit(String query) {

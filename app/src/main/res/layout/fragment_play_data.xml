@@ -36,12 +36,14 @@
 
                         <TextView
                             android:id="@+id/tv_player_data_name"
+                            android:textColor="@color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/card_view_title_size" />
 
                         <TextView
                             android:id="@+id/tv_player_data_level"
+                            android:textColor="@color/black"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="end"
@@ -69,6 +71,7 @@
                             <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
 
                                 <TextView
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -78,6 +81,7 @@
 
                                 <TextView
                                     android:id="@+id/tv_player_data_total_score"
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -87,6 +91,7 @@
                             <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
 
                                 <TextView
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -96,6 +101,7 @@
 
                                 <TextView
                                     android:id="@+id/tv_player_data_rank"
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -105,6 +111,7 @@
                             <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
 
                                 <TextView
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -114,6 +121,7 @@
 
                                 <TextView
                                     android:id="@+id/tv_player_data_coin"
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -123,6 +131,7 @@
                             <TableRow>
 
                                 <TextView
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -132,6 +141,7 @@
 
                                 <TextView
                                     android:id="@+id/tv_player_data_trophy"
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -170,6 +180,7 @@
                         android:paddingBottom="@dimen/card_view_padding_other">
 
                         <TextView
+                            android:textColor="@color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/tv_music_result_title"
@@ -188,6 +199,7 @@
                             <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
 
                                 <TextView
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -197,6 +209,7 @@
 
                                 <TextView
                                     android:id="@+id/tv_music_result_play_music"
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -206,6 +219,7 @@
 
                                 <TextView
                                     android:id="@+id/tv_music_result_play_music_per"
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -217,6 +231,7 @@
                             <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
 
                                 <TextView
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -226,6 +241,7 @@
 
                                 <TextView
                                     android:id="@+id/tv_music_result_clear_stage"
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -235,6 +251,7 @@
 
                                 <TextView
                                     android:id="@+id/tv_music_result_clear_stage_per"
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -246,6 +263,7 @@
                             <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
 
                                 <TextView
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -255,6 +273,7 @@
 
                                 <TextView
                                     android:id="@+id/tv_music_result_average_score"
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -264,6 +283,7 @@
 
                                 <TextView
                                     android:id="@+id/tv_music_result_average_score_per"
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -275,6 +295,7 @@
                             <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
 
                                 <TextView
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -284,6 +305,7 @@
 
                                 <TextView
                                     android:id="@+id/tv_music_result_no_miss"
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -293,6 +315,7 @@
 
                                 <TextView
                                     android:id="@+id/tv_music_result_no_miss_per"
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -304,6 +327,7 @@
                             <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
 
                                 <TextView
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -313,6 +337,7 @@
 
                                 <TextView
                                     android:id="@+id/tv_music_result_full_chain"
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -322,6 +347,7 @@
 
                                 <TextView
                                     android:id="@+id/tv_music_result_full_chain_per"
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -333,6 +359,7 @@
                             <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
 
                                 <TextView
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -342,6 +369,7 @@
 
                                 <TextView
                                     android:id="@+id/tv_music_result_s"
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -351,6 +379,7 @@
 
                                 <TextView
                                     android:id="@+id/tv_music_result_s_per"
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -362,6 +391,7 @@
                             <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
 
                                 <TextView
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -371,6 +401,7 @@
 
                                 <TextView
                                     android:id="@+id/tv_music_result_ss"
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -380,6 +411,7 @@
 
                                 <TextView
                                     android:id="@+id/tv_music_result_ss_per"
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -391,6 +423,7 @@
                             <TableRow>
 
                                 <TextView
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -400,6 +433,7 @@
 
                                 <TextView
                                     android:id="@+id/tv_music_result_sss"
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -409,6 +443,7 @@
 
                                 <TextView
                                     android:id="@+id/tv_music_result_sss_per"
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"

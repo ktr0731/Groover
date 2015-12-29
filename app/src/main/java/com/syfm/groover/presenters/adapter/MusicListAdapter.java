@@ -176,6 +176,7 @@ public class MusicListAdapter extends ArrayAdapter<List<ResultData>> {
                 ArrayList<List<ResultData>> list = new ArrayList<>();
 
                 // FIXME: whereでPlace Holderが１つしか使えないので直す
+                // FIXME: UseCaseを経由するようにする
                 List<MusicData> musicFilterData = new Select().from(MusicData.class).where(Const.MUSIC_LIST_MUSIC_TITLE + " like ?", "%" + constraint.toString() + "%").orderBy("Id desc").execute();
                 for (MusicData row : musicFilterData) {
                     list.add(MusicData.getAllResultData(row));
