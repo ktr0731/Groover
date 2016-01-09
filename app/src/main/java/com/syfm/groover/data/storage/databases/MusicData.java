@@ -1,71 +1,134 @@
 package com.syfm.groover.data.storage.databases;
 
-import android.content.ClipData;
-import android.util.Log;
-
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
-import com.activeandroid.query.Select;
-import com.syfm.groover.data.storage.Const;
-
-import java.util.List;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.RealmClass;
 
 /**
  * Created by lycoris on 2015/10/09.
  */
-@Table(name = Const.TABLE_NAME_MUSIC_DATA)
-public class MusicData extends Model {
+@RealmClass
+public class MusicData extends RealmObject {
 
-    @Column(name = Const.MUSIC_DETAIL_ARTIST)
-    public String artist;
-    @Column(name = Const.MUSIC_DETAIL_EX_FLAG)
-    public int ex_flag;
-    @Column(name = Const.MUSIC_LIST_MUSIC_ID)
-    public int music_id;
-    @Column(name = Const.MUSIC_LIST_MUSIC_TITLE)
-    public String music_title;
-    @Column(name = Const.MUSIC_DETAIL_SKIN_NAME)
-    public String skin_name;
-    @Column(name = Const.MUSIC_LIST_LAST_PLAY_TIME)
-    public String last_play_time;
-    @Column(name = Const.MUSIC_THUMBNAIL)
-    public byte[] music_thumbnail;
+    private String artist;
+    private int ex_flag;
+    private int music_id;
+    private String music_title;
+    private String skin_name;
+    private String last_play_time;
+    private byte[] music_thumbnail;
 
-    public List<ResultData> result() {
-        return getMany(ResultData.class, Const.TABLE_NAME_MUSIC_DATA);
+    private RealmList<ResultData> result_data;
+    private RealmList<UserRank> user_rank;
+
+    public String getArtist() {
+        return artist;
     }
 
-    public List<UserRank> rank() {
-        return getMany(UserRank.class, Const.TABLE_NAME_MUSIC_DATA);
+    public void setArtist(String artist) {
+        this.artist = artist;
     }
 
-    public static MusicData getMusicDataSingle(int id) {
-        return new Select()
-                .from(MusicData.class)
-                .where(Const.MUSIC_LIST_MUSIC_ID + " = ?", id)
-                .executeSingle();
+    public int getEx_flag() {
+        return ex_flag;
     }
 
-    public static List<ResultData> getAllResultData(MusicData musicData) {
-        return new Select()
-                .from(ResultData.class)
-                .where(Const.TABLE_NAME_MUSIC_DATA + " = ?", musicData.getId())
-                .orderBy("Id asc")
-                .execute();
+    public void setEx_flag(int ex_flag) {
+        this.ex_flag = ex_flag;
     }
 
-    public static List<UserRank> getAllRank(MusicData musicData) {
-        return new Select()
-                .from(UserRank.class)
-                .where(Const.TABLE_NAME_MUSIC_DATA + " = ?", musicData.getId())
-                .orderBy("Id asc")
-                .execute();
+    public int getMusic_id() {
+        return music_id;
+    }
+
+    public void setMusic_id(int music_id) {
+        this.music_id = music_id;
+    }
+
+    public String getMusic_title() {
+        return music_title;
+    }
+
+    public void setMusic_title(String music_title) {
+        this.music_title = music_title;
+    }
+
+    public String getSkin_name() {
+        return skin_name;
+    }
+
+    public void setSkin_name(String skin_name) {
+        this.skin_name = skin_name;
+    }
+
+    public String getLast_play_time() {
+        return last_play_time;
+    }
+
+    public void setLast_play_time(String last_play_time) {
+        this.last_play_time = last_play_time;
+    }
+
+    public byte[] getMusic_thumbnail() {
+        return music_thumbnail;
+    }
+
+    public void setMusic_thumbnail(byte[] music_thumbnail) {
+        this.music_thumbnail = music_thumbnail;
+    }
+
+    public RealmList<ResultData> getResult_data() {
+        return result_data;
+    }
+
+    public void setResult_data(RealmList<ResultData> result_data) {
+        this.result_data = result_data;
+    }
+
+    public RealmList<UserRank> getUser_rank() {
+        return user_rank;
+    }
+
+    public void setUser_rank(RealmList<UserRank> user_rank) {
+        this.user_rank = user_rank;
     }
 
 
-    public MusicData() {
-        super();
-    }
+
+//    public List<ResultData> result() {
+//        return getMany(ResultData.class, Const.TABLE_NAME_MUSIC_DATA);
+//    }
+//
+//    public List<UserRank> rank() {
+//        return getMany(UserRank.class, Const.TABLE_NAME_MUSIC_DATA);
+//    }
+//
+//    public static MusicData getMusicDataSingle(int id) {
+//        return new Select()
+//                .from(MusicData.class)
+//                .where(Const.MUSIC_LIST_MUSIC_ID + " = ?", id)
+//                .executeSingle();
+//    }
+//
+//    public static List<ResultData> getAllResultData(MusicData musicData) {
+//        return new Select()
+//                .from(ResultData.class)
+//                .where(Const.TABLE_NAME_MUSIC_DATA + " = ?", musicData.getId())
+//                .orderBy("Id asc")
+//                .execute();
+//    }
+//
+//    public static List<UserRank> getAllRank(MusicData musicData) {
+//        return new Select()
+//                .from(UserRank.class)
+//                .where(Const.TABLE_NAME_MUSIC_DATA + " = ?", musicData.getId())
+//                .orderBy("Id asc")
+//                .execute();
+//    }
+//
+//
+//    public MusicData() {
+//        super();
+//    }
 
 }

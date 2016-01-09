@@ -1,31 +1,75 @@
 package com.syfm.groover.data.storage.databases;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
-import com.syfm.groover.data.storage.Const;
+import io.realm.RealmObject;
+import io.realm.annotations.RealmClass;
 
 /**
  * Created by lycoris on 2015/10/07.
  */
-@Table(name = Const.TABLE_NAME_STAGE_DATA)
-public class StageData extends Model {
+@RealmClass
+public class StageData extends RealmObject {
 
-    @Column(name = "_id", index = true)
-    public int _id;
-    @Column(name = Const.STAGE_DATA_ALL)
-    public int all;
-    @Column(name = Const.STAGE_DATA_CLEAR)
-    public int clear;
-    @Column(name = Const.STAGE_DATA_FULL_CHAIN)
-    public int fullchain;
-    @Column(name = Const.STAGE_DATA_NO_MISS)
-    public int nomiss;
-    @Column(name = Const.STAGE_DATA_S)
-    public int s;
-    @Column(name = Const.STAGE_DATA_SS)
-    public int ss;
-    @Column(name = Const.STAGE_DATA_SSS)
-    public int sss;
+    private int all;
+    private int clear;
+    private int fullchain;
+    private int nomiss;
+    private int s;
+    private int ss;
+    private int sss;
 
+    public int getAll() {
+        return all;
+    }
+
+    public void setAll(int all) {
+        this.all = all;
+    }
+
+    public int getClear() {
+        return clear;
+    }
+
+    public void setClear(int clear) {
+        this.clear = clear;
+    }
+
+    public int getFullchain() {
+        return fullchain;
+    }
+
+    public void setFullchain(int fullchain) {
+        this.fullchain = fullchain;
+    }
+
+    public int getNomiss() {
+        return nomiss;
+    }
+
+    public void setNomiss(int nomiss) {
+        this.nomiss = nomiss;
+    }
+
+    public int getS() {
+        return s;
+    }
+
+    public void setS(int s) {
+        this.s = s;
+    }
+
+    public int getSs() {
+        return ss;
+    }
+
+    public void setSs(int ss) {
+        this.ss = ss;
+    }
+
+    public int getSss() {
+        return sss;
+    }
+
+    public void setSss(int sss) {
+        this.sss = sss;
+    }
 }

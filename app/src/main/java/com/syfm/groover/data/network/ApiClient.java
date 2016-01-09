@@ -38,6 +38,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.realm.Realm;
+
 
 /**
  * Created by lycoris on 2015/09/27.
@@ -47,6 +49,7 @@ public class ApiClient {
     private PlayDataCallback playDataCallback;
     private MusicDataCallback musicDataCallback;
     private Gson gson = new Gson();
+    private Realm realm = Realm.getInstance(AppController.getInstance());
     Handler handler = new Handler();
 
     public void tryLogin(final String serial, final String pass, final LoginListener listener) {
@@ -124,12 +127,15 @@ public class ApiClient {
                             public void onResponse(JSONObject response) {
                                 try {
                                     JSONObject object = response.getJSONObject("player_data");
-                                    PlayerData playerData = gson.fromJson(object.toString(), PlayerData.class);
-                                    if (playerData != null) {
-                                        playerData.date = DateFormat.format("yyyy/MM/dd kk:mm:ss", Calendar.getInstance()).toString();
-                                        // Active AndroidでSQLiteに保存
-                                        playerData.save();
+                                    //PlayerData playerData = gson.fromJson(object.toString(), PlayerData.class);
+                                    if (object.toString() == null) {
+                                        return;
                                     }
+                                    realm.beginTransaction();
+                                    PlayerData playerData = realm.createObjectFromJson(PlayerData.class, object.toString());
+                                    playerData.setDate(DateFormat.format("yyyy/MM/dd kk:mm:ss", Calendar.getInstance()).toString());
+                                    realm.commitTransaction();
+
                                 } catch (JSONException e) {
                                     Log.d("JSONException", e.toString());
                                 }
@@ -151,11 +157,14 @@ public class ApiClient {
                             @Override
                             public void onResponse(JSONObject response) {
                                 Log.d("getShopDataResponse", response.toString());
-                                ShopSalesData shopData = gson.fromJson(response.toString(), ShopSalesData.class);
-                                if (shopData != null) {
-                                    // Active AndroidでSQLiteに保存
-                                    shopData.save();
+                                if (response.toString() == null) {
+                                    return;
                                 }
+                                realm.beginTransaction();
+                                realm.createObjectFromJson(ShopSalesData.class, response.toString());
+                                realm.commitTransaction();
+                                //ShopSalesData shopData = gson.fromJson(response.toString(), ShopSalesData.class);
+
                             }
                         },
                         new Response.ErrorListener() {
@@ -176,11 +185,14 @@ public class ApiClient {
                                 Log.d("getAverageScoreResponse", response.toString());
                                 try {
                                     JSONObject object = response.getJSONObject("average");
-                                    AverageScore averageScore = gson.fromJson(object.toString(), AverageScore.class);
-                                    if (averageScore != null) {
-                                        // Active AndroidでSQLiteに保存
-                                        averageScore.save();
+                                    //AverageScore averageScore = gson.fromJson(object.toString(), AverageScore.class);
+                                    if (object.toString() == null) {
+                                        return;
                                     }
+                                    realm.beginTransaction();
+                                    realm.createObjectFromJson(AverageScore.class, object.toString());
+                                    realm.commitTransaction();
+
                                 } catch (JSONException e) {
                                     Log.d("JSONException", e.toString());
                                 }
@@ -204,12 +216,15 @@ public class ApiClient {
                                 Log.d("getStageDataResponse", response.toString());
                                 try {
                                     JSONObject object = response.getJSONObject("stage");
-                                    StageData stageData = gson.fromJson(object.toString(), StageData.class);
-                                    if (stageData != null) {
-                                        // Active AndroidでSQLiteに保存
-                                        stageData.save();
-                                        playDataCallback.isSuccess(true);
+                                    //StageData stageData = gson.fromJson(object.toString(), StageData.class);
+                                    if (object.toString() == null) {
+                                        return;
                                     }
+                                    realm.beginTransaction();
+                                    realm.createObjectFromJson(StageData.class, object.toString());
+                                    realm.commitTransaction();
+                                    playDataCallback.isSuccess(true);
+
                                 } catch (JSONException e) {
                                     Log.d("JSONException", e.toString());
                                 }
@@ -247,15 +262,11 @@ public class ApiClient {
                                     List<MusicListEntity> list = gson.fromJson(array.toString(), collectionType);
                                     int i = 0;
 
-                                    //バルクインサート
-                                    ActiveAndroid.beginTransaction();
                                     for (MusicListEntity row : list) {
                                         i++;
                                         if (i > 50) break;
                                         fetchMusicDetail(row, list.indexOf(row), 50 - 1); //実際はlist.size() -1
                                     }
-                                    ActiveAndroid.setTransactionSuccessful();
-
 
                                 } catch (JSONException e) {
                                     Log.d("JSONException", e.toString());
@@ -285,48 +296,55 @@ public class ApiClient {
                                         try {
                                             JSONObject object = response.getJSONObject("music_detail");
 
-                                            MusicData data = gson.fromJson(object.toString(), MusicData.class);
-                                            data.last_play_time = music.last_play_time;
-                                            data.save();
+                                            //MusicData data = gson.fromJson(object.toString(), MusicData.class);
 
-                                            // 各難易度をMusicDataの子としてインサート
-                                            // 要素にNULLがあると挙動がおかしくなるので気をつける
+                                            if(object.toString()==null) {
+                                                return;
+                                            }
 
                                             resultDataJsonReplaceNull(object, "simple_result_data");
                                             resultDataJsonReplaceNull(object, "normal_result_data");
                                             resultDataJsonReplaceNull(object, "hard_result_data");
                                             resultDataJsonReplaceNull(object, "extra_result_data");
 
-                                            ResultData resultSimple = gson.fromJson(object.getJSONObject("simple_result_data").toString(), ResultData.class);
-                                            resultSimple.musicData = data;
-                                            resultSimple.save();
+                                            userRankJsonReplaceNull(object.getJSONArray("user_rank"));
 
-                                            ResultData resultNormal = gson.fromJson(object.getJSONObject("normal_result_data").toString(), ResultData.class);
-                                            resultNormal.musicData = data;
-                                            resultNormal.save();
+                                            realm.beginTransaction();
+                                            MusicData data = realm.createObjectFromJson(MusicData.class, object.toString());
+                                            data.setLast_play_time(music.last_play_time);
 
-                                            ResultData resultHard = gson.fromJson(object.getJSONObject("hard_result_data").toString(), ResultData.class);
-                                            resultHard.musicData = data;
-                                            resultHard.save();
+                                            // 各難易度をMusicDataの子としてインサート
+                                            // 要素にNULLがあると挙動がおかしくなるので気をつける
 
-                                            ResultData resultExtra = gson.fromJson(object.getJSONObject("extra_result_data").toString(), ResultData.class);
-                                            resultExtra.musicData = data;
-                                            resultExtra.save();
+                                            //ResultData resultSimple = gson.fromJson(object.getJSONObject("simple_result_data").toString(), ResultData.class);
+
+                                            ResultData resultSimple = realm.createObjectFromJson(ResultData.class, object.getJSONObject("simple_result_data").toString());
+                                            data.getResult_data().add(resultSimple);
+
+                                            //ResultData resultNormal = gson.fromJson(object.getJSONObject("normal_result_data").toString(), ResultData.class);
+                                            ResultData resultNormal = realm.createObjectFromJson(ResultData.class, object.getJSONObject("normal_result_data").toString());
+                                            data.getResult_data().add(resultNormal);
+
+                                            //ResultData resultHard = gson.fromJson(object.getJSONObject("hard_result_data").toString(), ResultData.class);
+                                            ResultData resultHard = realm.createObjectFromJson(ResultData.class, object.getJSONObject("hard_result_data").toString());
+                                            data.getResult_data().add(resultHard);
+
+                                            //ResultData resultExtra = gson.fromJson(object.getJSONObject("extra_result_data").toString(), ResultData.class);
+                                            ResultData resultExtra = realm.createObjectFromJson(ResultData.class, object.getJSONObject("extra_result_data").toString());
+                                            data.getResult_data().add(resultExtra);
 
                                             // UserRankの整形
-
                                             JSONArray userRankRaw = object.getJSONArray("user_rank");
-                                            userRankJsonReplaceNull(userRankRaw);
 
                                             for (int i = 0; i < userRankRaw.length(); i++) {
-                                                UserRank userRank = gson.fromJson(userRankRaw.get(i).toString(), UserRank.class);
-                                                userRank.musicData = data;
-                                                userRank.save();
+                                                UserRank userRank = realm.createObjectFromJson(UserRank.class, userRankRaw.get(i).toString());
+                                                data.getUser_rank().add(userRank);
                                             }
 
-                                            List<UserRank> ranks = MusicData.getAllRank(data);
 
                                             fetchMusicThumbnail(music.music_id, data, count, size);
+
+
                                         } catch (JSONException e) {
                                             Log.d("JSONException", e.toString());
                                         }
@@ -352,15 +370,19 @@ public class ApiClient {
                             @Override
                             public void onResponse(Bitmap response) {
 
+                                if(response == null) {
+                                    realm.commitTransaction();
+                                    return;
+                                }
+
                                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                                 response.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                                 byte[] bytes = baos.toByteArray();
 
-                                musicData.music_thumbnail = bytes;
-                                musicData.save();
+                                musicData.setMusic_thumbnail(bytes);
+                                realm.commitTransaction();
 
                                 if (maxSize == count) {
-                                    ActiveAndroid.endTransaction();
                                     musicDataCallback.isSuccess(true);
                                 }
 

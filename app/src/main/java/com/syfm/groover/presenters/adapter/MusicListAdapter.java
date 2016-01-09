@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.activeandroid.query.Select;
 import com.android.volley.RequestQueue;
 import com.syfm.groover.R;
+import com.syfm.groover.data.network.AppController;
 import com.syfm.groover.data.storage.Const;
 import com.syfm.groover.data.storage.databases.MusicData;
 import com.syfm.groover.data.storage.databases.ResultData;
@@ -26,16 +27,22 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.RealmResults;
 
 /**
  * Created by lycoris on 2015/10/09.
  */
-public class MusicListAdapter extends ArrayAdapter<List<ResultData>> {
+public class MusicListAdapter extends ArrayAdapter<MusicData> {
     private LayoutInflater inflater = null;
-    private ArrayList<List<ResultData>> list;
+    private RealmResults<MusicData> list;
     private Context context;
+    private Realm realm = Realm.getInstance(AppController.getInstance());
 
-    public MusicListAdapter(Context context, int resource, ArrayList<List<ResultData>> list, RequestQueue queue) {
+
+    public MusicListAdapter(Context context, int resource, RealmResults<MusicData> list, RequestQueue queue) {
         super(context, resource, list);
         this.context = context;
         this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -67,48 +74,48 @@ public class MusicListAdapter extends ArrayAdapter<List<ResultData>> {
          */
 
 
-        List<ResultData> row = getItem(position);
+        MusicData row = getItem(position);
 
-        holder.tv_title.setText(row.get(0).musicData.music_title);
-        holder.tv_simple_rate.setText(row.get(0).rating);
-        holder.tv_simple_score.setText(String.valueOf(row.get(0).score));
-        holder.tv_normal_rate.setText(row.get(1).rating);
-        holder.tv_normal_score.setText(String.valueOf(row.get(1).score));
-        holder.tv_hard_rate.setText(row.get(2).rating);
-        holder.tv_hard_score.setText(String.valueOf(row.get(2).score));
+        holder.tv_title.setText(row.getMusic_title());
+        holder.tv_simple_rate.setText(row.getResult_data().get(0).getRating());
+        holder.tv_simple_score.setText(String.valueOf(row.getResult_data().get(0).getScore()));
+        holder.tv_normal_rate.setText(row.getResult_data().get(1).getRating());
+        holder.tv_normal_score.setText(String.valueOf(row.getResult_data().get(1).getScore()));
+        holder.tv_hard_rate.setText(row.getResult_data().get(2).getRating());
+        holder.tv_hard_score.setText(String.valueOf(row.getResult_data().get(2).getScore()));
 
         //Extraを表示させるか
-        if(row.get(0).musicData.ex_flag == 1) {
+        if(row.getEx_flag() == 1) {
             holder.ll_extra.setVisibility(View.VISIBLE);
-            holder.tv_extra_rate.setText(row.get(3).rating);
-            holder.tv_extra_score.setText(String.valueOf(row.get(3).score));
+            holder.tv_extra_rate.setText(row.getResult_data().get(3).getRating());
+            holder.tv_extra_score.setText(String.valueOf(row.getResult_data().get(3).getScore()));
         }
 
         //FullChainを表示させるか (fullchainはFullChainした回数)
-        if (row.get(0).full_chain > 0) {
+        if (row.getResult_data().get(0).getFull_chain() > 0) {
             holder.tv_simple_score.setBackgroundResource(R.drawable.full_chain_border);
-        } else if(row.get(0).no_miss > 0) {
+        } else if(row.getResult_data().get(0).getNo_miss() > 0) {
             holder.tv_simple_score.setBackgroundResource(R.drawable.no_miss_border);
         }
-        if (row.get(1).full_chain > 0) {
+        if (row.getResult_data().get(1).getFull_chain() > 0) {
             holder.tv_normal_score.setBackgroundResource(R.drawable.full_chain_border);
-        } else if(row.get(1).no_miss > 0) {
+        } else if(row.getResult_data().get(1).getNo_miss() > 0) {
             holder.tv_normal_score.setBackgroundResource(R.drawable.no_miss_border);
         }
-        if (row.get(2).full_chain > 0) {
+        if (row.getResult_data().get(2).getFull_chain() > 0) {
             holder.tv_hard_score.setBackgroundResource(R.drawable.full_chain_border);
-        } else if(row.get(2).no_miss > 0) {
+        } else if(row.getResult_data().get(2).getNo_miss() > 0) {
             holder.tv_hard_score.setBackgroundResource(R.drawable.no_miss_border);
         }
-        if (row.get(3).full_chain > 0 && row.get(3).musicData.ex_flag == 1) {
+        if (row.getResult_data().get(3).getFull_chain() > 0 && row.getEx_flag() == 1) {
             holder.tv_extra_score.setBackgroundResource(R.drawable.full_chain_border);
-        } else if(row.get(3).no_miss > 0 && row.get(3).musicData.ex_flag == 1) {
+        } else if(row.getResult_data().get(3).getNo_miss() > 0 && row.getEx_flag() == 1) {
             holder.tv_extra_score.setBackgroundResource(R.drawable.no_miss_border);
         }
 
 
         //いっぱい読込すると落ちるかもしれない
-        Bitmap bmp = BitmapFactory.decodeByteArray(row.get(0).musicData.music_thumbnail, 0, row.get(0).musicData.music_thumbnail.length);
+        Bitmap bmp = BitmapFactory.decodeByteArray(row.getMusic_thumbnail(), 0, row.getMusic_thumbnail().length);
         holder.iv_thumb.setImageBitmap(bmp);
 
         return view;
@@ -171,27 +178,24 @@ public class MusicListAdapter extends ArrayAdapter<List<ResultData>> {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();
-                ArrayList<List<ResultData>> list = new ArrayList<>();
+                //ArrayList<List<ResultData>> list = new ArrayList<>();
 
                 // FIXME: whereでPlace Holderが１つしか使えないので直す
                 // FIXME: UseCaseを経由するようにする
-                List<MusicData> musicFilterData = new Select().from(MusicData.class).where(Const.MUSIC_LIST_MUSIC_TITLE + " like ?", "%" + constraint.toString() + "%").orderBy("Id desc").execute();
-                for (MusicData row : musicFilterData) {
-                    list.add(MusicData.getAllResultData(row));
-                }
+                RealmResults<MusicData> musicFilterData = realm.where(MusicData.class).contains(Const.MUSIC_LIST_MUSIC_TITLE, constraint.toString()).findAll();
+                //List<MusicData> musicFilterData = new Select().from(MusicData.class).where(Const.MUSIC_LIST_MUSIC_TITLE + " like ?", "%" + constraint.toString() + "%").orderBy("Id desc").execute();
 
-                results.count = list.size();
-                results.values = list;
+                results.count = musicFilterData.size();
+                results.values = musicFilterData;
 
                 Log.d("Unko", "unko:" + list.size());
-
 
                 return results;
             }
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                    ArrayList<List<ResultData>> items = (ArrayList<List<ResultData>>) results.values;
+                    RealmResults<MusicData> items = (RealmResults<MusicData>) results.values;
 
                     clear();
                     addAll(items);
@@ -203,10 +207,8 @@ public class MusicListAdapter extends ArrayAdapter<List<ResultData>> {
 
     public void reset() {
         list.clear();
-        List<MusicData> musicFilterData = new Select().from(MusicData.class).orderBy("Id desc").execute();
-        for (MusicData row : musicFilterData) {
-            list.add(MusicData.getAllResultData(row));
-        }
+        //List<MusicData> musicFilterData = new Select().from(MusicData.class).orderBy("Id desc").execute();
+        list = realm.where(MusicData.class).findAll();
         notifyDataSetChanged();
     }
 }

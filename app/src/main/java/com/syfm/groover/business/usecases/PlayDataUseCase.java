@@ -4,12 +4,14 @@ import android.util.Log;
 
 import com.activeandroid.query.Select;
 import com.syfm.groover.data.network.ApiClient;
+import com.syfm.groover.data.network.AppController;
 import com.syfm.groover.data.storage.databases.AverageScore;
 import com.syfm.groover.data.storage.databases.PlayerData;
 import com.syfm.groover.data.storage.databases.ShopSalesData;
 import com.syfm.groover.data.storage.databases.StageData;
 
 import de.greenrobot.event.EventBus;
+import io.realm.Realm;
 
 /**
  * Created by lycoris on 2015/09/26.
@@ -47,11 +49,17 @@ public class PlayDataUseCase implements ApiClient.PlayDataCallback {
 
     public void getPlayData() {
         //SQLiteから取得
-        PlayerData player    = new Select().from(PlayerData.class).orderBy("Id desc").executeSingle();
-        ShopSalesData sales  = new Select().from(ShopSalesData.class).orderBy("Id desc").executeSingle();
-        AverageScore average = new Select().from(AverageScore.class).orderBy("Id desc").executeSingle();
-        StageData  stageData = new Select().from(StageData.class).orderBy("Id desc").executeSingle();
-        EventBus.getDefault().post(new PlayDataEvent(player, sales, average, stageData));
+//        PlayerData player    = new Select().from(PlayerData.class).orderBy("Id desc").executeSingle();
+//        ShopSalesData sales  = new Select().from(ShopSalesData.class).orderBy("Id desc").executeSingle();
+//        AverageScore average = new Select().from(AverageScore.class).orderBy("Id desc").executeSingle();
+//        StageData  stageData = new Select().from(StageData.class).orderBy("Id desc").executeSingle();
+
+        Realm realm = Realm.getInstance(AppController.getInstance());
+        PlayerData player    = realm.where(PlayerData.class).findFirst();
+        ShopSalesData sales  = realm.where(ShopSalesData.class).findFirst();
+        AverageScore average = realm.where(AverageScore.class).findFirst();
+        StageData stage      = realm.where(StageData.class).findFirst();
+        EventBus.getDefault().post(new PlayDataEvent(player, sales, average, stage));
     }
 
 

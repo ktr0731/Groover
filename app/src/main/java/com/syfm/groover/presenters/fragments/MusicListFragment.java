@@ -82,11 +82,11 @@ public class MusicListFragment extends Fragment {
     public void OnListItemClick(AdapterView<?> parent, View view, int position, long id) {
         //選択されたアイテムを取得
         ListView listView = (ListView) parent;
-        List<ResultData> item = (List<ResultData>)listView.getItemAtPosition(position);
+        MusicData item = (MusicData)listView.getItemAtPosition(position);
 
         //IDをつける
         Bundle bundle = new Bundle();
-        bundle.putInt("music_id", item.get(0).musicData.music_id);
+        bundle.putInt("music_id", item.getMusic_id());
 
         MusicDetailDialogFragment dialogFragment = new MusicDetailDialogFragment();
         dialogFragment.setArguments(bundle);
@@ -94,10 +94,10 @@ public class MusicListFragment extends Fragment {
     }
 
     public void onEventMainThread(MusicDataUseCase.MusicDataEvent event) {
-        if(event.resultData == null) {
+        if(event.musicData == null) {
             return;
         }
-        adapter = new MusicListAdapter(getActivity(), 0, event.resultData, AppController.getInstance().getRequestQueue());
+        adapter = new MusicListAdapter(getActivity(), 0, event.musicData, AppController.getInstance().getRequestQueue());
         listView.setAdapter(adapter);
     }
 

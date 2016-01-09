@@ -15,6 +15,8 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.syfm.groover.R;
+import com.syfm.groover.data.network.AppController;
+import com.syfm.groover.data.storage.Const;
 import com.syfm.groover.data.storage.databases.MusicData;
 import com.syfm.groover.data.storage.databases.ResultData;
 import com.syfm.groover.data.storage.databases.UserRank;
@@ -24,6 +26,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
 
 /**
  * Created by lycoris on 2015/10/12.
@@ -37,6 +40,7 @@ public class MusicDetailDialogFragment extends DialogFragment {
     private ResultData normal;
     private ResultData hard;
     private ResultData extra;
+    private Realm realm = Realm.getInstance(AppController.getInstance());
 
     @Bind(R.id.tv_music_detail_thumbnail)
     com.syfm.groover.presenters.activities.RoundImageView iv_thumb;
@@ -51,7 +55,7 @@ public class MusicDetailDialogFragment extends DialogFragment {
     TextView tv_last_played;
     @Bind(R.id.tv_music_detail_skin)
     TextView tv_skin;
-    
+
     @Bind(R.id.tv_music_detail_simple_score)
     TextView tv_simple_score;
     @Bind(R.id.tv_music_detail_simple_mark)
@@ -121,7 +125,7 @@ public class MusicDetailDialogFragment extends DialogFragment {
     public void onClickCloseBotton() {
         dismiss();
     }
-    
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = new Dialog(getActivity());
@@ -135,15 +139,14 @@ public class MusicDetailDialogFragment extends DialogFragment {
         if(id == 0)
             return dialog;
 
-        musicData = MusicData.getMusicDataSingle(id);
-        
-        resultData = MusicData.getAllResultData(musicData);
-        simple = resultData.get(0);
-        normal = resultData.get(1);
-        hard   = resultData.get(2);
-        extra  = resultData.get(3);
-        
-        userRank = MusicData.getAllRank(musicData);
+        musicData = realm.where(MusicData.class).equalTo(Const.MUSIC_LIST_MUSIC_ID, id).findFirst();
+
+        simple = musicData.getResult_data().get(0);
+        normal = musicData.getResult_data().get(1);
+        hard   = musicData.getResult_data().get(2);
+        extra  = musicData.getResult_data().get(3);
+
+        userRank = musicData.getUser_rank();
 
         return dialog;
     }
@@ -166,113 +169,113 @@ public class MusicDetailDialogFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_dialog_music_detail, null);
         ButterKnife.bind(this, view);
 
-        Bitmap bmp = BitmapFactory.decodeByteArray(musicData.music_thumbnail, 0, musicData.music_thumbnail.length);
+        Bitmap bmp = BitmapFactory.decodeByteArray(musicData.getMusic_thumbnail(), 0, musicData.getMusic_thumbnail().length);
         iv_thumb.setImageBitmap(bmp);
 
-        tv_title.setText(musicData.music_title);
-        tv_artist.setText(musicData.artist);
+        tv_title.setText(musicData.getMusic_title());
+        tv_artist.setText(musicData.getArtist());
 
-        String numOfPlays = String.valueOf(simple.play_count + normal.play_count + hard.play_count + extra.play_count);
+        String numOfPlays = String.valueOf(simple.getPlay_count() + normal.getPlay_count() + hard.getPlay_count() + extra.getPlay_count());
         tv_num_of_plays.setText(numOfPlays);
-        tv_last_played.setText(musicData.last_play_time);
-        tv_skin.setText(musicData.skin_name);
+        tv_last_played.setText(musicData.getLast_play_time());
+        tv_skin.setText(musicData.getSkin_name());
 
 
-        tv_simple_score.setText(String.valueOf(simple.score));
-        tv_simple_num_of_plays.setText(String.valueOf(simple.play_count));
-        tv_simple_max_chain.setText(String.valueOf(simple.max_chain));
-        tv_simple_num_of_full_chain.setText(String.valueOf(simple.full_chain));
-        tv_simple_num_of_no_miss.setText(String.valueOf(simple.no_miss));
-        tv_simple_rating.setText(simple.rating);
+        tv_simple_score.setText(String.valueOf(simple.getScore()));
+        tv_simple_num_of_plays.setText(String.valueOf(simple.getPlay_count()));
+        tv_simple_max_chain.setText(String.valueOf(simple.getMax_chain()));
+        tv_simple_num_of_full_chain.setText(String.valueOf(simple.getFull_chain()));
+        tv_simple_num_of_no_miss.setText(String.valueOf(simple.getNo_miss()));
+        tv_simple_rating.setText(simple.getRating());
 
-        if(simple.score == 1000000) {
+        if(simple.getScore() == 1000000) {
             tv_simple_mark.setBackgroundResource(R.drawable.excellect_border);
             tv_simple_mark.setText("EXCELLENT");
-        } else if(simple.full_chain > 0) {
+        } else if(simple.getFull_chain() > 0) {
             tv_simple_mark.setBackgroundResource(R.drawable.full_chain_border);
             tv_simple_mark.setText("FULL CHAIN");
-        } else if(simple.no_miss > 0) {
+        } else if(simple.getNo_miss() > 0) {
             tv_simple_mark.setBackgroundResource(R.drawable.no_miss_border);
             tv_simple_mark.setText("NO MISS");
-        } else if(simple.is_clear_mark.equals("true")) {
+        } else if(simple.getIs_clear_mark().equals("true")) {
             tv_simple_mark.setBackgroundResource(R.drawable.clear_border);
             tv_simple_mark.setText("CLEAR");
-        } else if(simple.is_failed_mark.equals("true")) {
+        } else if(simple.getIs_failed_mark().equals("true")) {
             tv_simple_mark.setBackgroundResource(R.drawable.failed_border);
             tv_simple_mark.setText("FAILED");
         }
 
-        tv_normal_score.setText(String.valueOf(normal.score));
-        tv_normal_num_of_plays.setText(String.valueOf(normal.play_count));
-        tv_normal_max_chain.setText(String.valueOf(normal.max_chain));
-        tv_normal_num_of_full_chain.setText(String.valueOf(normal.full_chain));
-        tv_normal_num_of_no_miss.setText(String.valueOf(normal.no_miss));
-        tv_normal_rating.setText(normal.rating);
+        tv_normal_score.setText(String.valueOf(normal.getScore()));
+        tv_normal_num_of_plays.setText(String.valueOf(normal.getPlay_count()));
+        tv_normal_max_chain.setText(String.valueOf(normal.getMax_chain()));
+        tv_normal_num_of_full_chain.setText(String.valueOf(normal.getFull_chain()));
+        tv_normal_num_of_no_miss.setText(String.valueOf(normal.getNo_miss()));
+        tv_normal_rating.setText(normal.getRating());
 
-        if(normal.score == 1000000) {
+        if(normal.getScore() == 1000000) {
             tv_normal_mark.setBackgroundResource(R.drawable.excellect_border);
             tv_normal_mark.setText("EXCELLENT");
-        } else if(normal.full_chain > 0) {
+        } else if(normal.getFull_chain() > 0) {
             tv_normal_mark.setBackgroundResource(R.drawable.full_chain_border);
             tv_normal_mark.setText("FULL CHAIN");
-        } else if(normal.no_miss > 0) {
+        } else if(normal.getNo_miss() > 0) {
             tv_normal_mark.setBackgroundResource(R.drawable.no_miss_border);
             tv_normal_mark.setText("NO MISS");
-        } else if(normal.is_clear_mark.equals("true")) {
+        } else if(normal.getIs_clear_mark().equals("true")) {
             tv_normal_mark.setBackgroundResource(R.drawable.clear_border);
             tv_normal_mark.setText("CLEAR");
-        } else if(normal.is_failed_mark.equals("true")) {
+        } else if(normal.getIs_failed_mark().equals("true")) {
             tv_normal_mark.setBackgroundResource(R.drawable.failed_border);
             tv_normal_mark.setText("FAILED");
         }
 
-        tv_hard_score.setText(String.valueOf(hard.score));
-        tv_hard_num_of_plays.setText(String.valueOf(hard.play_count));
-        tv_hard_max_chain.setText(String.valueOf(hard.max_chain));
-        tv_hard_num_of_full_chain.setText(String.valueOf(hard.full_chain));
-        tv_hard_num_of_no_miss.setText(String.valueOf(hard.no_miss));
-        tv_hard_rating.setText(hard.rating);
+        tv_hard_score.setText(String.valueOf(hard.getScore()));
+        tv_hard_num_of_plays.setText(String.valueOf(hard.getPlay_count()));
+        tv_hard_max_chain.setText(String.valueOf(hard.getMax_chain()));
+        tv_hard_num_of_full_chain.setText(String.valueOf(hard.getFull_chain()));
+        tv_hard_num_of_no_miss.setText(String.valueOf(hard.getNo_miss()));
+        tv_hard_rating.setText(hard.getRating());
 
-        if(hard.score == 1000000) {
+        if(hard.getScore() == 1000000) {
             tv_hard_mark.setBackgroundResource(R.drawable.excellect_border);
             tv_hard_mark.setText("EXCELLENT");
-        } else if(hard.full_chain > 0) {
+        } else if(hard.getFull_chain() > 0) {
             tv_hard_mark.setBackgroundResource(R.drawable.full_chain_border);
             tv_hard_mark.setText("FULL CHAIN");
-        } else if(hard.no_miss > 0) {
+        } else if(hard.getNo_miss() > 0) {
             tv_hard_mark.setBackgroundResource(R.drawable.no_miss_border);
             tv_hard_mark.setText("NO MISS");
-        } else if(hard.is_clear_mark.equals("true")) {
+        } else if(hard.getIs_clear_mark().equals("true")) {
             tv_hard_mark.setBackgroundResource(R.drawable.clear_border);
             tv_hard_mark.setText("CLEAR");
-        } else if(hard.is_failed_mark.equals("true")) {
+        } else if(hard.getIs_failed_mark().equals("true")) {
             tv_hard_mark.setBackgroundResource(R.drawable.failed_border);
             tv_hard_mark.setText("FAILED");
         }
 
-        if(musicData.ex_flag > 0) {
+        if(musicData.getEx_flag() > 0) {
 
             cv_extra.setVisibility(View.VISIBLE);
-            tv_extra_score.setText(String.valueOf(extra.score));
-            tv_extra_num_of_plays.setText(String.valueOf(extra.play_count));
-            tv_extra_max_chain.setText(String.valueOf(extra.max_chain));
-            tv_extra_num_of_full_chain.setText(String.valueOf(extra.full_chain));
-            tv_extra_num_of_no_miss.setText(String.valueOf(extra.no_miss));
-            tv_extra_rating.setText(extra.rating);
+            tv_extra_score.setText(String.valueOf(extra.getScore()));
+            tv_extra_num_of_plays.setText(String.valueOf(extra.getPlay_count()));
+            tv_extra_max_chain.setText(String.valueOf(extra.getMax_chain()));
+            tv_extra_num_of_full_chain.setText(String.valueOf(extra.getFull_chain()));
+            tv_extra_num_of_no_miss.setText(String.valueOf(extra.getNo_miss()));
+            tv_extra_rating.setText(extra.getRating());
 
-            if(extra.score == 1000000) {
+            if(extra.getScore() == 1000000) {
                 tv_extra_mark.setBackgroundResource(R.drawable.excellect_border);
                 tv_extra_mark.setText("EXCELLENT");
-            } else if(extra.full_chain > 0) {
+            } else if(extra.getFull_chain() > 0) {
                 tv_extra_mark.setBackgroundResource(R.drawable.full_chain_border);
                 tv_extra_mark.setText("FULL CHAIN");
-            } else if(extra.no_miss > 0) {
+            } else if(extra.getNo_miss() > 0) {
                 tv_extra_mark.setBackgroundResource(R.drawable.no_miss_border);
                 tv_extra_mark.setText("NO MISS");
-            } else if(extra.is_clear_mark.equals("true")) {
+            } else if(extra.getIs_clear_mark().equals("true")) {
                 tv_extra_mark.setBackgroundResource(R.drawable.clear_border);
                 tv_extra_mark.setText("CLEAR");
-            } else if(extra.is_failed_mark.equals("true")) {
+            } else if(extra.getIs_failed_mark().equals("true")) {
                 tv_extra_mark.setBackgroundResource(R.drawable.failed_border);
                 tv_extra_mark.setText("FAILED");
             }

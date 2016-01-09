@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
@@ -29,6 +30,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
             android:hint="@string/serial_no"
+            android:textColorHint="@color/dark_glay"
+            android:textColor="@color/black"
             android:inputType="number"
             android:maxLength="16" />
 
@@ -45,6 +48,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
             android:hint="@string/password"
+            android:textColorHint="@color/dark_glay"
+            android:textColor="@color/black"
             android:inputType="textVisiblePassword" />
 
     </android.support.design.widget.TextInputLayout>
@@ -53,6 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:textColor="@color/black"
         android:text="@string/login_attention" />
 
     <Button
@@ -62,5 +68,6 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:layout_gravity="center_horizontal"
+        android:textColor="@color/black"
         android:text="@string/login_button" />
 </LinearLayout>
