@@ -23,7 +23,7 @@ public class CustomProgressDialogFragment extends DialogFragment {
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle safedInstanceState) {
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
         int title = getArguments().getInt("title");
         int message = getArguments().getInt("message");
         int max = getArguments().getInt("max");

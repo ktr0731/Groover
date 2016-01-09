@@ -23,6 +23,7 @@ import com.syfm.groover.data.storage.SharedPreferenceHelper;
 import com.syfm.groover.presenters.adapter.MainFragmentPagerAdapter;
 import com.syfm.groover.presenters.adapter.MusicListAdapter;
 import com.syfm.groover.presenters.fragments.MusicListFragment;
+import com.syfm.groover.presenters.fragments.MusicSortDialogFragment;
 
 import java.util.List;
 import java.util.Map;
@@ -86,6 +87,21 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 1:
                         toolbar.inflateMenu(R.menu.menu_music_list);
+
+                        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                switch (item.getItemId()) {
+                                    case R.id.menu_music_list_sort:
+                                        MusicSortDialogFragment dialog = new MusicSortDialogFragment();
+                                        dialog.show(getFragmentManager(), "dialog-music-sort");
+                                        break;
+                                }
+
+                                return true;
+                            }
+                        });
+
                         // スクロールで移動したら検索を戻す
                         // FIXME: 下でも同じものを書いてるのでなんとなく行儀悪い
                         MusicListFragment fragment = (MusicListFragment) mainFragmentPagerAdapter.instantiateItem(pager, 1);

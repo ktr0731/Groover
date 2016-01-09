@@ -60,10 +60,12 @@
     <string name="tv_music_detail_num_of_full_chain">Num of FULL CHAIN</string>
     <string name="tv_music_detail_num_of_no_miss">Num of NO MISS</string>
 
-    <string name="tv_sort_asc">Asc</string>
-    <string name="tv_sort_desc">Desc</string>
-    <string name="tv_sort_music_name">Music name</string>
-
+    <string name="tv_music_sort_asc">Asc</string>
+    <string name="tv_music_sort_desc">Desc</string>
+    <string name="tv_music_sort_music_name">Music name</string>
+    <string name="tv_music_sort_last_played">Last played</string>
+    <string name="tv_music_sort_play_times">Play times</string>
+    <string name="tv_music_sort_category">Category</string>
 
 
 </resources>

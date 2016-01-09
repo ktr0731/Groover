@@ -15,4 +15,6 @@
     <color name="transparent_glay">#ddffffff</color>
 
     <color name="dialog_black">#666</color>
+
+    <color name="divider">#dedede</color>
 </resources>
