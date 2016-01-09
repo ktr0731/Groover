@@ -11,42 +11,33 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.activeandroid.query.Select;
 import com.android.volley.RequestQueue;
 import com.syfm.groover.R;
 import com.syfm.groover.data.network.AppController;
 import com.syfm.groover.data.storage.Const;
 import com.syfm.groover.data.storage.databases.MusicData;
-import com.syfm.groover.data.storage.databases.ResultData;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.realm.Realm;
-import io.realm.RealmList;
-import io.realm.RealmObject;
+import io.realm.RealmBaseAdapter;
+import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 /**
  * Created by lycoris on 2015/10/09.
  */
-public class MusicListAdapter extends ArrayAdapter<MusicData> {
-    private LayoutInflater inflater = null;
-    private RealmResults<MusicData> list;
-    private Context context;
-    private Realm realm = Realm.getInstance(AppController.getInstance());
+public class MusicListAdapter extends RealmBaseAdapter<MusicData> implements ListAdapter {
+    private Realm realm;
 
 
-    public MusicListAdapter(Context context, int resource, RealmResults<MusicData> list, RequestQueue queue) {
-        super(context, resource, list);
-        this.context = context;
-        this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.list = list;
+    public MusicListAdapter(Context context, int resource, RealmResults<MusicData> realmResults, Boolean autoUpdate) {
+        super(context, realmResults, autoUpdate);
+        realm = Realm.getInstance(AppController.getInstance());
     }
 
     @Override
@@ -74,7 +65,7 @@ public class MusicListAdapter extends ArrayAdapter<MusicData> {
          */
 
 
-        MusicData row = getItem(position);
+        MusicData row = realmResults.get(position);
 
         holder.tv_title.setText(row.getMusic_title());
         holder.tv_simple_rate.setText(row.getResult_data().get(0).getRating());
@@ -182,33 +173,38 @@ public class MusicListAdapter extends ArrayAdapter<MusicData> {
 
                 // FIXME: whereでPlace Holderが１つしか使えないので直す
                 // FIXME: UseCaseを経由するようにする
-                RealmResults<MusicData> musicFilterData = realm.where(MusicData.class).contains(Const.MUSIC_LIST_MUSIC_TITLE, constraint.toString()).findAll();
-                //List<MusicData> musicFilterData = new Select().from(MusicData.class).where(Const.MUSIC_LIST_MUSIC_TITLE + " like ?", "%" + constraint.toString() + "%").orderBy("Id desc").execute();
-
-                results.count = musicFilterData.size();
-                results.values = musicFilterData;
-
-                Log.d("Unko", "unko:" + list.size());
+//                realm.beginTransaction();
+//                RealmQuery<MusicData> query = realm.where(MusicData.class);
+//                RealmResults<MusicData> musicFilterData = query.equalTo(Const.MUSIC_LIST_MUSIC_TITLE, "聖者の息吹").findAll();
+//                //List<MusicData> musicFilterData = new Select().from(MusicData.class).where(Const.MUSIC_LIST_MUSIC_TITLE + " like ?", "%" + constraint.toString() + "%").orderBy("Id desc").execute();
+//                realm.commitTransaction();
+//
+//                results.count = musicFilterData.size();
+//                results.values = musicFilterData;
 
                 return results;
             }
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                    RealmResults<MusicData> items = (RealmResults<MusicData>) results.values;
 
-                    clear();
-                    addAll(items);
-                    notifyDataSetChanged();
+                realm.beginTransaction();
+
+                RealmQuery<MusicData> query = realm.where(MusicData.class).contains(Const.MUSIC_LIST_MUSIC_TITLE, constraint.toString());
+                RealmResults<MusicData> items = query.findAll();
+                realmResults = items;
+                if(realmResults!=null&&!realmResults.isEmpty()) {
+                    for(MusicData e : realmResults)
+                    Log.d("Unko", e.getMusic_title());
+                }
+                realm.commitTransaction();
+                notifyDataSetChanged();
             }
 
         };
     }
 
-    public void reset() {
-        list.clear();
-        //List<MusicData> musicFilterData = new Select().from(MusicData.class).orderBy("Id desc").execute();
-        list = realm.where(MusicData.class).findAll();
-        notifyDataSetChanged();
+    public RealmResults<MusicData> getRealmResults() {
+        return realmResults;
     }
 }

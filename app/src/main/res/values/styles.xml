@@ -3,8 +3,6 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="android:textColor">@color/dark_glay</item>
-        <item name="android:textColorHint">@color/dark_glay</item>
     </style>
 
 </resources>

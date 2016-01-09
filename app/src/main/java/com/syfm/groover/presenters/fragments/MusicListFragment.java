@@ -97,7 +97,7 @@ public class MusicListFragment extends Fragment {
         if(event.musicData == null) {
             return;
         }
-        adapter = new MusicListAdapter(getActivity(), 0, event.musicData, AppController.getInstance().getRequestQueue());
+        adapter = new MusicListAdapter(getActivity(), 0, event.musicData, true);
         listView.setAdapter(adapter);
     }
 
@@ -106,7 +106,4 @@ public class MusicListFragment extends Fragment {
         adapter.getFilter().filter(keyword);
     }
 
-    public void resetMusic() {
-        adapter.reset();
-    }
 }

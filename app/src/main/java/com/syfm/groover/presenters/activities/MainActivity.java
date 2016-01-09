@@ -102,10 +102,6 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
 
-                        // スクロールで移動したら検索を戻す
-                        // FIXME: 下でも同じものを書いてるのでなんとなく行儀悪い
-                        MusicListFragment fragment = (MusicListFragment) mainFragmentPagerAdapter.instantiateItem(pager, 1);
-                        fragment.resetMusic();
                         // TODO: textColor等の変更
                         searchView = (SearchView) toolbar.getMenu().findItem(R.id.menu_music_list_search).getActionView();
 

@@ -264,8 +264,8 @@ public class ApiClient {
 
                                     for (MusicListEntity row : list) {
                                         i++;
-                                        if (i > 50) break;
-                                        fetchMusicDetail(row, list.indexOf(row), 50 - 1); //実際はlist.size() -1
+                                        if (i > 3) break;
+                                        fetchMusicDetail(row, list.indexOf(row), 3 - 1); //実際はlist.size() -1
                                     }
 
                                 } catch (JSONException e) {
