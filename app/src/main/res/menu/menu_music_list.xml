@@ -6,6 +6,7 @@
         android:id="@+id/menu_music_list_search"
         android:icon="@android:drawable/ic_menu_search"
         android:title="@string/toolbar_music_list_search"
+        android:actionLayout="@layout/custom_search_view"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always" />
 

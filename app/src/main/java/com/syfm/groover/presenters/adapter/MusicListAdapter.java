@@ -17,14 +17,12 @@ import android.widget.TextView;
 import com.activeandroid.query.Select;
 import com.android.volley.RequestQueue;
 import com.syfm.groover.R;
-import com.syfm.groover.data.network.CustomImageLoader;
 import com.syfm.groover.data.storage.Const;
 import com.syfm.groover.data.storage.databases.MusicData;
 import com.syfm.groover.data.storage.databases.ResultData;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SortedSet;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -54,7 +52,7 @@ public class MusicListAdapter extends ArrayAdapter<List<ResultData>> {
             //使いまわすとデータが残ってしまうものがあるので毎回消す。
             clearSetData(holder);
         } else {
-            view = inflater.inflate(R.layout.music_row, parent, false);
+            view = inflater.inflate(R.layout.row_music_list, parent, false);
             holder = new ViewHolder(view);
             view.setTag(holder);
         }

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.syfm.groover.R;
@@ -87,10 +88,10 @@ public class MainActivity extends AppCompatActivity {
                         toolbar.inflateMenu(R.menu.menu_music_list);
                         // スクロールで移動したら検索を戻す
                         // FIXME: 下でも同じものを書いてるのでなんとなく行儀悪い
-                        MusicListFragment fragment = (MusicListFragment)mainFragmentPagerAdapter.instantiateItem(pager, 1);
+                        MusicListFragment fragment = (MusicListFragment) mainFragmentPagerAdapter.instantiateItem(pager, 1);
                         fragment.resetMusic();
                         // TODO: textColor等の変更
-                        searchView = (SearchView)toolbar.getMenu().findItem(R.id.menu_music_list_search).getActionView();
+                        searchView = (SearchView) toolbar.getMenu().findItem(R.id.menu_music_list_search).getActionView();
 
                         searchView.setQueryHint("Music Name...");
                         searchView.setMinimumWidth(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public boolean onQueryTextChange(String newText) {
                                 // TODO: マジックナンバーの定数化
-                                MusicListFragment fragment = (MusicListFragment)mainFragmentPagerAdapter.instantiateItem(pager, 1);
+                                MusicListFragment fragment = (MusicListFragment) mainFragmentPagerAdapter.instantiateItem(pager, 1);
                                 fragment.searchMusic(newText);
                                 return false;
                             }
@@ -161,13 +162,4 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
-    /*
-    public void onEvent(PlayDataUseCase.SetPlayData event) {
-        if (event.success) {
-            Log.d("Unko", "SetPlayDataSuccess");
-        } else {
-            Log.d("Unko", "SetPlayDataError");
-        }
-    }*/
-
 }

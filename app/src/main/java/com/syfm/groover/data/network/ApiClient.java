@@ -60,14 +60,12 @@ public class ApiClient {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("Unko", response.toString());
                         listener.onFailure();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("Unko", error.networkResponse.toString());
                         listener.onSuccess();
                     }
                 }) {
@@ -115,7 +113,6 @@ public class ApiClient {
         } catch (Exception e) {
             //エラー処理
             playDataCallback.isSuccess(false);
-            Log.d("UnkoException", e.toString());
         }
     }
 
@@ -126,7 +123,6 @@ public class ApiClient {
                             @Override
                             public void onResponse(JSONObject response) {
                                 try {
-                                    Log.d("Unko", response.getJSONObject("player_data").toString());
                                     JSONObject object = response.getJSONObject("player_data");
                                     PlayerData playerData = gson.fromJson(object.toString(), PlayerData.class);
                                     if (playerData != null) {
@@ -277,7 +273,6 @@ public class ApiClient {
 
     public void fetchMusicDetail(final MusicListEntity music, final int count, final int size) {
         final String url = "https://mypage.groovecoaster.jp/sp/json/music_detail.php?music_id=";
-        Log.d("Unko", count + "番目 delay:" + 2000 * count + ", URL:" + url + music.music_id);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -330,7 +325,6 @@ public class ApiClient {
                                             }
 
                                             List<UserRank> ranks = MusicData.getAllRank(data);
-                                            Log.d("Unko", ranks.get(0).rank + ", " + ranks.get(1).rank + ", " + ranks.get(2).rank + ", " + ranks.get(3).rank);
 
                                             fetchMusicThumbnail(music.music_id, data, count, size);
                                         } catch (JSONException e) {
@@ -353,12 +347,10 @@ public class ApiClient {
 
     public void fetchMusicThumbnail(String id, final MusicData musicData, final int count, final int maxSize) {
         final String url = "https://mypage.groovecoaster.jp/sp/music/music_image.php?music_id=";
-        Log.d("Unko", "画像取得: " + id);
         AppController.getInstance().addToRequestQueue(new ImageRequest(url + id,
                         new Response.Listener<Bitmap>() {
                             @Override
                             public void onResponse(Bitmap response) {
-                                Log.d("Unko", "画像きたー");
 
                                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                                 response.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -367,11 +359,7 @@ public class ApiClient {
                                 musicData.music_thumbnail = bytes;
                                 musicData.save();
 
-                                Log.d("Unko", "Size: " + count + " max: " + maxSize);
-
                                 if (maxSize == count) {
-                                    Log.d("Unko", "おわり");
-                                    Log.d("Unko", "ばるくおわり");
                                     ActiveAndroid.endTransaction();
                                     musicDataCallback.isSuccess(true);
                                 }

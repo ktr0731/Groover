@@ -30,4 +30,7 @@
     <dimen name="music_detail_mark_padding_other">10dp</dimen>
     <dimen name="music_detail_fab_margin">8dp</dimen>
 
+    <dimen name="dialog_radio_padding">20dp</dimen>
+    <dimen name="dialog_radio_item_margin">10dp</dimen>
+
 </resources>
