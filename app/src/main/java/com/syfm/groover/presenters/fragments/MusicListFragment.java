@@ -101,6 +101,10 @@ public class MusicListFragment extends Fragment {
         listView.setAdapter(adapter);
     }
 
+    // sort dialogからの通知
+    public void onEventMainThread() {
+
+    }
 
     public void searchMusic(String keyword) {
         adapter.getFilter().filter(keyword);

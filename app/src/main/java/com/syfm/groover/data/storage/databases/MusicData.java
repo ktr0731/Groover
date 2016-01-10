@@ -93,42 +93,4 @@ public class MusicData extends RealmObject {
         this.user_rank = user_rank;
     }
 
-
-
-//    public List<ResultData> result() {
-//        return getMany(ResultData.class, Const.TABLE_NAME_MUSIC_DATA);
-//    }
-//
-//    public List<UserRank> rank() {
-//        return getMany(UserRank.class, Const.TABLE_NAME_MUSIC_DATA);
-//    }
-//
-//    public static MusicData getMusicDataSingle(int id) {
-//        return new Select()
-//                .from(MusicData.class)
-//                .where(Const.MUSIC_LIST_MUSIC_ID + " = ?", id)
-//                .executeSingle();
-//    }
-//
-//    public static List<ResultData> getAllResultData(MusicData musicData) {
-//        return new Select()
-//                .from(ResultData.class)
-//                .where(Const.TABLE_NAME_MUSIC_DATA + " = ?", musicData.getId())
-//                .orderBy("Id asc")
-//                .execute();
-//    }
-//
-//    public static List<UserRank> getAllRank(MusicData musicData) {
-//        return new Select()
-//                .from(UserRank.class)
-//                .where(Const.TABLE_NAME_MUSIC_DATA + " = ?", musicData.getId())
-//                .orderBy("Id asc")
-//                .execute();
-//    }
-//
-//
-//    public MusicData() {
-//        super();
-//    }
-
 }

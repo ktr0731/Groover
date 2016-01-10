@@ -3,11 +3,8 @@ package com.syfm.groover.presenters.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,7 +12,6 @@ import android.widget.ListAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
 import com.syfm.groover.R;
 import com.syfm.groover.data.network.AppController;
 import com.syfm.groover.data.storage.Const;
@@ -23,6 +19,7 @@ import com.syfm.groover.data.storage.databases.MusicData;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmBaseAdapter;
 import io.realm.RealmQuery;
@@ -45,7 +42,7 @@ public class MusicListAdapter extends RealmBaseAdapter<MusicData> implements Lis
         final String url = "https://mypage.groovecoaster.jp/sp/music/music_image.php?music_id=";
         ViewHolder holder;
 
-        if(view != null) {
+        if (view != null) {
             holder = (ViewHolder) view.getTag();
             //使いまわすとデータが残ってしまうものがあるので毎回消す。
             clearSetData(holder);
@@ -76,7 +73,7 @@ public class MusicListAdapter extends RealmBaseAdapter<MusicData> implements Lis
         holder.tv_hard_score.setText(String.valueOf(row.getResult_data().get(2).getScore()));
 
         //Extraを表示させるか
-        if(row.getEx_flag() == 1) {
+        if (row.getEx_flag() == 1) {
             holder.ll_extra.setVisibility(View.VISIBLE);
             holder.tv_extra_rate.setText(row.getResult_data().get(3).getRating());
             holder.tv_extra_score.setText(String.valueOf(row.getResult_data().get(3).getScore()));
@@ -85,22 +82,22 @@ public class MusicListAdapter extends RealmBaseAdapter<MusicData> implements Lis
         //FullChainを表示させるか (fullchainはFullChainした回数)
         if (row.getResult_data().get(0).getFull_chain() > 0) {
             holder.tv_simple_score.setBackgroundResource(R.drawable.full_chain_border);
-        } else if(row.getResult_data().get(0).getNo_miss() > 0) {
+        } else if (row.getResult_data().get(0).getNo_miss() > 0) {
             holder.tv_simple_score.setBackgroundResource(R.drawable.no_miss_border);
         }
         if (row.getResult_data().get(1).getFull_chain() > 0) {
             holder.tv_normal_score.setBackgroundResource(R.drawable.full_chain_border);
-        } else if(row.getResult_data().get(1).getNo_miss() > 0) {
+        } else if (row.getResult_data().get(1).getNo_miss() > 0) {
             holder.tv_normal_score.setBackgroundResource(R.drawable.no_miss_border);
         }
         if (row.getResult_data().get(2).getFull_chain() > 0) {
             holder.tv_hard_score.setBackgroundResource(R.drawable.full_chain_border);
-        } else if(row.getResult_data().get(2).getNo_miss() > 0) {
+        } else if (row.getResult_data().get(2).getNo_miss() > 0) {
             holder.tv_hard_score.setBackgroundResource(R.drawable.no_miss_border);
         }
         if (row.getResult_data().get(3).getFull_chain() > 0 && row.getEx_flag() == 1) {
             holder.tv_extra_score.setBackgroundResource(R.drawable.full_chain_border);
-        } else if(row.getResult_data().get(3).getNo_miss() > 0 && row.getEx_flag() == 1) {
+        } else if (row.getResult_data().get(3).getNo_miss() > 0 && row.getEx_flag() == 1) {
             holder.tv_extra_score.setBackgroundResource(R.drawable.no_miss_border);
         }
 
@@ -163,7 +160,7 @@ public class MusicListAdapter extends RealmBaseAdapter<MusicData> implements Lis
     }
 
     // 検索用にオーバーライド
-    public Filter getFilter()  {
+    public Filter getFilter() {
         return new Filter() {
 
             @Override
@@ -173,6 +170,7 @@ public class MusicListAdapter extends RealmBaseAdapter<MusicData> implements Lis
 
                 // FIXME: whereでPlace Holderが１つしか使えないので直す
                 // FIXME: UseCaseを経由するようにする
+                // 呼ばれてない?
 //                realm.beginTransaction();
 //                RealmQuery<MusicData> query = realm.where(MusicData.class);
 //                RealmResults<MusicData> musicFilterData = query.equalTo(Const.MUSIC_LIST_MUSIC_TITLE, "聖者の息吹").findAll();
@@ -190,13 +188,9 @@ public class MusicListAdapter extends RealmBaseAdapter<MusicData> implements Lis
 
                 realm.beginTransaction();
 
-                RealmQuery<MusicData> query = realm.where(MusicData.class).contains(Const.MUSIC_LIST_MUSIC_TITLE, constraint.toString());
+                RealmQuery<MusicData> query = realm.where(MusicData.class).contains(Const.MUSIC_LIST_MUSIC_TITLE, constraint.toString(), Case.INSENSITIVE);
                 RealmResults<MusicData> items = query.findAll();
                 realmResults = items;
-                if(realmResults!=null&&!realmResults.isEmpty()) {
-                    for(MusicData e : realmResults)
-                    Log.d("Unko", e.getMusic_title());
-                }
                 realm.commitTransaction();
                 notifyDataSetChanged();
             }
