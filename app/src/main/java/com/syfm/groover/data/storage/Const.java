@@ -83,6 +83,8 @@ public class Const {
     public final static String MUSIC_SORT_PLAY_TIMES = "Play times";
     public final static String MUSIC_SORT_CATEGORY = "Category";
 
+    public final static String INTENT_MUSIC_ID = "music_id";
+
     //インスタンス化を禁止
     private Const() {}
 

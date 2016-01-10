@@ -1,19 +1,27 @@
 package com.syfm.groover.presenters.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.syfm.groover.R;
+import com.syfm.groover.business.usecases.PlayDataUseCase;
+import com.syfm.groover.data.storage.Const;
 import com.syfm.groover.presenters.adapter.MusicDetailFragmentPagerAdapter;
+import com.syfm.groover.presenters.fragments.MusicDetailFragment;
+
+import java.net.URISyntaxException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by lycoris on 2015/10/12.
@@ -43,6 +51,28 @@ public class MusicDetailActivity extends AppCompatActivity {
 
         toolbar.setTitle(getResources().getString(R.string.app_name));
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white));
+
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //EventBus.getDefault().register(this);
+        new PlayDataUseCase().getPlayData();
+    }
+
+    @Override
+    public void onStop() {
+        //EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 
 }

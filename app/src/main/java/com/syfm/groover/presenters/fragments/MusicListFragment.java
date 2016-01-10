@@ -4,12 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -17,11 +13,8 @@ import android.widget.ListView;
 
 import com.syfm.groover.R;
 import com.syfm.groover.business.usecases.MusicDataUseCase;
-import com.syfm.groover.business.usecases.PlayDataUseCase;
-import com.syfm.groover.data.network.AppController;
 import com.syfm.groover.data.storage.Const;
 import com.syfm.groover.data.storage.databases.MusicData;
-import com.syfm.groover.data.storage.databases.ResultData;
 import com.syfm.groover.presenters.activities.MusicDetailActivity;
 import com.syfm.groover.presenters.adapter.MusicListAdapter;
 
@@ -29,7 +22,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.OnItemClick;
 import de.greenrobot.event.EventBus;
 
@@ -92,10 +84,8 @@ public class MusicListFragment extends Fragment {
         bundle.putInt("music_id", item.getMusic_id());
 
         Intent i = new Intent(getActivity(), MusicDetailActivity.class);
-        getActivity().startActivityForResult(i, 0);
-        //MusicDetailDialogFragment dialogFragment = new MusicDetailDialogFragment();
-        //dialogFragment.setArguments(bundle);
-        //dialogFragment.show(getFragmentManager(), "musicDetailDialogFragment");
+        i.putExtra(Const.INTENT_MUSIC_ID, item.getMusic_id());
+        startActivity(i);
     }
 
     public void onEventMainThread(MusicDataUseCase.MusicDataEvent event) {
