@@ -6,4 +6,8 @@
         <item>Ranking</item>
         <item>Event</item>
     </string-array>
+    <string-array name="tab_name_music_detail">
+        <item>Music</item>
+        <item>Ranking</item>
+    </string-array>
 </resources>

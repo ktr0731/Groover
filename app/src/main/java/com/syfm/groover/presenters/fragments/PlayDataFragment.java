@@ -76,9 +76,6 @@ public class PlayDataFragment extends Fragment {
     @Bind(R.id.tv_music_result_sss_per)
     TextView music_sss_per;
 
-    private Toolbar toolbar;
-    private FragmentPagerAdapter adapter;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,17 +83,8 @@ public class PlayDataFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup group, Bundle savedInstanceState) {
-        Bundle bundle = getArguments();
-        int position = 0;
-        String[] tab_name = getResources().getStringArray(R.array.tab_name);
-
-        if (bundle != null) {
-            position = bundle.getInt("position");
-        }
-
         View view = inflater.inflate(R.layout.fragment_play_data, group, false);
         ButterKnife.bind(this, view);
-
 
         return view;
     }

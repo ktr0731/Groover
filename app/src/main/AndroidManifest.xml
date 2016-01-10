@@ -30,6 +30,11 @@
             android:name=".presenters.activities.LoginActivity"
             android:theme="@style/Theme.AppCompat.Light"
             android:label="@string/app_name"></activity>
+
+        <activity
+            android:name=".presenters.activities.MusicDetailActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:label="@string/app_name"></activity>
     </application>
 
 </manifest>

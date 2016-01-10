@@ -1,5 +1,6 @@
 package com.syfm.groover.presenters.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -21,6 +22,7 @@ import com.syfm.groover.data.network.AppController;
 import com.syfm.groover.data.storage.Const;
 import com.syfm.groover.data.storage.databases.MusicData;
 import com.syfm.groover.data.storage.databases.ResultData;
+import com.syfm.groover.presenters.activities.MusicDetailActivity;
 import com.syfm.groover.presenters.adapter.MusicListAdapter;
 
 import java.util.List;
@@ -89,9 +91,11 @@ public class MusicListFragment extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putInt("music_id", item.getMusic_id());
 
-        MusicDetailDialogFragment dialogFragment = new MusicDetailDialogFragment();
-        dialogFragment.setArguments(bundle);
-        dialogFragment.show(getFragmentManager(), "musicDetailDialogFragment");
+        Intent i = new Intent(getActivity(), MusicDetailActivity.class);
+        getActivity().startActivityForResult(i, 0);
+        //MusicDetailDialogFragment dialogFragment = new MusicDetailDialogFragment();
+        //dialogFragment.setArguments(bundle);
+        //dialogFragment.show(getFragmentManager(), "musicDetailDialogFragment");
     }
 
     public void onEventMainThread(MusicDataUseCase.MusicDataEvent event) {
