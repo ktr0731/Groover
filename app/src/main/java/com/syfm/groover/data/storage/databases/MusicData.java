@@ -17,6 +17,7 @@ public class MusicData extends RealmObject {
     private String skin_name;
     private String last_play_time;
     private byte[] music_thumbnail;
+    private int play_count;
 
     private RealmList<ResultData> result_data;
     private RealmList<UserRank> user_rank;
@@ -93,4 +94,11 @@ public class MusicData extends RealmObject {
         this.user_rank = user_rank;
     }
 
+    public int getPlay_count() {
+        return play_count;
+    }
+
+    public void setPlay_count(int play_count) {
+        this.play_count = play_count;
+    }
 }

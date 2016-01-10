@@ -78,6 +78,11 @@ public class Const {
 
     public final static String MUSIC_THUMBNAIL = "music_thumbnail";
 
+    public final static String MUSIC_SORT_MUSIC_NAME = "Music name";
+    public final static String MUSIC_SORT_LAST_PLAYED = "Last played";
+    public final static String MUSIC_SORT_PLAY_TIMES = "Play times";
+    public final static String MUSIC_SORT_CATEGORY = "Category";
+
     //インスタンス化を禁止
     private Const() {}
 

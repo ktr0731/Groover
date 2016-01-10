@@ -18,6 +18,7 @@ import com.syfm.groover.R;
 import com.syfm.groover.business.usecases.MusicDataUseCase;
 import com.syfm.groover.business.usecases.PlayDataUseCase;
 import com.syfm.groover.data.network.AppController;
+import com.syfm.groover.data.storage.Const;
 import com.syfm.groover.data.storage.databases.MusicData;
 import com.syfm.groover.data.storage.databases.ResultData;
 import com.syfm.groover.presenters.adapter.MusicListAdapter;
@@ -102,8 +103,8 @@ public class MusicListFragment extends Fragment {
     }
 
     // sort dialogからの通知
-    public void onEventMainThread() {
-
+    public void onEventMainThread(List<String> params) {
+        adapter.sortList(params);
     }
 
     public void searchMusic(String keyword) {

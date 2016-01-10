@@ -17,6 +17,9 @@ import com.syfm.groover.data.network.AppController;
 import com.syfm.groover.data.storage.Const;
 import com.syfm.groover.data.storage.databases.MusicData;
 
+import java.util.List;
+import java.util.SortedSet;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.realm.Case;
@@ -24,6 +27,7 @@ import io.realm.Realm;
 import io.realm.RealmBaseAdapter;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by lycoris on 2015/10/09.
@@ -196,6 +200,36 @@ public class MusicListAdapter extends RealmBaseAdapter<MusicData> implements Lis
             }
 
         };
+    }
+
+    public void sortList(List<String> params) {
+        String tmp = params.get(1);
+        Sort sort = null;
+        if(tmp == "asc") {
+            sort = Sort.ASCENDING;
+        } else {
+            sort = Sort.DESCENDING;
+        }
+
+        realm.beginTransaction();
+        switch (params.get(0).toString()) {
+            case Const.MUSIC_SORT_MUSIC_NAME:
+                realmResults.sort(Const.MUSIC_LIST_MUSIC_TITLE, sort);
+                break;
+            case Const.MUSIC_SORT_LAST_PLAYED:
+                realmResults.sort(Const.MUSIC_LIST_LAST_PLAY_TIME, sort);
+                break;
+            case Const.MUSIC_SORT_PLAY_TIMES:
+                realmResults.sort(Const.MUSIC_LIST_PLAY_COUNT, sort);
+                break;
+            case Const.MUSIC_SORT_CATEGORY:
+                // TODO: カテゴリを入手する
+                break;
+
+        }
+
+        realm.commitTransaction();
+        notifyDataSetChanged();
     }
 
     public RealmResults<MusicData> getRealmResults() {

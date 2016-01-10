@@ -264,8 +264,8 @@ public class ApiClient {
 
                                     for (MusicListEntity row : list) {
                                         i++;
-                                        if (i > 3) break;
-                                        fetchMusicDetail(row, list.indexOf(row), 3 - 1); //実際はlist.size() -1
+                                        if (i > 10) break;
+                                        fetchMusicDetail(row, list.indexOf(row), 10 - 1); //実際はlist.size() -1
                                     }
 
                                 } catch (JSONException e) {
@@ -312,6 +312,7 @@ public class ApiClient {
                                             realm.beginTransaction();
                                             MusicData data = realm.createObjectFromJson(MusicData.class, object.toString());
                                             data.setLast_play_time(music.last_play_time);
+                                            data.setPlay_count(music.play_count);
 
                                             // 各難易度をMusicDataの子としてインサート
                                             // 要素にNULLがあると挙動がおかしくなるので気をつける
@@ -346,6 +347,7 @@ public class ApiClient {
 
 
                                         } catch (JSONException e) {
+                                            realm.cancelTransaction();
                                             Log.d("JSONException", e.toString());
                                         }
 
@@ -371,7 +373,7 @@ public class ApiClient {
                             public void onResponse(Bitmap response) {
 
                                 if(response == null) {
-                                    realm.commitTransaction();
+                                    realm.cancelTransaction();
                                     return;
                                 }
 

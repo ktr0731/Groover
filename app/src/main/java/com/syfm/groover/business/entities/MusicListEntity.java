@@ -8,4 +8,5 @@ package com.syfm.groover.business.entities;
 public class MusicListEntity {
     public String music_id;
     public String last_play_time;
+    public int play_count;
 }
