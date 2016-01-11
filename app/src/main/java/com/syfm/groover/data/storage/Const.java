@@ -85,6 +85,8 @@ public class Const {
 
     public final static String INTENT_MUSIC_ID = "music_id";
 
+    public final static String MUSIC_SCORE_RANKING_RANK = "rank";
+
     //インスタンス化を禁止
     private Const() {}
 

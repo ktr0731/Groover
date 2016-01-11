@@ -5,8 +5,6 @@ import android.os.Handler;
 import android.text.format.DateFormat;
 import android.util.Log;
 
-import com.activeandroid.ActiveAndroid;
-import com.activeandroid.query.Select;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -18,6 +16,8 @@ import com.syfm.groover.business.entities.MusicListEntity;
 import com.syfm.groover.data.storage.Const;
 import com.syfm.groover.data.storage.databases.AverageScore;
 import com.syfm.groover.data.storage.databases.MusicData;
+import com.syfm.groover.data.storage.databases.ScoreRank;
+import com.syfm.groover.data.storage.databases.ScoreRankData;
 import com.syfm.groover.data.storage.databases.PlayerData;
 import com.syfm.groover.data.storage.databases.ResultData;
 import com.syfm.groover.data.storage.databases.ShopSalesData;
@@ -30,7 +30,6 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.EventListener;
@@ -127,7 +126,6 @@ public class ApiClient {
                             public void onResponse(JSONObject response) {
                                 try {
                                     JSONObject object = response.getJSONObject("player_data");
-                                    //PlayerData playerData = gson.fromJson(object.toString(), PlayerData.class);
                                     if (object.toString() == null) {
                                         return;
                                     }
@@ -163,7 +161,6 @@ public class ApiClient {
                                 realm.beginTransaction();
                                 realm.createObjectFromJson(ShopSalesData.class, response.toString());
                                 realm.commitTransaction();
-                                //ShopSalesData shopData = gson.fromJson(response.toString(), ShopSalesData.class);
 
                             }
                         },
@@ -185,7 +182,6 @@ public class ApiClient {
                                 Log.d("getAverageScoreResponse", response.toString());
                                 try {
                                     JSONObject object = response.getJSONObject("average");
-                                    //AverageScore averageScore = gson.fromJson(object.toString(), AverageScore.class);
                                     if (object.toString() == null) {
                                         return;
                                     }
@@ -216,7 +212,6 @@ public class ApiClient {
                                 Log.d("getStageDataResponse", response.toString());
                                 try {
                                     JSONObject object = response.getJSONObject("stage");
-                                    //StageData stageData = gson.fromJson(object.toString(), StageData.class);
                                     if (object.toString() == null) {
                                         return;
                                     }
@@ -241,7 +236,13 @@ public class ApiClient {
 
     public void fetchAllMusicData(MusicDataCallback callback) {
         this.musicDataCallback = callback;
-        fetchMusicData();
+
+        handler.post(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                fetchMusicData();
+            }
+        }));
 
     }
 
@@ -262,10 +263,21 @@ public class ApiClient {
                                     List<MusicListEntity> list = gson.fromJson(array.toString(), collectionType);
                                     int i = 0;
 
-                                    for (MusicListEntity row : list) {
+                                    for (final MusicListEntity row : list) {
                                         i++;
                                         if (i > 10) break;
                                         fetchMusicDetail(row, list.indexOf(row), 10 - 1); //実際はlist.size() -1
+
+                                        // TODO: ランキングの取得
+//                                        for (int j = 0; j < 4; j++) {
+//                                            String id = String.valueOf(row.getMusic_id());
+//                                            if(100 - row.getMusic_id() > 0) {
+//                                                id = "0" + id;
+//                                            }
+//                                            fetchScoreRanking(id, j);
+//                                        }
+
+
                                     }
 
                                 } catch (JSONException e) {
@@ -287,18 +299,15 @@ public class ApiClient {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url + music.music_id,
+                AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url + music.getMusic_id(),
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
-                                        Log.d("getMusicDetailResponse", response.toString());
 
                                         try {
                                             JSONObject object = response.getJSONObject("music_detail");
 
-                                            //MusicData data = gson.fromJson(object.toString(), MusicData.class);
-
-                                            if(object.toString()==null) {
+                                            if (object.length() <= 0) {
                                                 return;
                                             }
 
@@ -310,27 +319,23 @@ public class ApiClient {
                                             userRankJsonReplaceNull(object.getJSONArray("user_rank"));
 
                                             realm.beginTransaction();
+
                                             MusicData data = realm.createObjectFromJson(MusicData.class, object.toString());
-                                            data.setLast_play_time(music.last_play_time);
-                                            data.setPlay_count(music.play_count);
+                                            data.setLast_play_time(music.getLast_play_time());
+                                            data.setPlay_count(music.getPlay_count());
 
                                             // 各難易度をMusicDataの子としてインサート
                                             // 要素にNULLがあると挙動がおかしくなるので気をつける
 
-                                            //ResultData resultSimple = gson.fromJson(object.getJSONObject("simple_result_data").toString(), ResultData.class);
-
                                             ResultData resultSimple = realm.createObjectFromJson(ResultData.class, object.getJSONObject("simple_result_data").toString());
                                             data.getResult_data().add(resultSimple);
 
-                                            //ResultData resultNormal = gson.fromJson(object.getJSONObject("normal_result_data").toString(), ResultData.class);
                                             ResultData resultNormal = realm.createObjectFromJson(ResultData.class, object.getJSONObject("normal_result_data").toString());
                                             data.getResult_data().add(resultNormal);
 
-                                            //ResultData resultHard = gson.fromJson(object.getJSONObject("hard_result_data").toString(), ResultData.class);
                                             ResultData resultHard = realm.createObjectFromJson(ResultData.class, object.getJSONObject("hard_result_data").toString());
                                             data.getResult_data().add(resultHard);
 
-                                            //ResultData resultExtra = gson.fromJson(object.getJSONObject("extra_result_data").toString(), ResultData.class);
                                             ResultData resultExtra = realm.createObjectFromJson(ResultData.class, object.getJSONObject("extra_result_data").toString());
                                             data.getResult_data().add(resultExtra);
 
@@ -342,9 +347,7 @@ public class ApiClient {
                                                 data.getUser_rank().add(userRank);
                                             }
 
-
-                                            fetchMusicThumbnail(music.music_id, data, count, size);
-
+                                            fetchMusicThumbnail(music.getMusic_id(), data, count, size);
 
                                         } catch (JSONException e) {
                                             realm.cancelTransaction();
@@ -365,14 +368,14 @@ public class ApiClient {
 
     }
 
-    public void fetchMusicThumbnail(String id, final MusicData musicData, final int count, final int maxSize) {
+    public void fetchMusicThumbnail(int id, final MusicData musicData, final int count, final int maxSize) {
         final String url = "https://mypage.groovecoaster.jp/sp/music/music_image.php?music_id=";
         AppController.getInstance().addToRequestQueue(new ImageRequest(url + id,
                         new Response.Listener<Bitmap>() {
                             @Override
                             public void onResponse(Bitmap response) {
 
-                                if(response == null) {
+                                if (response == null) {
                                     realm.cancelTransaction();
                                     return;
                                 }
@@ -383,7 +386,6 @@ public class ApiClient {
 
                                 musicData.setMusic_thumbnail(bytes);
                                 realm.commitTransaction();
-
                                 if (maxSize == count) {
                                     musicDataCallback.isSuccess(true);
                                 }
@@ -394,10 +396,63 @@ public class ApiClient {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Log.d("getMusicDetailError", error.toString());
+                                realm.cancelTransaction();
                             }
                         })
         );
 
+    }
+
+    public void fetchScoreRanking(final String id, final int diff) {
+        final String url = "https://mypage.groovecoaster.jp/sp/json/score_ranking_bymusic_bydifficulty.php?music_id=" + id + "&difficulty=" + diff;
+
+        AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    JSONArray object = response.getJSONArray("score_rank");
+                                    if (object.length() <= 0) {
+                                        return;
+                                    }
+
+                                    realm.beginTransaction();
+                                    ScoreRank scoreRank = realm.createObject(ScoreRank.class);
+                                    scoreRank.setMusic_id(Integer.parseInt(id));
+                                    for (int i = 0; i < 5; i++) {
+                                        ScoreRankData item = realm.createObjectFromJson(ScoreRankData.class, object.getJSONObject(i));
+                                        switch (diff) {
+                                            case 0:
+                                                scoreRank.getSimple_rank().add(item);
+                                                break;
+                                            case 1:
+                                                scoreRank.getNormal_rank().add(item);
+                                                break;
+                                            case 2:
+                                                scoreRank.getHard_rank().add(item);
+                                                break;
+                                            case 3:
+                                                scoreRank.getExtra_rank().add(item);
+                                                break;
+                                        }
+                                    }
+
+                                    realm.commitTransaction();
+
+                                } catch (JSONException e) {
+                                    Log.d("JSONException", "at id:" + id + " diff:" + diff + " " + e.toString());
+                                    realm.cancelTransaction();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // extraがなかった
+                                Log.d("MusicRankingError", "at id:" + id + " diff:" + diff + " " + error.toString());
+                            }
+                        })
+        );
     }
 
     public interface LoginListener extends EventListener {

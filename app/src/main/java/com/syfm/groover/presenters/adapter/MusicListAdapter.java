@@ -35,7 +35,6 @@ import io.realm.Sort;
 public class MusicListAdapter extends RealmBaseAdapter<MusicData> implements ListAdapter {
     private Realm realm;
 
-
     public MusicListAdapter(Context context, int resource, RealmResults<MusicData> realmResults, Boolean autoUpdate) {
         super(context, realmResults, autoUpdate);
         realm = Realm.getInstance(AppController.getInstance());

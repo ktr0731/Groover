@@ -67,5 +67,9 @@
     <string name="tv_music_sort_play_times">Play times</string>
     <string name="tv_music_sort_category">Category</string>
 
+    <string name="tv_music_detail_ranking_score">Score</string>
+    <string name="tv_music_detail_ranking_area">Area</string>
+    <string name="tv_music_detail_ranking_arcade">Arcade</string>
+
 
 </resources>

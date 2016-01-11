@@ -21,6 +21,7 @@ import java.net.URISyntaxException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -34,6 +35,14 @@ public class MusicDetailActivity extends AppCompatActivity {
     PagerSlidingTabStrip tabStrip;
     @Bind(R.id.toolbar_music_detail)
     Toolbar toolbar;
+
+    @Bind(R.id.bottom_close)
+    android.support.design.widget.FloatingActionButton btn_close;
+
+    @OnClick(R.id.bottom_close)
+    public void onClickCloseBotton() {
+        finish();
+    }
 
     private MusicDetailFragmentPagerAdapter adapter;
 

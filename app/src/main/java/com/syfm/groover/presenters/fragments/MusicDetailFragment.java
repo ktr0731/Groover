@@ -115,14 +115,6 @@ public class MusicDetailFragment extends Fragment {
     @Bind(R.id.tv_music_detail_extra_num_of_no_miss)
     TextView tv_extra_num_of_no_miss;
 
-    @Bind(R.id.bottom_close)
-    android.support.design.widget.FloatingActionButton btn_close;
-
-    @OnClick(R.id.bottom_close)
-    public void onClickCloseBotton() {
-        getActivity().finish();
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -21,6 +21,7 @@ public class MusicData extends RealmObject {
 
     private RealmList<ResultData> result_data;
     private RealmList<UserRank> user_rank;
+    private RealmList<ScoreRankData> score_rank;
 
     public String getArtist() {
         return artist;
@@ -100,5 +101,13 @@ public class MusicData extends RealmObject {
 
     public void setPlay_count(int play_count) {
         this.play_count = play_count;
+    }
+
+    public RealmList<ScoreRankData> getScore_rank() {
+        return score_rank;
+    }
+
+    public void setScore_rank(RealmList<ScoreRankData> score_rank) {
+        this.score_rank = score_rank;
     }
 }

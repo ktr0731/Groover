@@ -906,13 +906,4 @@
 
     </ScrollView>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/bottom_close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_marginBottom="@dimen/music_detail_fab_margin"
-        android:layout_marginRight="@dimen/music_detail_fab_margin"
-        android:src="@android:drawable/ic_delete" />
-
 </FrameLayout>
