@@ -1,13 +1,10 @@
 package com.syfm.groover.business.usecases;
 
-import com.activeandroid.query.Select;
+import android.util.Log;
+
 import com.syfm.groover.data.network.ApiClient;
 import com.syfm.groover.data.network.AppController;
 import com.syfm.groover.data.storage.databases.MusicData;
-import com.syfm.groover.data.storage.databases.ResultData;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import io.realm.Realm;
@@ -16,7 +13,9 @@ import io.realm.RealmResults;
 /**
  * Created by lycoris on 2015/09/26.
  */
-public class MusicDataUseCase implements ApiClient.MusicDataCallback {
+public class MusicDataUseCase implements ApiClient.MusicDataCallback, ApiClient.ScoreRankingCallback {
+
+    Realm realm = Realm.getInstance(AppController.getInstance());
 
     // MusicDataを通知するためのクラス
     // MusicDataFragmentへ通知
@@ -41,15 +40,14 @@ public class MusicDataUseCase implements ApiClient.MusicDataCallback {
     }
 
     public void getMusicData() {
-        //ArrayList<List<ResultData>> result = new ArrayList<>();
-        //List<MusicData> musicData = new Select().from(MusicData.class).orderBy("Id desc").execute();
-
-        Realm realm = Realm.getInstance(AppController.getInstance());
         RealmResults<MusicData> musicData = realm.where(MusicData.class).findAll();
-//        for (MusicData row : musicData) {
-//            result.add(MusicData.getAllResultData(row));
-//        }
         EventBus.getDefault().post(new MusicDataEvent(musicData));
+    }
+
+    public void getScoreRanking(String id) {
+        // TODO: ここでデータが有るかを判定
+        ApiClient client = new ApiClient();
+        client.fetchAllScoreRanking(id, this);
     }
 
     public void isSuccess(Boolean success) {
@@ -58,6 +56,15 @@ public class MusicDataUseCase implements ApiClient.MusicDataCallback {
             EventBus.getDefault().post(new SetMusicData(true));
         } else {
             EventBus.getDefault().post(new SetMusicData(false));
+        }
+    }
+
+    public void setScoreRankingIsSuccess(Boolean success) {
+        if(success) {
+            //ScoreRankingFragmentに通知する
+            // データベースがあるという通知
+            Log.d("Unko", "setScoreRankingIs" + success);
+            EventBus.getDefault().post(true);
         }
     }
 }

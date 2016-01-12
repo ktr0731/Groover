@@ -16,7 +16,6 @@ import com.syfm.groover.business.entities.MusicListEntity;
 import com.syfm.groover.data.storage.Const;
 import com.syfm.groover.data.storage.databases.AverageScore;
 import com.syfm.groover.data.storage.databases.MusicData;
-import com.syfm.groover.data.storage.databases.ScoreRank;
 import com.syfm.groover.data.storage.databases.ScoreRankData;
 import com.syfm.groover.data.storage.databases.PlayerData;
 import com.syfm.groover.data.storage.databases.ResultData;
@@ -38,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.realm.Realm;
+import io.realm.annotations.PrimaryKey;
 
 
 /**
@@ -47,6 +47,7 @@ public class ApiClient {
 
     private PlayDataCallback playDataCallback;
     private MusicDataCallback musicDataCallback;
+    private ScoreRankingCallback scoreRankingCallback;
     private Gson gson = new Gson();
     private Realm realm = Realm.getInstance(AppController.getInstance());
     Handler handler = new Handler();
@@ -265,18 +266,8 @@ public class ApiClient {
 
                                     for (final MusicListEntity row : list) {
                                         i++;
-                                        if (i > 10) break;
-                                        fetchMusicDetail(row, list.indexOf(row), 10 - 1); //実際はlist.size() -1
-
-                                        // TODO: ランキングの取得
-//                                        for (int j = 0; j < 4; j++) {
-//                                            String id = String.valueOf(row.getMusic_id());
-//                                            if(100 - row.getMusic_id() > 0) {
-//                                                id = "0" + id;
-//                                            }
-//                                            fetchScoreRanking(id, j);
-//                                        }
-
+                                        if (i > 5) break;
+                                        fetchMusicDetail(row, list.indexOf(row), 5 - 1); //実際はlist.size() -1
 
                                     }
 
@@ -403,45 +394,77 @@ public class ApiClient {
 
     }
 
+    public void fetchAllScoreRanking(String id, ScoreRankingCallback callback) {
+        this.scoreRankingCallback = callback;
+
+        final String mId;
+
+        if (100 - Integer.parseInt(id) > 0) {
+            mId = "0" + id;
+        } else {
+            mId = id;
+        }
+
+        try {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    int diff = 0;
+                    for (diff = 0; diff < 4; diff++) {
+                        fetchScoreRanking(mId, diff);
+                    }
+                }
+            });
+        } catch (Exception e) {
+            Log.d("Exception", e.toString());
+            realm.cancelTransaction();
+            scoreRankingCallback.setScoreRankingIsSuccess(false);
+        }
+
+    }
+
     public void fetchScoreRanking(final String id, final int diff) {
         final String url = "https://mypage.groovecoaster.jp/sp/json/score_ranking_bymusic_bydifficulty.php?music_id=" + id + "&difficulty=" + diff;
+
+
 
         AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
                                 try {
-                                    JSONArray object = response.getJSONArray("score_rank");
+                                    final JSONArray object = response.getJSONArray("score_rank");
                                     if (object.length() <= 0) {
+//                                        if(diff==3) {
+//                                            scoreRankingCallback.setScoreRankingIsSuccess(true);
+//                                        }
                                         return;
                                     }
 
-                                    realm.beginTransaction();
-                                    ScoreRank scoreRank = realm.createObject(ScoreRank.class);
-                                    scoreRank.setMusic_id(Integer.parseInt(id));
-                                    for (int i = 0; i < 5; i++) {
-                                        ScoreRankData item = realm.createObjectFromJson(ScoreRankData.class, object.getJSONObject(i));
-                                        switch (diff) {
-                                            case 0:
-                                                scoreRank.getSimple_rank().add(item);
-                                                break;
-                                            case 1:
-                                                scoreRank.getNormal_rank().add(item);
-                                                break;
-                                            case 2:
-                                                scoreRank.getHard_rank().add(item);
-                                                break;
-                                            case 3:
-                                                scoreRank.getExtra_rank().add(item);
-                                                break;
+                                    realm.executeTransaction(new Realm.Transaction() {
+                                        @Override
+                                        public void execute(Realm realm) {
+                                            for (int i = 0; i < 5; i++) {
+                                                try {
+                                                    ScoreRankData item = realm.createObjectFromJson(ScoreRankData.class, object.getJSONObject(i));
+                                                    item.setDiff(String.valueOf(diff));
+                                                    Log.d("Unko", item.getPlayer_name() + ": " + item.getEvent_point());
+                                                } catch (JSONException e) {
+                                                    Log.d("JSONException", "at id:" + id + " diff:" + diff + " " + e.toString());
+                                                }
+
+                                            }
                                         }
-                                    }
-
-                                    realm.commitTransaction();
-
+                                    }, new Realm.Transaction.Callback() {
+                                        @Override
+                                        public void onSuccess() {
+                                            if (diff == 2) {
+                                                scoreRankingCallback.setScoreRankingIsSuccess(true);
+                                            }
+                                        }
+                                    });
                                 } catch (JSONException e) {
                                     Log.d("JSONException", "at id:" + id + " diff:" + diff + " " + e.toString());
-                                    realm.cancelTransaction();
                                 }
                             }
                         },
@@ -467,6 +490,10 @@ public class ApiClient {
 
     public interface MusicDataCallback {
         public void isSuccess(Boolean isSuccess);
+    }
+
+    public interface ScoreRankingCallback {
+        public void setScoreRankingIsSuccess(Boolean isSuccess);
     }
 
     // TODO: すごく汚いから治したい

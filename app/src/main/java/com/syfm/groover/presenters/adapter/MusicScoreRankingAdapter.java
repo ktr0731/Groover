@@ -1,6 +1,7 @@
 package com.syfm.groover.presenters.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
@@ -26,6 +27,7 @@ public class MusicScoreRankingAdapter extends RealmBaseAdapter<ScoreRankData> im
     public MusicScoreRankingAdapter(Context context, int resource, RealmResults<ScoreRankData> realmResults, Boolean autoUpdate) {
         super(context, realmResults, autoUpdate);
         realm = Realm.getInstance(AppController.getInstance());
+        Log.d("Unko", "size:" + realmResults.size());
     }
 
     @Override

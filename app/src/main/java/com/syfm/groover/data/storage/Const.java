@@ -87,6 +87,8 @@ public class Const {
 
     public final static String MUSIC_SCORE_RANKING_RANK = "rank";
 
+    public final static String MUSIC_SCORE_DATA_DIFF = "diff";
+
     //インスタンス化を禁止
     private Const() {}
 

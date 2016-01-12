@@ -12,6 +12,7 @@ public class ScoreRankData extends RealmObject {
     private String title;
     private String last_play_tenpo_name;
     private String pref;
+    private String diff;
 
     public int getRank() {
         return rank;
@@ -59,5 +60,13 @@ public class ScoreRankData extends RealmObject {
 
     public void setPref(String pref) {
         this.pref = pref;
+    }
+
+    public String getDiff() {
+        return diff;
+    }
+
+    public void setDiff(String diff) {
+        this.diff = diff;
     }
 }
