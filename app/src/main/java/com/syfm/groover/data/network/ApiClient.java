@@ -266,8 +266,8 @@ public class ApiClient {
 
                                     for (final MusicListEntity row : list) {
                                         i++;
-                                        if (i > 5) break;
-                                        fetchMusicDetail(row, list.indexOf(row), 5 - 1); //実際はlist.size() -1
+                                        if (i > 10) break;
+                                        fetchMusicDetail(row, list.indexOf(row), 10 - 1); //実際はlist.size() -1
 
                                     }
 
@@ -394,7 +394,7 @@ public class ApiClient {
 
     }
 
-    public void fetchAllScoreRanking(String id, ScoreRankingCallback callback) {
+    public void fetchAllScoreRanking(String id, final String ex_flag, ScoreRankingCallback callback) {
         this.scoreRankingCallback = callback;
 
         final String mId;
@@ -411,7 +411,7 @@ public class ApiClient {
                 public void run() {
                     int diff = 0;
                     for (diff = 0; diff < 4; diff++) {
-                        fetchScoreRanking(mId, diff);
+                        fetchScoreRanking(mId, diff, ex_flag);
                     }
                 }
             });
@@ -423,7 +423,7 @@ public class ApiClient {
 
     }
 
-    public void fetchScoreRanking(final String id, final int diff) {
+    public void fetchScoreRanking(final String id, final int diff, final String ex_flag) {
         final String url = "https://mypage.groovecoaster.jp/sp/json/score_ranking_bymusic_bydifficulty.php?music_id=" + id + "&difficulty=" + diff;
 
 
@@ -435,9 +435,6 @@ public class ApiClient {
                                 try {
                                     final JSONArray object = response.getJSONArray("score_rank");
                                     if (object.length() <= 0) {
-//                                        if(diff==3) {
-//                                            scoreRankingCallback.setScoreRankingIsSuccess(true);
-//                                        }
                                         return;
                                     }
 
@@ -447,20 +444,24 @@ public class ApiClient {
                                             for (int i = 0; i < 5; i++) {
                                                 try {
                                                     ScoreRankData item = realm.createObjectFromJson(ScoreRankData.class, object.getJSONObject(i));
+                                                    //item.setId(i + "_" + diff + id);
                                                     item.setDiff(String.valueOf(diff));
-                                                    Log.d("Unko", item.getPlayer_name() + ": " + item.getEvent_point());
                                                 } catch (JSONException e) {
                                                     Log.d("JSONException", "at id:" + id + " diff:" + diff + " " + e.toString());
                                                 }
-
                                             }
                                         }
                                     }, new Realm.Transaction.Callback() {
                                         @Override
                                         public void onSuccess() {
-                                            if (diff == 2) {
+                                            if (diff == 2 && Integer.parseInt(ex_flag) == 0 || diff == 3) {
                                                 scoreRankingCallback.setScoreRankingIsSuccess(true);
                                             }
+                                        }
+
+                                        @Override
+                                        public void onError(Exception e) {
+                                            Log.d("ktr", e.toString());
                                         }
                                     });
                                 } catch (JSONException e) {

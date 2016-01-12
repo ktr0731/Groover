@@ -84,6 +84,7 @@ public class Const {
     public final static String MUSIC_SORT_CATEGORY = "Category";
 
     public final static String INTENT_MUSIC_ID = "music_id";
+    public final static String INTENT_EX_FLAG = "ex_flag";
 
     public final static String MUSIC_SCORE_RANKING_RANK = "rank";
 

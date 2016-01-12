@@ -85,6 +85,7 @@ public class MusicListFragment extends Fragment {
 
         Intent i = new Intent(getActivity(), MusicDetailActivity.class);
         i.putExtra(Const.INTENT_MUSIC_ID, item.getMusic_id());
+        i.putExtra(Const.INTENT_EX_FLAG,  item.getEx_flag());
         startActivity(i);
     }
 

@@ -27,7 +27,7 @@ public class MusicScoreRankingAdapter extends RealmBaseAdapter<ScoreRankData> im
     public MusicScoreRankingAdapter(Context context, int resource, RealmResults<ScoreRankData> realmResults, Boolean autoUpdate) {
         super(context, realmResults, autoUpdate);
         realm = Realm.getInstance(AppController.getInstance());
-        Log.d("Unko", "size:" + realmResults.size());
+        Log.d("size", "size:" + realmResults.size());
     }
 
     @Override

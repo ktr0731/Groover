@@ -32,6 +32,7 @@ public class MusicDetailRankingFragment extends Fragment {
 
     private Realm realm;
     private int id;
+    private int ex_flag;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,14 +40,15 @@ public class MusicDetailRankingFragment extends Fragment {
 
         Intent i = getActivity().getIntent();
         this.id = i.getIntExtra(Const.INTENT_MUSIC_ID, 0);
+        this.ex_flag = i.getIntExtra(Const.INTENT_EX_FLAG, 0);
 
         if (id == 0) {
             getActivity().finish();
         }
 
         MusicDataUseCase useCase = new MusicDataUseCase();
-        useCase.getScoreRanking(String.valueOf(id));
-        Log.d("Unko", "Start");
+        useCase.getScoreRanking(String.valueOf(id), String.valueOf(ex_flag));
+        Log.d("ktr", "Start");
     }
 
     @Override
@@ -56,10 +58,6 @@ public class MusicDetailRankingFragment extends Fragment {
 
         realm = Realm.getInstance(getActivity());
         MusicData item = realm.where(MusicData.class).equalTo(Const.MUSIC_LIST_MUSIC_ID, id).findFirst();
-        // TODO: music_idをMusicScoreRankingに追加する
-        //realm.where(ScoreRankData.class).equalTo()
-        //MusicScoreRankingAdapter adapter = new MusicScoreRankingAdapter(getActivity(), 0, , true);
-        //listView.setAdapter(adapter);
 
         return view;
     }
@@ -85,7 +83,7 @@ public class MusicDetailRankingFragment extends Fragment {
     }
 
     public void onEventMainThread(Boolean ready) {
-        Log.d("Unko", "Fragment coming");
+        Log.d("ktr", "Fragment coming");
         RealmResults<ScoreRankData> ranks = realm.where(ScoreRankData.class).contains(Const.MUSIC_SCORE_DATA_DIFF, "0").findAll();
         MusicScoreRankingAdapter adapter = new MusicScoreRankingAdapter(getActivity(), 0, ranks, true);
         listView.setAdapter(adapter);

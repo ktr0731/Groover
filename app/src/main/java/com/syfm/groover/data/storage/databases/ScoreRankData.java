@@ -1,11 +1,16 @@
 package com.syfm.groover.data.storage.databases;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by lycoris on 2016/01/10.
  */
 public class ScoreRankData extends RealmObject {
+//    @PrimaryKey
+//    private String id;
+    // TODO: Primary Keyがうまくいかない
+    // TODO: というか正規化しないといけない?
     private int rank;
     private String player_name;
     private int event_point;
@@ -13,6 +18,14 @@ public class ScoreRankData extends RealmObject {
     private String last_play_tenpo_name;
     private String pref;
     private String diff;
+
+//    public String getId() {
+//        return id;
+//    }
+//
+//    public void setId(String id) {
+//        this.id = id;
+//    }
 
     public int getRank() {
         return rank;

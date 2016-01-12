@@ -44,10 +44,10 @@ public class MusicDataUseCase implements ApiClient.MusicDataCallback, ApiClient.
         EventBus.getDefault().post(new MusicDataEvent(musicData));
     }
 
-    public void getScoreRanking(String id) {
+    public void getScoreRanking(String id, String ex_flag) {
         // TODO: ここでデータが有るかを判定
         ApiClient client = new ApiClient();
-        client.fetchAllScoreRanking(id, this);
+        client.fetchAllScoreRanking(id, ex_flag, this);
     }
 
     public void isSuccess(Boolean success) {
@@ -63,7 +63,7 @@ public class MusicDataUseCase implements ApiClient.MusicDataCallback, ApiClient.
         if(success) {
             //ScoreRankingFragmentに通知する
             // データベースがあるという通知
-            Log.d("Unko", "setScoreRankingIs" + success);
+            Log.d("ktr", "setScoreRankingIs" + success);
             EventBus.getDefault().post(true);
         }
     }
