@@ -1,11 +1,16 @@
 package com.syfm.groover.controller.usecases;
 
+import android.util.Log;
+
 import com.syfm.groover.model.network.ApiClient;
 import com.syfm.groover.model.network.AppController;
+import com.syfm.groover.model.storage.Const;
 import com.syfm.groover.model.storage.databases.AverageScore;
 import com.syfm.groover.model.storage.databases.PlayerData;
 import com.syfm.groover.model.storage.databases.ShopSalesData;
 import com.syfm.groover.model.storage.databases.StageData;
+
+import org.jdeferred.android.AndroidDeferredManager;
 
 import de.greenrobot.event.EventBus;
 import io.realm.Realm;
@@ -13,7 +18,9 @@ import io.realm.Realm;
 /**
  * Created by lycoris on 2015/09/26.
  */
-public class PlayDataUseCase implements ApiClient.PlayDataCallback {
+public class PlayDataUseCase {
+
+    private AndroidDeferredManager deferred = new AndroidDeferredManager();
 
     // PlayDataを通知するためのクラス
     // PlayDataFragmentへ通知
@@ -41,16 +48,28 @@ public class PlayDataUseCase implements ApiClient.PlayDataCallback {
 
     public void setPlayData() {
         ApiClient client = new ApiClient();
-        client.fetchAllPlayData(this);
+        //client.fetchPlayData(this);
+
+        deferred.when(() -> {
+            client.fetchPlayerData();
+            sleep();
+        }).then(result -> {
+            client.fetchShopSalesData();
+            sleep();
+        }).then(result -> {
+            client.fetchAverageScore();
+            sleep();
+        }).then(result1 -> {
+            client.fetchStageData();
+            sleep();
+        }).done(callback -> {
+            EventBus.getDefault().post(new SetPlayData(true));
+        }).fail(callback -> {
+            EventBus.getDefault().post(new SetPlayData(false));
+        });
     }
 
     public void getPlayData() {
-        //SQLiteから取得
-//        PlayerData player    = new Select().from(PlayerData.class).orderBy("Id desc").executeSingle();
-//        ShopSalesData sales  = new Select().from(ShopSalesData.class).orderBy("Id desc").executeSingle();
-//        AverageScore average = new Select().from(AverageScore.class).orderBy("Id desc").executeSingle();
-//        StageData  stageData = new Select().from(StageData.class).orderBy("Id desc").executeSingle();
-
         Realm realm = Realm.getInstance(AppController.getInstance());
         PlayerData player    = realm.where(PlayerData.class).findFirst();
         ShopSalesData sales  = realm.where(ShopSalesData.class).findFirst();
@@ -59,14 +78,11 @@ public class PlayDataUseCase implements ApiClient.PlayDataCallback {
         EventBus.getDefault().post(new PlayDataEvent(player, sales, average, stage));
     }
 
-
-
-    public void isSuccess(Boolean success) {
-        if(success) {
-            //LoginActivityに通知する
-            EventBus.getDefault().post(new SetPlayData(true));
-        } else {
-            EventBus.getDefault().post(new SetPlayData(false));
+    private void sleep() {
+        try {
+            Thread.sleep(Const.TIME);
+        } catch (InterruptedException e) {
+            Log.d("ktr", e.toString());
         }
     }
 

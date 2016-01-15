@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         ApiClient client = new ApiClient();
-        client.test();
 
         //SPにCookieがあったら
         SharedPreferenceHelper.create(getApplicationContext());
@@ -157,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        // TODO: EventBusを実行すると落ちる
         //EventBus.getDefault().register(this);
     }
 
@@ -165,10 +163,5 @@ public class MainActivity extends AppCompatActivity {
     public void onStop() {
         //EventBus.getDefault().unregister(this);
         super.onStop();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
     }
 }

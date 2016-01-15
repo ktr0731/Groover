@@ -6,6 +6,8 @@ import com.syfm.groover.model.network.ApiClient;
 import com.syfm.groover.model.network.AppController;
 import com.syfm.groover.model.storage.databases.MusicData;
 
+import org.jdeferred.android.AndroidDeferredManager;
+
 import de.greenrobot.event.EventBus;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -13,9 +15,10 @@ import io.realm.RealmResults;
 /**
  * Created by lycoris on 2015/09/26.
  */
-public class MusicDataUseCase implements ApiClient.MusicDataCallback, ApiClient.ScoreRankingCallback {
+public class MusicDataUseCase {
 
     Realm realm = Realm.getInstance(AppController.getInstance());
+    private AndroidDeferredManager deferred = new AndroidDeferredManager();
 
     // MusicDataを通知するためのクラス
     // MusicDataFragmentへ通知
@@ -36,7 +39,13 @@ public class MusicDataUseCase implements ApiClient.MusicDataCallback, ApiClient.
 
     public void setMusicData() {
         ApiClient client = new ApiClient();
-        client.fetchAllMusicData(this);
+        deferred.when(() -> {
+            client.fetchMusicData();
+        }).done(callback -> {
+            EventBus.getDefault().post(new SetMusicData(true));
+        }).fail(callback -> {
+            EventBus.getDefault().post(new SetMusicData(false));
+        });
     }
 
     public void getMusicData() {
@@ -46,17 +55,32 @@ public class MusicDataUseCase implements ApiClient.MusicDataCallback, ApiClient.
 
     public void getScoreRanking(String id, String ex_flag) {
         // TODO: ここでデータが有るかを判定
-        ApiClient client = new ApiClient();
-        client.fetchAllScoreRanking(id, ex_flag, this);
-    }
 
-    public void isSuccess(Boolean success) {
-        if(success) {
-            //MusicListFragmentに通知する
-            EventBus.getDefault().post(new SetMusicData(true));
+        final String mId;
+
+        if (100 - Integer.parseInt(id) > 0) {
+            mId = "0" + id;
         } else {
-            EventBus.getDefault().post(new SetMusicData(false));
+            mId = id;
         }
+
+        final int max_diff;
+        if(Integer.parseInt(ex_flag) == 1) {
+            max_diff = 4;
+        } else {
+            max_diff = 3;
+        }
+
+        ApiClient client = new ApiClient();
+        deferred.when(() -> {
+            for(int diff=0;diff < max_diff;diff++) {
+                client.fetchScoreRanking(mId, diff);
+            }
+        }).done(callback -> {
+            EventBus.getDefault().post(true);
+        }).fail(callback -> {
+            EventBus.getDefault().post(false);
+        });
     }
 
     public void setScoreRankingIsSuccess(Boolean success) {
@@ -64,7 +88,7 @@ public class MusicDataUseCase implements ApiClient.MusicDataCallback, ApiClient.
             //ScoreRankingFragmentに通知する
             // データベースがあるという通知
             Log.d("ktr", "setScoreRankingIs" + success);
-            EventBus.getDefault().post(true);
+
         }
     }
 }

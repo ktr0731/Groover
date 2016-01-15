@@ -90,6 +90,8 @@ public class Const {
 
     public final static String MUSIC_SCORE_DATA_DIFF = "diff";
 
+    public final static int TIME = 500;
+
     //インスタンス化を禁止
     private Const() {}
 

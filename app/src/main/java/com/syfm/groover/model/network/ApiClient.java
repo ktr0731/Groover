@@ -23,6 +23,7 @@ import com.syfm.groover.model.storage.databases.ShopSalesData;
 import com.syfm.groover.model.storage.databases.StageData;
 import com.syfm.groover.model.storage.databases.UserRank;
 
+import org.jdeferred.android.AndroidDeferredManager;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,13 +44,9 @@ import io.realm.Realm;
  * Created by lycoris on 2015/09/27.
  */
 public class ApiClient {
-
-    private PlayDataCallback playDataCallback;
-    private MusicDataCallback musicDataCallback;
-    private ScoreRankingCallback scoreRankingCallback;
     private Gson gson = new Gson();
     private Realm realm = Realm.getInstance(AppController.getInstance());
-    Handler handler = new Handler();
+    private Handler handler = new Handler();
 
     public void tryLogin(final String serial, final String pass, final LoginListener listener) {
 
@@ -57,303 +54,212 @@ public class ApiClient {
         final String serialNoKey = "nesicaCardId";
         final String passwordKey = "password";
 
-
         AppController.getInstance().addToRequestQueue(new MyStringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        listener.onFailure();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        listener.onSuccess();
-                    }
-                }) {
+                response -> listener.onFailure(),
+                error -> listener.onSuccess()) {
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put(serialNoKey, serial);
                 params.put(passwordKey, pass);
                 return params;
             }
 
         });
-    }
+        // TODO: Volleyを置き換える
 
-
-    public void fetchAllPlayData(PlayDataCallback callback) {
-        this.playDataCallback = callback;
-
-        try {
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    fetchPlayerData();
-                }
-            }, 0);
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    fetchShopSalesData();
-                }
-            }, 1000);
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    fetchAverageScore();
-                }
-            }, 2000);
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    fetchStageData();
-                }
-            }, 3000);
-
-        } catch (Exception e) {
-            //エラー処理
-            playDataCallback.isSuccess(false);
-        }
     }
 
     public void fetchPlayerData() {
+        Log.d("ktr", "player data");
         String url = "https://mypage.groovecoaster.jp/sp/json/player_data.php";
         AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    JSONObject object = response.getJSONObject("player_data");
-                                    if (object.toString() == null) {
-                                        return;
-                                    }
-                                    realm.beginTransaction();
-                                    PlayerData playerData = realm.createObjectFromJson(PlayerData.class, object.toString());
-                                    playerData.setDate(DateFormat.format("yyyy/MM/dd kk:mm:ss", Calendar.getInstance()).toString());
-                                    realm.commitTransaction();
+                response -> {
+                    try {
+                        JSONObject object = response.getJSONObject("player_data");
+                        if (object.toString() == null) {
+                            return;
+                        }
+                        realm.beginTransaction();
+                        PlayerData playerData = realm.createObjectFromJson(PlayerData.class, object.toString());
+                        playerData.setDate(DateFormat.format("yyyy/MM/dd kk:mm:ss", Calendar.getInstance()).toString());
+                        realm.commitTransaction();
 
-                                } catch (JSONException e) {
-                                    Log.d("JSONException", e.toString());
-                                }
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.d("getPlayerDataError", error.toString());
-                            }
-                        })
-        );
+                    } catch (JSONException e) {
+                        Log.d("JSONException", e.toString());
+                    }
+                },
+                error -> {
+                    Log.d("getPlayerDataError", error.toString());
+                }
+        ));
     }
 
     public void fetchShopSalesData() {
+        Log.d("ktr", "shop data");
         String url = "https://mypage.groovecoaster.jp/sp/json/shop_sales_data.php";
         AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                Log.d("getShopDataResponse", response.toString());
-                                if (response.toString() == null) {
-                                    return;
-                                }
-                                realm.beginTransaction();
-                                realm.createObjectFromJson(ShopSalesData.class, response.toString());
-                                realm.commitTransaction();
+                response -> {
+                    Log.d("getShopDataResponse", response.toString());
+                    if (response.toString() == null) {
+                        return;
+                    }
+                    realm.beginTransaction();
+                    realm.createObjectFromJson(ShopSalesData.class, response.toString());
+                    realm.commitTransaction();
 
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.d("getShopDataError", error.toString());
-                            }
-                        })
-        );
+                },
+                error -> {
+                    Log.d("getShopDataError", error.toString());
+                }
+        ));
     }
 
     public void fetchAverageScore() {
+        Log.d("ktr", "ave data");
+
         String url = "https://mypage.groovecoaster.jp/sp/json/average_score.php";
         AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                Log.d("getAverageScoreResponse", response.toString());
-                                try {
-                                    JSONObject object = response.getJSONObject("average");
-                                    if (object.toString() == null) {
-                                        return;
-                                    }
-                                    realm.beginTransaction();
-                                    realm.createObjectFromJson(AverageScore.class, object.toString());
-                                    realm.commitTransaction();
+                response -> {
+                    Log.d("getAverageScoreResponse", response.toString());
+                    try {
+                        JSONObject object = response.getJSONObject("average");
+                        if (object.toString() == null) {
+                            return;
+                        }
+                        realm.beginTransaction();
+                        realm.createObjectFromJson(AverageScore.class, object.toString());
+                        realm.commitTransaction();
 
-                                } catch (JSONException e) {
-                                    Log.d("JSONException", e.toString());
-                                }
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.d("getAverageScoreError", error.toString());
-                            }
-                        })
-        );
+                    } catch (JSONException e) {
+                        Log.d("JSONException", e.toString());
+                    }
+                },
+                error -> {
+                    Log.d("getAverageScoreError", error.toString());
+                }
+        ));
     }
 
     public void fetchStageData() {
+        Log.d("ktr", "stage data");
+
         String url = "https://mypage.groovecoaster.jp/sp/json/stage_data.php";
         AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                Log.d("getStageDataResponse", response.toString());
-                                try {
-                                    JSONObject object = response.getJSONObject("stage");
-                                    if (object.toString() == null) {
-                                        return;
-                                    }
-                                    realm.beginTransaction();
-                                    realm.createObjectFromJson(StageData.class, object.toString());
-                                    realm.commitTransaction();
-                                    playDataCallback.isSuccess(true);
-
-                                } catch (JSONException e) {
-                                    Log.d("JSONException", e.toString());
-                                }
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.d("stageDataError", error.toString());
-                            }
-                        })
-        );
-    }
-
-    public void fetchAllMusicData(MusicDataCallback callback) {
-        this.musicDataCallback = callback;
-
-        handler.post(new Thread(new Runnable() {
-            @Override
-            public void run() {
-                fetchMusicData();
-            }
-        }));
-
+                response -> {
+                    Log.d("getStageDataResponse", response.toString());
+                    try {
+                        JSONObject object = response.getJSONObject("stage");
+                        if (object.toString() == null) {
+                            return;
+                        }
+                        realm.beginTransaction();
+                        realm.createObjectFromJson(StageData.class, object.toString());
+                        realm.commitTransaction();
+                    } catch (JSONException e) {
+                        Log.d("JSONException", e.toString());
+                    }
+                },
+                error -> {
+                    Log.d("stageDataError", error.toString());
+                }
+        ));
     }
 
     public void fetchMusicData() {
         String url = "https://mypage.groovecoaster.jp/sp/json/music_list.php";
         AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                Log.d("getMusicListResponse", response.toString());
-                                if (response == null) {
-                                    return;
-                                }
-                                try {
-                                    JSONArray array = response.getJSONArray("music_list");
-                                    Type collectionType = new TypeToken<Collection<MusicListEntity>>() {
-                                    }.getType();
-                                    List<MusicListEntity> list = gson.fromJson(array.toString(), collectionType);
-                                    int i = 0;
+                response -> {
+                    Log.d("getMusicListResponse", response.toString());
+                    if (response == null) {
+                        return;
+                    }
+                    try {
+                        JSONArray array = response.getJSONArray("music_list");
+                        Type collectionType = new TypeToken<Collection<MusicListEntity>>() {
+                        }.getType();
+                        List<MusicListEntity> list = gson.fromJson(array.toString(), collectionType);
+                        int i = 0;
 
-                                    for (final MusicListEntity row : list) {
-                                        i++;
-                                        if (i > 10) break;
-                                        fetchMusicDetail(row, list.indexOf(row), 10 - 1); //実際はlist.size() -1
+                        for (final MusicListEntity row : list) {
+                            i++;
+                            if (i > 10) break;
+                            fetchMusicDetail(row, list.indexOf(row), 10 - 1); //実際はlist.size() -1
 
-                                    }
+                        }
 
-                                } catch (JSONException e) {
-                                    Log.d("JSONException", e.toString());
-                                }
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.d("getMusicListError", error.toString());
-                            }
-                        })
-        );
+                    } catch (JSONException e) {
+                        Log.d("JSONException", e.toString());
+                    }
+                },
+                error -> {
+                    Log.d("getMusicListError", error.toString());
+                }
+        ));
     }
 
     public void fetchMusicDetail(final MusicListEntity music, final int count, final int size) {
         final String url = "https://mypage.groovecoaster.jp/sp/json/music_detail.php?music_id=";
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url + music.getMusic_id(),
-                                new Response.Listener<JSONObject>() {
-                                    @Override
-                                    public void onResponse(JSONObject response) {
 
-                                        try {
-                                            JSONObject object = response.getJSONObject("music_detail");
+        // TODO: ハンドラをdeferredにできそう
+        handler.postDelayed(() -> {
+            AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url + music.getMusic_id(),
+                    response -> {
 
-                                            if (object.length() <= 0) {
-                                                return;
-                                            }
+                        try {
+                            JSONObject object = response.getJSONObject("music_detail");
 
-                                            resultDataJsonReplaceNull(object, "simple_result_data");
-                                            resultDataJsonReplaceNull(object, "normal_result_data");
-                                            resultDataJsonReplaceNull(object, "hard_result_data");
-                                            resultDataJsonReplaceNull(object, "extra_result_data");
+                            if (object.length() <= 0) {
+                                return;
+                            }
 
-                                            userRankJsonReplaceNull(object.getJSONArray("user_rank"));
+                            resultDataJsonReplaceNull(object, "simple_result_data");
+                            resultDataJsonReplaceNull(object, "normal_result_data");
+                            resultDataJsonReplaceNull(object, "hard_result_data");
+                            resultDataJsonReplaceNull(object, "extra_result_data");
 
-                                            realm.beginTransaction();
+                            userRankJsonReplaceNull(object.getJSONArray("user_rank"));
 
-                                            MusicData data = realm.createObjectFromJson(MusicData.class, object.toString());
-                                            data.setLast_play_time(music.getLast_play_time());
-                                            data.setPlay_count(music.getPlay_count());
+                            realm.beginTransaction();
 
-                                            // 各難易度をMusicDataの子としてインサート
-                                            // 要素にNULLがあると挙動がおかしくなるので気をつける
+                            MusicData data = realm.createObjectFromJson(MusicData.class, object.toString());
+                            data.setLast_play_time(music.getLast_play_time());
+                            data.setPlay_count(music.getPlay_count());
 
-                                            ResultData resultSimple = realm.createObjectFromJson(ResultData.class, object.getJSONObject("simple_result_data").toString());
-                                            data.getResult_data().add(resultSimple);
+                            // 各難易度をMusicDataの子としてインサート
+                            // 要素にNULLがあると挙動がおかしくなるので気をつける
 
-                                            ResultData resultNormal = realm.createObjectFromJson(ResultData.class, object.getJSONObject("normal_result_data").toString());
-                                            data.getResult_data().add(resultNormal);
+                            ResultData resultSimple = realm.createObjectFromJson(ResultData.class, object.getJSONObject("simple_result_data").toString());
+                            data.getResult_data().add(resultSimple);
 
-                                            ResultData resultHard = realm.createObjectFromJson(ResultData.class, object.getJSONObject("hard_result_data").toString());
-                                            data.getResult_data().add(resultHard);
+                            ResultData resultNormal = realm.createObjectFromJson(ResultData.class, object.getJSONObject("normal_result_data").toString());
+                            data.getResult_data().add(resultNormal);
 
-                                            ResultData resultExtra = realm.createObjectFromJson(ResultData.class, object.getJSONObject("extra_result_data").toString());
-                                            data.getResult_data().add(resultExtra);
+                            ResultData resultHard = realm.createObjectFromJson(ResultData.class, object.getJSONObject("hard_result_data").toString());
+                            data.getResult_data().add(resultHard);
 
-                                            // UserRankの整形
-                                            JSONArray userRankRaw = object.getJSONArray("user_rank");
+                            ResultData resultExtra = realm.createObjectFromJson(ResultData.class, object.getJSONObject("extra_result_data").toString());
+                            data.getResult_data().add(resultExtra);
 
-                                            for (int i = 0; i < userRankRaw.length(); i++) {
-                                                UserRank userRank = realm.createObjectFromJson(UserRank.class, userRankRaw.get(i).toString());
-                                                data.getUser_rank().add(userRank);
-                                            }
+                            // UserRankの整形
+                            JSONArray userRankRaw = object.getJSONArray("user_rank");
 
-                                            fetchMusicThumbnail(music.getMusic_id(), data, count, size);
+                            for (int i = 0; i < userRankRaw.length(); i++) {
+                                UserRank userRank = realm.createObjectFromJson(UserRank.class, userRankRaw.get(i).toString());
+                                data.getUser_rank().add(userRank);
+                            }
 
-                                        } catch (JSONException e) {
-                                            realm.cancelTransaction();
-                                            Log.d("JSONException", e.toString());
-                                        }
+                            fetchMusicThumbnail(music.getMusic_id(), data, count, size);
 
-                                    }
-                                },
-                                new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        Log.d("getMusicDetailError", error.toString());
-                                    }
-                                })
-                );
-            }
+                        } catch (JSONException e) {
+                            realm.cancelTransaction();
+                            Log.d("JSONException", e.toString());
+                        }
+                    },
+                    error -> {
+                        Log.d("getMusicDetailError", error.toString());
+                    }
+            ));
         }, 1500 * count);
 
     }
@@ -361,139 +267,74 @@ public class ApiClient {
     public void fetchMusicThumbnail(int id, final MusicData musicData, final int count, final int maxSize) {
         final String url = "https://mypage.groovecoaster.jp/sp/music/music_image.php?music_id=";
         AppController.getInstance().addToRequestQueue(new ImageRequest(url + id,
-                        new Response.Listener<Bitmap>() {
-                            @Override
-                            public void onResponse(Bitmap response) {
+                response -> {
 
-                                if (response == null) {
-                                    realm.cancelTransaction();
-                                    return;
-                                }
-
-                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                response.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                                byte[] bytes = baos.toByteArray();
-
-                                musicData.setMusic_thumbnail(bytes);
-                                realm.commitTransaction();
-                                if (maxSize == count) {
-                                    musicDataCallback.isSuccess(true);
-                                }
-
-                            }
-                        }, 0, 0, Bitmap.Config.ARGB_8888,
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.d("getMusicDetailError", error.toString());
-                                realm.cancelTransaction();
-                            }
-                        })
-        );
-
-    }
-
-    public void fetchAllScoreRanking(String id, final String ex_flag, ScoreRankingCallback callback) {
-        this.scoreRankingCallback = callback;
-
-        final String mId;
-
-        if (100 - Integer.parseInt(id) > 0) {
-            mId = "0" + id;
-        } else {
-            mId = id;
-        }
-
-        try {
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    int diff = 0;
-                    for (diff = 0; diff < 4; diff++) {
-                        fetchScoreRanking(mId, diff, ex_flag);
+                    if (response == null) {
+                        realm.cancelTransaction();
+                        return;
                     }
+
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    response.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    byte[] bytes = baos.toByteArray();
+
+                    musicData.setMusic_thumbnail(bytes);
+                    realm.commitTransaction();
+                }, 0, 0, Bitmap.Config.ARGB_8888,
+                error -> {
+                    Log.d("getMusicDetailError", error.toString());
+                    realm.cancelTransaction();
                 }
-            });
-        } catch (Exception e) {
-            Log.d("Exception", e.toString());
-            realm.cancelTransaction();
-            scoreRankingCallback.setScoreRankingIsSuccess(false);
-        }
+        ));
 
     }
 
-    public void fetchScoreRanking(final String id, final int diff, final String ex_flag) {
+    public void fetchScoreRanking(final String id, final int diff) {
         final String url = "https://mypage.groovecoaster.jp/sp/json/score_ranking_bymusic_bydifficulty.php?music_id=" + id + "&difficulty=" + diff;
 
 
-
         AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
+                response -> {
+                    try {
+                        final JSONArray object = response.getJSONArray("score_rank");
+                        if (object.length() <= 0) {
+                            return;
+                        }
+
+                        realm.executeTransaction(realm -> {
+                            for (int i = 0; i < 5; i++) {
                                 try {
-                                    final JSONArray object = response.getJSONArray("score_rank");
-                                    if (object.length() <= 0) {
-                                        return;
-                                    }
-
-                                    realm.executeTransaction(new Realm.Transaction() {
-                                        @Override
-                                        public void execute(Realm realm) {
-                                            for (int i = 0; i < 5; i++) {
-                                                try {
-                                                    ScoreRankData item = realm.createObjectFromJson(ScoreRankData.class, object.getJSONObject(i));
-                                                    //item.setId(i + "_" + diff + id);
-                                                    item.setDiff(String.valueOf(diff));
-                                                } catch (JSONException e) {
-                                                    Log.d("JSONException", "at id:" + id + " diff:" + diff + " " + e.toString());
-                                                }
-                                            }
-                                        }
-                                    }, new Realm.Transaction.Callback() {
-                                        @Override
-                                        public void onSuccess() {
-                                            if (diff == 2 && Integer.parseInt(ex_flag) == 0 || diff == 3) {
-                                                scoreRankingCallback.setScoreRankingIsSuccess(true);
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onError(Exception e) {
-                                            Log.d("ktr", e.toString());
-                                        }
-                                    });
+                                    ScoreRankData item = realm.createObjectFromJson(ScoreRankData.class, object.getJSONObject(i));
+                                    //item.setId(i + "_" + diff + id);
+                                    item.setDiff(String.valueOf(diff));
                                 } catch (JSONException e) {
                                     Log.d("JSONException", "at id:" + id + " diff:" + diff + " " + e.toString());
                                 }
                             }
-                        },
-                        new Response.ErrorListener() {
+                        }, new Realm.Transaction.Callback() {
                             @Override
-                            public void onErrorResponse(VolleyError error) {
-                                // extraがなかった
-                                Log.d("MusicRankingError", "at id:" + id + " diff:" + diff + " " + error.toString());
+                            public void onSuccess() {
                             }
-                        })
-        );
+
+                            @Override
+                            public void onError(Exception e) {
+                                Log.d("ktr", e.toString());
+                            }
+                        });
+                    } catch (JSONException e) {
+                        Log.d("JSONException", "at id:" + id + " diff:" + diff + " " + e.toString());
+                    }
+                },
+                error -> {
+                    Log.d("MusicRankingError", "at id:" + id + " diff:" + diff + " " + error.toString());
+                }
+        ));
     }
 
     public interface LoginListener extends EventListener {
         public void onSuccess();
 
         public void onFailure();
-    }
-
-    public interface PlayDataCallback {
-        public void isSuccess(Boolean isSuccess);
-    }
-
-    public interface MusicDataCallback {
-        public void isSuccess(Boolean isSuccess);
-    }
-
-    public interface ScoreRankingCallback {
-        public void setScoreRankingIsSuccess(Boolean isSuccess);
     }
 
     // TODO: すごく汚いから治したい

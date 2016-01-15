@@ -1,5 +1,6 @@
 package com.syfm.groover.model.network;
 
+import android.app.Application;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -8,6 +9,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.jdeferred.android.AndroidDeferredManager;
 
 import java.io.IOException;
 import java.net.CookieHandler;
@@ -20,7 +23,7 @@ import java.util.Map;
 /**
  * Created by lycoris on 2015/09/24.
  */
-public class AppController extends com.activeandroid.app.Application {
+public class AppController extends Application {
     public static final String TAG = AppController.class.getSimpleName();
 
     private RequestQueue mRequestQueue;
@@ -36,7 +39,7 @@ public class AppController extends com.activeandroid.app.Application {
 
     @Override
     public void onCreate() {
-        super.onCreate(); // FIXME: SOL26でクラッシュする箇所
+        super.onCreate();
         sInstance = this;
         cookieManager = new CookieManager();
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
@@ -46,6 +49,7 @@ public class AppController extends com.activeandroid.app.Application {
     public static synchronized AppController getInstance() {
         return sInstance;
     }
+
 
     public RequestQueue getRequestQueue() {
 
