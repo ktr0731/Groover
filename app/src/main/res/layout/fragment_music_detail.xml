@@ -19,7 +19,7 @@
                 android:layout_gravity="center"
                 android:orientation="vertical">
 
-                <com.syfm.groover.presenters.activities.RoundImageView
+                <com.syfm.groover.view.activities.RoundImageView
                     android:id="@+id/tv_music_detail_thumbnail"
                     android:layout_width="@dimen/music_detail_thumbnail_size"
                     android:layout_height="@dimen/music_detail_thumbnail_size"
