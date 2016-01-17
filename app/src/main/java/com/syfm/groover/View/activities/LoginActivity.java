@@ -4,32 +4,24 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.syfm.groover.R;
 import com.syfm.groover.controller.usecases.LoginUseCase;
-import com.syfm.groover.controller.usecases.MusicDataUseCase;
-import com.syfm.groover.controller.usecases.PlayDataUseCase;
-import com.syfm.groover.view.fragments.CommonDialogFragment;
-import com.syfm.groover.view.fragments.CustomProgressDialogFragment;
+import com.syfm.groover.view.fragments.ProgressDialogFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
-import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 
 /**
  * Created by lycoris on 2015/09/24.
  */
 public class LoginActivity extends Activity {
 
-    @Bind(R.id.progress_bar)
-    SmoothProgressBar smoothProgressBar;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
@@ -38,16 +30,15 @@ public class LoginActivity extends Activity {
     @Bind(R.id.editTextPassword)
     EditText password;
 
-    final CustomProgressDialogFragment dialogFragment =
-            CustomProgressDialogFragment.newInstance(R.string.dialog_title_login, R.string.dialog_title_login, 1);
+    final ProgressDialogFragment dialogFragment =
+            ProgressDialogFragment.newInstance(R.string.dialog_title_login);
 
     @OnClick(R.id.loginButton)
     public void onClickLoginButton() {
-        smoothProgressBar.setVisibility(View.VISIBLE);
-        smoothProgressBar.progressiveStart();
+        dialogFragment.show(getFragmentManager(), "dialog_fragment");
 
-        LoginUseCase loginUseCase = new LoginUseCase();
-        loginUseCase.checkLogin(serialNo.getText().toString(), password.getText().toString());
+        //LoginUseCase loginUseCase = new LoginUseCase();
+        //loginUseCase.checkLogin(serialNo.getText().toString(), password.getText().toString());
     }
 
 
@@ -74,28 +65,12 @@ public class LoginActivity extends Activity {
     }
 
     public void onEvent(LoginUseCase.LoginEvent event) {
-        smoothProgressBar.progressiveStop();
-        smoothProgressBar.setVisibility(View.GONE);
-
         if(event.success) {
-            Toast.makeText(getApplicationContext(), "ログインに成功しました", Toast.LENGTH_SHORT).show();
+            dialogFragment.dismiss();
 
-
-            Bundle bundle = new Bundle();
-            bundle.putInt(CommonDialogFragment.FIELD_TITLE, R.string.dialog_title_login);
-            bundle.putInt(CommonDialogFragment.FIELD_MESSAGE, R.string.dialog_title_login);
-            bundle.putInt(CommonDialogFragment.FIELD_LAYOUT, R.layout.dialog_progress);
-            bundle.putBoolean(CommonDialogFragment.FIELD_PROGRESS_BAR, true);
-
-            final CommonDialogFragment dialogFragment = new CommonDialogFragment();
-            dialogFragment.setArguments(bundle);
-            dialogFragment.show(getFragmentManager(), "getDataDialog");
-
-            //dialogFragment.show(getFragmentManager(), "dialog_fragment");
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_login_successful), Toast.LENGTH_SHORT).show();
 
             //Get all data and set db.
-
-            finish();
 
             // TODO: 取得パーセント表示
             Handler handler = new Handler();
@@ -104,6 +79,7 @@ public class LoginActivity extends Activity {
                 public void run() {
                     //PlayDataUseCase playDataUseCase = new PlayDataUseCase();
                     //playDataUseCase.setPlayData();
+                    finish();
                 }
             }, 1000);
             handler.postDelayed(new Runnable() {
