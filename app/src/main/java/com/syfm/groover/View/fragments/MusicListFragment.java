@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,7 +77,7 @@ public class MusicListFragment extends Fragment {
     public void OnListItemClick(AdapterView<?> parent, View view, int position, long id) {
         //選択されたアイテムを取得
         ListView listView = (ListView) parent;
-        MusicData item = (MusicData)listView.getItemAtPosition(position);
+        MusicData item = (MusicData) listView.getItemAtPosition(position);
 
         //IDをつける
         Bundle bundle = new Bundle();
@@ -84,17 +85,29 @@ public class MusicListFragment extends Fragment {
 
         Intent i = new Intent(getActivity(), MusicDetailActivity.class);
         i.putExtra(Const.INTENT_MUSIC_ID, item.getMusic_id());
-        i.putExtra(Const.INTENT_EX_FLAG,  item.getEx_flag());
+        i.putExtra(Const.INTENT_EX_FLAG, item.getEx_flag());
         startActivity(i);
     }
 
+    public void onEvent(MusicDataUseCase.SetMusicData event) {
+        if (event.success) {
+
+        } else {
+
+        }
+    }
+
     public void onEventMainThread(MusicDataUseCase.MusicDataEvent event) {
-        if(event.musicData == null) {
+        if (event.musicData == null || event.musicData.isEmpty()) {
+            Log.d("ktr", "null");
+            MusicDataUseCase useCase = new MusicDataUseCase();
+            useCase.getMusicData();
             return;
         }
         adapter = new MusicListAdapter(getActivity(), 0, event.musicData, true);
         listView.setAdapter(adapter);
     }
+
 
     // sort dialogからの通知
     public void onEventMainThread(List<String> params) {

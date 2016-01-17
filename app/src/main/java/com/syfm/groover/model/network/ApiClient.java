@@ -29,7 +29,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Type;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.EventListener;
@@ -38,6 +41,10 @@ import java.util.List;
 import java.util.Map;
 
 import io.realm.Realm;
+import okhttp3.FormBody;
+import okhttp3.JavaNetCookieJar;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 
 
 /**
@@ -48,25 +55,44 @@ public class ApiClient {
     private Realm realm = Realm.getInstance(AppController.getInstance());
     private Handler handler = new Handler();
 
-    public void tryLogin(final String serial, final String pass, final LoginListener listener) {
+    public void tryLogin(final String serial, final String pass) {
 
         final String url = "https://mypage.groovecoaster.jp/sp/login/auth_con.php";
         final String serialNoKey = "nesicaCardId";
         final String passwordKey = "password";
 
-        AppController.getInstance().addToRequestQueue(new MyStringRequest(Request.Method.POST, url,
-                response -> listener.onFailure(),
-                error -> listener.onSuccess()) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put(serialNoKey, serial);
-                params.put(passwordKey, pass);
-                return params;
-            }
-
-        });
+//        AppController.getInstance().addToRequestQueue(new MyStringRequest(Request.Method.POST, url,
+//                response -> listener.onFailure(),
+//                error -> listener.onSuccess()) {
+//            @Override
+//            protected Map<String, String> getParams() {
+//                Map<String, String> params = new HashMap<>();
+//                params.put(serialNoKey, serial);
+//                params.put(passwordKey, pass);
+//                return params;
+//            }
+//
+//        });
         // TODO: Volleyを置き換える
+
+        RequestBody body = new FormBody.Builder()
+                .add(serialNoKey, serial)
+                .add(passwordKey, pass)
+                .build();
+
+
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+
+        try {
+            okhttp3.Response response = AppController.getOkHttpClient().newCall(request).execute();
+            Log.d("ktrsuccess", response.message());
+            Log.d("ktr", response.isSuccessful() + ": desu");
+        } catch (IOException e) {
+            Log.d("ktr", e.toString());
+        }
 
     }
 

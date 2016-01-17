@@ -1,7 +1,5 @@
 package com.syfm.groover.controller.usecases;
 
-import android.util.Log;
-
 import com.syfm.groover.model.network.ApiClient;
 import com.syfm.groover.model.network.AppController;
 import com.syfm.groover.model.storage.databases.MusicData;
@@ -24,6 +22,7 @@ public class MusicDataUseCase {
     // MusicDataFragmentへ通知
     public class MusicDataEvent {
         public final RealmResults<MusicData> musicData;
+
         public MusicDataEvent(RealmResults<MusicData> musicData) {
             this.musicData = musicData;
         }
@@ -31,6 +30,7 @@ public class MusicDataUseCase {
 
     public class SetMusicData {
         public final boolean success;
+
         public SetMusicData(boolean success) {
             this.success = success;
         }
@@ -65,7 +65,7 @@ public class MusicDataUseCase {
         }
 
         final int max_diff;
-        if(Integer.parseInt(ex_flag) == 1) {
+        if (Integer.parseInt(ex_flag) == 1) {
             max_diff = 4;
         } else {
             max_diff = 3;
@@ -73,7 +73,7 @@ public class MusicDataUseCase {
 
         ApiClient client = new ApiClient();
         deferred.when(() -> {
-            for(int diff=0;diff < max_diff;diff++) {
+            for (int diff = 0; diff < max_diff; diff++) {
                 client.fetchScoreRanking(mId, diff);
             }
         }).done(callback -> {
@@ -81,14 +81,5 @@ public class MusicDataUseCase {
         }).fail(callback -> {
             EventBus.getDefault().post(false);
         });
-    }
-
-    public void setScoreRankingIsSuccess(Boolean success) {
-        if(success) {
-            //ScoreRankingFragmentに通知する
-            // データベースがあるという通知
-            Log.d("ktr", "setScoreRankingIs" + success);
-
-        }
     }
 }

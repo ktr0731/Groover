@@ -42,6 +42,7 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
     compile 'org.jdeferred:jdeferred-android-aar:1.2.4'
     compile 'com.squareup.okhttp3:okhttp:3.0.1'
+    compile "com.squareup.okhttp3:okhttp-urlconnection:3.0.1"
 }
 
 apply plugin: 'me.tatarka.retrolambda'

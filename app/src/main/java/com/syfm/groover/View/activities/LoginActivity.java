@@ -138,20 +138,10 @@ public class LoginActivity extends Activity {
         return false;
     }
 
-    public void onEvent(PlayDataUseCase.SetPlayData event) {
-        if (event.success) {
-            Log.d("Unko", "SetPlayDataSuccess");
-        } else {
-            Log.d("Unko", "SetPlayDataError");
-        }
-    }
-
     public void onEvent(MusicDataUseCase.SetMusicData event) {
         if (event.success) {
-            Log.d("Unko", "SetMusicDataSuccess");
             finish();
         } else {
-            Log.d("Unko", "SetMusicDataError");
         }
     }
 }

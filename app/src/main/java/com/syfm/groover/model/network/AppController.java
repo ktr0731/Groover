@@ -20,6 +20,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
+import okhttp3.JavaNetCookieJar;
+import okhttp3.OkHttpClient;
+
 /**
  * Created by lycoris on 2015/09/24.
  */
@@ -31,6 +34,8 @@ public class AppController extends Application {
     private static AppController sInstance;
 
     private static CookieManager cookieManager;
+
+    private static OkHttpClient client;
 
     private static final String SET_COOKIE_KEY = "Set-Cookie";
     private static final String SESSION_COOKIE = "PHPSESSID";
@@ -44,6 +49,10 @@ public class AppController extends Application {
         cookieManager = new CookieManager();
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
         CookieHandler.setDefault(cookieManager);
+
+        client = new OkHttpClient.Builder()
+                .cookieJar(new JavaNetCookieJar(cookieManager))
+                .build();
     }
 
     public static synchronized AppController getInstance() {
@@ -106,5 +115,9 @@ public class AppController extends Application {
             return false;
         }
         return true;
+    }
+
+    public static OkHttpClient getOkHttpClient() {
+        return client;
     }
 }
