@@ -26,7 +26,7 @@ public class LoginUseCase {
     }
 
     public void checkLogin(final String serial, final String pass) {
-        if (!loggedin()) {
+        if (loggedin()) {
             return;
         }
         ApiClient client = new ApiClient();
@@ -34,13 +34,14 @@ public class LoginUseCase {
             client.tryLogin(serial, pass);
         }).done(callback -> {
             // ログインしていたら
-            if (!loggedin()) {
+            if (loggedin()) {
                 SharedPreferenceHelper.setLoginInfo(serial, pass);
                 EventBus.getDefault().post(new LoginEvent(true));
             } else {
-                Log.d("ktr", "okdesu");
                 EventBus.getDefault().post(new LoginEvent(false));
             }
+        }).fail(callback -> {
+            Log.d("ktr", "Login failed");
         });
     }
 

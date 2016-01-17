@@ -92,6 +92,8 @@ public class Const {
 
     public final static int TIME = 500;
 
+    public final static Boolean DEBUG_LOGIN = true;
+
     //インスタンス化を禁止
     private Const() {}
 

@@ -95,20 +95,22 @@ public class LoginActivity extends Activity {
 
             //Get all data and set db.
 
+            finish();
+
             // TODO: 取得パーセント表示
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    PlayDataUseCase playDataUseCase = new PlayDataUseCase();
-                    playDataUseCase.setPlayData();
+                    //PlayDataUseCase playDataUseCase = new PlayDataUseCase();
+                    //playDataUseCase.setPlayData();
                 }
             }, 1000);
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    MusicDataUseCase musicDataUseCase = new MusicDataUseCase();
-                    musicDataUseCase.setMusicData();
+                    //MusicDataUseCase musicDataUseCase = new MusicDataUseCase();
+                    //musicDataUseCase.setMusicData();
                 }
             }, 5000);
             handler.postDelayed(new Runnable() {
@@ -136,12 +138,5 @@ public class LoginActivity extends Activity {
         }
 
         return false;
-    }
-
-    public void onEvent(MusicDataUseCase.SetMusicData event) {
-        if (event.success) {
-            finish();
-        } else {
-        }
     }
 }

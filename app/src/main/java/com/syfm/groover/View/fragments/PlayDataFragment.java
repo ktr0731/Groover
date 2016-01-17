@@ -95,7 +95,7 @@ public class PlayDataFragment extends Fragment {
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-        new PlayDataUseCase().getPlayData();
+        //new PlayDataUseCase().getPlayData();
     }
 
     @Override

@@ -40,8 +40,8 @@ public class MusicListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MusicDataUseCase musicDataUseCase = new MusicDataUseCase();
-        musicDataUseCase.getMusicData();
+        //MusicDataUseCase musicDataUseCase = new MusicDataUseCase();
+        //musicDataUseCase.getMusicData();
     }
 
     @Override
@@ -64,7 +64,7 @@ public class MusicListFragment extends Fragment {
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-        new MusicDataUseCase().getMusicData();
+        //new MusicDataUseCase().getMusicData();
     }
 
     @Override
@@ -99,7 +99,6 @@ public class MusicListFragment extends Fragment {
 
     public void onEventMainThread(MusicDataUseCase.MusicDataEvent event) {
         if (event.musicData == null || event.musicData.isEmpty()) {
-            Log.d("ktr", "null");
             MusicDataUseCase useCase = new MusicDataUseCase();
             useCase.getMusicData();
             return;

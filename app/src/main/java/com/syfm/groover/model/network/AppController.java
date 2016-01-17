@@ -111,13 +111,16 @@ public class AppController extends Application {
     }
 
     public final boolean checkLoginCookie() {
-        if(cookieManager.getCookieStore().getCookies().size() != 0) {
-            return false;
+        // Groove Coasterだけで判断すること
+        if(cookieManager.getCookieStore().getCookies().size() > 0) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     public static OkHttpClient getOkHttpClient() {
+        Log.d("AppController", "API accessed");
         return client;
     }
+
 }
