@@ -30,20 +30,18 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.jpardogo.materialtabstrip:library:1.1.0'
-    compile 'com.mcxiaoke.volley:library:1.+'
     compile 'org.apache.httpcomponents:httpcore:4.4.3'
-    compile 'com.github.castorflex.smoothprogressbar:library:1.1.0'
-    compile 'com.github.castorflex.smoothprogressbar:library-circular:1.2.0'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.android.support:design:23.0.1'
     compile "com.android.support:cardview-v7:+"
     compile 'com.google.code.gson:gson:2.4'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'io.realm:realm-android:0.87.0'
-    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
     compile 'org.jdeferred:jdeferred-android-aar:1.2.4'
     compile 'com.squareup.okhttp3:okhttp:3.0.1'
     compile "com.squareup.okhttp3:okhttp-urlconnection:3.0.1"
+    compile 'com.facebook.stetho:stetho:1.2.0'
+    compile 'com.uphyca:stetho_realm:0.8.0'
 }
 
 apply plugin: 'me.tatarka.retrolambda'

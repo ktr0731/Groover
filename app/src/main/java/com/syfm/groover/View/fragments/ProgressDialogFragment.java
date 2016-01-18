@@ -11,6 +11,8 @@ import android.view.Window;
  */
 public class ProgressDialogFragment extends DialogFragment {
 
+    private ProgressDialog dialog;
+
     public static ProgressDialogFragment newInstance(int message) {
         ProgressDialogFragment fragment = new ProgressDialogFragment();
         Bundle args = new Bundle();
@@ -24,12 +26,16 @@ public class ProgressDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         int message = getArguments().getInt("message");
 
-        ProgressDialog dialog = new ProgressDialog(getActivity());
+        dialog = new ProgressDialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setMessage(getResources().getString(message));
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 
         return dialog;
+    }
+
+    public void changeMessage(String message) {
+        dialog.setMessage(message);
     }
 
 

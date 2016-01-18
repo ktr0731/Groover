@@ -28,7 +28,8 @@
 
     <integer name="status_code_login">100</integer>
 
-    <string name="dialog_title_login">ログイン</string>
+    <string name="dialog_title_login">ログイン中</string>
+    <string name="dialog_title_play_data">プレイヤーデータ取得中</string>
     
     <string name="toast_login_successful">ログインに成功しました</string>
     <string name="toast_login_failed">ログインに失敗しました</string>

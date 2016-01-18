@@ -31,7 +31,7 @@ import okhttp3.Response;
  * Created by lycoris on 2015/09/27.
  */
 public class ApiClient {
-    private Realm realm = Realm.getInstance(AppController.getInstance());
+    private Realm realm;
 
     public void tryLogin(final String serial, final String pass) {
 
@@ -58,11 +58,10 @@ public class ApiClient {
 
         }
 
-
-
     }
 
     public void fetchPlayerData() {
+        realm = Realm.getInstance(AppController.getContext());
         Log.d("ktr", "player data");
         String url = "https://mypage.groovecoaster.jp/sp/json/player_data.php";
         String player_data = "player_data";
@@ -76,11 +75,13 @@ public class ApiClient {
             Response response = AppController.getOkHttpClient().newCall(request).execute();
             if(!response.isSuccessful()) {
                 // TODO: エラー処理
+                Log.d("ktr", "errordesu");
                 return;
             }
 
             JSONObject object = new JSONObject(response.body().string()).getJSONObject(player_data);
             if(object.length() <= 0) {
+                Log.d("ktr", "length0");
                 return;
             }
 
@@ -99,6 +100,7 @@ public class ApiClient {
     }
 
     public void fetchShopSalesData() {
+        realm = Realm.getInstance(AppController.getContext());
         Log.d("ktr", "shop data");
         String url = "https://mypage.groovecoaster.jp/sp/json/shop_sales_data.php";
 
@@ -133,6 +135,7 @@ public class ApiClient {
     }
 
     public void fetchAverageScore() {
+        realm = Realm.getInstance(AppController.getContext());
         Log.d("ktr", "ave data");
 
         String url = "https://mypage.groovecoaster.jp/sp/json/average_score.php";
@@ -169,6 +172,7 @@ public class ApiClient {
     }
 
     public void fetchStageData() {
+        realm = Realm.getInstance(AppController.getContext());
         Log.d("ktr", "stage data");
 
         String url = "https://mypage.groovecoaster.jp/sp/json/stage_data.php";

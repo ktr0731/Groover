@@ -2,6 +2,7 @@ package com.syfm.groover.controller.usecases;
 
 import android.util.Log;
 
+import com.syfm.groover.model.Utils;
 import com.syfm.groover.model.network.ApiClient;
 import com.syfm.groover.model.network.AppController;
 import com.syfm.groover.model.storage.Const;
@@ -10,6 +11,7 @@ import com.syfm.groover.model.storage.databases.PlayerData;
 import com.syfm.groover.model.storage.databases.ShopSalesData;
 import com.syfm.groover.model.storage.databases.StageData;
 
+import org.jdeferred.Promise;
 import org.jdeferred.android.AndroidDeferredManager;
 
 import de.greenrobot.event.EventBus;
@@ -48,25 +50,34 @@ public class PlayDataUseCase {
 
     public void setPlayData() {
         ApiClient client = new ApiClient();
-        //client.fetchPlayData(this);
 
-        deferred.when(() -> {
+        // なぜかnetworkOnMainThreadException
+        Promise p = deferred.when(() -> {
             client.fetchPlayerData();
-            sleep();
-        }).then(result -> {
+            Utils.sleep();
+
             client.fetchShopSalesData();
-            sleep();
-        }).then(result -> {
+            Utils.sleep();
+
             client.fetchAverageScore();
-            sleep();
-        }).then(result1 -> {
+            Utils.sleep();
+
             client.fetchStageData();
-            sleep();
+            Utils.sleep();
+
         }).done(callback -> {
+            Log.d("ktr", "done");
             EventBus.getDefault().post(new SetPlayData(true));
         }).fail(callback -> {
+            Log.d("ktrerror", callback.getMessage().toString());
             EventBus.getDefault().post(new SetPlayData(false));
         });
+
+        try {
+            p.waitSafely();
+        } catch (InterruptedException e) {
+            Log.d("ktr", e.toString());
+        }
     }
 
     public void getPlayData() {
@@ -75,6 +86,8 @@ public class PlayDataUseCase {
         ShopSalesData sales  = realm.where(ShopSalesData.class).findFirst();
         AverageScore average = realm.where(AverageScore.class).findFirst();
         StageData stage      = realm.where(StageData.class).findFirst();
+
+        Log.d("ktr", "set:" + player.getPlayer_name());
         EventBus.getDefault().post(new PlayDataEvent(player, sales, average, stage));
     }
 

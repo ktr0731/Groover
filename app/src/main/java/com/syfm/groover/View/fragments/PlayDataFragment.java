@@ -2,6 +2,7 @@ package com.syfm.groover.view.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,6 +75,7 @@ public class PlayDataFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -95,7 +97,9 @@ public class PlayDataFragment extends Fragment {
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-        //new PlayDataUseCase().getPlayData();
+
+        // EventBusの登録より前に呼び出すとこっちのが早くて受け取れないので注意する
+        new PlayDataUseCase().getPlayData();
     }
 
     @Override

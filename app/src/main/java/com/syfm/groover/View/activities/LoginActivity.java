@@ -4,13 +4,20 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.syfm.groover.R;
 import com.syfm.groover.controller.usecases.LoginUseCase;
+import com.syfm.groover.controller.usecases.MusicDataUseCase;
+import com.syfm.groover.controller.usecases.PlayDataUseCase;
+import com.syfm.groover.model.Utils;
+import com.syfm.groover.model.storage.Const;
 import com.syfm.groover.view.fragments.ProgressDialogFragment;
+
+import org.jdeferred.android.AndroidDeferredManager;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,6 +37,8 @@ public class LoginActivity extends Activity {
     @Bind(R.id.editTextPassword)
     EditText password;
 
+    private AndroidDeferredManager deferred = new AndroidDeferredManager();
+
     final ProgressDialogFragment dialogFragment =
             ProgressDialogFragment.newInstance(R.string.dialog_title_login);
 
@@ -37,8 +46,8 @@ public class LoginActivity extends Activity {
     public void onClickLoginButton() {
         dialogFragment.show(getFragmentManager(), "dialog_fragment");
 
-        //LoginUseCase loginUseCase = new LoginUseCase();
-        //loginUseCase.checkLogin(serialNo.getText().toString(), password.getText().toString());
+        LoginUseCase loginUseCase = new LoginUseCase();
+        loginUseCase.checkLogin(serialNo.getText().toString(), password.getText().toString());
     }
 
 
@@ -65,54 +74,48 @@ public class LoginActivity extends Activity {
     }
 
     public void onEvent(LoginUseCase.LoginEvent event) {
-        if(event.success) {
-            dialogFragment.dismiss();
+        if (event.success) {
+            dialogFragment.changeMessage(getResources().getString(R.string.dialog_title_play_data));
 
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_login_successful), Toast.LENGTH_SHORT).show();
 
             //Get all data and set db.
 
             // TODO: 取得パーセント表示
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    //PlayDataUseCase playDataUseCase = new PlayDataUseCase();
-                    //playDataUseCase.setPlayData();
-                    finish();
-                }
-            }, 1000);
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    //MusicDataUseCase musicDataUseCase = new MusicDataUseCase();
-                    //musicDataUseCase.setMusicData();
-                }
-            }, 5000);
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    //eventDataUseCase.setEventData();
-                }
-            }, 2500);
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    //rankingDataUseCase.setRankingData();
-                }
-            }, 5500);
+
+            deferred.when(() -> {
+                PlayDataUseCase playDataUseCase = new PlayDataUseCase();
+                playDataUseCase.setPlayData();
+                Utils.sleep();
+            }).done(callback -> {
+                //MusicDataUseCase musicDataUseCase = new MusicDataUseCase();
+                //musicDataUseCase.setMusicData();
+                //Utils.sleep();
+            });
 
         } else {
-            Toast.makeText(getApplicationContext(), "ログインに失敗しました", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_login_failed), Toast.LENGTH_SHORT).show();
         }
     }
 
-    @Override public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode== KeyEvent.KEYCODE_BACK){
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             moveTaskToBack(true);
             return true;
         }
 
         return false;
     }
+
+    public void onEvent(PlayDataUseCase.SetPlayData event) {
+        if(event.success) {
+            Log.d("ktr", "playdata success");
+            dialogFragment.dismiss();
+            finish();
+        } else {
+            Log.d("ktr", "sippai");
+        }
+    }
+
 }
