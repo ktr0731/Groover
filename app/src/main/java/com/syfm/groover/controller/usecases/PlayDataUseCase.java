@@ -87,7 +87,6 @@ public class PlayDataUseCase {
         AverageScore average = realm.where(AverageScore.class).findFirst();
         StageData stage      = realm.where(StageData.class).findFirst();
 
-        Log.d("ktr", "set:" + player.getPlayer_name());
         EventBus.getDefault().post(new PlayDataEvent(player, sales, average, stage));
     }
 

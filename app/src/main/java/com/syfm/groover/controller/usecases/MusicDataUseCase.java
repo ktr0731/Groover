@@ -1,9 +1,12 @@
 package com.syfm.groover.controller.usecases;
 
+import android.util.Log;
+
 import com.syfm.groover.model.network.ApiClient;
 import com.syfm.groover.model.network.AppController;
 import com.syfm.groover.model.storage.databases.MusicData;
 
+import org.jdeferred.Promise;
 import org.jdeferred.android.AndroidDeferredManager;
 
 import de.greenrobot.event.EventBus;
@@ -39,13 +42,19 @@ public class MusicDataUseCase {
 
     public void setMusicData() {
         ApiClient client = new ApiClient();
-        deferred.when(() -> {
+        Promise promise = deferred.when(() -> {
             client.fetchMusicData();
         }).done(callback -> {
             EventBus.getDefault().post(new SetMusicData(true));
         }).fail(callback -> {
             EventBus.getDefault().post(new SetMusicData(false));
         });
+
+        try {
+            promise.waitSafely();
+        } catch (InterruptedException e) {
+            Log.d("ktr", e.toString());
+        }
     }
 
     public void getMusicData() {

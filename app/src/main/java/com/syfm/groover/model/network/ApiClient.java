@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.Calendar;
 
 import io.realm.Realm;
+import io.realm.exceptions.RealmException;
 import okhttp3.FormBody;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -248,18 +249,27 @@ public class ApiClient {
     }
 
     public void fetchMusicDetail(final JSONObject music, final int count, final int size) {
-        final String url = "https://mypage.groovecoaster.jp/sp/json/music_detail.php?music_id=";
+        realm = Realm.getInstance(AppController.getContext());
+
+        String url = "https://mypage.groovecoaster.jp/sp/json/music_detail.php?music_id=";
         String music_detail_data = "music_detail";
         String simple = "simple_result_data";
         String normal = "normal_result_data";
         String hard   = "hard_result_data";
         String extra  = "extra_result_data";
         String user_rank = "user_rank";
+        String music_id = "music_id";
 
         // 遅延
         try {
             Thread.sleep(Const.TIME);
         } catch (InterruptedException e) {
+            Log.d("ktr", e.toString());
+        }
+
+        try {
+            url += music.getString(music_id);
+        } catch (JSONException e) {
             Log.d("ktr", e.toString());
         }
 
@@ -289,9 +299,9 @@ public class ApiClient {
 
             realm.beginTransaction();
 
-            MusicData data = realm.createObjectFromJson(MusicData.class, object.toString());
+            MusicData data = realm.createObjectFromJson(MusicData.class, object);
             data.setLast_play_time(music.getString(Const.MUSIC_LIST_LAST_PLAY_TIME));
-            data.setPlay_count(music.getInt(Const.MUSIC_LIST_LAST_PLAY_TIME));
+            data.setPlay_count(music.getInt(Const.MUSIC_LIST_PLAY_COUNT));
 
             // 各難易度をMusicDataの子としてインサート
             // 要素にNULLがあると挙動がおかしくなるので気をつける
@@ -320,16 +330,25 @@ public class ApiClient {
 
         } catch (IOException e) {
             Log.d("ktr", e.toString());
+            realm.cancelTransaction();
 
         } catch (JSONException e) {
             Log.d("ktr", e.toString());
+            realm.cancelTransaction();
 
+        } catch (RealmException e) {
+            Log.d("ktrrealm", e.toString());
+            realm.cancelTransaction();
+        } catch (Exception e) {
+            Log.d("ktr", e.toString());
+            realm.cancelTransaction();
         }
 
     }
 
     public void fetchMusicThumbnail(int id, final MusicData musicData, final int count, final int maxSize) {
         String url = "https://mypage.groovecoaster.jp/sp/music/music_image.php?music_id=";
+        url += id;
 
         Request request = new okhttp3.Request.Builder()
                 .url(url)
@@ -340,16 +359,20 @@ public class ApiClient {
             Response response = AppController.getOkHttpClient().newCall(request).execute();
             if(!response.isSuccessful()) {
                 // TODO: エラー処理
+                Log.d("ktr", "thumb error");
                 realm.cancelTransaction();
                 return;
             }
 
-            if(response.body().bytes().length <= 0) {
+            byte bytes[] = response.body().bytes();
+            if(bytes.length <= 0) {
+                Log.d("ktr", "thumb error");
+
                 realm.cancelTransaction();
                 return;
             }
 
-            musicData.setMusic_thumbnail(response.body().bytes());
+            musicData.setMusic_thumbnail(bytes); // OkHttpでは無理？(closeされてる)
             realm.commitTransaction();
 
         } catch (IOException e) {

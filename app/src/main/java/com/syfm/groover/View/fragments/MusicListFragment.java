@@ -64,7 +64,8 @@ public class MusicListFragment extends Fragment {
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-        //new MusicDataUseCase().getMusicData();
+
+        new MusicDataUseCase().getMusicData();
     }
 
     @Override
@@ -99,8 +100,6 @@ public class MusicListFragment extends Fragment {
 
     public void onEventMainThread(MusicDataUseCase.MusicDataEvent event) {
         if (event.musicData == null || event.musicData.isEmpty()) {
-            MusicDataUseCase useCase = new MusicDataUseCase();
-            useCase.getMusicData();
             return;
         }
         adapter = new MusicListAdapter(getActivity(), 0, event.musicData, true);

@@ -86,11 +86,10 @@ public class LoginActivity extends Activity {
             deferred.when(() -> {
                 PlayDataUseCase playDataUseCase = new PlayDataUseCase();
                 playDataUseCase.setPlayData();
-                Utils.sleep();
             }).done(callback -> {
-                //MusicDataUseCase musicDataUseCase = new MusicDataUseCase();
-                //musicDataUseCase.setMusicData();
-                //Utils.sleep();
+                dialogFragment.changeMessage(getResources().getString(R.string.dialog_title_music_data));
+                MusicDataUseCase musicDataUseCase = new MusicDataUseCase();
+                musicDataUseCase.setMusicData();
             });
 
         } else {
@@ -111,10 +110,20 @@ public class LoginActivity extends Activity {
     public void onEvent(PlayDataUseCase.SetPlayData event) {
         if(event.success) {
             Log.d("ktr", "playdata success");
+            //dialogFragment.dismiss();
+            //finish();
+        } else {
+            Log.d("ktr", "sippai");
+        }
+    }
+
+    public void onEvent(MusicDataUseCase.SetMusicData event) {
+        if(event.success) {
+            Log.d("ktr", "MusicData Success");
             dialogFragment.dismiss();
             finish();
         } else {
-            Log.d("ktr", "sippai");
+            Log.d("ktr", "muisc data error");
         }
     }
 
