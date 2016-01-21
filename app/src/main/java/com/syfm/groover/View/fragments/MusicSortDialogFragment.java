@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.syfm.groover.R;
 import com.syfm.groover.model.network.AppController;
 import com.syfm.groover.model.storage.Const;
+import com.syfm.groover.model.storage.SharedPreferenceHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +71,8 @@ public class MusicSortDialogFragment extends DialogFragment {
                 params.add("desc");
                 break;
         }
+
+        SharedPreferenceHelper.setMusicSortInfo(params.get(0), params.get(1));
 
         EventBus.getDefault().post(params);
 

@@ -66,7 +66,6 @@ public class MusicDetailRankingFragment extends Fragment {
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-        new MusicDataUseCase().getMusicData();
     }
 
     @Override

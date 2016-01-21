@@ -94,6 +94,14 @@ public class Const {
 
     public final static Boolean DEBUG_LOGIN = true;
 
+    public final static String SP_LOGIN_NESICA_ID = "login_nesica_id";
+    public final static String SP_LOGIN_PASSWORD  = "login_password";
+
+    public final static String SP_MUSIC_LIST_LIST_VIEW_POSITION = "music_list_list_view_position";
+    public final static String SP_MUSIC_LIST_LIST_VIEW_Y        = "music_list_list_view_y";
+    public final static String SP_MUSIC_LIST_SORT_ORDER_BY = "music_list_order_by";
+    public final static String SP_MUSIC_LIST_SORT_SORT_TYPE = "music_list_sort_type";
+
     //インスタンス化を禁止
     private Const() {}
 

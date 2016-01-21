@@ -15,9 +15,12 @@ import android.widget.TextView;
 import com.syfm.groover.R;
 import com.syfm.groover.model.network.AppController;
 import com.syfm.groover.model.storage.Const;
+import com.syfm.groover.model.storage.SharedPreferenceHelper;
 import com.syfm.groover.model.storage.databases.MusicData;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -198,6 +201,16 @@ public class MusicListAdapter extends RealmBaseAdapter<MusicData> implements Lis
             }
 
         };
+    }
+
+    public void sortList() {
+        Map<String, String> info = SharedPreferenceHelper.getMusicSortInfo();
+        if(!info.isEmpty()) {
+            List<String> params = new ArrayList<>();
+            params.add(info.get(Const.SP_MUSIC_LIST_SORT_SORT_TYPE));
+            params.add(info.get(Const.SP_MUSIC_LIST_SORT_ORDER_BY));
+            sortList(params);
+        }
     }
 
     public void sortList(List<String> params) {

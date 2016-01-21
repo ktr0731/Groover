@@ -14,11 +14,14 @@ import android.widget.ListView;
 import com.syfm.groover.R;
 import com.syfm.groover.controller.usecases.MusicDataUseCase;
 import com.syfm.groover.model.storage.Const;
+import com.syfm.groover.model.storage.SharedPreferenceHelper;
 import com.syfm.groover.model.storage.databases.MusicData;
 import com.syfm.groover.view.activities.MusicDetailActivity;
 import com.syfm.groover.view.adapter.MusicListAdapter;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,8 +43,6 @@ public class MusicListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //MusicDataUseCase musicDataUseCase = new MusicDataUseCase();
-        //musicDataUseCase.getMusicData();
     }
 
     @Override
@@ -80,6 +81,9 @@ public class MusicListFragment extends Fragment {
         ListView listView = (ListView) parent;
         MusicData item = (MusicData) listView.getItemAtPosition(position);
 
+        // ListViewの位置を記憶
+        SharedPreferenceHelper.setMusicListViewPosition(listView.getFirstVisiblePosition(), listView.getChildAt(0).getTop());
+
         //IDをつける
         Bundle bundle = new Bundle();
         bundle.putInt("music_id", item.getMusic_id());
@@ -104,6 +108,14 @@ public class MusicListFragment extends Fragment {
         }
         adapter = new MusicListAdapter(getActivity(), 0, event.musicData, true);
         listView.setAdapter(adapter);
+
+        // 位置をセット
+        Map<String, Integer> positions = SharedPreferenceHelper.getMusicListViewPosition();
+        if(!positions.isEmpty()) {
+            listView.setSelectionFromTop(positions.get(Const.SP_MUSIC_LIST_LIST_VIEW_POSITION), positions.get(Const.SP_MUSIC_LIST_LIST_VIEW_Y));
+        }
+
+        adapter.sortList();
     }
 
 

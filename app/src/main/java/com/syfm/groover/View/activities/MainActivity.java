@@ -7,7 +7,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -16,6 +15,7 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.syfm.groover.R;
 import com.syfm.groover.controller.usecases.LoginUseCase;
 import com.syfm.groover.model.network.AppController;
+import com.syfm.groover.model.storage.Const;
 import com.syfm.groover.model.storage.SharedPreferenceHelper;
 import com.syfm.groover.view.adapter.MainFragmentPagerAdapter;
 import com.syfm.groover.view.fragments.MusicListFragment;
@@ -51,13 +51,12 @@ public class MainActivity extends AppCompatActivity {
         if (loginData.size() > 0 && !AppController.getInstance().checkLoginCookie()) {
             //入力させないでログイン
             LoginUseCase loginUseCase = new LoginUseCase();
-            String serialNo = loginData.get(getResources().getString(R.string.pref_serial_no));
-            String password = loginData.get(getResources().getString(R.string.pref_password));
+            String serialNo = loginData.get(Const.SP_LOGIN_NESICA_ID);
+            String password = loginData.get(Const.SP_LOGIN_PASSWORD);
             loginUseCase.checkLogin(serialNo, password);
 
         } else if (!AppController.getInstance().checkLoginCookie()) {
             //Go to LoginActivity
-            Log.d("ktr", "pass");
             Intent intent = new Intent(this, LoginActivity.class);
             int code = getResources().getInteger(R.integer.status_code_login);
             startActivityForResult(intent, code);
