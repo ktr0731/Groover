@@ -72,6 +72,9 @@ public class MusicListFragment extends Fragment {
     @Override
     public void onStop() {
         EventBus.getDefault().unregister(this);
+
+        // 位置を記憶
+        SharedPreferenceHelper.setMusicListViewPosition(listView.getFirstVisiblePosition(), listView.getChildAt(0).getTop());
         super.onStop();
     }
 
