@@ -3,6 +3,7 @@ package com.syfm.groover.model.network;
 import android.text.format.DateFormat;
 import android.util.Log;
 
+import com.syfm.groover.model.Utils;
 import com.syfm.groover.model.storage.Const;
 import com.syfm.groover.model.storage.databases.AverageScore;
 import com.syfm.groover.model.storage.databases.MusicData;
@@ -26,6 +27,7 @@ import okhttp3.FormBody;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 
 /**
@@ -59,6 +61,7 @@ public class ApiClient {
 
         }
 
+
     }
 
     public void fetchPlayerData() {
@@ -80,7 +83,11 @@ public class ApiClient {
                 return;
             }
 
-            JSONObject object = new JSONObject(response.body().string()).getJSONObject(player_data);
+            ResponseBody body = response.body();
+            JSONObject object = new JSONObject(body.string()).getJSONObject(player_data);
+
+            body.close();
+
             if(object.length() <= 0) {
                 Log.d("ktr", "length0");
                 return;
@@ -116,8 +123,11 @@ public class ApiClient {
                 // TODO: エラー処理
                 return;
             }
+            ResponseBody body = response.body();
+            JSONObject object = new JSONObject(body.string());
 
-            JSONObject object = new JSONObject(response.body().string());
+            body.close();
+
             if(object.length() <= 0) {
                 return;
             }
@@ -154,7 +164,12 @@ public class ApiClient {
                 return;
             }
 
-            JSONObject object = new JSONObject(response.body().string()).getJSONObject(average_data);
+            ResponseBody body = response.body();
+
+            JSONObject object = new JSONObject(body.string()).getJSONObject(average_data);
+
+            body.close();
+
             if(object.length() <= 0) {
                 return;
             }
@@ -191,7 +206,12 @@ public class ApiClient {
                 return;
             }
 
-            JSONObject object = new JSONObject(response.body().string()).getJSONObject(stage_data);
+            ResponseBody body = response.body();
+
+            JSONObject object = new JSONObject(body.string()).getJSONObject(stage_data);
+
+            body.close();
+
             if(object.length() <= 0) {
                 return;
             }
@@ -225,18 +245,24 @@ public class ApiClient {
                 return;
             }
 
-            JSONArray array = new JSONObject(response.body().string()).getJSONArray(music_list_data);
+            ResponseBody body = response.body();
+
+            JSONArray array = new JSONObject(body.string()).getJSONArray(music_list_data);
+
+            body.close();
+
             if(array.length() <= 0) {
                 return;
             }
 
             for(int i=0;i<array.length();i++) {
                 // For DEBUG
-                if(i > 10) {
+                if(i > 3) {
                     break;
                 }
 
-                fetchMusicDetail(array.getJSONObject(i), i, 10 - 1); //実際はlist.size() -1
+                Utils.sleep();
+                fetchMusicDetail(array.getJSONObject(i), i, 3 - 1); //実際はlist.size() -1
             }
 
         } catch (IOException e) {
@@ -260,13 +286,6 @@ public class ApiClient {
         String user_rank = "user_rank";
         String music_id = "music_id";
 
-        // 遅延
-        try {
-            Thread.sleep(Const.TIME);
-        } catch (InterruptedException e) {
-            Log.d("ktr", e.toString());
-        }
-
         try {
             url += music.getString(music_id);
         } catch (JSONException e) {
@@ -285,7 +304,12 @@ public class ApiClient {
                 return;
             }
 
-            JSONObject object = new JSONObject(response.body().string()).getJSONObject(music_detail_data);
+            ResponseBody body = response.body();
+
+            JSONObject object = new JSONObject(body.string()).getJSONObject(music_detail_data);
+
+            body.close();
+
             if(object.length() <= 0) {
                 return;
             }
@@ -364,7 +388,12 @@ public class ApiClient {
                 return;
             }
 
-            byte bytes[] = response.body().bytes();
+            ResponseBody body = response.body();
+
+            byte bytes[] = body.bytes();
+
+            body.close();
+
             if(bytes.length <= 0) {
                 Log.d("ktr", "thumb error");
 
@@ -400,7 +429,12 @@ public class ApiClient {
                 return;
             }
 
-            JSONArray array = new JSONObject(response.body().string()).getJSONArray(score_rank);
+            ResponseBody body = response.body();
+
+            JSONArray array = new JSONObject(body.string()).getJSONArray(score_rank);
+
+            body.close();
+
             if(array.length() <= 0) {
                 return;
             }

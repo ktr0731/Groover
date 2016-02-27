@@ -54,30 +54,16 @@ public class PlayDataUseCase {
         // なぜかnetworkOnMainThreadException
         Promise p = deferred.when(() -> {
             client.fetchPlayerData();
-            Utils.sleep();
-
             client.fetchShopSalesData();
-            Utils.sleep();
-
             client.fetchAverageScore();
-            Utils.sleep();
-
             client.fetchStageData();
-            Utils.sleep();
-
         }).done(callback -> {
-            Log.d("ktr", "done");
+            Log.d("ktr", "setPlayDataDone");
             EventBus.getDefault().post(new SetPlayData(true));
         }).fail(callback -> {
             Log.d("ktrerror", callback.getMessage().toString());
             EventBus.getDefault().post(new SetPlayData(false));
         });
-
-        try {
-            p.waitSafely();
-        } catch (InterruptedException e) {
-            Log.d("ktr", e.toString());
-        }
     }
 
     public void getPlayData() {
@@ -89,13 +75,4 @@ public class PlayDataUseCase {
 
         EventBus.getDefault().post(new PlayDataEvent(player, sales, average, stage));
     }
-
-    private void sleep() {
-        try {
-            Thread.sleep(Const.TIME);
-        } catch (InterruptedException e) {
-            Log.d("ktr", e.toString());
-        }
-    }
-
 }

@@ -41,20 +41,15 @@ public class MusicDataUseCase {
 
 
     public void setMusicData() {
-        ApiClient client = new ApiClient();
-        Promise promise = deferred.when(() -> {
+
+        deferred.when(() -> {
+            ApiClient client = new ApiClient();
             client.fetchMusicData();
         }).done(callback -> {
             EventBus.getDefault().post(new SetMusicData(true));
         }).fail(callback -> {
             EventBus.getDefault().post(new SetMusicData(false));
         });
-
-        try {
-            promise.waitSafely();
-        } catch (InterruptedException e) {
-            Log.d("ktr", e.toString());
-        }
     }
 
     public void getMusicData() {
