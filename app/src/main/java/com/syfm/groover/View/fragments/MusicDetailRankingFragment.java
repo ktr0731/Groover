@@ -46,9 +46,11 @@ public class MusicDetailRankingFragment extends Fragment {
             getActivity().finish();
         }
 
+        // スコアランキングを取得する
+        Log.d("fetchMusicData", "MusicDataUseCase.getScoreRanking Start");
         MusicDataUseCase useCase = new MusicDataUseCase();
-        useCase.getScoreRanking(String.valueOf(id), String.valueOf(ex_flag));
-        Log.d("ktr", "Start");
+        // まだ正規化していないため、一度停止
+        //useCase.getScoreRanking(String.valueOf(id), String.valueOf(ex_flag));
     }
 
     @Override
@@ -82,9 +84,11 @@ public class MusicDetailRankingFragment extends Fragment {
     }
 
     public void onEventMainThread(Boolean ready) {
-        Log.d("ktr", "Fragment coming");
-        RealmResults<ScoreRankData> ranks = realm.where(ScoreRankData.class).contains(Const.MUSIC_SCORE_DATA_DIFF, "0").findAll();
-        MusicScoreRankingAdapter adapter = new MusicScoreRankingAdapter(getActivity(), 0, ranks, true);
-        listView.setAdapter(adapter);
+        Log.d("ktr", "fetchScoreRanking: " + ready.toString());
+        if(ready) {
+            RealmResults<ScoreRankData> ranks = realm.where(ScoreRankData.class).contains(Const.MUSIC_SCORE_DATA_DIFF, "0").findAll();
+            MusicScoreRankingAdapter adapter = new MusicScoreRankingAdapter(getActivity(), 0, ranks, true);
+            listView.setAdapter(adapter);
+        }
     }
 }

@@ -83,6 +83,8 @@ public class MusicDataUseCase {
         }).done(callback -> {
             EventBus.getDefault().post(true);
         }).fail(callback -> {
+            callback.printStackTrace();
+            Log.d("ktr", "deferred exception: " + callback.getLocalizedMessage());
             EventBus.getDefault().post(false);
         });
     }

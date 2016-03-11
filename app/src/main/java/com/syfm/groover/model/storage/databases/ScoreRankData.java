@@ -10,6 +10,7 @@ public class ScoreRankData extends RealmObject {
 //    private String id;
     // TODO: Primary Keyがうまくいかない
     // TODO: というか正規化しないといけない?
+    private String id;
     private int rank;
     private String player_name;
     private int event_point;
@@ -18,13 +19,13 @@ public class ScoreRankData extends RealmObject {
     private String pref;
     private String diff;
 
-//    public String getId() {
-//        return id;
-//    }
-//
-//    public void setId(String id) {
-//        this.id = id;
-//    }
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public int getRank() {
         return rank;

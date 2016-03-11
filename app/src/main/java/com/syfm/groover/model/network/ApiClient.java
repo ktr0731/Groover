@@ -47,7 +47,6 @@ public class ApiClient {
                 .add(passwordKey, pass)
                 .build();
 
-
         Request request = new okhttp3.Request.Builder()
                 .url(url)
                 .post(body)
@@ -55,12 +54,11 @@ public class ApiClient {
 
         try {
             Response response = AppController.getOkHttpClient().newCall(request).execute();
+            response.body().close();
 
         } catch (IOException e) {
             Log.d("ktr", e.toString());
-
         }
-
 
     }
 
@@ -415,6 +413,8 @@ public class ApiClient {
     public void fetchScoreRanking(final String id, final int diff) {
         final String url = "https://mypage.groovecoaster.jp/sp/json/score_ranking_bymusic_bydifficulty.php?music_id=" + id + "&difficulty=" + diff;
 
+        realm = Realm.getInstance(AppController.getContext());
+
         String score_rank = "score_rank";
 
         Request request = new okhttp3.Request.Builder()
@@ -426,6 +426,7 @@ public class ApiClient {
             Response response = AppController.getOkHttpClient().newCall(request).execute();
             if(!response.isSuccessful()) {
                 // TODO: エラー処理
+                Log.d("ktr", "ApiClient.fetchScoreRanking response is not successful");
                 return;
             }
 
@@ -439,33 +440,19 @@ public class ApiClient {
                 return;
             }
 
-            realm.executeTransaction(realm -> {
-                for (int i = 0; i < 5; i++) {
-                    try {
-                        ScoreRankData item = realm.createObjectFromJson(ScoreRankData.class, array.getJSONObject(i));
-                        //item.setId(i + "_" + diff + id);
-                        item.setDiff(String.valueOf(diff));
-                    } catch (JSONException e) {
-                        Log.d("JSONException", "at id:" + id + " diff:" + diff + " " + e.toString());
-                    }
-                }
-            }, new Realm.Transaction.Callback() {
-                @Override
-                public void onSuccess() {
-                }
-
-                @Override
-                public void onError(Exception e) {
-                    Log.d("ktr", e.toString());
-                }
-            });
+            for (int i=0;i < 5;i++) {
+                realm.beginTransaction();
+                ScoreRankData item = realm.createObjectFromJson(ScoreRankData.class, array.get(i).toString());
+                item.setDiff(String.valueOf(diff));
+                item.setId(id);
+                realm.commitTransaction();
+            }
 
         } catch (IOException e) {
             Log.d("ktr", e.toString());
 
         } catch (JSONException e) {
             Log.d("ktr", e.toString());
-
         }
     }
 
