@@ -36,7 +36,7 @@ import okhttp3.ResponseBody;
 public class ApiClient {
     private Realm realm;
 
-    public void tryLogin(final String serial, final String pass) {
+    public boolean tryLogin(final String serial, final String pass) {
 
         final String url = "https://mypage.groovecoaster.jp/sp/login/auth_con.php";
         final String serialNoKey = "nesicaCardId";
@@ -54,12 +54,28 @@ public class ApiClient {
 
         try {
             Response response = AppController.getOkHttpClient().newCall(request).execute();
+
+            // login判定
+            String res_url = response.request().url().toString();
             response.body().close();
+
+            if (res_url.equals("https://mypage.groovecoaster.jp/sp/login/login_stop.php")) {
+                return false;
+            }
+
+            if (res_url.contains("isError=true")) {
+                return false;
+            }
+
+            return true;
 
         } catch (IOException e) {
             Log.d("ktr", e.toString());
         }
 
+
+
+        return false;
     }
 
     public void fetchPlayerData() {

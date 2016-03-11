@@ -31,10 +31,13 @@ public class LoginUseCase {
         }
         ApiClient client = new ApiClient();
         deferred.when(() -> {
-            client.tryLogin(serial, pass);
-        }).done(callback -> {
+            if (client.tryLogin(serial, pass)) {
+
+            }
+            return false;
+        }).done(loggedin -> {
             // ログインしていたら
-            if (loggedin()) {
+            if (loggedin) {
                 SharedPreferenceHelper.setLoginInfo(serial, pass);
                 EventBus.getDefault().post(new LoginEvent(true));
             } else {
