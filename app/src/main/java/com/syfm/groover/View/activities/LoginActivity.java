@@ -93,6 +93,7 @@ public class LoginActivity extends Activity {
             });
 
         } else {
+            dialogFragment.dismiss();
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_login_failed), Toast.LENGTH_SHORT).show();
         }
     }

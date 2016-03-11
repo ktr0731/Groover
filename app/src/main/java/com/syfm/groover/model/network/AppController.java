@@ -70,6 +70,10 @@ public class AppController extends Application {
         return client;
     }
 
+    public static void clearCookies() {
+        cookieManager.getCookieStore().removeAll();
+    }
+
     public static Context getContext() {
         return context;
     }

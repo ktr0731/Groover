@@ -31,20 +31,22 @@ public class LoginUseCase {
         }
         ApiClient client = new ApiClient();
         deferred.when(() -> {
-            if (client.tryLogin(serial, pass)) {
-
-            }
-            return false;
+            return client.tryLogin(serial, pass);
         }).done(loggedin -> {
             // ログインしていたら
             if (loggedin) {
                 SharedPreferenceHelper.setLoginInfo(serial, pass);
                 EventBus.getDefault().post(new LoginEvent(true));
             } else {
+                // ゴミCookieを削除
+                AppController.clearCookies();
                 EventBus.getDefault().post(new LoginEvent(false));
             }
         }).fail(callback -> {
             Log.d("ktr", "Login failed");
+            // ゴミCookieを削除
+            AppController.clearCookies();
+            EventBus.getDefault().post(new LoginEvent(false));
         });
     }
 

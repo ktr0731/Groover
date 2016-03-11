@@ -71,6 +71,8 @@ public class ApiClient {
 
         } catch (IOException e) {
             Log.d("ktr", e.toString());
+        } catch (Exception e) {
+            Log.d("ktr", e.toString());
         }
 
 
