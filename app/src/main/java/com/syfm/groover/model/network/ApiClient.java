@@ -474,6 +474,72 @@ public class ApiClient {
         }
     }
 
+    public void fetchLevelRankingData(final String LEVEL_TYPE) {
+        String url;
+
+        switch (LEVEL_TYPE) {
+            case Const.SP_LEVEL_ALL_RANKING:
+                url = "http://groovecoaster.jp/xml/fmj2100/rank/all/rank_1.xml";
+                break;
+
+            case Const.SP_LEVEL_SIMPLE_RANKING:
+                url = "http://groovecoaster.jp/xml/fmj2100/rank/diff/0/rank_1.xml";
+                break;
+
+            case Const.SP_LEVEL_NORMAL_RANKING:
+                url = "http://groovecoaster.jp/xml/fmj2100/rank/diff/1/rank_1.xml";
+                break;
+
+            case Const.SP_LEVEL_HARD_RANKING:
+                url = "http://groovecoaster.jp/xml/fmj2100/rank/diff/2/rank_1.xml";
+                break;
+
+            case Const.SP_LEVEL_EXTRA_RANKING:
+                url = "http://groovecoaster.jp/xml/fmj2100/rank/diff/3/rank_1.xml";
+                break;
+
+            default:
+                url = "http://groovecoaster.jp/xml/fmj2100/rank/all/rank_1.xml";
+                break;
+        }
+
+        realm = Realm.getInstance(AppController.getContext());
+
+        Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .get()
+                .build();
+
+        try {
+            Response response = AppController.getOkHttpClient().newCall(request).execute();
+            if(!response.isSuccessful()) {
+                // TODO: エラー処理
+                return;
+            }
+
+            ResponseBody body = response.body();
+
+            Log.d("ktr", body.string());
+            body.close();
+
+//            if(array.length() <= 0) {
+//                return;
+//            }
+//
+//            for (int i=0;i < 5;i++) {
+//                realm.beginTransaction();
+//                ScoreRankData item = realm.createObjectFromJson(ScoreRankData.class, array.get(i).toString());
+//                item.setDiff(String.valueOf(diff));
+//                item.setId(id);
+//                realm.commitTransaction();
+//            }
+
+        } catch (IOException e) {
+            Log.d("ktr", e.toString());
+
+        }
+    }
+
     // TODO: すごく汚いから治したい
     // nullで返ってくるデータをnull以外に整形する
     private void resultDataJsonReplaceNull(JSONObject obj, String key) {

@@ -102,6 +102,17 @@ public class Const {
     public final static String SP_MUSIC_LIST_SORT_ORDER_BY = "music_list_order_by";
     public final static String SP_MUSIC_LIST_SORT_SORT_TYPE = "music_list_sort_type";
 
+    public final static String SP_LEVEL_ALL_RANKING = "level_all_ranking";
+    public final static String SP_LEVEL_SIMPLE_RANKING = "level_simple_ranking";
+    public final static String SP_LEVEL_NORMAL_RANKING = "level_normal_ranking";
+    public final static String SP_LEVEL_HARD_RANKING = "level_hard_ranking";
+    public final static String SP_LEVEL_EXTRA_RANKING = "level_extra_ranking";
+
+
+    public final static int RANKING_LEVEL = 0;
+    public final static int RANKING_GENRE = 1;
+    public final static int RANKING_EVENT = 2;
+
     //インスタンス化を禁止
     private Const() {}
 

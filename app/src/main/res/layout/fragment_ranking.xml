@@ -14,4 +14,10 @@
         app:tabSelectedTextColor="@color/green"
         app:tabTextColor="@color/green"/>
 
+    <FrameLayout
+        android:id="@+id/ranking_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </FrameLayout>
+
 </LinearLayout>

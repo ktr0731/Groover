@@ -3,13 +3,10 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/ranking_level" />
-
     <ListView
+        android:id="@+id/lv_ranking"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:entries="@array/ranking_level" />
 
 </LinearLayout>
