@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.syfm.groover.model.Utils;
 import com.syfm.groover.model.storage.Const;
+import com.syfm.groover.model.storage.SharedPreferenceHelper;
 import com.syfm.groover.model.storage.databases.AverageScore;
 import com.syfm.groover.model.storage.databases.MusicData;
 import com.syfm.groover.model.storage.databases.PlayerData;
@@ -503,8 +504,6 @@ public class ApiClient {
                 break;
         }
 
-        realm = Realm.getInstance(AppController.getContext());
-
         Request request = new okhttp3.Request.Builder()
                 .url(url)
                 .get()
@@ -518,26 +517,19 @@ public class ApiClient {
             }
 
             ResponseBody body = response.body();
+            String value = body.string();
 
-            Log.d("ktr", body.string());
+            if (!value.isEmpty()) {
+                SharedPreferenceHelper.setLevelRanking(LEVEL_TYPE, value);
+            }
+
             body.close();
-
-//            if(array.length() <= 0) {
-//                return;
-//            }
-//
-//            for (int i=0;i < 5;i++) {
-//                realm.beginTransaction();
-//                ScoreRankData item = realm.createObjectFromJson(ScoreRankData.class, array.get(i).toString());
-//                item.setDiff(String.valueOf(diff));
-//                item.setId(id);
-//                realm.commitTransaction();
-//            }
 
         } catch (IOException e) {
             Log.d("ktr", e.toString());
 
         }
+
     }
 
     // TODO: すごく汚いから治したい

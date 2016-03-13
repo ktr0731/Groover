@@ -12,6 +12,7 @@ import com.syfm.groover.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by lycoris on 2015/10/09.
@@ -75,17 +76,5 @@ public class RankingFragment extends Fragment implements TabLayout.OnTabSelected
         super.onDestroyView();
 
         ButterKnife.unbind(this);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        //EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        //EventBus.getDefault().unregister(this);
-        super.onStop();
     }
 }

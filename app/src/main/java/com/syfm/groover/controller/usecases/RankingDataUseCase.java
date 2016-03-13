@@ -1,5 +1,7 @@
 package com.syfm.groover.controller.usecases;
 
+import android.util.Log;
+
 import com.syfm.groover.model.network.ApiClient;
 import com.syfm.groover.model.storage.SharedPreferenceHelper;
 
@@ -20,9 +22,9 @@ public class RankingDataUseCase {
         deferred.when(() -> {
             client.fetchLevelRankingData(LEVEL_TYPE);
         }).done(callback -> {
-
+            return;
         }).fail(callback -> {
-
+            Log.d("ktr", callback.getStackTrace().toString());
         });
     }
 
@@ -33,6 +35,7 @@ public class RankingDataUseCase {
             value = SharedPreferenceHelper.getLevelRanking(LEVEL_TYPE);
         }
 
+        Log.d("ktr", "EventBus");
         EventBus.getDefault().post(value);
     }
 }
