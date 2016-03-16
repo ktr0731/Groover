@@ -4,9 +4,8 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
 
-import com.syfm.groover.model.storage.databases.Ranking.LevelRanking;
+import com.syfm.groover.model.storage.databases.Ranking.RankingData;
 
 import java.util.ArrayList;
 
@@ -15,9 +14,9 @@ import java.util.ArrayList;
  */
 public class RankingAdapter extends BaseAdapter {
 
-    private ArrayList<LevelRanking> list;
+    private ArrayList<RankingData> list;
 
-    public RankingAdapter(Context context, ArrayList<LevelRanking> list) {
+    public RankingAdapter(Context context, ArrayList<RankingData> list) {
         this.list = list;
     }
 

@@ -113,6 +113,27 @@ public class Const {
     public final static int RANKING_GENRE = 1;
     public final static int RANKING_EVENT = 2;
 
+    public final static String RANKING_DATA_RANK = "rank";
+    public final static String RANKING_DATA_RANK2 = "rank2";
+    public final static String RANKING_DATA_PLAYER_NAME = "player_name";
+    public final static String RANKING_DATA_SCORE_BI1 = "score_bi1";
+    public final static String RANKING_DATA_PCOL3 = "pcol3";
+    public final static String RANKING_DATA_FCOL1 = "fcol1";
+    public final static String RANKING_DATA_LAST_PLAY_TENPO_ID = "last_play_tenpo_id";
+    public final static String RANKING_DATA_TENPO_NAME = "tenpo_name";
+    public final static String RANKING_DATA_PREF_ID = "pref_id";
+    public final static String RANKING_DATA_PREF = "pref";
+    public final static String RANKING_DATA_AREA_ID = "area_id";
+    public final static String RANKING_DATA_AREA = "area";
+    public final static String RANKING_DATA_TITLE = "title";
+
+    public final static String RANKING_DATA_PCOL1 = "pcol1";
+    public final static String RANKING_DATA_SCORE_i1 = "score_i1";
+    public final static String RANKING_DATA_FCOL2 = "fcol2";
+    public final static String RANKING_DATA_GENRE = "genre";
+    
+    public final static String RANKING_DATA_ROW_TAG = "data";
+
     //インスタンス化を禁止
     private Const() {}
 

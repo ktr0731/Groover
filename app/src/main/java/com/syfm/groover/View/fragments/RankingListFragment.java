@@ -11,13 +11,9 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.syfm.groover.R;
-import com.syfm.groover.controller.usecases.MusicDataUseCase;
 import com.syfm.groover.controller.usecases.RankingDataUseCase;
 import com.syfm.groover.model.storage.Const;
-import com.syfm.groover.model.storage.databases.Ranking.LevelRanking;
 import com.syfm.groover.view.adapter.RankingAdapter;
-
-import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -88,11 +84,14 @@ public class RankingListFragment extends Fragment {
     }
 
     public void onEventMainThread(String value) {
+
         if (value == "") {
             Log.d("ktr", "value is empty");
             return;
         } else {
-            adapter = new RankingAdapter(getActivity(), new ArrayList<LevelRanking>());
+
+
+            //adapter = new RankingAdapter(getActivity(), new ArrayList<RankingData>());
         }
     }
 }
