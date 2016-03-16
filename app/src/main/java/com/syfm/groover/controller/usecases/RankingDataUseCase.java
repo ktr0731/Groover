@@ -44,11 +44,10 @@ public class RankingDataUseCase {
             value = SharedPreferenceHelper.getLevelRanking(LEVEL_TYPE);
         }
 
-        parseRankingData(value);
-        EventBus.getDefault().post(value);
+        EventBus.getDefault().post(parseRankingData(value));
     }
 
-    public RankingData parseRankingData(String value) {
+    public ArrayList<RankingData> parseRankingData(String value) {
         ArrayList<RankingData> list = new ArrayList<>();
 
         try {
@@ -62,7 +61,10 @@ public class RankingDataUseCase {
             String tagName = null;
             RankingData row = null;
 
-            while (eventType != XmlPullParser.END_DOCUMENT) {
+            // For debug
+            int i=0;
+
+            while (eventType != XmlPullParser.END_DOCUMENT && i<10) {
                 if (eventType == XmlPullParser.START_TAG) {
                     tagName = xpp.getName();
                     if (xpp.getName().equals(Const.RANKING_DATA_ROW_TAG)) {
@@ -71,7 +73,6 @@ public class RankingDataUseCase {
                 } else if (eventType == XmlPullParser.TEXT) {
 
                     String e = xpp.getText().trim();
-                    Log.d("ktr", "tag:" + tagName + " element:" + e);
 
                     if (e.trim().equals('\n') || e.trim().isEmpty()) {
                         eventType = xpp.next();
@@ -101,8 +102,10 @@ public class RankingDataUseCase {
                             row.setTitle(e);
                             break;
                     }
+
                 } else if (eventType == XmlPullParser.END_TAG) {
                     if (xpp.getName().equals(Const.RANKING_DATA_ROW_TAG)) {
+                        i++;
                         list.add(row);
                     }
                 }
@@ -115,6 +118,6 @@ public class RankingDataUseCase {
             e.printStackTrace();
         }
 
-        return null;
+        return list;
     }
 }

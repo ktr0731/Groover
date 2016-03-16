@@ -19,6 +19,7 @@ import com.syfm.groover.model.storage.databases.MusicData;
 import com.syfm.groover.view.activities.MusicDetailActivity;
 import com.syfm.groover.view.adapter.MusicListAdapter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -123,7 +124,8 @@ public class MusicListFragment extends Fragment {
 
 
     // sort dialogからの通知
-    public void onEventMainThread(List<String> params) {
+    // TODO: 独自クラスで返さないと誤受信する
+    public void onEventMainThread(ArrayList<String> params) {
         adapter.sortList(params);
     }
 
