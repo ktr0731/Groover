@@ -43,9 +43,9 @@ public class RankingAdapter extends BaseAdapter {
             view.setTag(holder);
         }
 
-        holder.tv_rank.setText(list.get(position).getRank());
+        holder.tv_rank.setText(String.valueOf(list.get(position).getRank()));
         holder.tv_title.setText(list.get(position).getTitle());
-        holder.tv_score.setText(list.get(position).getScore_bi1());
+        holder.tv_score.setText(String.valueOf(list.get(position).getScore_bi1()));
 
         return view;
     }

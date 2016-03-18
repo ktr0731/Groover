@@ -25,6 +25,14 @@ public class RankingDataUseCase {
 
     private AndroidDeferredManager deferred = new AndroidDeferredManager();
 
+    public class RankingList {
+        public final ArrayList<RankingData> list;
+
+        public RankingList(ArrayList<RankingData> list) {
+            this.list = list;
+        }
+    }
+
     public void setRankingData(String LEVEL_TYPE) {
         ApiClient client = new ApiClient();
 
@@ -44,7 +52,7 @@ public class RankingDataUseCase {
             value = SharedPreferenceHelper.getLevelRanking(LEVEL_TYPE);
         }
 
-        EventBus.getDefault().post(parseRankingData(value));
+       EventBus.getDefault().post(new RankingList(parseRankingData(value)));
     }
 
     public ArrayList<RankingData> parseRankingData(String value) {

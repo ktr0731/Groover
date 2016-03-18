@@ -86,13 +86,13 @@ public class RankingListFragment extends Fragment {
         super.onStop();
     }
 
-    public void onEventMainThread(ArrayList<RankingData> value) {
+    public void onEventMainThread(RankingDataUseCase.RankingList value) {
 
-        if (value.isEmpty()) {
+        if (value.list.isEmpty()) {
             Log.d("ktr", "value is empty");
             return;
         } else {
-            adapter = new RankingAdapter(getActivity(), value);
+            adapter = new RankingAdapter(getActivity(), value.list);
             listView.setAdapter(adapter);
         }
     }
