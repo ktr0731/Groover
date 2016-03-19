@@ -6,7 +6,6 @@
 
     <LinearLayout
         android:id="@+id/ll_ranking_loading"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center">
@@ -18,9 +17,9 @@
 
     </LinearLayout>
 
-    <Spinner
+    <android.support.v7.widget.AppCompatSpinner
         android:id="@+id/sp_ranking"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <ListView

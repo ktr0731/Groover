@@ -64,6 +64,10 @@ public class RankingAdapter extends BaseAdapter {
         }
     }
 
+    public void updateList(ArrayList<RankingData> list) {
+        this.list = list;
+    }
+
     @Override
     public int getCount() {
         return list.size();

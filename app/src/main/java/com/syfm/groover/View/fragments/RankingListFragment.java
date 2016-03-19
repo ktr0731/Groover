@@ -2,11 +2,14 @@ package com.syfm.groover.view.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatSpinner;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -25,17 +28,20 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by lycoris on 2016/03/12.
  */
-public class RankingListFragment extends Fragment {
+public class RankingListFragment extends Fragment implements AppCompatSpinner.OnItemSelectedListener {
 
     @Bind(R.id.lv_ranking)
     ListView listView;
     @Bind(R.id.sp_ranking)
-    Spinner spinner;
+    AppCompatSpinner spinner;
+    @Bind(R.id.ll_ranking_loading)
+    LinearLayout loadingLayout;
 
     private String[] arraySpinner;
     private ArrayAdapter<String> adapterSpinner;
 
-    private RankingAdapter adapter;
+    private RankingAdapter adapter = null;
+    private int TYPE = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup group, Bundle savedInstanceState) {
@@ -58,19 +64,17 @@ public class RankingListFragment extends Fragment {
         EventBus.getDefault().register(this);
         RankingDataUseCase useCase = new RankingDataUseCase();
 
-        switch (getArguments().getInt("type")) {
+        this.TYPE = getArguments().getInt("type");
+
+        switch (this.TYPE) {
             case 0:
                 useCase.getRankingData(Const.SP_LEVEL_ALL_RANKING);
                 arraySpinner = getResources().getStringArray(R.array.ranking_level);
-                adapterSpinner = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, arraySpinner);
-                spinner.setAdapter(adapterSpinner);
                 break;
 
             case 1:
                 //useCase.getRankingData(Const.SP_);
                 arraySpinner = getResources().getStringArray(R.array.ranking_genre);
-                adapterSpinner = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, arraySpinner);
-                spinner.setAdapter(adapterSpinner);
                 break;
 
             case 2:
@@ -78,6 +82,12 @@ public class RankingListFragment extends Fragment {
 
             default:
                 break;
+        }
+
+        if (arraySpinner != null) {
+            adapterSpinner = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, arraySpinner);
+            spinner.setAdapter(adapterSpinner);
+            spinner.setOnItemSelectedListener(this);
         }
     }
 
@@ -87,14 +97,62 @@ public class RankingListFragment extends Fragment {
         super.onStop();
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        RankingDataUseCase useCase = new RankingDataUseCase();
+
+        loadingLayout.setVisibility(View.VISIBLE);
+
+        // どのデータが表示されたかを解決し、UseCaseにgetする
+        switch (this.TYPE) {
+
+            case 0:
+                //Level
+
+                switch (position) {
+                    case 0:
+                        useCase.getRankingData(Const.SP_LEVEL_ALL_RANKING);
+                        break;
+                    case 1:
+                        useCase.getRankingData(Const.SP_LEVEL_SIMPLE_RANKING);
+                        break;
+                    case 2:
+                        useCase.getRankingData(Const.SP_LEVEL_NORMAL_RANKING);
+                        break;
+                    case 3:
+                        useCase.getRankingData(Const.SP_LEVEL_HARD_RANKING);
+                        break;
+                    case 4:
+                        useCase.getRankingData(Const.SP_LEVEL_EXTRA_RANKING);
+                        break;
+                }
+
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
     public void onEventMainThread(RankingDataUseCase.RankingList value) {
 
         if (value.list.isEmpty()) {
             Log.d("ktr", "value is empty");
             return;
         } else {
+            if (adapter != null) {
+                // Update
+                Log.d("ktr", "list update");
+                adapter.updateList(value.list);
+            }
             adapter = new RankingAdapter(getActivity(), value.list);
             listView.setAdapter(adapter);
+            loadingLayout.setVisibility(View.GONE);
         }
     }
+
+
 }

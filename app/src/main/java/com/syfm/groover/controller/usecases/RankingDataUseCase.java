@@ -46,13 +46,34 @@ public class RankingDataUseCase {
     }
 
     public void getRankingData(final String LEVEL_TYPE) {
+        Log.d("ktr", "getRankingData");
         String value = SharedPreferenceHelper.getLevelRanking(LEVEL_TYPE);
         if (value == "") {
-            setRankingData(LEVEL_TYPE);
-            value = SharedPreferenceHelper.getLevelRanking(LEVEL_TYPE);
-        }
 
-       EventBus.getDefault().post(new RankingList(parseRankingData(value)));
+            Log.d("ktr", "getRankingData value is ''");
+
+            // TODO: ここの書き方がキモい
+            deferred.when(() -> {
+                setRankingData(LEVEL_TYPE);
+                // 無駄なリクエストを送信するのを防ぐ
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).done(callback -> {
+                // 再帰
+                getRankingData(LEVEL_TYPE);
+            }).fail(callback -> {
+                callback.printStackTrace();
+                Log.d("ktr", "getRankingData failed");
+            });
+
+        } else {
+            Log.d("ktr", "getRankingData value is not empty");
+
+            EventBus.getDefault().post(new RankingList(parseRankingData(value)));
+        }
     }
 
     public ArrayList<RankingData> parseRankingData(String value) {
