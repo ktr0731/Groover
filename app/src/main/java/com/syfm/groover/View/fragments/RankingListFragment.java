@@ -56,10 +56,10 @@ public class RankingListFragment extends Fragment {
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
+        RankingDataUseCase useCase = new RankingDataUseCase();
 
         switch (getArguments().getInt("type")) {
             case 0:
-                RankingDataUseCase useCase = new RankingDataUseCase();
                 useCase.getRankingData(Const.SP_LEVEL_ALL_RANKING);
                 arraySpinner = getResources().getStringArray(R.array.ranking_level);
                 adapterSpinner = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, arraySpinner);
@@ -67,6 +67,7 @@ public class RankingListFragment extends Fragment {
                 break;
 
             case 1:
+                //useCase.getRankingData(Const.SP_);
                 arraySpinner = getResources().getStringArray(R.array.ranking_genre);
                 adapterSpinner = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, arraySpinner);
                 spinner.setAdapter(adapterSpinner);
