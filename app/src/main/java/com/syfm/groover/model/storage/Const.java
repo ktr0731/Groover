@@ -116,6 +116,8 @@ public class Const {
     public final static String SP_GENRE_VARIETY_RANKING = "genre_variety_ranking";
     public final static String SP_GENRE_ORIGINAL_RANKING = "genre_original_ranking";
 
+    public final static String SP_EVENT_LIST = "event_list";
+
     public final static int RANKING_LEVEL = 0;
     public final static int RANKING_GENRE = 1;
     public final static int RANKING_EVENT = 2;
@@ -148,6 +150,23 @@ public class Const {
     public final static String RANKING_DATA_GENRE = "genre";
     
     public final static String RANKING_DATA_ROW_TAG = "data";
+
+    public final static String EVENT_NAME_ID = "event_id";
+    public final static String EVENT_NAME_TITLE = "title";
+    public final static String EVENT_NAME_COMMENT = "comment";
+    public final static String EVENT_NAME_OPEN_DATE = "open_date";
+    public final static String EVENT_NAME_CLOSE_DATE = "close_date";
+    public final static String EVENT_NAME_OPEN_TIME = "open_time";
+    public final static String EVENT_NAME_CLOSE_TIME = "close_time";
+    public final static String EVENT_NAME_USE_FLAG = "use_flag";
+    public final static String EVENT_NAME_VERSION = "version";
+    public final static String EVENT_NAME_REGION = "region";
+    public final static String EVENT_NAME_SCORE_TYPE = "score_type";
+    public final static String EVENT_NAME_SPECIFIED_NUM = "specified_num";
+    public final static String EVENT_NAME_CHALLENGE_NUM = "challenge_num";
+    public final static String EVENT_NAME_REACHED_SCORE = "reached_score";
+
+    public final static String EVENT_NAME_ROW_TAG = "data";
 
     //インスタンス化を禁止
     private Const() {}

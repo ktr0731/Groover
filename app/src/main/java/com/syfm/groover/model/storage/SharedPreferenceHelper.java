@@ -90,6 +90,16 @@ public class SharedPreferenceHelper {
         editor.commit();
     }
 
+    public static String getEventNameList() {
+        return sp.getString(Const.SP_EVENT_LIST, "");
+    }
+
+    public static void setEventNameList(String value) {
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(Const.SP_EVENT_LIST, value);
+        editor.commit();
+    }
+
     private static String getStr(int id) {
         return r.getString(id);
     }

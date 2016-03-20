@@ -1,12 +1,9 @@
-package com.syfm.groover.model.storage.databases.Ranking;
-
-import io.realm.RealmObject;
-import io.realm.annotations.RealmClass;
+package com.syfm.groover.controller.entities.Ranking;
 
 /**
  * Created by lycoris on 2016/03/11.
  */
-public class RankingData {
+public class RankingDataEntity {
     private int rank;
     private int rank2;  // 何に使っているのかわからない
     private String player_name;

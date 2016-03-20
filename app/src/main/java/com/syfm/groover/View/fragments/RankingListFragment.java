@@ -75,6 +75,7 @@ public class RankingListFragment extends Fragment implements AppCompatSpinner.On
                 break;
 
             case 2:
+                useCase.getEventNameList();
                 break;
 
             default:
@@ -153,6 +154,11 @@ public class RankingListFragment extends Fragment implements AppCompatSpinner.On
                         useCase.getRankingData(Const.SP_GENRE_ORIGINAL_RANKING);
                         break;
                 }
+                break;
+
+            case 2:
+                // Event
+
 
             default:
                 break;
@@ -170,17 +176,26 @@ public class RankingListFragment extends Fragment implements AppCompatSpinner.On
             Log.d("ktr", "value is empty");
             Toast.makeText(getActivity(), "ランキングデータの取得に失敗しました。", Toast.LENGTH_SHORT).show();
             return;
-        } else {
-            if (adapter != null) {
-                // Update
-                Log.d("ktr", "list update");
-                adapter.updateList(value.list);
-            }
-            adapter = new RankingAdapter(getActivity(), value.list);
-            listView.setAdapter(adapter);
-            loadingLayout.setVisibility(View.GONE);
         }
+
+        if (adapter != null) {
+            // Update
+            Log.d("ktr", "list update");
+            adapter.updateList(value.list);
+        }
+        adapter = new RankingAdapter(getActivity(), value.list);
+        listView.setAdapter(adapter);
+        loadingLayout.setVisibility(View.GONE);
     }
 
+    public void onEventMainThread(RankingDataUseCase.EventNameList value) {
 
+        if (value.list.isEmpty() || !value.isSuccess) {
+            Log.d("ktr", "value is empty");
+            Toast.makeText(getActivity(), "過去のイベント一覧の取得に失敗しました。", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Log.d("ktr", value.list.get(0).getTitle().toString());
+    }
 }

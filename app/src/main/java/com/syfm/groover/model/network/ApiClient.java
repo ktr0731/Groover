@@ -560,6 +560,36 @@ public class ApiClient {
 
     }
 
+    public void fetchEventNameList() {
+        final String url = "http://groovecoaster.jp/xml/fmj2100/rank/event.xml";
+
+        Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .get()
+                .build();
+
+        try {
+            Response response = AppController.getOkHttpClient().newCall(request).execute();
+            if(!response.isSuccessful()) {
+                // TODO: エラー処理
+                Log.d("ktr", "[RankingDataUseCase] fetchEventNameList OkHttp isNotSuccessful");
+                return;
+            }
+
+            ResponseBody body = response.body();
+            String value = body.string();
+
+            if (!value.isEmpty()) {
+                SharedPreferenceHelper.setEventNameList(value);
+            }
+
+            body.close();
+
+        } catch (IOException e) {
+            Log.d("ktr", e.toString());
+        }
+    }
+
     // TODO: すごく汚いから治したい
     // nullで返ってくるデータをnull以外に整形する
     private void resultDataJsonReplaceNull(JSONObject obj, String key) {

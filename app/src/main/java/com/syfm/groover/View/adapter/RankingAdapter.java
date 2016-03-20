@@ -1,7 +1,6 @@
 package com.syfm.groover.view.adapter;
 
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.syfm.groover.R;
-import com.syfm.groover.model.storage.databases.Ranking.RankingData;
+import com.syfm.groover.controller.entities.Ranking.RankingDataEntity;
 
 import java.util.ArrayList;
 
@@ -21,10 +20,10 @@ import butterknife.ButterKnife;
  */
 public class RankingAdapter extends BaseAdapter {
 
-    private ArrayList<RankingData> list;
+    private ArrayList<RankingDataEntity> list;
     private LayoutInflater inflater;
 
-    public RankingAdapter(Context context, ArrayList<RankingData> list) {
+    public RankingAdapter(Context context, ArrayList<RankingDataEntity> list) {
         this.list = list;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -64,7 +63,7 @@ public class RankingAdapter extends BaseAdapter {
         }
     }
 
-    public void updateList(ArrayList<RankingData> list) {
+    public void updateList(ArrayList<RankingDataEntity> list) {
         this.list = list;
     }
 
