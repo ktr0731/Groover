@@ -1,6 +1,7 @@
 package com.syfm.groover.controller.usecases;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.syfm.groover.model.network.ApiClient;
 import com.syfm.groover.model.storage.Const;
@@ -26,35 +27,31 @@ public class RankingDataUseCase {
     private AndroidDeferredManager deferred = new AndroidDeferredManager();
 
     public class RankingList {
+        public final boolean isSuccess;
         public final ArrayList<RankingData> list;
 
-        public RankingList(ArrayList<RankingData> list) {
+        public RankingList(boolean isSuccess, ArrayList<RankingData> list) {
+            this.isSuccess = isSuccess;
             this.list = list;
         }
     }
 
-    public void setRankingData(String LEVEL_TYPE) {
+    public void setRankingData(String RANKING_TYPE) {
         ApiClient client = new ApiClient();
 
-        deferred.when(() -> {
-            client.fetchLevelRankingData(LEVEL_TYPE);
-        }).done(callback -> {
-            return;
-        }).fail(callback -> {
-            Log.d("ktr", callback.getStackTrace().toString());
-        });
+        client.fetchRankingData(RANKING_TYPE);
     }
 
-    public void getRankingData(final String LEVEL_TYPE) {
+    public void getRankingData(final String RANKING_TYPE) {
         Log.d("ktr", "getRankingData");
-        String value = SharedPreferenceHelper.getLevelRanking(LEVEL_TYPE);
+        String value = SharedPreferenceHelper.getLevelRanking(RANKING_TYPE);
         if (value == "") {
 
             Log.d("ktr", "getRankingData value is ''");
 
             // TODO: ここの書き方がキモい
             deferred.when(() -> {
-                setRankingData(LEVEL_TYPE);
+                setRankingData(RANKING_TYPE);
                 // 無駄なリクエストを送信するのを防ぐ
                 try {
                     Thread.sleep(100);
@@ -63,20 +60,21 @@ public class RankingDataUseCase {
                 }
             }).done(callback -> {
                 // 再帰
-                getRankingData(LEVEL_TYPE);
+                getRankingData(RANKING_TYPE);
             }).fail(callback -> {
                 callback.printStackTrace();
+                EventBus.getDefault().post(new RankingList(false, null));
                 Log.d("ktr", "getRankingData failed");
             });
 
         } else {
             Log.d("ktr", "getRankingData value is not empty");
 
-            EventBus.getDefault().post(new RankingList(parseRankingData(value)));
+            EventBus.getDefault().post(new RankingList(true, parseRankingData(value, RANKING_TYPE)));
         }
     }
 
-    public ArrayList<RankingData> parseRankingData(String value) {
+    public ArrayList<RankingData> parseRankingData(String value, final String RANKING_TYPE) {
         ArrayList<RankingData> list = new ArrayList<>();
 
         try {
@@ -142,6 +140,9 @@ public class RankingDataUseCase {
                 eventType = xpp.next();
             }
         } catch (XmlPullParserException e) {
+            Log.d("ktr", "Invalid XML");
+            // 取得したXMLが不正なのでリセットする
+            SharedPreferenceHelper.setLevelRanking(RANKING_TYPE, "");
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();

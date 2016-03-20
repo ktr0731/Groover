@@ -475,32 +475,60 @@ public class ApiClient {
         }
     }
 
-    public void fetchLevelRankingData(final String LEVEL_TYPE) {
-        String url;
+    public void fetchRankingData(final String RANKING_TYPE) {
+        String url = "http://groovecoaster.jp/xml/fmj2100/rank/";
 
-        switch (LEVEL_TYPE) {
+        switch (RANKING_TYPE) {
             case Const.SP_LEVEL_ALL_RANKING:
-                url = "http://groovecoaster.jp/xml/fmj2100/rank/all/rank_1.xml";
+                url += "all/rank_1.xml";
                 break;
 
             case Const.SP_LEVEL_SIMPLE_RANKING:
-                url = "http://groovecoaster.jp/xml/fmj2100/rank/diff/0/rank_1.xml";
+                url += "diff/0/rank_1.xml";
                 break;
 
             case Const.SP_LEVEL_NORMAL_RANKING:
-                url = "http://groovecoaster.jp/xml/fmj2100/rank/diff/1/rank_1.xml";
+                url += "diff/1/rank_1.xml";
                 break;
 
             case Const.SP_LEVEL_HARD_RANKING:
-                url = "http://groovecoaster.jp/xml/fmj2100/rank/diff/2/rank_1.xml";
+                url += "diff/2/rank_1.xml";
                 break;
 
             case Const.SP_LEVEL_EXTRA_RANKING:
-                url = "http://groovecoaster.jp/xml/fmj2100/rank/diff/3/rank_1.xml";
+                url += "diff/3/rank_1.xml";
+                break;
+
+            case Const.SP_GENRE_JPOP_RANKING:
+                url += "genre/J-POP/rank_1.xml";
+                break;
+
+            case Const.SP_GENRE_ANIME_RANKING:
+                url += "genre/ANIME/rank_1.xml";
+                break;
+
+            case Const.SP_GENRE_VOCALOID_RANKING:
+                url += "genre/VOCALOID/rank_1.xml";
+                break;
+
+            case Const.SP_GENRE_TOUHOU_RANKING:
+                url += "genre/TOUHOU/rank_1.xml";
+                break;
+
+            case Const.SP_GENRE_GAME_RANKING:
+                url += "genre/GAME/rank_1.xml";
+                break;
+
+            case Const.SP_GENRE_VARIETY_RANKING:
+                url += "genre/VARIETY/rank_1.xml";
+                break;
+
+            case Const.SP_GENRE_ORIGINAL_RANKING:
+                url += "genre/ORIGINAL/rank_1.xml";
                 break;
 
             default:
-                url = "http://groovecoaster.jp/xml/fmj2100/rank/all/rank_1.xml";
+                url += "all/rank_1.xml";
                 break;
         }
 
@@ -520,7 +548,7 @@ public class ApiClient {
             String value = body.string();
 
             if (!value.isEmpty()) {
-                SharedPreferenceHelper.setLevelRanking(LEVEL_TYPE, value);
+                SharedPreferenceHelper.setLevelRanking(RANKING_TYPE, value);
             }
 
             body.close();

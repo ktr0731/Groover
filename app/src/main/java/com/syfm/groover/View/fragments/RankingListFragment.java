@@ -11,15 +11,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.syfm.groover.R;
 import com.syfm.groover.controller.usecases.RankingDataUseCase;
 import com.syfm.groover.model.storage.Const;
-import com.syfm.groover.model.storage.databases.Ranking.RankingData;
 import com.syfm.groover.view.adapter.RankingAdapter;
-
-import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -126,6 +123,36 @@ public class RankingListFragment extends Fragment implements AppCompatSpinner.On
                         useCase.getRankingData(Const.SP_LEVEL_EXTRA_RANKING);
                         break;
                 }
+                break;
+
+            case 1:
+                // Genre
+                AppCompatSpinner spinner = (AppCompatSpinner) parent;
+
+                switch (spinner.getSelectedItem().toString()) {
+                    case Const.RANKING_GENRE_JPOP:
+                        // Genreのgetメソッドの実装
+                        useCase.getRankingData(Const.SP_GENRE_JPOP_RANKING);
+                        break;
+                    case Const.RANKING_GENRE_ANIME:
+                        useCase.getRankingData(Const.SP_GENRE_ANIME_RANKING);
+                        break;
+                    case Const.RANKING_GENRE_VOCALOID:
+                        useCase.getRankingData(Const.SP_GENRE_VOCALOID_RANKING);
+                        break;
+                    case Const.RANKING_GENRE_TOHO:
+                        useCase.getRankingData(Const.SP_GENRE_TOUHOU_RANKING);
+                        break;
+                    case Const.RANKING_GENRE_GAME:
+                        useCase.getRankingData(Const.SP_GENRE_GAME_RANKING);
+                        break;
+                    case Const.RANKING_GENRE_VARIETY:
+                        useCase.getRankingData(Const.SP_GENRE_VARIETY_RANKING);
+                        break;
+                    case Const.RANKING_GENRE_ORIGINAL:
+                        useCase.getRankingData(Const.SP_GENRE_ORIGINAL_RANKING);
+                        break;
+                }
 
             default:
                 break;
@@ -139,8 +166,9 @@ public class RankingListFragment extends Fragment implements AppCompatSpinner.On
 
     public void onEventMainThread(RankingDataUseCase.RankingList value) {
 
-        if (value.list.isEmpty()) {
+        if (value.list.isEmpty() || !value.isSuccess) {
             Log.d("ktr", "value is empty");
+            Toast.makeText(getActivity(), "ランキングデータの取得に失敗しました。", Toast.LENGTH_SHORT).show();
             return;
         } else {
             if (adapter != null) {

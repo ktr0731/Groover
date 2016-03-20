@@ -108,10 +108,25 @@ public class Const {
     public final static String SP_LEVEL_HARD_RANKING = "level_hard_ranking";
     public final static String SP_LEVEL_EXTRA_RANKING = "level_extra_ranking";
 
+    public final static String SP_GENRE_JPOP_RANKING = "genre_jpop_ranking";
+    public final static String SP_GENRE_ANIME_RANKING = "genre_anime_ranking";
+    public final static String SP_GENRE_VOCALOID_RANKING = "genre_vocaloid_ranking";
+    public final static String SP_GENRE_TOUHOU_RANKING = "genre_touhou_ranking";
+    public final static String SP_GENRE_GAME_RANKING = "genre_game_ranking";
+    public final static String SP_GENRE_VARIETY_RANKING = "genre_variety_ranking";
+    public final static String SP_GENRE_ORIGINAL_RANKING = "genre_original_ranking";
 
     public final static int RANKING_LEVEL = 0;
     public final static int RANKING_GENRE = 1;
     public final static int RANKING_EVENT = 2;
+
+    public final static String RANKING_GENRE_JPOP = "Pops";
+    public final static String RANKING_GENRE_ANIME = "Anime";
+    public final static String RANKING_GENRE_VOCALOID = "Vocaloid";
+    public final static String RANKING_GENRE_TOHO = "Toho";
+    public final static String RANKING_GENRE_GAME = "Game";
+    public final static String RANKING_GENRE_VARIETY = "Variety";
+    public final static String RANKING_GENRE_ORIGINAL = "Original";
 
     public final static String RANKING_DATA_RANK = "rank";
     public final static String RANKING_DATA_RANK2 = "rank2";
