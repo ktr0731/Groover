@@ -1,4 +1,4 @@
-package com.syfm.groover.controller.entities.Ranking;
+package com.syfm.groover.controller.entities.ranking;
 
 /**
  * Created by lycoris on 2016/03/11.

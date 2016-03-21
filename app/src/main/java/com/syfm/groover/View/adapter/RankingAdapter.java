@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.syfm.groover.R;
-import com.syfm.groover.controller.entities.Ranking.RankingDataEntity;
+import com.syfm.groover.controller.entities.ranking.RankingDataEntity;
 
 import java.util.ArrayList;
 

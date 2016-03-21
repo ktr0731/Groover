@@ -2,11 +2,11 @@ package com.syfm.groover.controller.usecases;
 
 import android.util.Log;
 
-import com.syfm.groover.controller.entities.Event.EventNameEntity;
+import com.syfm.groover.controller.entities.event.EventNameEntity;
 import com.syfm.groover.model.network.ApiClient;
 import com.syfm.groover.model.storage.Const;
 import com.syfm.groover.model.storage.SharedPreferenceHelper;
-import com.syfm.groover.controller.entities.Ranking.RankingDataEntity;
+import com.syfm.groover.controller.entities.ranking.RankingDataEntity;
 
 import org.jdeferred.android.AndroidDeferredManager;
 import org.xmlpull.v1.XmlPullParser;
@@ -205,6 +205,12 @@ public class RankingDataUseCase {
         return list;
     }
 
+    public void setEventNameList() {
+        ApiClient client = new ApiClient();
+
+        client.fetchEventNameList();
+    }
+
     public void getEventNameList() {
         Log.d("ktr", "getEventNameList");
         String value = SharedPreferenceHelper.getEventNameList();
@@ -236,13 +242,6 @@ public class RankingDataUseCase {
             EventBus.getDefault().post(new EventNameList(true, parseEventNameList(value)));
         }
     }
-
-    public void setEventNameList() {
-        ApiClient client = new ApiClient();
-
-        client.fetchEventNameList();
-    }
-
 
     public ArrayList<EventNameEntity> parseEventNameList(String value) {
         ArrayList<EventNameEntity> list = new ArrayList<>();

@@ -1,4 +1,4 @@
-package com.syfm.groover.controller.entities.Event;
+package com.syfm.groover.controller.entities.event;
 
 /**
  * Created by lycoris on 2016/03/20.

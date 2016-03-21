@@ -14,12 +14,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.syfm.groover.R;
-import com.syfm.groover.controller.entities.Event.EventNameEntity;
+import com.syfm.groover.controller.entities.event.EventNameEntity;
 import com.syfm.groover.controller.usecases.RankingDataUseCase;
 import com.syfm.groover.model.storage.Const;
 import com.syfm.groover.view.adapter.RankingAdapter;
-
-import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

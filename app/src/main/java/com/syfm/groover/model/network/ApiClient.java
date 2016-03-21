@@ -37,6 +37,12 @@ import okhttp3.ResponseBody;
 public class ApiClient {
     private Realm realm;
 
+    /**
+     *
+     * Login API
+     *
+     **/
+
     public boolean tryLogin(final String serial, final String pass) {
 
         final String url = "https://mypage.groovecoaster.jp/sp/login/auth_con.php";
@@ -80,6 +86,12 @@ public class ApiClient {
 
         return false;
     }
+
+    /**
+     *
+     * PlayData API
+     *
+     */
 
     public void fetchPlayerData() {
         realm = Realm.getInstance(AppController.getContext());
@@ -245,6 +257,13 @@ public class ApiClient {
 
         }
     }
+
+
+    /**
+     *
+     * MusicData API
+     *
+     */
 
     public void fetchMusicData() {
         String url = "https://mypage.groovecoaster.jp/sp/json/music_list.php";
@@ -475,6 +494,12 @@ public class ApiClient {
         }
     }
 
+    /**
+     *
+     * RankingData API
+     *
+     */
+
     public void fetchRankingData(final String RANKING_TYPE) {
         String url = "http://groovecoaster.jp/xml/fmj2100/rank/";
 
@@ -624,6 +649,13 @@ public class ApiClient {
             Log.d("ktr", e.toString());
         }
     }
+
+
+    /**
+     *
+     * Other Methods
+     *
+     */
 
     // TODO: すごく汚いから治したい
     // nullで返ってくるデータをnull以外に整形する
