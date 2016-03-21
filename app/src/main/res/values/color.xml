@@ -17,4 +17,9 @@
     <color name="dialog_black">#666</color>
 
     <color name="divider">#dedede</color>
+
+    <color name="ranking_rank">#f6f6f6</color>
+    <color name="ranking_1st">#e91e63</color>
+    <color name="ranking_2nd">#4caf50</color>
+    <color name="ranking_3rd">#03a9f4</color>
 </resources>

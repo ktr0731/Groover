@@ -1,6 +1,8 @@
 package com.syfm.groover.view.adapter;
 
 import android.content.Context;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +24,10 @@ public class RankingAdapter extends BaseAdapter {
 
     private ArrayList<RankingDataEntity> list;
     private LayoutInflater inflater;
+    private Context context;
 
     public RankingAdapter(Context context, ArrayList<RankingDataEntity> list) {
+        this.context = context;
         this.list = list;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -43,8 +47,34 @@ public class RankingAdapter extends BaseAdapter {
         }
 
         holder.tv_rank.setText(String.valueOf(list.get(position).getRank()));
-        holder.tv_title.setText(list.get(position).getTitle());
+        holder.tv_player_name.setText(list.get(position).getPlayer_name());
         holder.tv_score.setText(String.valueOf(list.get(position).getScore_bi1()));
+
+        switch (list.get(position).getRank()) {
+            case 1:
+                if (Build.VERSION.SDK_INT >= 23) {
+                    holder.tv_rank.setTextColor(context.getResources().getColor(R.color.ranking_1st));
+                } else {
+                    holder.tv_rank.setTextColor(ContextCompat.getColor(context, R.color.ranking_1st));
+                }
+                break;
+
+            case 2:
+                if (Build.VERSION.SDK_INT >= 23) {
+                    holder.tv_rank.setTextColor(context.getResources().getColor(R.color.ranking_2nd));
+                } else {
+                    holder.tv_rank.setTextColor(ContextCompat.getColor(context, R.color.ranking_2nd));
+                }
+                break;
+
+            case 3:
+                if (Build.VERSION.SDK_INT >= 23) {
+                    holder.tv_rank.setTextColor(context.getResources().getColor(R.color.ranking_3rd));
+                } else {
+                    holder.tv_rank.setTextColor(ContextCompat.getColor(context, R.color.ranking_3rd));
+                }
+                break;
+        }
 
         return view;
     }
@@ -53,8 +83,8 @@ public class RankingAdapter extends BaseAdapter {
 
         @Bind(R.id.tv_ranking_rank)
         TextView tv_rank;
-        @Bind(R.id.tv_ranking_title)
-        TextView tv_title;
+        @Bind(R.id.tv_ranking_player_name)
+        TextView tv_player_name;
         @Bind(R.id.tv_ranking_score)
         TextView tv_score;
 
