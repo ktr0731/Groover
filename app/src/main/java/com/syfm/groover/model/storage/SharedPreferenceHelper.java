@@ -80,11 +80,11 @@ public class SharedPreferenceHelper {
         editor.commit();
     }
 
-    public static String getLevelRanking(final String LEVEL_TYPE) {
+    public static String getRankingData(final String LEVEL_TYPE) {
         return sp.getString(LEVEL_TYPE, "");
     }
 
-    public static void setLevelRanking(final String LEVEL_TYPE, String value) {
+    public static void setRankingData(final String LEVEL_TYPE, String value) {
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(LEVEL_TYPE, value);
         editor.commit();

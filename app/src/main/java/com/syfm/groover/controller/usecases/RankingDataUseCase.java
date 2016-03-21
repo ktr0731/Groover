@@ -57,7 +57,7 @@ public class RankingDataUseCase {
 
     public void getRankingData(final String RANKING_TYPE) {
         Log.d("ktr", "getRankingData");
-        String value = SharedPreferenceHelper.getLevelRanking(RANKING_TYPE);
+        String value = SharedPreferenceHelper.getRankingData(RANKING_TYPE);
         if (value == "") {
 
             Log.d("ktr", "getRankingData value is ''");
@@ -87,6 +87,47 @@ public class RankingDataUseCase {
         }
     }
 
+    public void setEventRankingData(final String SP_NAME, final int NUMBER) {
+        ApiClient client = new ApiClient();
+
+        client.fetchEventRankingData(SP_NAME, NUMBER);
+    }
+
+    public void getEventRankingData(int number) {
+        Log.d("ktr", "getEventRankingData");
+
+        String SP_NAME = String.format("event_%03d_ranking", number);
+
+        String value = SharedPreferenceHelper.getRankingData(SP_NAME);
+        if (value == "") {
+
+            Log.d("ktr", "getEventRankingData value is ''");
+
+            // TODO: ここの書き方がキモい
+            deferred.when(() -> {
+                setEventRankingData(SP_NAME, number);
+                // 無駄なリクエストを送信するのを防ぐ
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).done(callback -> {
+                // 再帰
+                getEventRankingData(number);
+            }).fail(callback -> {
+                callback.printStackTrace();
+                EventBus.getDefault().post(new RankingList(false, null));
+                Log.d("ktr", "getRankingData failed");
+            });
+
+        } else {
+            Log.d("ktr", "getRankingData value is not empty");
+
+            EventBus.getDefault().post(new RankingList(true, parseRankingData(value, null)));
+        }
+    }
+
     public ArrayList<RankingDataEntity> parseRankingData(String value, final String RANKING_TYPE) {
         ArrayList<RankingDataEntity> list = new ArrayList<>();
 
@@ -102,9 +143,9 @@ public class RankingDataUseCase {
             RankingDataEntity row = null;
 
             // For debug
-            int i=0;
+            int i = 0;
 
-            while (eventType != XmlPullParser.END_DOCUMENT && i<10) {
+            while (eventType != XmlPullParser.END_DOCUMENT && i < 10) {
                 if (eventType == XmlPullParser.START_TAG) {
                     tagName = xpp.getName();
                     if (xpp.getName().equals(Const.RANKING_DATA_ROW_TAG)) {
@@ -155,7 +196,7 @@ public class RankingDataUseCase {
         } catch (XmlPullParserException e) {
             Log.d("ktr", "Invalid XML");
             // 取得したXMLが不正なのでリセットする
-            SharedPreferenceHelper.setLevelRanking(RANKING_TYPE, "");
+            SharedPreferenceHelper.setRankingData(RANKING_TYPE, "");
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();

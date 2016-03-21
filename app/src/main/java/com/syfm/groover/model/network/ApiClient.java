@@ -548,7 +548,42 @@ public class ApiClient {
             String value = body.string();
 
             if (!value.isEmpty()) {
-                SharedPreferenceHelper.setLevelRanking(RANKING_TYPE, value);
+                SharedPreferenceHelper.setRankingData(RANKING_TYPE, value);
+            }
+
+            body.close();
+
+        } catch (IOException e) {
+            Log.d("ktr", e.toString());
+
+        }
+
+    }
+
+    public void fetchEventRankingData(final String SP_NAME, int number) {
+        String url = String.format("http://groovecoaster.jp/xml/fmj2100/rank/event/%03d/rank_1.xml", number+1);
+
+        Log.d("ktr", "url : " + url);
+
+        Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .get()
+                .build();
+
+        try {
+            Response response = AppController.getOkHttpClient().newCall(request).execute();
+            if(!response.isSuccessful()) {
+                // TODO: エラー処理
+                return;
+            }
+
+            ResponseBody body = response.body();
+            String value = body.string();
+
+            Log.d("ktr", value);
+
+            if (!value.isEmpty()) {
+                SharedPreferenceHelper.setRankingData(SP_NAME, value);
             }
 
             body.close();

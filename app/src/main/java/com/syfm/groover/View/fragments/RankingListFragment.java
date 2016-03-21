@@ -14,9 +14,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.syfm.groover.R;
+import com.syfm.groover.controller.entities.Event.EventNameEntity;
 import com.syfm.groover.controller.usecases.RankingDataUseCase;
 import com.syfm.groover.model.storage.Const;
 import com.syfm.groover.view.adapter.RankingAdapter;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -158,7 +161,8 @@ public class RankingListFragment extends Fragment implements AppCompatSpinner.On
 
             case 2:
                 // Event
-
+                useCase.getEventRankingData(position);
+                break;
 
             default:
                 break;
@@ -196,6 +200,18 @@ public class RankingListFragment extends Fragment implements AppCompatSpinner.On
             return;
         }
 
-        Log.d("ktr", value.list.get(0).getTitle().toString());
+        int i = 0;
+        arraySpinner = new String[value.list.size()];
+
+        for (EventNameEntity e : value.list) {
+            arraySpinner[i] = e.getTitle();
+            i++;
+        }
+
+        adapterSpinner = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, arraySpinner);
+        spinner.setAdapter(adapterSpinner);
+        spinner.setOnItemSelectedListener(this);
+
+        loadingLayout.setVisibility(View.GONE);
     }
 }

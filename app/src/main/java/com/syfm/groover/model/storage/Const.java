@@ -118,6 +118,8 @@ public class Const {
 
     public final static String SP_EVENT_LIST = "event_list";
 
+    public final static String SP_EVENT_RANKING = "event_ranking";
+
     public final static int RANKING_LEVEL = 0;
     public final static int RANKING_GENRE = 1;
     public final static int RANKING_EVENT = 2;
