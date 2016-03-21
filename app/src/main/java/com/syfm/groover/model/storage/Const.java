@@ -102,6 +102,74 @@ public class Const {
     public final static String SP_MUSIC_LIST_SORT_ORDER_BY = "music_list_order_by";
     public final static String SP_MUSIC_LIST_SORT_SORT_TYPE = "music_list_sort_type";
 
+    public final static String SP_LEVEL_ALL_RANKING = "level_all_ranking";
+    public final static String SP_LEVEL_SIMPLE_RANKING = "level_simple_ranking";
+    public final static String SP_LEVEL_NORMAL_RANKING = "level_normal_ranking";
+    public final static String SP_LEVEL_HARD_RANKING = "level_hard_ranking";
+    public final static String SP_LEVEL_EXTRA_RANKING = "level_extra_ranking";
+
+    public final static String SP_GENRE_JPOP_RANKING = "genre_jpop_ranking";
+    public final static String SP_GENRE_ANIME_RANKING = "genre_anime_ranking";
+    public final static String SP_GENRE_VOCALOID_RANKING = "genre_vocaloid_ranking";
+    public final static String SP_GENRE_TOUHOU_RANKING = "genre_touhou_ranking";
+    public final static String SP_GENRE_GAME_RANKING = "genre_game_ranking";
+    public final static String SP_GENRE_VARIETY_RANKING = "genre_variety_ranking";
+    public final static String SP_GENRE_ORIGINAL_RANKING = "genre_original_ranking";
+
+    public final static String SP_EVENT_LIST = "event_list";
+
+    public final static String SP_EVENT_RANKING = "event_ranking";
+
+    public final static int RANKING_LEVEL = 0;
+    public final static int RANKING_GENRE = 1;
+    public final static int RANKING_EVENT = 2;
+
+    public final static String RANKING_GENRE_JPOP = "Pops";
+    public final static String RANKING_GENRE_ANIME = "Anime";
+    public final static String RANKING_GENRE_VOCALOID = "Vocaloid";
+    public final static String RANKING_GENRE_TOHO = "Toho";
+    public final static String RANKING_GENRE_GAME = "Game";
+    public final static String RANKING_GENRE_VARIETY = "Variety";
+    public final static String RANKING_GENRE_ORIGINAL = "Original";
+
+    public final static String RANKING_DATA_RANK = "rank";
+    public final static String RANKING_DATA_RANK2 = "rank2";
+    public final static String RANKING_DATA_PLAYER_NAME = "player_name";
+    public final static String RANKING_DATA_SCORE_BI1 = "score_bi1";
+    public final static String RANKING_DATA_PCOL3 = "pcol3";
+    public final static String RANKING_DATA_FCOL1 = "fcol1";
+    public final static String RANKING_DATA_LAST_PLAY_TENPO_ID = "last_play_tenpo_id";
+    public final static String RANKING_DATA_TENPO_NAME = "tenpo_name";
+    public final static String RANKING_DATA_PREF_ID = "pref_id";
+    public final static String RANKING_DATA_PREF = "pref";
+    public final static String RANKING_DATA_AREA_ID = "area_id";
+    public final static String RANKING_DATA_AREA = "area";
+    public final static String RANKING_DATA_TITLE = "title";
+
+    public final static String RANKING_DATA_PCOL1 = "pcol1";
+    public final static String RANKING_DATA_SCORE_i1 = "score_i1";
+    public final static String RANKING_DATA_FCOL2 = "fcol2";
+    public final static String RANKING_DATA_GENRE = "genre";
+    
+    public final static String RANKING_DATA_ROW_TAG = "data";
+
+    public final static String EVENT_NAME_ID = "event_id";
+    public final static String EVENT_NAME_TITLE = "title";
+    public final static String EVENT_NAME_COMMENT = "comment";
+    public final static String EVENT_NAME_OPEN_DATE = "open_date";
+    public final static String EVENT_NAME_CLOSE_DATE = "close_date";
+    public final static String EVENT_NAME_OPEN_TIME = "open_time";
+    public final static String EVENT_NAME_CLOSE_TIME = "close_time";
+    public final static String EVENT_NAME_USE_FLAG = "use_flag";
+    public final static String EVENT_NAME_VERSION = "version";
+    public final static String EVENT_NAME_REGION = "region";
+    public final static String EVENT_NAME_SCORE_TYPE = "score_type";
+    public final static String EVENT_NAME_SPECIFIED_NUM = "specified_num";
+    public final static String EVENT_NAME_CHALLENGE_NUM = "challenge_num";
+    public final static String EVENT_NAME_REACHED_SCORE = "reached_score";
+
+    public final static String EVENT_NAME_ROW_TAG = "data";
+
     //インスタンス化を禁止
     private Const() {}
 

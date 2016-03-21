@@ -10,4 +10,20 @@
         <item>Music</item>
         <item>Ranking</item>
     </string-array>
+    <string-array name="ranking_level">
+        <item>All</item>
+        <item>Simple</item>
+        <item>Normal</item>
+        <item>Hard</item>
+        <item>Extra</item>
+    </string-array>
+    <string-array name="ranking_genre">
+        <item>Pops</item>
+        <item>Anime</item>
+        <item>Vocaloid</item>
+        <item>Toho</item>
+        <item>Game</item>
+        <item>Variety</item>
+        <item>Original</item>
+    </string-array>
 </resources>

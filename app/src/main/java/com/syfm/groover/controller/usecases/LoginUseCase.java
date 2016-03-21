@@ -43,7 +43,7 @@ public class LoginUseCase {
                 EventBus.getDefault().post(new LoginEvent(false));
             }
         }).fail(callback -> {
-            Log.d("ktr", "Login failed");
+            Log.d("ktr", "Login fai");
             // ゴミCookieを削除
             AppController.clearCookies();
             EventBus.getDefault().post(new LoginEvent(false));

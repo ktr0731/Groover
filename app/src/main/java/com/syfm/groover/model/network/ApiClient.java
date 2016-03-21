@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.syfm.groover.model.Utils;
 import com.syfm.groover.model.storage.Const;
+import com.syfm.groover.model.storage.SharedPreferenceHelper;
 import com.syfm.groover.model.storage.databases.AverageScore;
 import com.syfm.groover.model.storage.databases.MusicData;
 import com.syfm.groover.model.storage.databases.PlayerData;
@@ -35,6 +36,12 @@ import okhttp3.ResponseBody;
  */
 public class ApiClient {
     private Realm realm;
+
+    /**
+     *
+     * Login API
+     *
+     **/
 
     public boolean tryLogin(final String serial, final String pass) {
 
@@ -79,6 +86,12 @@ public class ApiClient {
 
         return false;
     }
+
+    /**
+     *
+     * PlayData API
+     *
+     */
 
     public void fetchPlayerData() {
         realm = Realm.getInstance(AppController.getContext());
@@ -244,6 +257,13 @@ public class ApiClient {
 
         }
     }
+
+
+    /**
+     *
+     * MusicData API
+     *
+     */
 
     public void fetchMusicData() {
         String url = "https://mypage.groovecoaster.jp/sp/json/music_list.php";
@@ -473,6 +493,169 @@ public class ApiClient {
             Log.d("ktr", e.toString());
         }
     }
+
+    /**
+     *
+     * RankingData API
+     *
+     */
+
+    public void fetchRankingData(final String RANKING_TYPE) {
+        String url = "http://groovecoaster.jp/xml/fmj2100/rank/";
+
+        switch (RANKING_TYPE) {
+            case Const.SP_LEVEL_ALL_RANKING:
+                url += "all/rank_1.xml";
+                break;
+
+            case Const.SP_LEVEL_SIMPLE_RANKING:
+                url += "diff/0/rank_1.xml";
+                break;
+
+            case Const.SP_LEVEL_NORMAL_RANKING:
+                url += "diff/1/rank_1.xml";
+                break;
+
+            case Const.SP_LEVEL_HARD_RANKING:
+                url += "diff/2/rank_1.xml";
+                break;
+
+            case Const.SP_LEVEL_EXTRA_RANKING:
+                url += "diff/3/rank_1.xml";
+                break;
+
+            case Const.SP_GENRE_JPOP_RANKING:
+                url += "genre/J-POP/rank_1.xml";
+                break;
+
+            case Const.SP_GENRE_ANIME_RANKING:
+                url += "genre/ANIME/rank_1.xml";
+                break;
+
+            case Const.SP_GENRE_VOCALOID_RANKING:
+                url += "genre/VOCALOID/rank_1.xml";
+                break;
+
+            case Const.SP_GENRE_TOUHOU_RANKING:
+                url += "genre/TOUHOU/rank_1.xml";
+                break;
+
+            case Const.SP_GENRE_GAME_RANKING:
+                url += "genre/GAME/rank_1.xml";
+                break;
+
+            case Const.SP_GENRE_VARIETY_RANKING:
+                url += "genre/VARIETY/rank_1.xml";
+                break;
+
+            case Const.SP_GENRE_ORIGINAL_RANKING:
+                url += "genre/ORIGINAL/rank_1.xml";
+                break;
+
+            default:
+                url += "all/rank_1.xml";
+                break;
+        }
+
+        Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .get()
+                .build();
+
+        try {
+            Response response = AppController.getOkHttpClient().newCall(request).execute();
+            if(!response.isSuccessful()) {
+                // TODO: エラー処理
+                return;
+            }
+
+            ResponseBody body = response.body();
+            String value = body.string();
+
+            if (!value.isEmpty()) {
+                SharedPreferenceHelper.setRankingData(RANKING_TYPE, value);
+            }
+
+            body.close();
+
+        } catch (IOException e) {
+            Log.d("ktr", e.toString());
+
+        }
+
+    }
+
+    public void fetchEventRankingData(final String SP_NAME, int number) {
+        String url = String.format("http://groovecoaster.jp/xml/fmj2100/rank/event/%03d/rank_1.xml", number+1);
+
+        Log.d("ktr", "url : " + url);
+
+        Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .get()
+                .build();
+
+        try {
+            Response response = AppController.getOkHttpClient().newCall(request).execute();
+            if(!response.isSuccessful()) {
+                // TODO: エラー処理
+                return;
+            }
+
+            ResponseBody body = response.body();
+            String value = body.string();
+
+            Log.d("ktr", value);
+
+            if (!value.isEmpty()) {
+                SharedPreferenceHelper.setRankingData(SP_NAME, value);
+            }
+
+            body.close();
+
+        } catch (IOException e) {
+            Log.d("ktr", e.toString());
+
+        }
+
+    }
+
+    public void fetchEventNameList() {
+        final String url = "http://groovecoaster.jp/xml/fmj2100/rank/event.xml";
+
+        Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .get()
+                .build();
+
+        try {
+            Response response = AppController.getOkHttpClient().newCall(request).execute();
+            if(!response.isSuccessful()) {
+                // TODO: エラー処理
+                Log.d("ktr", "[RankingDataUseCase] fetchEventNameList OkHttp isNotSuccessful");
+                return;
+            }
+
+            ResponseBody body = response.body();
+            String value = body.string();
+
+            if (!value.isEmpty()) {
+                SharedPreferenceHelper.setEventNameList(value);
+            }
+
+            body.close();
+
+        } catch (IOException e) {
+            Log.d("ktr", e.toString());
+        }
+    }
+
+
+    /**
+     *
+     * Other Methods
+     *
+     */
 
     // TODO: すごく汚いから治したい
     // nullで返ってくるデータをnull以外に整形する

@@ -80,6 +80,26 @@ public class SharedPreferenceHelper {
         editor.commit();
     }
 
+    public static String getRankingData(final String LEVEL_TYPE) {
+        return sp.getString(LEVEL_TYPE, "");
+    }
+
+    public static void setRankingData(final String LEVEL_TYPE, String value) {
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(LEVEL_TYPE, value);
+        editor.commit();
+    }
+
+    public static String getEventNameList() {
+        return sp.getString(Const.SP_EVENT_LIST, "");
+    }
+
+    public static void setEventNameList(String value) {
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(Const.SP_EVENT_LIST, value);
+        editor.commit();
+    }
+
     private static String getStr(int id) {
         return r.getString(id);
     }
