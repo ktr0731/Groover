@@ -120,6 +120,17 @@ public class Const {
 
     public final static String SP_EVENT_RANKING = "event_ranking";
 
+    public final static String SP_RANKING_LEVEL_SPINNER_POSITION   = "ranking_level_spinner_position";
+    public final static String SP_RANKING_GENRE_SPINNER_POSITION   = "ranking_genre_spinner_position";
+    public final static String SP_RANKING_EVENT_SPINNER_POSITION   = "ranking_event_spinner_position";
+
+    public final static String SP_RANKING_LEVEL_LIST_VIEW_POSITION = "ranking_level_list_view_position";
+    public final static String SP_RANKING_LEVEL_LIST_VIEW_Y        = "ranking_level_list_view_y";
+    public final static String SP_RANKING_GENRE_LIST_VIEW_POSITION = "ranking_genre_list_view_position";
+    public final static String SP_RANKING_GENRE_LIST_VIEW_Y        = "ranking_genre_list_view_y";
+    public final static String SP_RANKING_EVENT_LIST_VIEW_POSITION = "ranking_event_list_view_position";
+    public final static String SP_RANKING_EVENT_LIST_VIEW_Y        = "ranking_event_list_view_y";
+
     public final static int RANKING_LEVEL = 0;
     public final static int RANKING_GENRE = 1;
     public final static int RANKING_EVENT = 2;

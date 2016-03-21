@@ -24,6 +24,12 @@ public class SharedPreferenceHelper {
         }
     }
 
+    /**
+     *
+     * Login
+     *
+     */
+
     public static Map<String, String> getLoginInfo() {
         Map<String, String> info = new HashMap<String, String>();
         String serialNo = sp.getString(Const.SP_LOGIN_NESICA_ID, "");
@@ -41,6 +47,12 @@ public class SharedPreferenceHelper {
         editor.putString(Const.SP_LOGIN_PASSWORD,  password);
         editor.commit();
     }
+
+    /**
+     *
+     * MusicList
+     *
+     */
 
     public static Map<String, Integer> getMusicListViewPosition() {
         Map<String, Integer> positions = new HashMap<>();
@@ -80,6 +92,12 @@ public class SharedPreferenceHelper {
         editor.commit();
     }
 
+    /**
+     *
+     * Ranking
+     *
+     */
+
     public static String getRankingData(final String LEVEL_TYPE) {
         return sp.getString(LEVEL_TYPE, "");
     }
@@ -100,8 +118,33 @@ public class SharedPreferenceHelper {
         editor.commit();
     }
 
-    private static String getStr(int id) {
-        return r.getString(id);
+    public static Map<String, Integer> getRankingListViewPosition(String pos_key, String y_key) {
+        Map<String, Integer> positions = new HashMap<>();
+        int position = sp.getInt(Const.SP_MUSIC_LIST_LIST_VIEW_POSITION, -1);
+        int y        = sp.getInt(Const.SP_MUSIC_LIST_LIST_VIEW_Y, -1);
+        if(position != -1 && y != -1) {
+            positions.put(Const.SP_MUSIC_LIST_LIST_VIEW_POSITION, position);
+            positions.put(Const.SP_MUSIC_LIST_LIST_VIEW_Y, y);
+        }
+
+        return positions;
+    }
+
+    public static void setRankingListViewPosition(int position, int y, String pos_key, String y_key) {
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt(pos_key, position);
+        editor.putInt(y_key, y);
+        editor.commit();
+    }
+
+    public static int getRankingSpinnerPosition(String key) {
+        return sp.getInt(key, -1);
+    }
+
+    public static void setRankingSpinnerPosition(int position, String key) {
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt(key, position);
+        editor.commit();
     }
 
 }
