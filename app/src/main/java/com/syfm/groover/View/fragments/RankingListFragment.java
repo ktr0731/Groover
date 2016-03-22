@@ -44,49 +44,57 @@ public class RankingListFragment extends Fragment implements AppCompatSpinner.On
     private RankingAdapter adapter = null;
     private int TYPE = 0;
 
+    private Bundle savedInstanceState = null;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup group, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ranking_list, group, false);
         ButterKnife.bind(this, view);
+
+        this.savedInstanceState = savedInstanceState;
 
         return view;
     }
 
     @Override
     public void onDestroyView() {
+        super.onDestroyView();
+
+
 
         // ListViewとSpinnerの位置を記憶
-        // TODO: すごく重くなる原因の調査
+        // TODO: すごく重くなる原因の調査 setだけ重い getはSkipされない
         switch (this.TYPE) {
             case 0:
-                SharedPreferenceHelper.setRankingListViewPosition(
-                        listView.getFirstVisiblePosition(),
-                        listView.getChildAt(0).getTop(),
-                        Const.SP_RANKING_LEVEL_LIST_VIEW_POSITION, Const.SP_RANKING_LEVEL_LIST_VIEW_Y
-                );
-                SharedPreferenceHelper.setRankingSpinnerPosition(spinner.getSelectedItemPosition(), Const.SP_RANKING_LEVEL_SPINNER_POSITION);
+
+
+//                SharedPreferenceHelper.setRankingListViewPosition(
+//                        listView.getFirstVisiblePosition(),
+//                        listView.getChildAt(0).getTop(),
+//                        Const.SP_RANKING_LEVEL_LIST_VIEW_POSITION, Const.SP_RANKING_LEVEL_LIST_VIEW_Y
+//                );
+//                SharedPreferenceHelper.setRankingSpinnerPosition(spinner.getSelectedItemPosition(), Const.SP_RANKING_LEVEL_SPINNER_POSITION);
                 break;
 
             case 1:
-                SharedPreferenceHelper.setRankingListViewPosition(
-                        listView.getFirstVisiblePosition(),
-                        listView.getChildAt(0).getTop(),
-                        Const.SP_RANKING_GENRE_LIST_VIEW_POSITION, Const.SP_RANKING_GENRE_LIST_VIEW_Y
-                );
-                SharedPreferenceHelper.setRankingSpinnerPosition(spinner.getSelectedItemPosition(), Const.SP_RANKING_GENRE_SPINNER_POSITION);
+//                SharedPreferenceHelper.setRankingListViewPosition(
+//                        listView.getFirstVisiblePosition(),
+//                        listView.getChildAt(0).getTop(),
+//                        Const.SP_RANKING_GENRE_LIST_VIEW_POSITION, Const.SP_RANKING_GENRE_LIST_VIEW_Y
+//                );
+//                SharedPreferenceHelper.setRankingSpinnerPosition(spinner.getSelectedItemPosition(), Const.SP_RANKING_GENRE_SPINNER_POSITION);
                 break;
 
             case 2:
-                SharedPreferenceHelper.setRankingListViewPosition(
-                        listView.getFirstVisiblePosition(),
-                        listView.getChildAt(0).getTop(),
-                        Const.SP_RANKING_EVENT_LIST_VIEW_POSITION, Const.SP_RANKING_EVENT_LIST_VIEW_Y
-                );
-                SharedPreferenceHelper.setRankingSpinnerPosition(spinner.getSelectedItemPosition(), Const.SP_RANKING_EVENT_SPINNER_POSITION);
+//                SharedPreferenceHelper.setRankingListViewPosition(
+//                        listView.getFirstVisiblePosition(),
+//                        listView.getChildAt(0).getTop(),
+//                        Const.SP_RANKING_EVENT_LIST_VIEW_POSITION, Const.SP_RANKING_EVENT_LIST_VIEW_Y
+//                );
+//                SharedPreferenceHelper.setRankingSpinnerPosition(spinner.getSelectedItemPosition(), Const.SP_RANKING_EVENT_SPINNER_POSITION);
                 break;
 
         }
-        super.onDestroyView();
 
         ButterKnife.unbind(this);
     }
@@ -106,47 +114,50 @@ public class RankingListFragment extends Fragment implements AppCompatSpinner.On
             case 0:
                 arraySpinner = getResources().getStringArray(R.array.ranking_level);
 
-                list_positions = SharedPreferenceHelper.getRankingListViewPosition(Const.SP_RANKING_LEVEL_LIST_VIEW_POSITION, Const.SP_RANKING_LEVEL_LIST_VIEW_Y);
-                spinner_position = SharedPreferenceHelper.getRankingSpinnerPosition(Const.SP_RANKING_LEVEL_SPINNER_POSITION);
-                if (!list_positions.isEmpty()) {
-                    //listView.setSelectionFromTop(list_positions.get(Const.SP_RANKING_LEVEL_LIST_VIEW_POSITION), list_positions.get(Const.SP_RANKING_LEVEL_LIST_VIEW_Y));
-                }
+//                list_positions = SharedPreferenceHelper.getRankingListViewPosition(Const.SP_RANKING_LEVEL_LIST_VIEW_POSITION, Const.SP_RANKING_LEVEL_LIST_VIEW_Y);
+//                spinner_position = SharedPreferenceHelper.getRankingSpinnerPosition(Const.SP_RANKING_LEVEL_SPINNER_POSITION);
+//                if (!list_positions.isEmpty()) {
+//                    //listView.setSelectionFromTop(list_positions.get(Const.SP_RANKING_LEVEL_LIST_VIEW_POSITION), list_positions.get(Const.SP_RANKING_LEVEL_LIST_VIEW_Y));
+//                }
                 break;
 
             case 1:
                 arraySpinner = getResources().getStringArray(R.array.ranking_genre);
 
-                list_positions = SharedPreferenceHelper.getRankingListViewPosition(Const.SP_RANKING_GENRE_LIST_VIEW_POSITION, Const.SP_RANKING_GENRE_LIST_VIEW_Y);
-                spinner_position = SharedPreferenceHelper.getRankingSpinnerPosition(Const.SP_RANKING_GENRE_SPINNER_POSITION);
-                if (!list_positions.isEmpty()) {
-                    //listView.setSelectionFromTop(list_positions.get(Const.SP_RANKING_GENRE_LIST_VIEW_POSITION), list_positions.get(Const.SP_RANKING_GENRE_LIST_VIEW_Y));
-                }
+//                list_positions = SharedPreferenceHelper.getRankingListViewPosition(Const.SP_RANKING_GENRE_LIST_VIEW_POSITION, Const.SP_RANKING_GENRE_LIST_VIEW_Y);
+//                spinner_position = SharedPreferenceHelper.getRankingSpinnerPosition(Const.SP_RANKING_GENRE_SPINNER_POSITION);
+//                if (!list_positions.isEmpty()) {
+//                    //listView.setSelectionFromTop(list_positions.get(Const.SP_RANKING_GENRE_LIST_VIEW_POSITION), list_positions.get(Const.SP_RANKING_GENRE_LIST_VIEW_Y));
+//                }
                 break;
 
             case 2:
                 RankingDataUseCase useCase = new RankingDataUseCase();
                 useCase.getEventNameList();
 
-                list_positions = SharedPreferenceHelper.getRankingListViewPosition(Const.SP_RANKING_EVENT_LIST_VIEW_POSITION, Const.SP_RANKING_EVENT_LIST_VIEW_Y);
-                spinner_position = SharedPreferenceHelper.getRankingSpinnerPosition(Const.SP_RANKING_EVENT_SPINNER_POSITION);
-                if (!list_positions.isEmpty()) {
-                    //listView.setSelectionFromTop(list_positions.get(Const.SP_RANKING_EVENT_LIST_VIEW_POSITION), list_positions.get(Const.SP_RANKING_EVENT_LIST_VIEW_Y));
-                }
+//                list_positions = SharedPreferenceHelper.getRankingListViewPosition(Const.SP_RANKING_EVENT_LIST_VIEW_POSITION, Const.SP_RANKING_EVENT_LIST_VIEW_Y);
+//                spinner_position = SharedPreferenceHelper.getRankingSpinnerPosition(Const.SP_RANKING_EVENT_SPINNER_POSITION);
+//                if (!list_positions.isEmpty()) {
+//                    //listView.setSelectionFromTop(list_positions.get(Const.SP_RANKING_EVENT_LIST_VIEW_POSITION), list_positions.get(Const.SP_RANKING_EVENT_LIST_VIEW_Y));
+//                }
                 break;
 
             default:
                 break;
         }
 
-        if (spinner_position != -1) {
-            spinner.setSelection(spinner_position);
-        }
+
 
         if (arraySpinner != null) {
             adapterSpinner = new ArrayAdapter<>(getActivity(), R.layout.spinner_row, arraySpinner);
             spinner.setAdapter(adapterSpinner);
             spinner.setOnItemSelectedListener(this);
         }
+
+//        if (spinner_position != -1) {
+//            spinner.setSelection(spinner_position);
+//        }
+
     }
 
     @Override
@@ -270,5 +281,12 @@ public class RankingListFragment extends Fragment implements AppCompatSpinner.On
         spinner.setOnItemSelectedListener(this);
 
         loadingLayout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        Log.d("ktr", "RankingListFragment destroy");
     }
 }
