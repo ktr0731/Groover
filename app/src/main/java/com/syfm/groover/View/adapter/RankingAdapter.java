@@ -74,6 +74,14 @@ public class RankingAdapter extends BaseAdapter {
                     holder.tv_rank.setTextColor(ContextCompat.getColor(context, R.color.ranking_3rd));
                 }
                 break;
+
+            default:
+                if (Build.VERSION.SDK_INT >= 23) {
+                    holder.tv_rank.setTextColor(context.getResources().getColor(R.color.black));
+                } else {
+                    holder.tv_rank.setTextColor(ContextCompat.getColor(context, R.color.black));
+                }
+
         }
 
         return view;

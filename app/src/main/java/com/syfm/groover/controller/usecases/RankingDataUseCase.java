@@ -142,10 +142,7 @@ public class RankingDataUseCase {
             String tagName = null;
             RankingDataEntity row = null;
 
-            // For debug
-            int i = 0;
-
-            while (eventType != XmlPullParser.END_DOCUMENT && i < 10) {
+            while (eventType != XmlPullParser.END_DOCUMENT) {
                 if (eventType == XmlPullParser.START_TAG) {
                     tagName = xpp.getName();
                     if (xpp.getName().equals(Const.RANKING_DATA_ROW_TAG)) {
@@ -165,7 +162,7 @@ public class RankingDataUseCase {
                             row.setRank(Integer.parseInt(e));
                             break;
                         case Const.PLAYER_DATA_NAME:
-                            row.setPlayer_name(e);
+                            row.setPlayer_name(URLDecoder.decode(e, "UTF-8"));
                             break;
                         case Const.RANKING_DATA_SCORE_BI1:
                             row.setScore_bi1(Integer.parseInt(e));
@@ -186,7 +183,6 @@ public class RankingDataUseCase {
 
                 } else if (eventType == XmlPullParser.END_TAG) {
                     if (xpp.getName().equals(Const.RANKING_DATA_ROW_TAG)) {
-                        i++;
                         list.add(row);
                     }
                 }
