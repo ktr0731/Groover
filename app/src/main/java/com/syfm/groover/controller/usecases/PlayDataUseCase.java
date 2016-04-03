@@ -1,6 +1,7 @@
 package com.syfm.groover.controller.usecases;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.syfm.groover.model.Utils;
 import com.syfm.groover.model.network.ApiClient;
@@ -46,8 +47,10 @@ public class PlayDataUseCase {
     // LoginActivityへ通知
     public class SetPlayData {
         public final boolean success;
-        public SetPlayData(boolean success) {
+        public final String  message;
+        public SetPlayData(boolean success, String message) {
             this.success = success;
+            this.message = message;
         }
     }
 
@@ -62,16 +65,18 @@ public class PlayDataUseCase {
                 client.fetchAverageScore();
                 client.fetchStageData();
             } catch (IOException e) {
-                Log.d("ktr", e.toString());
+                e.printStackTrace();
+                EventBus.getDefault().post(new SetPlayData(false, "プレイデータの取得に失敗しました。通信環境の良い場所で再取得して下さい。"));
             } catch (JSONException e) {
-                Log.d("ktr", e.toString());
+                e.printStackTrace();
+                EventBus.getDefault().post(new SetPlayData(false, "JSONデータのパースに失敗しました。取得したデータが不正です。"));
             }
         }).done(callback -> {
             Log.d("ktr", "setPlayDataDone");
-            EventBus.getDefault().post(new SetPlayData(true));
-        }).fail(callback -> {
-            Log.d("ktrerror", callback.getMessage().toString());
-            EventBus.getDefault().post(new SetPlayData(false));
+            EventBus.getDefault().post(new SetPlayData(true, null));
+        }).fail(e -> {
+            e.printStackTrace();
+            EventBus.getDefault().post(new SetPlayData(false, e.getMessage()));
         });
     }
 

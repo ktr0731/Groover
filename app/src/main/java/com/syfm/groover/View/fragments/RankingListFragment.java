@@ -246,7 +246,7 @@ public class RankingListFragment extends Fragment implements AppCompatSpinner.On
 
         if (value.list.isEmpty() || !value.isSuccess) {
             Log.d("ktr", "value is empty");
-            Toast.makeText(getActivity(), "ランキングデータの取得に失敗しました。", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), value.message, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -264,7 +264,7 @@ public class RankingListFragment extends Fragment implements AppCompatSpinner.On
 
         if (value.list.isEmpty() || !value.isSuccess) {
             Log.d("ktr", "value is empty");
-            Toast.makeText(getActivity(), "過去のイベント一覧の取得に失敗しました。", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), value.message, Toast.LENGTH_SHORT).show();
             return;
         }
 

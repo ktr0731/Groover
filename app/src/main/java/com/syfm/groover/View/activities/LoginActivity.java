@@ -111,10 +111,8 @@ public class LoginActivity extends Activity {
     public void onEvent(PlayDataUseCase.SetPlayData event) {
         if(event.success) {
             Log.d("ktr", "playdata success");
-            //dialogFragment.dismiss();
-            //finish();
         } else {
-            Log.d("ktr", "sippai");
+            Toast.makeText(this, "プレイデータの取得に失敗しました\n" + event.message, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -124,7 +122,7 @@ public class LoginActivity extends Activity {
             dialogFragment.dismiss();
             finish();
         } else {
-            Log.d("ktr", "muisc data error");
+            Toast.makeText(this, event.message, Toast.LENGTH_SHORT).show();
         }
     }
 

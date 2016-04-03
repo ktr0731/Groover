@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.syfm.groover.R;
 import com.syfm.groover.controller.usecases.MusicDataUseCase;
@@ -100,9 +101,8 @@ public class MusicListFragment extends Fragment {
 
     public void onEvent(MusicDataUseCase.SetMusicData event) {
         if (event.success) {
-
         } else {
-
+            Toast.makeText(getActivity(), event.message, Toast.LENGTH_SHORT).show();
         }
     }
 

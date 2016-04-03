@@ -36,9 +36,11 @@ public class MusicDataUseCase {
 
     public class SetMusicData {
         public final boolean success;
+        public final String  message;
 
-        public SetMusicData(boolean success) {
+        public SetMusicData(boolean success, String message) {
             this.success = success;
+            this.message = message;
         }
     }
 
@@ -51,13 +53,15 @@ public class MusicDataUseCase {
                 client.fetchMusicData();
             } catch (IOException e) {
                 e.printStackTrace();
+                EventBus.getDefault().post(new SetMusicData(false, "ミュージックデータの取得に失敗しました。通信環境の良い場所で再取得して下さい。"));
             } catch (JSONException e) {
                 e.printStackTrace();
+                EventBus.getDefault().post(new SetMusicData(false, "JSONデータのパースに失敗しました。取得したデータが不正です。"));
             }
         }).done(callback -> {
-            EventBus.getDefault().post(new SetMusicData(true));
+            EventBus.getDefault().post(new SetMusicData(true, null));
         }).fail(callback -> {
-            EventBus.getDefault().post(new SetMusicData(false));
+            EventBus.getDefault().post(new SetMusicData(false, "不明なエラーが発生しました。"));
         });
     }
 
@@ -68,6 +72,7 @@ public class MusicDataUseCase {
 
     public void getScoreRanking(String id, String ex_flag) {
         // TODO: ここでデータが有るかを判定
+        // TODO: 例外の修正
 
         final String mId;
 
@@ -93,7 +98,6 @@ public class MusicDataUseCase {
             EventBus.getDefault().post(true);
         }).fail(callback -> {
             callback.printStackTrace();
-            Log.d("ktr", "deferred exception: " + callback.getLocalizedMessage());
             EventBus.getDefault().post(false);
         });
     }

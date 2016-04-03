@@ -31,10 +31,12 @@ public class RankingDataUseCase {
     public class RankingList {
         public final boolean isSuccess;
         public final ArrayList<RankingDataEntity> list;
+        public final String message;
 
-        public RankingList(boolean isSuccess, ArrayList<RankingDataEntity> list) {
+        public RankingList(boolean isSuccess, ArrayList<RankingDataEntity> list, String message) {
             this.isSuccess = isSuccess;
             this.list = list;
+            this.message = message;
         }
     }
 
@@ -42,10 +44,12 @@ public class RankingDataUseCase {
     public class EventNameList {
         public final boolean isSuccess;
         public final ArrayList<EventNameEntity> list;
+        public final String message;
 
-        public EventNameList(boolean isSuccess, ArrayList<EventNameEntity> list) {
+        public EventNameList(boolean isSuccess, ArrayList<EventNameEntity> list, String message) {
             this.isSuccess = isSuccess;
             this.list = list;
+            this.message = message;
         }
     }
 
@@ -74,20 +78,21 @@ public class RankingDataUseCase {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                    // 例外が発生しても問題はないので無視する
                 }
             }).done(callback -> {
                 // 再帰
                 getRankingData(RANKING_TYPE);
             }).fail(callback -> {
                 callback.printStackTrace();
-                EventBus.getDefault().post(new RankingList(false, null));
+                EventBus.getDefault().post(new RankingList(false, null, "ランキングデータの取得に失敗しました。通信環境の良い場所で再取得して下さい。"));
                 Log.d("ktr", "getRankingData failed");
             });
 
         } else {
             Log.d("ktr", "getRankingData value is not empty");
 
-            EventBus.getDefault().post(new RankingList(true, parseRankingData(value, RANKING_TYPE)));
+            EventBus.getDefault().post(new RankingList(true, parseRankingData(value, RANKING_TYPE), null));
         }
     }
 
@@ -125,14 +130,14 @@ public class RankingDataUseCase {
                 getEventRankingData(number);
             }).fail(callback -> {
                 callback.printStackTrace();
-                EventBus.getDefault().post(new RankingList(false, null));
+                EventBus.getDefault().post(new RankingList(false, null, "ランキングデータの取得に失敗しました。通信環境の良い場所で再取得して下さい。"));
                 Log.d("ktr", "getRankingData failed");
             });
 
         } else {
             Log.d("ktr", "getRankingData value is not empty");
 
-            EventBus.getDefault().post(new RankingList(true, parseRankingData(value, null)));
+            EventBus.getDefault().post(new RankingList(true, parseRankingData(value, null), null));
         }
     }
 
@@ -240,14 +245,14 @@ public class RankingDataUseCase {
                 getEventNameList();
             }).fail(callback -> {
                 callback.printStackTrace();
-                EventBus.getDefault().post(new EventNameList(false, null));
+                EventBus.getDefault().post(new EventNameList(false, null, "ランキング名データの取得に失敗しました。通信環境の良い場所で再取得して下さい。"));
                 Log.d("ktr", "getEventNameList failed");
             });
 
         } else {
             Log.d("ktr", "getRankingData value is not empty");
 
-            EventBus.getDefault().post(new EventNameList(true, parseEventNameList(value)));
+            EventBus.getDefault().post(new EventNameList(true, parseEventNameList(value), null));
         }
     }
 
