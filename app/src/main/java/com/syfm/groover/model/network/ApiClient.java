@@ -15,6 +15,7 @@ import com.syfm.groover.model.storage.databases.ShopSalesData;
 import com.syfm.groover.model.storage.databases.StageData;
 import com.syfm.groover.model.storage.databases.UserRank;
 
+import org.jdeferred.android.AndroidDeferredManager;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,14 +37,13 @@ import okhttp3.ResponseBody;
  */
 public class ApiClient {
     private Realm realm;
+    private AndroidDeferredManager deferred = new AndroidDeferredManager();
 
     /**
-     *
      * Login API
-     *
      **/
 
-    public boolean tryLogin(final String serial, final String pass) {
+    public boolean tryLogin(final String serial, final String pass) throws IOException {
 
         final String url = "https://mypage.groovecoaster.jp/sp/login/auth_con.php";
         final String serialNoKey = "nesicaCardId";
@@ -59,41 +59,28 @@ public class ApiClient {
                 .post(body)
                 .build();
 
-        try {
-            Response response = AppController.getOkHttpClient().newCall(request).execute();
+        Response response = AppController.getOkHttpClient().newCall(request).execute();
 
-            // login判定
-            String res_url = response.request().url().toString();
-            response.body().close();
+        // login判定
+        String res_url = response.request().url().toString();
+        response.body().close();
 
-            if (res_url.equals("https://mypage.groovecoaster.jp/sp/login/login_stop.php")) {
-                return false;
-            }
-
-            if (res_url.contains("isError=true")) {
-                return false;
-            }
-
-            return true;
-
-        } catch (IOException e) {
-            Log.d("ktr", e.toString());
-        } catch (Exception e) {
-            Log.d("ktr", e.toString());
+        if (res_url.equals("https://mypage.groovecoaster.jp/sp/login/login_stop.php")) {
+            return false;
         }
 
+        if (res_url.contains("isError=true")) {
+            return false;
+        }
 
-
-        return false;
+        return true;
     }
 
     /**
-     *
      * PlayData API
-     *
      */
 
-    public void fetchPlayerData() {
+    public void fetchPlayerData() throws IOException, JSONException {
         realm = Realm.getInstance(AppController.getContext());
         Log.d("ktr", "player data");
         String url = "https://mypage.groovecoaster.jp/sp/json/player_data.php";
@@ -104,39 +91,30 @@ public class ApiClient {
                 .get()
                 .build();
 
-        try {
-            Response response = AppController.getOkHttpClient().newCall(request).execute();
-            if(!response.isSuccessful()) {
-                // TODO: エラー処理
-                Log.d("ktr", "errordesu");
-                return;
-            }
-
-            ResponseBody body = response.body();
-            JSONObject object = new JSONObject(body.string()).getJSONObject(player_data);
-
-            body.close();
-
-            if(object.length() <= 0) {
-                Log.d("ktr", "length0");
-                return;
-            }
-
-            realm.beginTransaction();
-            PlayerData playerData = realm.createObjectFromJson(PlayerData.class, object.toString());
-            playerData.setDate(DateFormat.format("yyyy/MM/dd kk:mm:ss", Calendar.getInstance()).toString());
-            realm.commitTransaction();
-
-        } catch (IOException e) {
-            Log.d("ktr", e.toString());
-
-        } catch (JSONException e) {
-            Log.d("ktr", e.toString());
-
+        Response response = AppController.getOkHttpClient().newCall(request).execute();
+        if (!response.isSuccessful()) {
+            // TODO: エラー処理
+            Log.d("ktr", "errordesu");
+            return;
         }
+
+        ResponseBody body = response.body();
+        JSONObject object = new JSONObject(body.string()).getJSONObject(player_data);
+
+        body.close();
+
+        if (object.length() <= 0) {
+            Log.d("ktr", "length0");
+            return;
+        }
+
+        realm.beginTransaction();
+        PlayerData playerData = realm.createObjectFromJson(PlayerData.class, object.toString());
+        playerData.setDate(DateFormat.format("yyyy/MM/dd kk:mm:ss", Calendar.getInstance()).toString());
+        realm.commitTransaction();
     }
 
-    public void fetchShopSalesData() {
+    public void fetchShopSalesData() throws IOException, JSONException {
         realm = Realm.getInstance(AppController.getContext());
         Log.d("ktr", "shop data");
         String url = "https://mypage.groovecoaster.jp/sp/json/shop_sales_data.php";
@@ -146,35 +124,26 @@ public class ApiClient {
                 .get()
                 .build();
 
-        try {
-            Response response = AppController.getOkHttpClient().newCall(request).execute();
-            if(!response.isSuccessful()) {
-                // TODO: エラー処理
-                return;
-            }
-            ResponseBody body = response.body();
-            JSONObject object = new JSONObject(body.string());
-
-            body.close();
-
-            if(object.length() <= 0) {
-                return;
-            }
-
-            realm.beginTransaction();
-            realm.createObjectFromJson(ShopSalesData.class, object);
-            realm.commitTransaction();
-
-        } catch (IOException e) {
-            Log.d("ktr", e.toString());
-
-        } catch (JSONException e) {
-            Log.d("ktr", e.toString());
-
+        Response response = AppController.getOkHttpClient().newCall(request).execute();
+        if (!response.isSuccessful()) {
+            // TODO: エラー処理
+            return;
         }
+        ResponseBody body = response.body();
+        JSONObject object = new JSONObject(body.string());
+
+        body.close();
+
+        if (object.length() <= 0) {
+            return;
+        }
+
+        realm.beginTransaction();
+        realm.createObjectFromJson(ShopSalesData.class, object);
+        realm.commitTransaction();
     }
 
-    public void fetchAverageScore() {
+    public void fetchAverageScore() throws IOException, JSONException {
         realm = Realm.getInstance(AppController.getContext());
         Log.d("ktr", "ave data");
 
@@ -186,37 +155,28 @@ public class ApiClient {
                 .get()
                 .build();
 
-        try {
-            Response response = AppController.getOkHttpClient().newCall(request).execute();
-            if(!response.isSuccessful()) {
-                // TODO: エラー処理
-                return;
-            }
-
-            ResponseBody body = response.body();
-
-            JSONObject object = new JSONObject(body.string()).getJSONObject(average_data);
-
-            body.close();
-
-            if(object.length() <= 0) {
-                return;
-            }
-
-            realm.beginTransaction();
-            realm.createObjectFromJson(AverageScore.class, object.toString());
-            realm.commitTransaction();
-
-        } catch (IOException e) {
-            Log.d("ktr", e.toString());
-
-        } catch (JSONException e) {
-            Log.d("ktr", e.toString());
-
+        Response response = AppController.getOkHttpClient().newCall(request).execute();
+        if (!response.isSuccessful()) {
+            // TODO: エラー処理
+            return;
         }
+
+        ResponseBody body = response.body();
+
+        JSONObject object = new JSONObject(body.string()).getJSONObject(average_data);
+
+        body.close();
+
+        if (object.length() <= 0) {
+            return;
+        }
+
+        realm.beginTransaction();
+        realm.createObjectFromJson(AverageScore.class, object.toString());
+        realm.commitTransaction();
     }
 
-    public void fetchStageData() {
+    public void fetchStageData() throws IOException, JSONException {
         realm = Realm.getInstance(AppController.getContext());
         Log.d("ktr", "stage data");
 
@@ -228,44 +188,32 @@ public class ApiClient {
                 .get()
                 .build();
 
-        try {
-            Response response = AppController.getOkHttpClient().newCall(request).execute();
-            if(!response.isSuccessful()) {
-                // TODO: エラー処理
-                return;
-            }
-
-            ResponseBody body = response.body();
-
-            JSONObject object = new JSONObject(body.string()).getJSONObject(stage_data);
-
-            body.close();
-
-            if(object.length() <= 0) {
-                return;
-            }
-
-            realm.beginTransaction();
-            realm.createObjectFromJson(StageData.class, object.toString());
-            realm.commitTransaction();
-
-        } catch (IOException e) {
-            Log.d("ktr", e.toString());
-
-        } catch (JSONException e) {
-            Log.d("ktr", e.toString());
-
+        Response response = AppController.getOkHttpClient().newCall(request).execute();
+        if (!response.isSuccessful()) {
+            // TODO: エラー処理
+            return;
         }
+
+        ResponseBody body = response.body();
+
+        JSONObject object = new JSONObject(body.string()).getJSONObject(stage_data);
+
+        body.close();
+
+        if (object.length() <= 0) {
+            return;
+        }
+
+        realm.beginTransaction();
+        realm.createObjectFromJson(StageData.class, object.toString());
+        realm.commitTransaction();
     }
 
-
     /**
-     *
      * MusicData API
-     *
      */
 
-    public void fetchMusicData() {
+    public void fetchMusicData() throws IOException, JSONException {
         String url = "https://mypage.groovecoaster.jp/sp/json/music_list.php";
         String music_list_data = "music_list";
 
@@ -274,139 +222,125 @@ public class ApiClient {
                 .get()
                 .build();
 
-        try {
-            Response response = AppController.getOkHttpClient().newCall(request).execute();
-            if(!response.isSuccessful()) {
-                // TODO: エラー処理
-                return;
+        Response response = AppController.getOkHttpClient().newCall(request).execute();
+        if (!response.isSuccessful()) {
+            // TODO: エラー処理
+            return;
+        }
+
+        ResponseBody body = response.body();
+
+        JSONArray array = new JSONObject(body.string()).getJSONArray(music_list_data);
+
+        body.close();
+
+        if (array.length() <= 0) {
+            return;
+        }
+
+        for (int i = 0; i < array.length(); i++) {
+            // For DEBUG
+            if (i > 3) {
+                break;
             }
 
-            ResponseBody body = response.body();
+            Utils.sleep();
 
-            JSONArray array = new JSONObject(body.string()).getJSONArray(music_list_data);
+            realm = Realm.getInstance(AppController.getContext());
+            realm.beginTransaction();
 
-            body.close();
+            try {
+                MusicData musicData = fetchMusicDetail(array.getJSONObject(i), i, 3 - 1); //実際はlist.size() -1
+                byte[] thumbnail = fetchMusicThumbnail(array.getJSONObject(i).getInt(Const.MUSIC_LIST_MUSIC_ID), musicData, i, 3 - 1);
 
-            if(array.length() <= 0) {
-                return;
-            }
-
-            for(int i=0;i<array.length();i++) {
-                // For DEBUG
-                if(i > 3) {
-                    break;
+                if (musicData == null || thumbnail == null) {
+                    Log.d("ktr", "fetchMusicData Error");
+                    realm.cancelTransaction();
                 }
 
-                Utils.sleep();
-                fetchMusicDetail(array.getJSONObject(i), i, 3 - 1); //実際はlist.size() -1
+                musicData.setMusic_thumbnail(thumbnail);
+                realm.commitTransaction();
+            } catch (IOException e) {
+                realm.cancelTransaction();
+            } catch (JSONException e) {
+                realm.cancelTransaction();
+            } catch (RealmException e) {
+                realm.cancelTransaction();
             }
-
-        } catch (IOException e) {
-            Log.d("ktr", e.toString());
-
-        } catch (JSONException e) {
-            Log.d("ktr", e.toString());
-
         }
     }
 
-    public void fetchMusicDetail(final JSONObject music, final int count, final int size) {
-        realm = Realm.getInstance(AppController.getContext());
-
+    public MusicData fetchMusicDetail(final JSONObject music, final int count, final int size) throws IOException, JSONException {
         String url = "https://mypage.groovecoaster.jp/sp/json/music_detail.php?music_id=";
         String music_detail_data = "music_detail";
         String simple = "simple_result_data";
         String normal = "normal_result_data";
-        String hard   = "hard_result_data";
-        String extra  = "extra_result_data";
+        String hard = "hard_result_data";
+        String extra = "extra_result_data";
         String user_rank = "user_rank";
         String music_id = "music_id";
 
-        try {
-            url += music.getString(music_id);
-        } catch (JSONException e) {
-            Log.d("ktr", e.toString());
-        }
+        url += music.getString(music_id);
 
         Request request = new okhttp3.Request.Builder()
                 .url(url)
                 .get()
                 .build();
 
-        try {
-            Response response = AppController.getOkHttpClient().newCall(request).execute();
-            if(!response.isSuccessful()) {
-                // TODO: エラー処理
-                return;
-            }
-
-            ResponseBody body = response.body();
-
-            JSONObject object = new JSONObject(body.string()).getJSONObject(music_detail_data);
-
-            body.close();
-
-            if(object.length() <= 0) {
-                return;
-            }
-
-            resultDataJsonReplaceNull(object, simple);
-            resultDataJsonReplaceNull(object, normal);
-            resultDataJsonReplaceNull(object, hard);
-            resultDataJsonReplaceNull(object, extra);
-
-            userRankJsonReplaceNull(object.getJSONArray(user_rank));
-
-            realm.beginTransaction();
-
-            MusicData data = realm.createObjectFromJson(MusicData.class, object);
-            data.setLast_play_time(music.getString(Const.MUSIC_LIST_LAST_PLAY_TIME));
-            data.setPlay_count(music.getInt(Const.MUSIC_LIST_PLAY_COUNT));
-
-            // 各難易度をMusicDataの子としてインサート
-            // 要素にNULLがあると挙動がおかしくなるので気をつける
-
-            ResultData resultSimple = realm.createObjectFromJson(ResultData.class, object.getJSONObject(simple).toString());
-            data.getResult_data().add(resultSimple);
-
-            ResultData resultNormal = realm.createObjectFromJson(ResultData.class, object.getJSONObject(normal).toString());
-            data.getResult_data().add(resultNormal);
-
-            ResultData resultHard = realm.createObjectFromJson(ResultData.class, object.getJSONObject(hard).toString());
-            data.getResult_data().add(resultHard);
-
-            ResultData resultExtra = realm.createObjectFromJson(ResultData.class, object.getJSONObject(extra).toString());
-            data.getResult_data().add(resultExtra);
-
-            // UserRankの整形
-            JSONArray userRankRaw = object.getJSONArray(user_rank);
-
-            for (int i = 0; i < userRankRaw.length(); i++) {
-                UserRank userRank = realm.createObjectFromJson(UserRank.class, userRankRaw.get(i).toString());
-                data.getUser_rank().add(userRank);
-            }
-
-            fetchMusicThumbnail(music.getInt(Const.MUSIC_LIST_MUSIC_ID), data, count, size);
-
-        } catch (IOException e) {
-            Log.d("ktr", e.toString());
-            realm.cancelTransaction();
-
-        } catch (JSONException e) {
-            Log.d("ktr", e.toString());
-            realm.cancelTransaction();
-
-        } catch (RealmException e) {
-            Log.d("ktrrealm", e.toString());
-            realm.cancelTransaction();
-        } catch (Exception e) {
-            Log.d("ktr", e.toString());
-            realm.cancelTransaction();
+        Response response = AppController.getOkHttpClient().newCall(request).execute();
+        if (!response.isSuccessful()) {
+            // TODO: エラー処理
+            return null;
         }
 
+        ResponseBody body = response.body();
+
+        JSONObject object = new JSONObject(body.string()).getJSONObject(music_detail_data);
+
+        body.close();
+
+        if (object.length() <= 0) {
+            return null;
+        }
+
+        resultDataJsonReplaceNull(object, simple);
+        resultDataJsonReplaceNull(object, normal);
+        resultDataJsonReplaceNull(object, hard);
+        resultDataJsonReplaceNull(object, extra);
+
+        userRankJsonReplaceNull(object.getJSONArray(user_rank));
+
+        MusicData data = realm.createObjectFromJson(MusicData.class, object);
+        data.setLast_play_time(music.getString(Const.MUSIC_LIST_LAST_PLAY_TIME));
+        data.setPlay_count(music.getInt(Const.MUSIC_LIST_PLAY_COUNT));
+
+        // 各難易度をMusicDataの子としてインサート
+        // 要素にNULLがあると挙動がおかしくなるので気をつける
+
+        ResultData resultSimple = realm.createObjectFromJson(ResultData.class, object.getJSONObject(simple).toString());
+        data.getResult_data().add(resultSimple);
+
+        ResultData resultNormal = realm.createObjectFromJson(ResultData.class, object.getJSONObject(normal).toString());
+        data.getResult_data().add(resultNormal);
+
+        ResultData resultHard = realm.createObjectFromJson(ResultData.class, object.getJSONObject(hard).toString());
+        data.getResult_data().add(resultHard);
+
+        ResultData resultExtra = realm.createObjectFromJson(ResultData.class, object.getJSONObject(extra).toString());
+        data.getResult_data().add(resultExtra);
+
+        // UserRankの整形
+        JSONArray userRankRaw = object.getJSONArray(user_rank);
+
+        for (int i = 0; i < userRankRaw.length(); i++) {
+            UserRank userRank = realm.createObjectFromJson(UserRank.class, userRankRaw.get(i).toString());
+            data.getUser_rank().add(userRank);
+        }
+
+        return data;
     }
 
-    public void fetchMusicThumbnail(int id, final MusicData musicData, final int count, final int maxSize) {
+    public byte[] fetchMusicThumbnail(int id, final MusicData musicData, final int count, final int maxSize) throws IOException {
         String url = "https://mypage.groovecoaster.jp/sp/music/music_image.php?music_id=";
         url += id;
 
@@ -415,37 +349,25 @@ public class ApiClient {
                 .get()
                 .build();
 
-        try {
-            Response response = AppController.getOkHttpClient().newCall(request).execute();
-            if(!response.isSuccessful()) {
-                // TODO: エラー処理
-                Log.d("ktr", "thumb error");
-                realm.cancelTransaction();
-                return;
-            }
-
-            ResponseBody body = response.body();
-
-            byte bytes[] = body.bytes();
-
-            body.close();
-
-            if(bytes.length <= 0) {
-                Log.d("ktr", "thumb error");
-
-                realm.cancelTransaction();
-                return;
-            }
-
-            musicData.setMusic_thumbnail(bytes); // OkHttpでは無理？(closeされてる)
-            realm.commitTransaction();
-
-        } catch (IOException e) {
-            Log.d("ktr", e.toString());
-            realm.cancelTransaction();
-
+        Response response = AppController.getOkHttpClient().newCall(request).execute();
+        if (!response.isSuccessful()) {
+            // TODO: エラー処理
+            Log.d("ktr", "thumb error");
+            return null;
         }
 
+        ResponseBody body = response.body();
+
+        byte bytes[] = body.bytes();
+
+        body.close();
+
+        if (bytes.length <= 0) {
+            Log.d("ktr", "thumb error");
+            return null;
+        }
+
+        return bytes;
     }
 
     public void fetchScoreRanking(final String id, final int diff) {
@@ -462,7 +384,7 @@ public class ApiClient {
 
         try {
             Response response = AppController.getOkHttpClient().newCall(request).execute();
-            if(!response.isSuccessful()) {
+            if (!response.isSuccessful()) {
                 // TODO: エラー処理
                 Log.d("ktr", "ApiClient.fetchScoreRanking response is not successful");
                 return;
@@ -474,11 +396,11 @@ public class ApiClient {
 
             body.close();
 
-            if(array.length() <= 0) {
+            if (array.length() <= 0) {
                 return;
             }
 
-            for (int i=0;i < 5;i++) {
+            for (int i = 0; i < 5; i++) {
                 realm.beginTransaction();
                 ScoreRankData item = realm.createObjectFromJson(ScoreRankData.class, array.get(i).toString());
                 item.setDiff(String.valueOf(diff));
@@ -495,9 +417,7 @@ public class ApiClient {
     }
 
     /**
-     *
      * RankingData API
-     *
      */
 
     public void fetchRankingData(final String RANKING_TYPE) {
@@ -564,7 +484,7 @@ public class ApiClient {
 
         try {
             Response response = AppController.getOkHttpClient().newCall(request).execute();
-            if(!response.isSuccessful()) {
+            if (!response.isSuccessful()) {
                 // TODO: エラー処理
                 return;
             }
@@ -586,7 +506,7 @@ public class ApiClient {
     }
 
     public void fetchEventRankingData(final String SP_NAME, int number) {
-        String url = String.format("http://groovecoaster.jp/xml/fmj2100/rank/event/%03d/rank_1.xml", number+1);
+        String url = String.format("http://groovecoaster.jp/xml/fmj2100/rank/event/%03d/rank_1.xml", number + 1);
 
         Log.d("ktr", "url : " + url);
 
@@ -597,7 +517,7 @@ public class ApiClient {
 
         try {
             Response response = AppController.getOkHttpClient().newCall(request).execute();
-            if(!response.isSuccessful()) {
+            if (!response.isSuccessful()) {
                 // TODO: エラー処理
                 return;
             }
@@ -630,7 +550,7 @@ public class ApiClient {
 
         try {
             Response response = AppController.getOkHttpClient().newCall(request).execute();
-            if(!response.isSuccessful()) {
+            if (!response.isSuccessful()) {
                 // TODO: エラー処理
                 Log.d("ktr", "[RankingDataUseCase] fetchEventNameList OkHttp isNotSuccessful");
                 return;
@@ -652,9 +572,7 @@ public class ApiClient {
 
 
     /**
-     *
      * Other Methods
-     *
      */
 
     // TODO: すごく汚いから治したい

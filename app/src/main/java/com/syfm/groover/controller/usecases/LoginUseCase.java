@@ -8,6 +8,8 @@ import com.syfm.groover.model.storage.SharedPreferenceHelper;
 
 import org.jdeferred.android.AndroidDeferredManager;
 
+import java.io.IOException;
+
 import de.greenrobot.event.EventBus;
 
 /**
@@ -31,7 +33,11 @@ public class LoginUseCase {
         }
         ApiClient client = new ApiClient();
         deferred.when(() -> {
-            return client.tryLogin(serial, pass);
+            try {
+                return client.tryLogin(serial, pass);
+            } catch (IOException e) {
+                return false;
+            }
         }).done(loggedin -> {
             // ログインしていたら
             if (loggedin) {
@@ -43,7 +49,7 @@ public class LoginUseCase {
                 EventBus.getDefault().post(new LoginEvent(false));
             }
         }).fail(callback -> {
-            Log.d("ktr", "Login fai");
+            Log.d("ktr", "Login failed");
             // ゴミCookieを削除
             AppController.clearCookies();
             EventBus.getDefault().post(new LoginEvent(false));

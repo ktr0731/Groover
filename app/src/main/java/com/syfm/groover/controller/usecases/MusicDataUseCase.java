@@ -8,6 +8,9 @@ import com.syfm.groover.model.storage.databases.MusicData;
 
 import org.jdeferred.Promise;
 import org.jdeferred.android.AndroidDeferredManager;
+import org.json.JSONException;
+
+import java.io.IOException;
 
 import de.greenrobot.event.EventBus;
 import io.realm.Realm;
@@ -44,7 +47,13 @@ public class MusicDataUseCase {
 
         deferred.when(() -> {
             ApiClient client = new ApiClient();
-            client.fetchMusicData();
+            try {
+                client.fetchMusicData();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }).done(callback -> {
             EventBus.getDefault().post(new SetMusicData(true));
         }).fail(callback -> {

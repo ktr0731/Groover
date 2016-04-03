@@ -13,6 +13,9 @@ import com.syfm.groover.model.storage.databases.StageData;
 
 import org.jdeferred.Promise;
 import org.jdeferred.android.AndroidDeferredManager;
+import org.json.JSONException;
+
+import java.io.IOException;
 
 import de.greenrobot.event.EventBus;
 import io.realm.Realm;
@@ -53,10 +56,16 @@ public class PlayDataUseCase {
 
         // なぜかnetworkOnMainThreadException
         Promise p = deferred.when(() -> {
-            client.fetchPlayerData();
-            client.fetchShopSalesData();
-            client.fetchAverageScore();
-            client.fetchStageData();
+            try {
+                client.fetchPlayerData();
+                client.fetchShopSalesData();
+                client.fetchAverageScore();
+                client.fetchStageData();
+            } catch (IOException e) {
+                Log.d("ktr", e.toString());
+            } catch (JSONException e) {
+                Log.d("ktr", e.toString());
+            }
         }).done(callback -> {
             Log.d("ktr", "setPlayDataDone");
             EventBus.getDefault().post(new SetPlayData(true));
