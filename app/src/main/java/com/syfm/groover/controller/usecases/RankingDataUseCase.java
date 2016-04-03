@@ -52,7 +52,11 @@ public class RankingDataUseCase {
     public void setRankingData(String RANKING_TYPE) {
         ApiClient client = new ApiClient();
 
-        client.fetchRankingData(RANKING_TYPE);
+        try {
+            client.fetchRankingData(RANKING_TYPE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void getRankingData(final String RANKING_TYPE) {
@@ -90,7 +94,11 @@ public class RankingDataUseCase {
     public void setEventRankingData(final String SP_NAME, final int NUMBER) {
         ApiClient client = new ApiClient();
 
-        client.fetchEventRankingData(SP_NAME, NUMBER);
+        try {
+            client.fetchEventRankingData(SP_NAME, NUMBER);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void getEventRankingData(int number) {
@@ -204,7 +212,11 @@ public class RankingDataUseCase {
     public void setEventNameList() {
         ApiClient client = new ApiClient();
 
-        client.fetchEventNameList();
+        try {
+            client.fetchEventNameList();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void getEventNameList() {

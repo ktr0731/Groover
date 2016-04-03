@@ -370,6 +370,7 @@ public class ApiClient {
         return bytes;
     }
 
+    // 例外を整理する
     public void fetchScoreRanking(final String id, final int diff) {
         final String url = "https://mypage.groovecoaster.jp/sp/json/score_ranking_bymusic_bydifficulty.php?music_id=" + id + "&difficulty=" + diff;
 
@@ -420,7 +421,7 @@ public class ApiClient {
      * RankingData API
      */
 
-    public void fetchRankingData(final String RANKING_TYPE) {
+    public void fetchRankingData(final String RANKING_TYPE) throws IOException {
         String url = "http://groovecoaster.jp/xml/fmj2100/rank/";
 
         switch (RANKING_TYPE) {
@@ -482,30 +483,24 @@ public class ApiClient {
                 .get()
                 .build();
 
-        try {
-            Response response = AppController.getOkHttpClient().newCall(request).execute();
-            if (!response.isSuccessful()) {
-                // TODO: エラー処理
-                return;
-            }
-
-            ResponseBody body = response.body();
-            String value = body.string();
-
-            if (!value.isEmpty()) {
-                SharedPreferenceHelper.setRankingData(RANKING_TYPE, value);
-            }
-
-            body.close();
-
-        } catch (IOException e) {
-            Log.d("ktr", e.toString());
-
+        Response response = AppController.getOkHttpClient().newCall(request).execute();
+        if (!response.isSuccessful()) {
+            // TODO: エラー処理
+            return;
         }
+
+        ResponseBody body = response.body();
+        String value = body.string();
+
+        if (!value.isEmpty()) {
+            SharedPreferenceHelper.setRankingData(RANKING_TYPE, value);
+        }
+
+        body.close();
 
     }
 
-    public void fetchEventRankingData(final String SP_NAME, int number) {
+    public void fetchEventRankingData(final String SP_NAME, int number) throws IOException {
         String url = String.format("http://groovecoaster.jp/xml/fmj2100/rank/event/%03d/rank_1.xml", number + 1);
 
         Log.d("ktr", "url : " + url);
@@ -515,32 +510,25 @@ public class ApiClient {
                 .get()
                 .build();
 
-        try {
-            Response response = AppController.getOkHttpClient().newCall(request).execute();
-            if (!response.isSuccessful()) {
-                // TODO: エラー処理
-                return;
-            }
-
-            ResponseBody body = response.body();
-            String value = body.string();
-
-            Log.d("ktr", value);
-
-            if (!value.isEmpty()) {
-                SharedPreferenceHelper.setRankingData(SP_NAME, value);
-            }
-
-            body.close();
-
-        } catch (IOException e) {
-            Log.d("ktr", e.toString());
-
+        Response response = AppController.getOkHttpClient().newCall(request).execute();
+        if (!response.isSuccessful()) {
+            // TODO: エラー処理
+            return;
         }
 
+        ResponseBody body = response.body();
+        String value = body.string();
+
+        Log.d("ktr", value);
+
+        if (!value.isEmpty()) {
+            SharedPreferenceHelper.setRankingData(SP_NAME, value);
+        }
+
+        body.close();
     }
 
-    public void fetchEventNameList() {
+    public void fetchEventNameList() throws IOException {
         final String url = "http://groovecoaster.jp/xml/fmj2100/rank/event.xml";
 
         Request request = new okhttp3.Request.Builder()
@@ -548,28 +536,22 @@ public class ApiClient {
                 .get()
                 .build();
 
-        try {
-            Response response = AppController.getOkHttpClient().newCall(request).execute();
-            if (!response.isSuccessful()) {
-                // TODO: エラー処理
-                Log.d("ktr", "[RankingDataUseCase] fetchEventNameList OkHttp isNotSuccessful");
-                return;
-            }
-
-            ResponseBody body = response.body();
-            String value = body.string();
-
-            if (!value.isEmpty()) {
-                SharedPreferenceHelper.setEventNameList(value);
-            }
-
-            body.close();
-
-        } catch (IOException e) {
-            Log.d("ktr", e.toString());
+        Response response = AppController.getOkHttpClient().newCall(request).execute();
+        if (!response.isSuccessful()) {
+            // TODO: エラー処理
+            Log.d("ktr", "[RankingDataUseCase] fetchEventNameList OkHttp isNotSuccessful");
+            return;
         }
-    }
 
+        ResponseBody body = response.body();
+        String value = body.string();
+
+        if (!value.isEmpty()) {
+            SharedPreferenceHelper.setEventNameList(value);
+        }
+
+        body.close();
+    }
 
     /**
      * Other Methods
@@ -593,7 +575,7 @@ public class ApiClient {
                 result.put(Const.MUSIC_RESULT_SCORE, 0);
                 obj.put(key, result);
             } catch (JSONException e) {
-                Log.d("JSONException", e.toString());
+                e.printStackTrace();
             }
 
         }
@@ -609,9 +591,8 @@ public class ApiClient {
                     rank.put(Const.MUSIC_USER_RANK, 0);
                     array.put(i, rank);
                 } catch (JSONException e) {
-                    Log.d("JSONException", e.toString());
+                    e.printStackTrace();
                 }
-
             }
         }
     }
