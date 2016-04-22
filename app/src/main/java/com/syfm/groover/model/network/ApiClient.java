@@ -43,6 +43,13 @@ public class ApiClient {
      * Login API
      **/
 
+    /**
+     * Tries login to Groove Coaster.
+     * @param serial a serial numbers of NESiCA.net
+     * @param pass a password of NESiCA.net
+     * @return {@code true} if login was successfully, {@Code false} login was failed
+     * @throws IOException
+     */
     public boolean tryLogin(final String serial, final String pass) throws IOException {
 
         final String url = "https://mypage.groovecoaster.jp/sp/login/auth_con.php";
@@ -80,6 +87,11 @@ public class ApiClient {
      * PlayData API
      */
 
+    /**
+     * Fetches player_data.php from mypage of Groove Coaster.
+     * @throws IOException
+     * @throws JSONException
+     */
     public void fetchPlayerData() throws IOException, JSONException {
         realm = Realm.getInstance(AppController.getContext());
         Log.d("ktr", "player data");
@@ -114,6 +126,11 @@ public class ApiClient {
         realm.commitTransaction();
     }
 
+    /**
+     * Fetches shop_sales_data.php from mypage of Groove Coaster.
+     * @throws IOException
+     * @throws JSONException
+     */
     public void fetchShopSalesData() throws IOException, JSONException {
         realm = Realm.getInstance(AppController.getContext());
         Log.d("ktr", "shop data");
@@ -143,6 +160,11 @@ public class ApiClient {
         realm.commitTransaction();
     }
 
+    /**
+     * Fetches average_score.php from mypage of Groove Coaster.
+     * @throws IOException
+     * @throws JSONException
+     */
     public void fetchAverageScore() throws IOException, JSONException {
         realm = Realm.getInstance(AppController.getContext());
         Log.d("ktr", "ave data");
@@ -176,6 +198,11 @@ public class ApiClient {
         realm.commitTransaction();
     }
 
+    /**
+     * Fetches stage_data.php from mypage of Groove Coaster.
+     * @throws IOException
+     * @throws JSONException
+     */
     public void fetchStageData() throws IOException, JSONException {
         realm = Realm.getInstance(AppController.getContext());
         Log.d("ktr", "stage data");
@@ -213,6 +240,11 @@ public class ApiClient {
      * MusicData API
      */
 
+    /**
+     * Fetches music_list.php from mypage of Groove Coaster.
+     * @throws IOException
+     * @throws JSONException
+     */
     public void fetchMusicData() throws IOException, JSONException {
         String url = "https://mypage.groovecoaster.jp/sp/json/music_list.php";
         String music_list_data = "music_list";
@@ -270,6 +302,15 @@ public class ApiClient {
         }
     }
 
+    /**
+     * Fetches music_detail.php from mypage of Groove Coaster.
+     * @param music A fetched list by fetchMusicData()
+     * @param count The index of music list
+     * @param size A size of music list
+     * @return {@code MusicData} if fetching was successfully, {@code null} if cannot fetches data.
+     * @throws IOException
+     * @throws JSONException
+     */
     public MusicData fetchMusicDetail(final JSONObject music, final int count, final int size) throws IOException, JSONException {
         String url = "https://mypage.groovecoaster.jp/sp/json/music_detail.php?music_id=";
         String music_detail_data = "music_detail";
@@ -340,6 +381,15 @@ public class ApiClient {
         return data;
     }
 
+    /**
+     * Fetches music_image from mypage of Groove Coaster.
+     * @param id The id of the music's
+     * @param musicData Target music's data
+     * @param count The index of music list
+     * @param maxSize A size of music list
+     * @return {@code byte[]} if fetching was successfully, {@code null} fetching was failed.
+     * @throws IOException
+     */
     public byte[] fetchMusicThumbnail(int id, final MusicData musicData, final int count, final int maxSize) throws IOException {
         String url = "https://mypage.groovecoaster.jp/sp/music/music_image.php?music_id=";
         url += id;
@@ -370,7 +420,11 @@ public class ApiClient {
         return bytes;
     }
 
-    // 例外を整理する
+    /**
+     * Fetches score_ranking.php of the target music id.
+     * @param id The target music's id
+     * @param diff A difficulty of target music
+     */
     public void fetchScoreRanking(final String id, final int diff) {
         final String url = "https://mypage.groovecoaster.jp/sp/json/score_ranking_bymusic_bydifficulty.php?music_id=" + id + "&difficulty=" + diff;
 
@@ -421,6 +475,11 @@ public class ApiClient {
      * RankingData API
      */
 
+    /**
+     * Fetches ranking data from groovecoaster.jp
+     * @param RANKING_TYPE A type of fetches
+     * @throws IOException
+     */
     public void fetchRankingData(final String RANKING_TYPE) throws IOException {
         String url = "http://groovecoaster.jp/xml/fmj2100/rank/";
 
@@ -500,6 +559,12 @@ public class ApiClient {
 
     }
 
+    /**
+     * Fetches event ranking data from groovecoaster.jp
+     * @param SP_NAME The name of the SharedPreference for save this ranking data
+     * @param number The id of the target ranking
+     * @throws IOException
+     */
     public void fetchEventRankingData(final String SP_NAME, int number) throws IOException {
         String url = String.format("http://groovecoaster.jp/xml/fmj2100/rank/event/%03d/rank_1.xml", number + 1);
 
@@ -528,6 +593,10 @@ public class ApiClient {
         body.close();
     }
 
+    /**
+     * Fetches event.xml to get a list of all event name.
+     * @throws IOException
+     */
     public void fetchEventNameList() throws IOException {
         final String url = "http://groovecoaster.jp/xml/fmj2100/rank/event.xml";
 
@@ -558,7 +627,11 @@ public class ApiClient {
      */
 
     // TODO: すごく汚いから治したい
-    // nullで返ってくるデータをnull以外に整形する
+    /**
+     * Replaces {@code null} to safety value.
+     * @param obj The target object
+     * @param key A key of target object
+     */
     private void resultDataJsonReplaceNull(JSONObject obj, String key) {
         if (obj.isNull(key) && obj.has(key)) {
             JSONObject result = new JSONObject();
@@ -582,7 +655,11 @@ public class ApiClient {
     }
 
     // TODO: すごく汚いから治したい
-    // nullで返ってくるデータをnull以外に整形する
+
+    /**
+     * Replaces {@code null} to safety value.
+     * @param array The target array
+     */
     private void userRankJsonReplaceNull(JSONArray array) {
         for (int i = 0; i < array.length(); i++) {
             if (array.isNull(i)) {
