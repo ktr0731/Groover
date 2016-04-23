@@ -1,0 +1,466 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/card_view_margin"
+                android:layout_marginRight="@dimen/card_view_margin"
+                android:layout_marginTop="@dimen/card_view_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/card_view_padding_other"
+                    android:paddingLeft="@dimen/card_view_padding_other"
+                    android:paddingRight="@dimen/card_view_padding_other"
+                    android:paddingTop="@dimen/card_view_padding_top">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingBottom="@dimen/card_view_text_bottom">
+
+                        <TextView
+                            android:id="@+id/tv_player_data_name"
+                            android:textColor="@color/black"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="とぱぞらいといべんと"
+                            android:textSize="@dimen/card_view_title_size" />
+
+                        <TextView
+                            android:id="@+id/tv_player_data_level"
+                            android:textColor="@color/black"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:textSize="@dimen/card_view_title_size" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_player_data_avatar_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/card_view_padding_other"
+                        android:textColor="@color/dark_glay"
+                        android:textSize="@dimen/medium_size" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="@string/tv_player_data_total_score"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:id="@+id/tv_player_data_total_score"
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textSize="@dimen/medium_size" />
+                            </TableRow>
+
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="@string/tv_player_data_rank"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:id="@+id/tv_player_data_rank"
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textSize="@dimen/medium_size" />
+                            </TableRow>
+
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="@string/tv_player_data_coin"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:id="@+id/tv_player_data_coin"
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textSize="@dimen/medium_size" />
+                            </TableRow>
+
+                            <TableRow>
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="@string/tv_player_data_trophy"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:id="@+id/tv_player_data_trophy"
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textSize="@dimen/medium_size" />
+                            </TableRow>
+
+                        </TableLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/card_view_margin"
+                android:layout_marginLeft="@dimen/card_view_margin"
+                android:layout_marginRight="@dimen/card_view_margin"
+                android:layout_marginTop="@dimen/card_view_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/card_view_padding_other"
+                    android:paddingLeft="@dimen/card_view_padding_other"
+                    android:paddingRight="@dimen/card_view_padding_other"
+                    android:paddingTop="@dimen/card_view_padding_top">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingBottom="@dimen/card_view_padding_other">
+
+                        <TextView
+                            android:textColor="@color/black"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/tv_music_result_title"
+                            android:textSize="@dimen/card_view_title_size" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="@string/tv_music_result_play_music"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:id="@+id/tv_music_result_play_music"
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:id="@+id/tv_music_result_play_music_per"
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:textSize="@dimen/medium_size" />
+
+                            </TableRow>
+
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="@string/tv_music_result_clear_stage"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:id="@+id/tv_music_result_clear_stage"
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:id="@+id/tv_music_result_clear_stage_per"
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:textSize="@dimen/medium_size" />
+
+                            </TableRow>
+
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="@string/tv_music_result_average_score"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:id="@+id/tv_music_result_average_score"
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:id="@+id/tv_music_result_average_score_per"
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:textSize="@dimen/medium_size" />
+
+                            </TableRow>
+
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="@string/tv_music_result_no_miss"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:id="@+id/tv_music_result_no_miss"
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:id="@+id/tv_music_result_no_miss_per"
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:textSize="@dimen/medium_size" />
+
+                            </TableRow>
+
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="@string/tv_music_result_full_chain"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:id="@+id/tv_music_result_full_chain"
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:id="@+id/tv_music_result_full_chain_per"
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:textSize="@dimen/medium_size" />
+
+                            </TableRow>
+
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="@string/tv_music_result_s"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:id="@+id/tv_music_result_s"
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:id="@+id/tv_music_result_s_per"
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:textSize="@dimen/medium_size" />
+
+                            </TableRow>
+
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="@string/tv_music_result_ss"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:id="@+id/tv_music_result_ss"
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:id="@+id/tv_music_result_ss_per"
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:textSize="@dimen/medium_size" />
+
+                            </TableRow>
+
+                            <TableRow>
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="@string/tv_music_result_sss"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:id="@+id/tv_music_result_sss"
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:id="@+id/tv_music_result_sss_per"
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:textSize="@dimen/medium_size" />
+
+                            </TableRow>
+
+                        </TableLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.syfm.groover.R;
+import com.syfm.groover.view.fragments.CurrentEventDataFragment;
 import com.syfm.groover.view.fragments.MusicListFragment;
 import com.syfm.groover.view.fragments.PlayDataFragment;
 import com.syfm.groover.view.fragments.RankingFragment;
@@ -33,6 +34,8 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
                 return new MusicListFragment();
             case 2:
                 return new RankingFragment();
+            case 3:
+                return new CurrentEventDataFragment();
             default:
                 return new PlayDataFragment();
         }
