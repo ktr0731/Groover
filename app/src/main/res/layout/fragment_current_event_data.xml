@@ -39,16 +39,17 @@
                             android:textColor="@color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="とぱぞらいといべんと"
+                            android:text="クリプト・オブ・ネクロダンサー コラボイベント"
                             android:textSize="@dimen/card_view_title_size" />
 
-                        <TextView
-                            android:id="@+id/tv_player_data_level"
-                            android:textColor="@color/black"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="end"
-                            android:textSize="@dimen/card_view_title_size" />
+                        <!--<TextView-->
+                            <!--android:id="@+id/tv_player_data_level"-->
+                            <!--android:textColor="@color/black"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:gravity="end"-->
+                            <!--android:text="aaa"-->
+                            <!--android:textSize="@dimen/card_view_title_size" />-->
 
                     </LinearLayout>
 
@@ -58,6 +59,7 @@
                         android:layout_height="wrap_content"
                         android:paddingBottom="@dimen/card_view_padding_other"
                         android:textColor="@color/dark_glay"
+                        android:text="2016/04/15 - 2016/05/01"
                         android:textSize="@dimen/medium_size" />
 
                     <LinearLayout
@@ -77,26 +79,6 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_player_data_total_score"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_player_data_total_score"
-                                    android:textColor="@color/black"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                                <TextView
-                                    android:textColor="@color/black"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
                                     android:text="@string/tv_player_data_rank"
                                     android:textSize="@dimen/medium_size" />
 
@@ -106,6 +88,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
+                                    android:text="5263"
                                     android:textSize="@dimen/medium_size" />
                             </TableRow>
 
@@ -117,7 +100,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_player_data_coin"
+                                    android:text="BattlePoints"
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
@@ -126,26 +109,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                            <TableRow>
-
-                                <TextView
-                                    android:textColor="@color/black"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_player_data_trophy"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_player_data_trophy"
-                                    android:textColor="@color/black"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
+                                    android:text="54"
                                     android:textSize="@dimen/medium_size" />
                             </TableRow>
 
@@ -160,7 +124,6 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/card_view_margin"
                 android:layout_marginLeft="@dimen/card_view_margin"
                 android:layout_marginRight="@dimen/card_view_margin"
                 android:layout_marginTop="@dimen/card_view_margin">
@@ -178,14 +141,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:paddingBottom="@dimen/card_view_padding_other">
+                        android:paddingBottom="@dimen/card_view_text_bottom">
 
                         <TextView
                             android:textColor="@color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/tv_music_result_title"
+                            android:text="Ranking"
                             android:textSize="@dimen/card_view_title_size" />
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -205,58 +169,31 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_result_play_music"
+                                    android:text="1000"
                                     android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_result_play_music"
-                                    android:textColor="@color/black"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:gravity="end"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_result_play_music_per"
-                                    android:textColor="@color/black"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:gravity="end"
-                                    android:textSize="@dimen/medium_size" />
-
-                            </TableRow>
-
-                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
 
                                 <TextView
                                     android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_result_clear_stage"
+                                    android:text="TOLLOW"
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
-                                    android:id="@+id/tv_music_result_clear_stage"
                                     android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:gravity="end"
-                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="54"
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
-                                    android:id="@+id/tv_music_result_clear_stage_per"
                                     android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:gravity="end"
+                                    android:text="福島県"
                                     android:textSize="@dimen/medium_size" />
 
                             </TableRow>
@@ -269,58 +206,31 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_result_average_score"
+                                    android:text="1001"
                                     android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_result_average_score"
-                                    android:textColor="@color/black"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:gravity="end"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_result_average_score_per"
-                                    android:textColor="@color/black"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:gravity="end"
-                                    android:textSize="@dimen/medium_size" />
-
-                            </TableRow>
-
-                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
 
                                 <TextView
                                     android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_result_no_miss"
+                                    android:text="KTR"
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
-                                    android:id="@+id/tv_music_result_no_miss"
                                     android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:gravity="end"
-                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="51"
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
-                                    android:id="@+id/tv_music_result_no_miss_per"
                                     android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:gravity="end"
+                                    android:text="島根県"
                                     android:textSize="@dimen/medium_size" />
 
                             </TableRow>
@@ -333,26 +243,140 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_result_full_chain"
+                                    android:text="1002"
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
-                                    android:id="@+id/tv_music_result_full_chain"
                                     android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:gravity="end"
+                                    android:text="Hoge"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="48"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="沖縄県"
+                                    android:textSize="@dimen/medium_size" />
+
+                            </TableRow>
+
+                        </TableLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/card_view_margin"
+                android:layout_marginRight="@dimen/card_view_margin"
+                android:layout_marginTop="@dimen/card_view_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/card_view_padding_other"
+                    android:paddingLeft="@dimen/card_view_padding_other"
+                    android:paddingRight="@dimen/card_view_padding_other"
+                    android:paddingTop="@dimen/card_view_padding_top">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingBottom="@dimen/card_view_text_bottom">
+
+                        <TextView
+                            android:textColor="@color/black"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Awards"
+                            android:textSize="@dimen/card_view_title_size" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
                                     android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="Avator"
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
-                                    android:id="@+id/tv_music_result_full_chain_per"
                                     android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:gravity="end"
+                                    android:text="Sakuya"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text=""
+                                    android:textSize="@dimen/medium_size" />
+
+                            </TableRow>
+
+                            <!-- TODO: テーブルレイアウト-->
+                            <!-- TODO: 複数のアイテム、個数欄を考慮-->
+
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text=""
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Reimu"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text=""
                                     android:textSize="@dimen/medium_size" />
 
                             </TableRow>
@@ -365,26 +389,23 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_result_s"
+                                    android:text="Title"
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
-                                    android:id="@+id/tv_music_result_s"
                                     android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:gravity="end"
-                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="ID Master"
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
-                                    android:id="@+id/tv_music_result_s_per"
                                     android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:gravity="end"
+                                    android:text=""
                                     android:textSize="@dimen/medium_size" />
 
                             </TableRow>
@@ -397,31 +418,28 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_result_ss"
+                                    android:text=""
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
-                                    android:id="@+id/tv_music_result_ss"
                                     android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:gravity="end"
-                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="Help me, SENSEIIIIII"
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
-                                    android:id="@+id/tv_music_result_ss_per"
                                     android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:gravity="end"
+                                    android:text=""
                                     android:textSize="@dimen/medium_size" />
 
                             </TableRow>
 
-                            <TableRow>
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
 
                                 <TextView
                                     android:textColor="@color/black"
@@ -429,26 +447,393 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_result_sss"
+                                    android:text="Item"
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
-                                    android:id="@+id/tv_music_result_sss"
                                     android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:gravity="end"
+                                    android:text="Safe"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="5"
+                                    android:textSize="@dimen/medium_size" />
+
+                            </TableRow>
+
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
                                     android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text=""
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
-                                    android:id="@+id/tv_music_result_sss_per"
                                     android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:gravity="end"
+                                    android:text="GC Booster"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="5"
+                                    android:textSize="@dimen/medium_size" />
+
+                            </TableRow>
+
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="Trophy"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="10"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text=""
+                                    android:textSize="@dimen/medium_size" />
+
+                            </TableRow>
+
+                        </TableLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/card_view_margin"
+                android:layout_marginRight="@dimen/card_view_margin"
+                android:layout_marginTop="@dimen/card_view_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/card_view_padding_other"
+                    android:paddingLeft="@dimen/card_view_padding_other"
+                    android:paddingRight="@dimen/card_view_padding_other"
+                    android:paddingTop="@dimen/card_view_padding_top">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingBottom="@dimen/card_view_text_bottom">
+
+                        <TextView
+                            android:textColor="@color/black"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Awards(Destination)"
+                            android:textSize="@dimen/card_view_title_size" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="Ranking"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="100"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text=""
+                                    android:textSize="@dimen/medium_size" />
+
+                            </TableRow>
+
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="BattlePoints"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="100"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text=""
+                                    android:textSize="@dimen/medium_size" />
+
+                            </TableRow>
+
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="Avator"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Sakuya"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text=""
+                                    android:textSize="@dimen/medium_size" />
+
+                            </TableRow>
+
+                            <!-- TODO: テーブルレイアウト-->
+                            <!-- TODO: 複数のアイテム、個数欄を考慮-->
+
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text=""
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Reimu"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text=""
+                                    android:textSize="@dimen/medium_size" />
+
+                            </TableRow>
+
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="Title"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="ID Master"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text=""
+                                    android:textSize="@dimen/medium_size" />
+
+                            </TableRow>
+
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text=""
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Help me, SENSEIIIIII"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text=""
+                                    android:textSize="@dimen/medium_size" />
+
+                            </TableRow>
+
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="Item"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Safe"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="5"
+                                    android:textSize="@dimen/medium_size" />
+
+                            </TableRow>
+
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text=""
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="GC Booster"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="5"
+                                    android:textSize="@dimen/medium_size" />
+
+                            </TableRow>
+
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="Trophy"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="10"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text=""
                                     android:textSize="@dimen/medium_size" />
 
                             </TableRow>
