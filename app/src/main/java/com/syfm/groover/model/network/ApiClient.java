@@ -22,6 +22,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.exceptions.RealmException;
@@ -39,40 +41,55 @@ public class ApiClient {
     private Realm realm;
     private AndroidDeferredManager deferred = new AndroidDeferredManager();
 
+    // TODO: 他のクラスにした方がいい?
+    LoginClient loginClient = null;
+
     /**
      * Login API
      **/
 
     /**
      * Tries login to Groove Coaster.
-     * @param serial a serial numbers of NESiCA.net
-     * @param pass a password of NESiCA.net
+     *
+     * @param serial_id a serial numbers of NESiCA.net
+     * @param password  a password of NESiCA.net
      * @return {@code true} if login was successfully, {@Code false} login was failed
      * @throws IOException
      */
-    public boolean tryLogin(final String serial, final String pass) throws IOException {
+    public boolean tryLogin(final String serial_id, final String password) throws IOException {
 
         final String url = "https://mypage.groovecoaster.jp/sp/login/auth_con.php";
-        final String serialNoKey = "nesicaCardId";
+        final String serialId = "nesicaCardId";
         final String passwordKey = "password";
 
-        RequestBody body = new FormBody.Builder()
-                .add(serialNoKey, serial)
-                .add(passwordKey, pass)
-                .build();
+        // TODO: client in clientなのが気になる
+//        loginClient = (HashMap<String, String> params) -> {
+//            RequestBody body = new FormBody.Builder()
+//                    .add(serialId, serial_id)
+//                    .add(passwordKey, password)
+//                    .build();
+//
+//            Request request = new okhttp3.Request.Builder()
+//                    .url(url)
+//                    .post(body)
+//                    .build();
+//
+//            Response response = AppController.getOkHttpClient().newCall(request).execute();
+//
+//            // login判定
+//            String res_url = response.request().url().toString();
+//            response.body().close();
+//
+//            return res_url;
+//        };
 
-        Request request = new okhttp3.Request.Builder()
-                .url(url)
-                .post(body)
-                .build();
+        HashMap<String, String> params = new HashMap<>();
+        params.put("id"      , serial_id);
+        params.put("password", password);
 
-        Response response = AppController.getOkHttpClient().newCall(request).execute();
+        String res_url = loginClient.sendRequest(params);
 
-        // login判定
-        String res_url = response.request().url().toString();
-        response.body().close();
-
-        if (res_url.equals("https://mypage.groovecoaster.jp/sp/login/login_stop.php")) {
+        if (res_url.contains("login_stop")) {
             return false;
         }
 
@@ -84,11 +101,20 @@ public class ApiClient {
     }
 
     /**
+     * Send post request for login.
+     * sendRequest() is return response url.
+     */
+    public interface LoginClient {
+        String sendRequest(HashMap<String, String> params) throws IOException;
+    }
+
+    /**
      * PlayData API
      */
 
     /**
      * Fetches player_data.php from mypage of Groove Coaster.
+     *
      * @throws IOException
      * @throws JSONException
      */
@@ -128,6 +154,7 @@ public class ApiClient {
 
     /**
      * Fetches shop_sales_data.php from mypage of Groove Coaster.
+     *
      * @throws IOException
      * @throws JSONException
      */
@@ -162,6 +189,7 @@ public class ApiClient {
 
     /**
      * Fetches average_score.php from mypage of Groove Coaster.
+     *
      * @throws IOException
      * @throws JSONException
      */
@@ -200,6 +228,7 @@ public class ApiClient {
 
     /**
      * Fetches stage_data.php from mypage of Groove Coaster.
+     *
      * @throws IOException
      * @throws JSONException
      */
@@ -242,6 +271,7 @@ public class ApiClient {
 
     /**
      * Fetches music_list.php from mypage of Groove Coaster.
+     *
      * @throws IOException
      * @throws JSONException
      */
@@ -304,9 +334,10 @@ public class ApiClient {
 
     /**
      * Fetches music_detail.php from mypage of Groove Coaster.
+     *
      * @param music A fetched list by fetchMusicData()
      * @param count The index of music list
-     * @param size A size of music list
+     * @param size  A size of music list
      * @return {@code MusicData} if fetching was successfully, {@code null} if cannot fetches data.
      * @throws IOException
      * @throws JSONException
@@ -383,10 +414,11 @@ public class ApiClient {
 
     /**
      * Fetches music_image from mypage of Groove Coaster.
-     * @param id The id of the music's
+     *
+     * @param id        The id of the music's
      * @param musicData Target music's data
-     * @param count The index of music list
-     * @param maxSize A size of music list
+     * @param count     The index of music list
+     * @param maxSize   A size of music list
      * @return {@code byte[]} if fetching was successfully, {@code null} fetching was failed.
      * @throws IOException
      */
@@ -422,7 +454,8 @@ public class ApiClient {
 
     /**
      * Fetches score_ranking.php of the target music id.
-     * @param id The target music's id
+     *
+     * @param id   The target music's id
      * @param diff A difficulty of target music
      */
     public void fetchScoreRanking(final String id, final int diff) {
@@ -477,6 +510,7 @@ public class ApiClient {
 
     /**
      * Fetches ranking data from groovecoaster.jp
+     *
      * @param RANKING_TYPE A type of fetches
      * @throws IOException
      */
@@ -561,8 +595,9 @@ public class ApiClient {
 
     /**
      * Fetches event ranking data from groovecoaster.jp
+     *
      * @param SP_NAME The name of the SharedPreference for save this ranking data
-     * @param number The id of the target ranking
+     * @param number  The id of the target ranking
      * @throws IOException
      */
     public void fetchEventRankingData(final String SP_NAME, int number) throws IOException {
@@ -595,6 +630,7 @@ public class ApiClient {
 
     /**
      * Fetches event.xml to get a list of all event name.
+     *
      * @throws IOException
      */
     public void fetchEventNameList() throws IOException {
@@ -627,8 +663,10 @@ public class ApiClient {
      */
 
     // TODO: すごく汚いから治したい
+
     /**
      * Replaces {@code null} to safety value.
+     *
      * @param obj The target object
      * @param key A key of target object
      */
@@ -658,6 +696,7 @@ public class ApiClient {
 
     /**
      * Replaces {@code null} to safety value.
+     *
      * @param array The target array
      */
     private void userRankJsonReplaceNull(JSONArray array) {
