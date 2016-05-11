@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.syfm.groover.model.network.ApiClient;
 import com.syfm.groover.model.network.AppController;
+import com.syfm.groover.model.network.LoginApi;
 import com.syfm.groover.model.storage.SharedPreferenceHelper;
 
 import org.jdeferred.android.AndroidDeferredManager;
@@ -31,10 +32,11 @@ public class LoginUseCase {
         if (loggedin()) {
             return;
         }
-        ApiClient client = new ApiClient();
+        LoginApi api = new LoginApi(serial, pass);
         deferred.when(() -> {
             try {
-                return client.tryLogin(serial, pass);
+                return api.tryLogin();
+
             } catch (IOException e) {
                 return false;
             }

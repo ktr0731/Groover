@@ -12,7 +12,6 @@ public class Const {
      *
      */
 
-
     /*               PlayData ( PlayerData + ShopSalesData + AverageScore + StageData )           */
 
     public final static String TABLE_NAME_PLAYER_DATA = "PlayerData";
