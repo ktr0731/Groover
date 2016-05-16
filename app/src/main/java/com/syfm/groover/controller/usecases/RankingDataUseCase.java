@@ -3,7 +3,7 @@ package com.syfm.groover.controller.usecases;
 import android.util.Log;
 
 import com.syfm.groover.controller.entities.event.EventNameEntity;
-import com.syfm.groover.model.network.ApiClient;
+import com.syfm.groover.model.api.ApiClient;
 import com.syfm.groover.model.storage.Const;
 import com.syfm.groover.model.storage.SharedPreferenceHelper;
 import com.syfm.groover.controller.entities.ranking.RankingDataEntity;

@@ -1,4 +1,4 @@
-package com.syfm.groover.model.network;
+package com.syfm.groover.model;
 
 import android.app.Application;
 import android.content.Context;

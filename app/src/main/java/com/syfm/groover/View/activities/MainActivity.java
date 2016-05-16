@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import com.astuetz.PagerSlidingTabStrip;
 import com.syfm.groover.R;
 import com.syfm.groover.controller.usecases.LoginUseCase;
-import com.syfm.groover.model.network.AppController;
+import com.syfm.groover.model.AppController;
 import com.syfm.groover.model.storage.Const;
 import com.syfm.groover.model.storage.SharedPreferenceHelper;
 import com.syfm.groover.view.adapter.MainFragmentPagerAdapter;

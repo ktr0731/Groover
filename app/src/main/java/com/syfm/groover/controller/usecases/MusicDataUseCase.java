@@ -1,12 +1,9 @@
 package com.syfm.groover.controller.usecases;
 
-import android.util.Log;
-
-import com.syfm.groover.model.network.ApiClient;
-import com.syfm.groover.model.network.AppController;
+import com.syfm.groover.model.api.ApiClient;
+import com.syfm.groover.model.AppController;
 import com.syfm.groover.model.storage.databases.MusicData;
 
-import org.jdeferred.Promise;
 import org.jdeferred.android.AndroidDeferredManager;
 import org.json.JSONException;
 

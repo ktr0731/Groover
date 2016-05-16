@@ -1,6 +1,6 @@
-package com.syfm.groover.model.network;
+package com.syfm.groover.model.api;
 
-import android.util.Log;
+import com.syfm.groover.model.AppController;
 
 import java.io.IOException;
 import java.util.HashMap;

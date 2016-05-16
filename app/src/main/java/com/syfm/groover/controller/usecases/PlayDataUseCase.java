@@ -1,12 +1,10 @@
 package com.syfm.groover.controller.usecases;
 
 import android.util.Log;
-import android.widget.Toast;
 
-import com.syfm.groover.model.Utils;
-import com.syfm.groover.model.network.ApiClient;
-import com.syfm.groover.model.network.AppController;
-import com.syfm.groover.model.storage.Const;
+import com.syfm.groover.model.api.ApiClient;
+import com.syfm.groover.model.AppController;
+import com.syfm.groover.model.api.PlayDataApi;
 import com.syfm.groover.model.storage.databases.AverageScore;
 import com.syfm.groover.model.storage.databases.PlayerData;
 import com.syfm.groover.model.storage.databases.ShopSalesData;
@@ -55,15 +53,15 @@ public class PlayDataUseCase {
     }
 
     public void setPlayData() {
-        ApiClient client = new ApiClient();
+        PlayDataApi api = new PlayDataApi();
 
-        // なぜかnetworkOnMainThreadException
-        Promise p = deferred.when(() -> {
+
+        deferred.when(() -> {
             try {
-                client.fetchPlayerData();
-                client.fetchShopSalesData();
-                client.fetchAverageScore();
-                client.fetchStageData();
+                api.fetchPlayerData();
+                api.fetchShopSalesData();
+                api.fetchAverageScore();
+                api.fetchStageData();
             } catch (IOException e) {
                 e.printStackTrace();
                 EventBus.getDefault().post(new SetPlayData(false, "プレイデータの取得に失敗しました。通信環境の良い場所で再取得して下さい。"));
