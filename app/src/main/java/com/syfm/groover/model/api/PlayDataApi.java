@@ -26,6 +26,29 @@ import okhttp3.ResponseBody;
 public class PlayDataApi {
     private Realm realm;
 
+    PlayDataClient playDataClient = new PlayDataClient() {
+        @Override
+        public String sendRequest(String target_url) throws IOException {
+            Request request = new okhttp3.Request.Builder()
+                    .url(target_url)
+                    .get()
+                    .build();
+
+            Response response = AppController.getOkHttpClient().newCall(request).execute();
+            if (!response.isSuccessful()) {
+                Log.d("PlayDataClient", "Bad Response");
+                return null;
+            }
+
+            ResponseBody body = response.body();
+
+            String json = body.string();
+            body.close();
+
+            return json;
+        }
+    };
+
     /**
      * Fetches player_data.php from mypage of Groove Coaster.
      *
@@ -34,31 +57,12 @@ public class PlayDataApi {
      */
     public void fetchPlayerData() throws IOException, JSONException {
         realm = Realm.getInstance(AppController.getContext());
-        Log.d("ktr", "player data");
+        Log.d("PlayDataApi", "fetchPlayerData");
         String url = "https://mypage.groovecoaster.jp/sp/json/player_data.php";
         String player_data = "player_data";
 
-        Request request = new okhttp3.Request.Builder()
-                .url(url)
-                .get()
-                .build();
-
-        Response response = AppController.getOkHttpClient().newCall(request).execute();
-        if (!response.isSuccessful()) {
-            // TODO: エラー処理
-            Log.d("ktr", "errordesu");
-            return;
-        }
-
-        ResponseBody body = response.body();
-        JSONObject object = new JSONObject(body.string()).getJSONObject(player_data);
-
-        body.close();
-
-        if (object.length() <= 0) {
-            Log.d("ktr", "length0");
-            return;
-        }
+        String jsonString = playDataClient.sendRequest(url);
+        JSONObject object = new JSONObject(jsonString).getJSONObject(player_data);
 
         realm.beginTransaction();
         PlayerData playerData = realm.createObjectFromJson(PlayerData.class, object.toString());
@@ -74,27 +78,11 @@ public class PlayDataApi {
      */
     public void fetchShopSalesData() throws IOException, JSONException {
         realm = Realm.getInstance(AppController.getContext());
-        Log.d("ktr", "shop data");
+        Log.d("PlayDataApi", "fetchShopSalesData");
         String url = "https://mypage.groovecoaster.jp/sp/json/shop_sales_data.php";
 
-        Request request = new okhttp3.Request.Builder()
-                .url(url)
-                .get()
-                .build();
-
-        Response response = AppController.getOkHttpClient().newCall(request).execute();
-        if (!response.isSuccessful()) {
-            // TODO: エラー処理
-            return;
-        }
-        ResponseBody body = response.body();
-        JSONObject object = new JSONObject(body.string());
-
-        body.close();
-
-        if (object.length() <= 0) {
-            return;
-        }
+        String jsonString = playDataClient.sendRequest(url);
+        JSONObject object = new JSONObject(jsonString);
 
         realm.beginTransaction();
         realm.createObjectFromJson(ShopSalesData.class, object);
@@ -109,31 +97,13 @@ public class PlayDataApi {
      */
     public void fetchAverageScore() throws IOException, JSONException {
         realm = Realm.getInstance(AppController.getContext());
-        Log.d("ktr", "ave data");
+        Log.d("PlayDataApi", "fetchAverageScore");
 
         String url = "https://mypage.groovecoaster.jp/sp/json/average_score.php";
         String average_data = "average";
 
-        Request request = new okhttp3.Request.Builder()
-                .url(url)
-                .get()
-                .build();
-
-        Response response = AppController.getOkHttpClient().newCall(request).execute();
-        if (!response.isSuccessful()) {
-            // TODO: エラー処理
-            return;
-        }
-
-        ResponseBody body = response.body();
-
-        JSONObject object = new JSONObject(body.string()).getJSONObject(average_data);
-
-        body.close();
-
-        if (object.length() <= 0) {
-            return;
-        }
+        String jsonString = playDataClient.sendRequest(url);
+        JSONObject object = new JSONObject(jsonString).getJSONObject(average_data);
 
         realm.beginTransaction();
         realm.createObjectFromJson(AverageScore.class, object.toString());
@@ -148,34 +118,24 @@ public class PlayDataApi {
      */
     public void fetchStageData() throws IOException, JSONException {
         realm = Realm.getInstance(AppController.getContext());
-        Log.d("ktr", "stage data");
+        Log.d("PlayDataApi", "fetchStageData");
 
         String url = "https://mypage.groovecoaster.jp/sp/json/stage_data.php";
         String stage_data = "stage";
 
-        Request request = new okhttp3.Request.Builder()
-                .url(url)
-                .get()
-                .build();
-
-        Response response = AppController.getOkHttpClient().newCall(request).execute();
-        if (!response.isSuccessful()) {
-            // TODO: エラー処理
-            return;
-        }
-
-        ResponseBody body = response.body();
-
-        JSONObject object = new JSONObject(body.string()).getJSONObject(stage_data);
-
-        body.close();
-
-        if (object.length() <= 0) {
-            return;
-        }
+        String jsonString = playDataClient.sendRequest(url);
+        JSONObject object = new JSONObject(jsonString).getJSONObject(stage_data);
 
         realm.beginTransaction();
         realm.createObjectFromJson(StageData.class, object.toString());
         realm.commitTransaction();
+    }
+
+    /**
+     * Send post request for fetching.
+     * sendRequest() is return body string written by JSON.
+     */
+    public interface PlayDataClient {
+        String sendRequest(String target_url) throws IOException;
     }
 }
