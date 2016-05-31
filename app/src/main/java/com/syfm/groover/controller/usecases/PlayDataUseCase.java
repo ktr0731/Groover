@@ -55,20 +55,29 @@ public class PlayDataUseCase {
     public void setPlayData() {
         PlayDataApi api = new PlayDataApi();
 
-
         deferred.when(() -> {
+            Realm realm = Realm.getInstance(AppController.getContext());
             try {
-                api.fetchPlayerData();
-                api.fetchShopSalesData();
-                api.fetchAverageScore();
-                api.fetchStageData();
+                realm.beginTransaction();
+
+                realm.createObjectFromJson(PlayerData.class,    api.fetchPlayerData());
+                realm.createObjectFromJson(ShopSalesData.class, api.fetchShopSalesData());
+                realm.createObjectFromJson(AverageScore.class,  api.fetchAverageScore());
+                realm.createObjectFromJson(StageData.class,     api.fetchStageData());
+
+                realm.commitTransaction();
             } catch (IOException e) {
                 e.printStackTrace();
+                realm.cancelTransaction();
                 EventBus.getDefault().post(new SetPlayData(false, "プレイデータの取得に失敗しました。通信環境の良い場所で再取得して下さい。"));
             } catch (JSONException e) {
                 e.printStackTrace();
+                realm.cancelTransaction();
                 EventBus.getDefault().post(new SetPlayData(false, "JSONデータのパースに失敗しました。取得したデータが不正です。"));
+            } finally {
+                realm.close();
             }
+
         }).done(callback -> {
             Log.d("ktr", "setPlayDataDone");
             EventBus.getDefault().post(new SetPlayData(true, null));

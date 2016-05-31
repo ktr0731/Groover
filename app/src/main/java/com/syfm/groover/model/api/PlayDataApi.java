@@ -1,21 +1,14 @@
 package com.syfm.groover.model.api;
 
-import android.text.format.DateFormat;
 import android.util.Log;
 
 import com.syfm.groover.model.AppController;
-import com.syfm.groover.model.storage.databases.AverageScore;
-import com.syfm.groover.model.storage.databases.PlayerData;
-import com.syfm.groover.model.storage.databases.ShopSalesData;
-import com.syfm.groover.model.storage.databases.StageData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Calendar;
 
-import io.realm.Realm;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
@@ -24,7 +17,6 @@ import okhttp3.ResponseBody;
  * Created by lycoris on 2016/05/11.
  */
 public class PlayDataApi {
-    Realm realm;
     PlayDataClient client = new PlayDataClient() {
         @Override
         public String sendRequest(String target_url) throws IOException {
@@ -51,87 +43,66 @@ public class PlayDataApi {
     /**
      * Fetches player_data.php from mypage of Groove Coaster.
      *
+     * @return @{code JSONObject} Response json from player_data.php
      * @throws IOException
      * @throws JSONException
      */
-    public void fetchPlayerData() throws IOException, JSONException {
-        realm = Realm.getInstance(AppController.getContext());
+    public JSONObject fetchPlayerData() throws IOException, JSONException {
         Log.d("PlayDataApi", "fetchPlayerData");
         String url = "https://mypage.groovecoaster.jp/sp/json/player_data.php";
         String player_data = "player_data";
 
         String jsonString = client.sendRequest(url);
-        JSONObject object = new JSONObject(jsonString).getJSONObject(player_data);
-
-        realm.beginTransaction();
-        PlayerData playerData = realm.createObjectFromJson(PlayerData.class, object.toString());
-        playerData.setDate(DateFormat.format("yyyy/MM/dd kk:mm:ss", Calendar.getInstance()).toString());
-        realm.commitTransaction();
-        realm.close();
+        return new JSONObject(jsonString).getJSONObject(player_data);
     }
 
     /**
-     * Fetches shop_sales_data.php from mypage of Groove Coaster.
+     * Fetches shop_sales_data.php from mypage of Groove
      *
+     * @return @{code JSONObject} Response json from shop_sales_data.php
      * @throws IOException
      * @throws JSONException
      */
-    public void fetchShopSalesData() throws IOException, JSONException {
-        realm = Realm.getInstance(AppController.getContext());
+   public JSONObject fetchShopSalesData() throws IOException, JSONException {
         Log.d("PlayDataApi", "fetchShopSalesData");
         String url = "https://mypage.groovecoaster.jp/sp/json/shop_sales_data.php";
 
         String jsonString = client.sendRequest(url);
-        JSONObject object = new JSONObject(jsonString);
-
-        realm.beginTransaction();
-        realm.createObjectFromJson(ShopSalesData.class, object);
-        realm.commitTransaction();
-        realm.close();
+        return new JSONObject(jsonString);
     }
 
     /**
      * Fetches average_score.php from mypage of Groove Coaster.
      *
+     * @return @{code JSONObject} Response json from average_score.php
      * @throws IOException
      * @throws JSONException
      */
-    public void fetchAverageScore() throws IOException, JSONException {
-        realm = Realm.getInstance(AppController.getContext());
+    public JSONObject fetchAverageScore() throws IOException, JSONException {
         Log.d("PlayDataApi", "fetchAverageScore");
 
         String url = "https://mypage.groovecoaster.jp/sp/json/average_score.php";
         String average_data = "average";
 
         String jsonString = client.sendRequest(url);
-        JSONObject object = new JSONObject(jsonString).getJSONObject(average_data);
-
-        realm.beginTransaction();
-        realm.createObjectFromJson(AverageScore.class, object.toString());
-        realm.commitTransaction();
-        realm.close();
+        return new JSONObject(jsonString).getJSONObject(average_data);
     }
 
     /**
      * Fetches stage_data.php from mypage of Groove Coaster.
      *
+     * @return @{code JSONObject} Response json from stage_data.php
      * @throws IOException
      * @throws JSONException
      */
-    public void fetchStageData() throws IOException, JSONException {
-        realm = Realm.getInstance(AppController.getContext());
+    public JSONObject fetchStageData() throws IOException, JSONException {
         Log.d("PlayDataApi", "fetchStageData");
 
         String url = "https://mypage.groovecoaster.jp/sp/json/stage_data.php";
         String stage_data = "stage";
 
         String jsonString = client.sendRequest(url);
-        JSONObject object = new JSONObject(jsonString).getJSONObject(stage_data);
-
-        realm.beginTransaction();
-        realm.createObjectFromJson(StageData.class, object.toString());
-        realm.commitTransaction();
-        realm.close();
+        return new JSONObject(jsonString).getJSONObject(stage_data);
     }
 
     /**
