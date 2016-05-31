@@ -10,6 +10,7 @@ import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.JavaNetCookieJar;
 import okhttp3.OkHttpClient;
@@ -44,6 +45,7 @@ public class AppController extends Application {
 
         client = new OkHttpClient.Builder()
                 .cookieJar(new JavaNetCookieJar(cookieManager))
+                .connectTimeout(5, TimeUnit.SECONDS)
                 .build();
 
         Stetho.initialize(

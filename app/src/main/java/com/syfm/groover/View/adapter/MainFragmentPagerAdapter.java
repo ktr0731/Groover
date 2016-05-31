@@ -27,8 +27,6 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                // FIXME: Fragmentが生成された際、値が表示されない。getPlayDataが呼ばれる前にsetPlayDataが終わっていないっぽい
-                // FIXME: playDataがすべて空だった。
                 return new PlayDataFragment();
             case 1:
                 return new MusicListFragment();

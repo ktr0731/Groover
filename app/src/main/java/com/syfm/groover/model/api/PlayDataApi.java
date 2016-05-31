@@ -24,9 +24,8 @@ import okhttp3.ResponseBody;
  * Created by lycoris on 2016/05/11.
  */
 public class PlayDataApi {
-    private Realm realm;
-
-    PlayDataClient playDataClient = new PlayDataClient() {
+    Realm realm;
+    PlayDataClient client = new PlayDataClient() {
         @Override
         public String sendRequest(String target_url) throws IOException {
             Request request = new okhttp3.Request.Builder()
@@ -61,13 +60,14 @@ public class PlayDataApi {
         String url = "https://mypage.groovecoaster.jp/sp/json/player_data.php";
         String player_data = "player_data";
 
-        String jsonString = playDataClient.sendRequest(url);
+        String jsonString = client.sendRequest(url);
         JSONObject object = new JSONObject(jsonString).getJSONObject(player_data);
 
         realm.beginTransaction();
         PlayerData playerData = realm.createObjectFromJson(PlayerData.class, object.toString());
         playerData.setDate(DateFormat.format("yyyy/MM/dd kk:mm:ss", Calendar.getInstance()).toString());
         realm.commitTransaction();
+        realm.close();
     }
 
     /**
@@ -81,12 +81,13 @@ public class PlayDataApi {
         Log.d("PlayDataApi", "fetchShopSalesData");
         String url = "https://mypage.groovecoaster.jp/sp/json/shop_sales_data.php";
 
-        String jsonString = playDataClient.sendRequest(url);
+        String jsonString = client.sendRequest(url);
         JSONObject object = new JSONObject(jsonString);
 
         realm.beginTransaction();
         realm.createObjectFromJson(ShopSalesData.class, object);
         realm.commitTransaction();
+        realm.close();
     }
 
     /**
@@ -102,12 +103,13 @@ public class PlayDataApi {
         String url = "https://mypage.groovecoaster.jp/sp/json/average_score.php";
         String average_data = "average";
 
-        String jsonString = playDataClient.sendRequest(url);
+        String jsonString = client.sendRequest(url);
         JSONObject object = new JSONObject(jsonString).getJSONObject(average_data);
 
         realm.beginTransaction();
         realm.createObjectFromJson(AverageScore.class, object.toString());
         realm.commitTransaction();
+        realm.close();
     }
 
     /**
@@ -123,12 +125,13 @@ public class PlayDataApi {
         String url = "https://mypage.groovecoaster.jp/sp/json/stage_data.php";
         String stage_data = "stage";
 
-        String jsonString = playDataClient.sendRequest(url);
+        String jsonString = client.sendRequest(url);
         JSONObject object = new JSONObject(jsonString).getJSONObject(stage_data);
 
         realm.beginTransaction();
         realm.createObjectFromJson(StageData.class, object.toString());
         realm.commitTransaction();
+        realm.close();
     }
 
     /**
