@@ -1,7 +1,5 @@
 package com.syfm.api;
 
-import android.test.AndroidTestCase;
-
 import com.syfm.groover.BuildConfig;
 import com.syfm.groover.model.api.LoginApi;
 

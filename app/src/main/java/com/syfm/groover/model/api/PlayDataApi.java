@@ -17,7 +17,7 @@ import okhttp3.ResponseBody;
  * Created by lycoris on 2016/05/11.
  */
 public class PlayDataApi {
-    PlayDataClient client = new PlayDataClient() {
+    public PlayDataClient client = new PlayDataClient() {
         @Override
         public String sendRequest(String target_url) throws IOException {
             Request request = new okhttp3.Request.Builder()

@@ -1,0 +1,28 @@
+{
+  "status": 1,
+  "player_data": {
+    "player_name": "",
+    "total_score": "0",
+    "total_play_music": 0,
+    "total_music": 0,
+    "rank": 0,
+    "level": 0,
+    "avatar": "",
+    "title": "",
+    "total_trophy": 0,
+    "trophy_rank": 0,
+    "average_score": 0,
+    "version": 0,
+    "friendApplication": false
+  },
+  "stage": {
+    "all": 1212,
+    "clear": 0,
+    "nomiss": 0,
+    "fullchain": 0,
+    "perfect": 0,
+    "s": 0,
+    "ss": 0,
+    "sss": 0
+  }
+}
