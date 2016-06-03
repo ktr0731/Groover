@@ -1,7 +1,15 @@
-package com.syfm.groover.model.api;
+package com.syfm.api;
+
+import android.test.AndroidTestCase;
+
+import com.syfm.groover.BuildConfig;
+import com.syfm.groover.model.api.LoginApi;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.util.HashMap;
 
@@ -13,6 +21,9 @@ import static org.mockito.Mockito.when;
 /**
  * Created by lycoris on 2016/05/05.
  */
+
+@RunWith(RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class, sdk = 21)
 public class LoginApiTest {
 
 

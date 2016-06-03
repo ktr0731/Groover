@@ -22,7 +22,7 @@ public class LoginApi {
     private String serial_id;
     private String password;
 
-    LoginClient loginClient = (HashMap<String, String> params) -> {
+    public LoginClient loginClient = (HashMap<String, String> params) -> {
             RequestBody body = new FormBody.Builder()
                     .add(SERIAL_ID, params.get(SERIAL_ID))
                     .add(PASSWORD, params.get(PASSWORD))

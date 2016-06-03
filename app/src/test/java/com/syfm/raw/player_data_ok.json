@@ -1,0 +1,28 @@
+{
+  "status": 0,
+  "player_data": {
+    "player_name": "Name",
+    "total_score": "394262836",
+    "total_play_music": 228,
+    "total_music": 383,
+    "rank": 3083,
+    "level": 43,
+    "avatar": "SAKUYA",
+    "title": "Master ID",
+    "total_trophy": "42",
+    "trophy_rank": "3480",
+    "average_score": "851539",
+    "version": "30200",
+    "friendApplication": false
+  },
+  "stage": {
+    "all": 1200,
+    "clear": 424,
+    "nomiss": 245,
+    "fullchain": 78,
+    "perfect": 0,
+    "s": 244,
+    "ss": 66,
+    "sss": 4
+  }
+}
