@@ -119,14 +119,13 @@ public class PlayDataFragment extends Fragment {
 
         try {
             JSONObject pd = playerDataJson.getJSONObject("player_data");
-            JSONObject sd = playerDataJson.getJSONObject("stage_data");
+            JSONObject sd = playerDataJson.getJSONObject("stage");
 
             player_name.setText(pd.getString("player_name"));
             player_level.setText("Lv." + pd.getString("level"));
             player_avatar_title.setText(pd.getString("avatar") + "/" + pd.getString("title"));
             player_total_score.setText(String.valueOf(pd.getString("total_score")));
             player_rank.setText(String.valueOf(pd.getString("rank")));
-//            player_coin.setText(String.valueOf(ssd.getCurrent_coin()));
             player_trophy.setText(String.valueOf(pd.getString("total_trophy")));
 
             int total_music = pd.getInt("total_music");

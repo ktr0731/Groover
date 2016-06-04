@@ -40,8 +40,8 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'io.realm:realm-android:0.87.0'
     compile 'org.jdeferred:jdeferred-android-aar:1.2.4'
-    compile 'com.squareup.okhttp3:okhttp:3.2.0'
-    compile 'com.squareup.okhttp3:okhttp-urlconnection:3.2.0'
+    compile 'com.squareup.okhttp3:okhttp:3.3.1'
+    compile 'com.squareup.okhttp3:okhttp-urlconnection:3.3.1'
     compile 'com.facebook.stetho:stetho:1.2.0'
     compile 'com.uphyca:stetho_realm:0.8.0'
 

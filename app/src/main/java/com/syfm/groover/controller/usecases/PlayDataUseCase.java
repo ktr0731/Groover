@@ -43,25 +43,14 @@ public class PlayDataUseCase {
         ApiClient apiClient = new ApiClient();
 
         deferred.when(() -> {
-            Realm realm = Realm.getInstance(AppController.getContext());
             try {
-                realm.beginTransaction();
-
-//                realm.createObjectFromJson(PlayerData.class,    apiClient.fetchPlayerData());
                 SharedPreferenceHelper.setPlayerData(apiClient.fetchPlayerData());
-                realm.createObjectFromJson(ShopSalesData.class, apiClient.fetchShopSalesData());
-
-                realm.commitTransaction();
             } catch (IOException e) {
                 e.printStackTrace();
-                realm.cancelTransaction();
                 EventBus.getDefault().post(new SetPlayData(false, "プレイデータの取得に失敗しました。通信環境の良い場所で再取得して下さい。"));
             } catch (JSONException e) {
                 e.printStackTrace();
-                realm.cancelTransaction();
                 EventBus.getDefault().post(new SetPlayData(false, "JSONデータのパースに失敗しました。取得したデータが不正です。"));
-            } finally {
-                realm.close();
             }
 
         }).done(callback -> {
@@ -76,13 +65,6 @@ public class PlayDataUseCase {
     public void getPlayData() {
         try {
             JSONObject playerDataJson = SharedPreferenceHelper.getPlayerData();
-
-            Realm realm = Realm.getInstance(AppController.getInstance());
-
-//        PlayerData player    = realm.where(PlayerData.class).findFirst();
-            ShopSalesData sales = realm.where(ShopSalesData.class).findFirst();
-            AverageScore average = realm.where(AverageScore.class).findFirst();
-            StageData stage = realm.where(StageData.class).findFirst();
 
             EventBus.getDefault().post(playerDataJson);
         } catch (JSONException e) {

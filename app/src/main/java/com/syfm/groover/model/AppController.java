@@ -29,11 +29,6 @@ public class AppController extends Application {
 
     private static OkHttpClient client;
 
-    private static final String SET_COOKIE_KEY = "Set-Cookie";
-    private static final String SESSION_COOKIE = "PHPSESSID";
-    private static final String USER_AGENT_KEY = "User-Agent";
-    private static final String USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.85 Safari/537.36";
-
     @Override
     public void onCreate() {
         super.onCreate();
