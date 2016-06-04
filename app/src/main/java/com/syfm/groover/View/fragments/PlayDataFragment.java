@@ -15,6 +15,9 @@ import com.syfm.groover.model.storage.databases.PlayerData;
 import com.syfm.groover.model.storage.databases.ShopSalesData;
 import com.syfm.groover.model.storage.databases.StageData;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
@@ -108,41 +111,68 @@ public class PlayDataFragment extends Fragment {
         super.onStop();
     }
 
-    public void onEventMainThread(PlayDataUseCase.PlayDataEvent event) {
-        if (event.playerData == null || event.salesData == null || event.averageScore == null || event.stageData == null) {
+    public void onEventMainThread(JSONObject playerDataJson) {
+        if (playerDataJson == null) {
+            Log.d("ktr", "event data is null");
             return;
         }
 
-        PlayerData pd     = event.playerData;
-        ShopSalesData ssd = event.salesData;
-        AverageScore as   = event.averageScore;
-        StageData sd      = event.stageData;
+        try {
+            JSONObject pd = playerDataJson.getJSONObject("player_data");
+            JSONObject sd = playerDataJson.getJSONObject("stage_data");
 
-        player_name.setText(pd.getPlayer_name());
-        player_level.setText("Lv." + pd.getLevel());
-        player_avatar_title.setText(pd.getAvatar() + "/" + pd.getTitle());
-        player_total_score.setText(String.valueOf(pd.getTotal_score()));
-        player_rank.setText(String.valueOf(pd.getRank()));
-        player_coin.setText(String.valueOf(ssd.getCurrent_coin()));
-        player_trophy.setText(String.valueOf(pd.getTotal_trophy()));
+            player_name.setText(pd.getString("player_name"));
+            player_level.setText("Lv." + pd.getString("level"));
+            player_avatar_title.setText(pd.getString("avatar") + "/" + pd.getString("title"));
+            player_total_score.setText(String.valueOf(pd.getString("total_score")));
+            player_rank.setText(String.valueOf(pd.getString("rank")));
+//            player_coin.setText(String.valueOf(ssd.getCurrent_coin()));
+            player_trophy.setText(String.valueOf(pd.getString("total_trophy")));
 
-        music_play_music.setText(String.valueOf(pd.getTotal_play_music()) + "/" + String.valueOf(pd.getTotal_music()));
-        music_play_music_per.setText(String.format("%.2f%%", (float) pd.getTotal_play_music() / pd.getTotal_music() * 100));
-        music_clear_stage.setText(String.valueOf(sd.getClear()) + "/" + String.valueOf(sd.getAll()));
-        music_clear_stage_per.setText(String.format(("%.2f%%"), (float) sd.getClear() / sd.getAll() * 100));
-        music_average_score.setText(String.valueOf(as.getAverage_score()));
-        music_average_score_per.setText(String.format("%.2f%%", (float) as.getAverage_score() / 1000000 * 100));
-        music_no_miss.setText(String.valueOf(sd.getNomiss()));
-        music_no_miss_per.setText(String.format("%.2f%%", (float) sd.getNomiss() / sd.getAll() * 100));
-        music_full_chain.setText(String.valueOf(sd.getFullchain()));
-        music_full_chain_per.setText(String.format("%.2f%%", (float) sd.getFullchain() / sd.getAll() * 100));
-        music_s.setText(String.valueOf(sd.getS()));
-        music_s_per.setText(String.format("%.2f%%", (float) sd.getS() / sd.getAll() * 100));
-        music_ss.setText(String.valueOf(sd.getSs()));
-        music_ss_per.setText(String.format("%.2f%%", (float) sd.getSs() / sd.getAll() * 100));
-        music_sss.setText(String.valueOf(sd.getSss()));
-        music_sss_per.setText(String.format("%.2f%%", (float) sd.getSss() / sd.getAll() * 100));
+            int total_music = pd.getInt("total_music");
+            int total_play_music = pd.getInt("total_play_music");
+            int all = sd.getInt("all");
+            int clear = sd.getInt("clear");
+            int average_score = pd.getInt("average_score");
+            int nomiss = sd.getInt("nomiss");
+            int fullchain = sd.getInt("fullchain");
+            int s = sd.getInt("s");
+            int ss = sd.getInt("ss");
+            int sss = sd.getInt("sss");
 
+
+            music_play_music.setText(String.valueOf(total_play_music) + "/" + String.valueOf(total_music));
+            music_play_music_per.setText(String.format("%.2f%%", calcPercentage(total_play_music, total_music)));
+
+            music_clear_stage.setText(String.valueOf(clear) + "/" + String.valueOf(all));
+            music_clear_stage_per.setText(String.format(("%.2f%%"), calcPercentage(clear, all)));
+
+            music_average_score.setText(String.valueOf(average_score));
+            music_average_score_per.setText(String.format("%.2f%%", calcPercentage(average_score, 100000)));
+
+            music_no_miss.setText(String.valueOf(nomiss));
+            music_no_miss_per.setText(String.format("%.2f%%", calcPercentage(nomiss, all)));
+
+            music_full_chain.setText(String.valueOf(fullchain));
+            music_full_chain_per.setText(String.format("%.2f%%", calcPercentage(fullchain, all)));
+
+            music_s.setText(String.valueOf(s));
+            music_s_per.setText(String.format("%.2f%%", calcPercentage(s, all)));
+
+            music_ss.setText(String.valueOf(ss));
+            music_ss_per.setText(String.format("%.2f%%", calcPercentage(ss, all)));
+
+            music_sss.setText(String.valueOf(sss));
+            music_sss_per.setText(String.format("%.2f%%", calcPercentage(sss, all)));
+
+        } catch (JSONException e) {
+            // データが異常の場合だが、SPからの取得の時点で補足するのでなにもしない
+            e.printStackTrace();
+        }
+    }
+
+    private double calcPercentage(int p1, int p2) {
+        return (double) p1 / p2 * 100;
     }
 
 }

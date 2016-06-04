@@ -70,7 +70,7 @@ public class ApiClient {
 
         checkAuthorization(object);
 
-        return object.getJSONObject("player_data");
+        return object;
     }
 
     /**

@@ -7,6 +7,9 @@ import android.preference.PreferenceManager;
 
 import com.syfm.groover.model.storage.Constants.SPConst;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,13 +52,13 @@ public class SharedPreferenceHelper {
     /**
      * PlayerData
      */
-    public static String getPlayerData() {
-        return sp.getString(SPConst.PLAYER_DATA_JSON, "");
+    public static JSONObject getPlayerData() throws JSONException {
+        return new JSONObject(sp.getString(SPConst.PLAYER_DATA_JSON, ""));
     }
 
-    public static void setPlayerData(String value) {
+    public static void setPlayerData(JSONObject value) {
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString(SPConst.PLAYER_DATA_JSON, value);
+        editor.putString(SPConst.PLAYER_DATA_JSON, value.toString());
         editor.commit();
     }
 

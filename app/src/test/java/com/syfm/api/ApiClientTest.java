@@ -58,7 +58,7 @@ public class ApiClientTest {
         JSONObject object = new JSONObject(jsonString);
 
         // Verify
-        assertThat(apiClient.fetchPlayerData().toString(), equalTo(object.getJSONObject(player_data).toString()));
+        assertThat(apiClient.fetchPlayerData().toString(), equalTo(object.toString()));
     }
 
     @Test(expected = JSONException.class)

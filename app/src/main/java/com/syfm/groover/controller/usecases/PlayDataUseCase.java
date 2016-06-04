@@ -5,6 +5,7 @@ import android.util.Log;
 import com.syfm.groover.model.api.ApiClient;
 import com.syfm.groover.model.AppController;
 import com.syfm.groover.model.api.PlayDataApi;
+import com.syfm.groover.model.storage.SharedPreferenceHelper;
 import com.syfm.groover.model.storage.databases.AverageScore;
 import com.syfm.groover.model.storage.databases.PlayerData;
 import com.syfm.groover.model.storage.databases.ShopSalesData;
@@ -13,6 +14,7 @@ import com.syfm.groover.model.storage.databases.StageData;
 import org.jdeferred.Promise;
 import org.jdeferred.android.AndroidDeferredManager;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -25,21 +27,6 @@ import io.realm.Realm;
 public class PlayDataUseCase {
 
     private AndroidDeferredManager deferred = new AndroidDeferredManager();
-
-    // PlayDataを通知するためのクラス
-    // PlayDataFragmentへ通知
-    public class PlayDataEvent {
-        public final PlayerData playerData;
-        public final ShopSalesData salesData;
-        public final AverageScore averageScore;
-        public final StageData stageData;
-        public PlayDataEvent(PlayerData playerData, ShopSalesData salesData, AverageScore averageScore, StageData stageData) {
-            this.playerData   = playerData;
-            this.salesData    = salesData;
-            this.averageScore = averageScore;
-            this.stageData    = stageData;
-        }
-    }
 
     // ログイン判定用のクラス
     // LoginActivityへ通知
@@ -61,6 +48,7 @@ public class PlayDataUseCase {
                 realm.beginTransaction();
 
 //                realm.createObjectFromJson(PlayerData.class,    apiClient.fetchPlayerData());
+                SharedPreferenceHelper.setPlayerData(apiClient.fetchPlayerData());
                 realm.createObjectFromJson(ShopSalesData.class, apiClient.fetchShopSalesData());
 
                 realm.commitTransaction();
@@ -86,12 +74,20 @@ public class PlayDataUseCase {
     }
 
     public void getPlayData() {
-        Realm realm = Realm.getInstance(AppController.getInstance());
-        PlayerData player    = realm.where(PlayerData.class).findFirst();
-        ShopSalesData sales  = realm.where(ShopSalesData.class).findFirst();
-        AverageScore average = realm.where(AverageScore.class).findFirst();
-        StageData stage      = realm.where(StageData.class).findFirst();
+        try {
+            JSONObject playerDataJson = SharedPreferenceHelper.getPlayerData();
 
-        EventBus.getDefault().post(new PlayDataEvent(player, sales, average, stage));
+            Realm realm = Realm.getInstance(AppController.getInstance());
+
+//        PlayerData player    = realm.where(PlayerData.class).findFirst();
+            ShopSalesData sales = realm.where(ShopSalesData.class).findFirst();
+            AverageScore average = realm.where(AverageScore.class).findFirst();
+            StageData stage = realm.where(StageData.class).findFirst();
+
+            EventBus.getDefault().post(playerDataJson);
+        } catch (JSONException e) {
+            // TODO: 保存されたデータが委譲なので再取得したほうが良さ気
+            e.printStackTrace();
+        }
     }
 }
