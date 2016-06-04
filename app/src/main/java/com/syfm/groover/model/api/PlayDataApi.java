@@ -50,10 +50,13 @@ public class PlayDataApi {
     public JSONObject fetchPlayerData() throws IOException, JSONException {
         Log.d("PlayDataApi", "fetchPlayerData");
         String url = "https://mypage.groovecoaster.jp/sp/json/player_data.php";
-        String player_data = "player_data";
 
         String jsonString = client.sendRequest(url);
-        return new JSONObject(jsonString).getJSONObject(player_data);
+        JSONObject object = new JSONObject(jsonString);
+
+        checkAuthorization(object);
+
+        return object.getJSONObject("player_data");
     }
 
     /**
@@ -63,46 +66,15 @@ public class PlayDataApi {
      * @throws IOException
      * @throws JSONException
      */
-   public JSONObject fetchShopSalesData() throws IOException, JSONException {
+    public JSONObject fetchShopSalesData() throws IOException, JSONException {
         Log.d("PlayDataApi", "fetchShopSalesData");
         String url = "https://mypage.groovecoaster.jp/sp/json/shop_sales_data.php";
 
-        String jsonString = client.sendRequest(url);
-        return new JSONObject(jsonString);
-    }
+        JSONObject object = new JSONObject(client.sendRequest(url));
 
-    /**
-     * Fetches average_score.php from mypage of Groove Coaster.
-     *
-     * @return @{code JSONObject} Response json from average_score.php
-     * @throws IOException
-     * @throws JSONException
-     */
-    public JSONObject fetchAverageScore() throws IOException, JSONException {
-        Log.d("PlayDataApi", "fetchAverageScore");
+        checkAuthorization(object);
 
-        String url = "https://mypage.groovecoaster.jp/sp/json/average_score.php";
-        String average_data = "average";
-
-        String jsonString = client.sendRequest(url);
-        return new JSONObject(jsonString).getJSONObject(average_data);
-    }
-
-    /**
-     * Fetches stage_data.php from mypage of Groove Coaster.
-     *
-     * @return @{code JSONObject} Response json from stage_data.php
-     * @throws IOException
-     * @throws JSONException
-     */
-    public JSONObject fetchStageData() throws IOException, JSONException {
-        Log.d("PlayDataApi", "fetchStageData");
-
-        String url = "https://mypage.groovecoaster.jp/sp/json/stage_data.php";
-        String stage_data = "stage";
-
-        String jsonString = client.sendRequest(url);
-        return new JSONObject(jsonString).getJSONObject(stage_data);
+        return object;
     }
 
     /**
@@ -111,5 +83,17 @@ public class PlayDataApi {
      */
     public interface PlayDataClient {
         String sendRequest(String target_url) throws IOException;
+    }
+
+    /**
+     * Checks status from JSON
+     *
+     * @param object @{code JSONObject} Fetched JSON data
+     * @throws JSONException If status is 1
+     */
+    private void checkAuthorization(JSONObject object) throws JSONException {
+        if (object.getInt("status") == 1) {
+            throw new JSONException("Unauthorized access");
+        }
     }
 }

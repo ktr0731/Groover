@@ -2,6 +2,7 @@ package com.syfm.api;
 
 import com.syfm.CustomRobolectricGradleTestRunner;
 import com.syfm.groover.BuildConfig;
+import com.syfm.groover.model.api.ApiClient;
 import com.syfm.groover.model.api.PlayDataApi;
 
 import org.json.JSONException;
@@ -27,16 +28,16 @@ import static org.mockito.Mockito.when;
 @RunWith(CustomRobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
 public class PlayDataApiTest {
-    PlayDataApi api;
-    PlayDataApi.PlayDataClient client;
+    ApiClient apiClient;
+    ApiClient.ClientInterface client;
 
 
     @Before
     public void setUp() throws Exception {
-        api = new PlayDataApi();
-        client = mock(PlayDataApi.PlayDataClient.class);
+        apiClient = new ApiClient();
+        client = mock(ApiClient.ClientInterface.class);
 
-        api.client = client;
+        apiClient.client = client;
     }
 
     @Test
@@ -51,11 +52,14 @@ public class PlayDataApiTest {
         stream.close();
 
         String jsonString = new String(buffer, "UTF-8");
+
+        // Exercise
         when(client.sendRequest(url)).thenReturn(jsonString);
 
         JSONObject object = new JSONObject(jsonString);
-        // Exercise
-        assertThat(api.fetchPlayerData().toString(), equalTo(object.getJSONObject(player_data).toString()));
+
+        // Verify
+        assertThat(apiClient.fetchPlayerData().toString(), equalTo(object.getJSONObject(player_data).toString()));
     }
 
     @Test(expected = JSONException.class)
@@ -69,10 +73,12 @@ public class PlayDataApiTest {
         stream.close();
 
         String jsonString = new String(buffer, "UTF-8");
-        when(client.sendRequest(url)).thenReturn(jsonString);
 
         // Exercise
-        api.fetchPlayerData();
+        when(client.sendRequest(url)).thenReturn(jsonString);
+
+        // Verify
+        apiClient.fetchPlayerData();
     }
 
     @Test(expected = JSONException.class)
@@ -80,19 +86,22 @@ public class PlayDataApiTest {
         // Set up
         String url = "https://mypage.groovecoaster.jp/sp/json/player_data.php";
 
+        // Exercise
         when(client.sendRequest(url)).thenReturn("");
 
-        // Exercise
-        api.fetchPlayerData();
+        // Verify
+        apiClient.fetchPlayerData();
     }
 
     @Test(expected = IOException.class)
     public void fetchPlayerData_failure_disconnection() throws Exception {
         // Set up
         String url = "https://mypage.groovecoaster.jp/sp/json/player_data.php";
-        when(client.sendRequest(url)).thenThrow(IOException.class);
 
         // Exercise
-        api.fetchPlayerData();
+        when(client.sendRequest(url)).thenThrow(IOException.class);
+
+        // Verify
+        apiClient.fetchPlayerData();
     }
 }

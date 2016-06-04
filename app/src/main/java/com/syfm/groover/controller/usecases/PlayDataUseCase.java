@@ -53,17 +53,15 @@ public class PlayDataUseCase {
     }
 
     public void setPlayData() {
-        PlayDataApi api = new PlayDataApi();
+        ApiClient apiClient = new ApiClient();
 
         deferred.when(() -> {
             Realm realm = Realm.getInstance(AppController.getContext());
             try {
                 realm.beginTransaction();
 
-                realm.createObjectFromJson(PlayerData.class,    api.fetchPlayerData());
-                realm.createObjectFromJson(ShopSalesData.class, api.fetchShopSalesData());
-                realm.createObjectFromJson(AverageScore.class,  api.fetchAverageScore());
-                realm.createObjectFromJson(StageData.class,     api.fetchStageData());
+                realm.createObjectFromJson(PlayerData.class,    apiClient.fetchPlayerData());
+                realm.createObjectFromJson(ShopSalesData.class, apiClient.fetchShopSalesData());
 
                 realm.commitTransaction();
             } catch (IOException e) {
