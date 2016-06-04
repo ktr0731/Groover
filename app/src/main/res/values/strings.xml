@@ -2,11 +2,8 @@
     <string name="app_name">Groover</string>
     <string name="activity_login">ログイン</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-
     <string name="serial_no">NESiCA Serial No.</string>
-    <string name="password">Password</string>
+    <string name="password">NeSiCA Password</string>
     <string name="login_attention">これらの情報はアプリ内データに保存され、自動ログインの際に使用されます。また、ログインに数回失敗すると１時間ログインができなくなりますのでご注意ください。</string>
     <string name="login_button">ログイン</string>
 
@@ -35,61 +32,63 @@
     <string name="toast_login_successful">ログインに成功しました</string>
     <string name="toast_login_failed">ログインに失敗しました</string>
     
-    <string name="tv_player_data_total_score">Total Score</string>
-    <string name="tv_player_data_rank">Rank</string>
-    <string name="tv_player_data_coin">Coin</string>
-    <string name="tv_player_data_trophy">Trophy</string>
+    <string name="tv_player_data_total_score">トータルスコア</string>
+    <string name="tv_player_data_rank">ランク</string>
+    <string name="tv_player_data_coin">所持コイン数</string>
+    <string name="tv_player_data_trophy">トロフィー数</string>
 
     <string name="tv_music_result_title">Statistics</string>
-    <string name="tv_music_result_play_music">Play Music</string>
-    <string name="tv_music_result_clear_stage">Clear Stage</string>
-    <string name="tv_music_result_average_score">Average Score</string>
+    <string name="tv_music_result_play_music">プレイ済み</string>
+    <string name="tv_music_result_clear_stage">クリア</string>
+    <string name="tv_music_result_average_score">平均スコア</string>
     <string name="tv_music_result_no_miss">NO MISS</string>
     <string name="tv_music_result_full_chain">FULL CHAIN</string>
+    <string name="tv_music_result_perfect">PERFECT</string>
     <string name="tv_music_result_s">S</string>
     <string name="tv_music_result_ss">S+</string>
     <string name="tv_music_result_sss">S++</string>
 
-    <string name="tv_music_detail_detail">DETAIL</string>
-    <string name="tv_music_detail_num_of_plays">Num of plays</string>
-    <string name="tv_music_detail_last_played">Last played</string>
-    <string name="tv_music_detail_skin">Skin</string>
+    <string name="tv_music_detail_detail">Detail</string>
+    <string name="tv_music_detail_num_of_plays">プレイ回数</string>
+    <string name="tv_music_detail_last_played">最終プレイ</string>
+    <string name="tv_music_detail_skin">スキン</string>
     <string name="tv_music_detail_title_simple">SIMPLE</string>
     <string name="tv_music_detail_title_normal">NORMAL</string>
     <string name="tv_music_detail_title_hard">HARD</string>
     <string name="tv_music_detail_title_extra">EXTRA</string>
 
-    <string name="tv_music_detail_score">Score</string>
-    <string name="tv_music_detail_rating">Rating</string>
+    <string name="tv_music_detail_score">スコア</string>
+    <string name="tv_music_detail_rating">評価</string>
     <string name="tv_music_detail_max_chain">Max Chain</string>
+    <string name="tv_music_detail_num_of_perfect">PERFECT</string>
     <string name="tv_music_detail_num_of_full_chain">FULL CHAIN</string>
     <string name="tv_music_detail_num_of_no_miss">NO MISS</string>
 
     <string name="tv_music_sort_asc">Asc</string>
     <string name="tv_music_sort_desc">Desc</string>
-    <string name="tv_music_sort_music_name">Music name</string>
-    <string name="tv_music_sort_last_played">Last played</string>
-    <string name="tv_music_sort_play_times">Play times</string>
-    <string name="tv_music_sort_category">Category</string>
+    <string name="tv_music_sort_music_name">ミュージック名順</string>
+    <string name="tv_music_sort_last_played">最終プレイ順</string>
+    <string name="tv_music_sort_play_times">プレイ回数順</string>
+    <string name="tv_music_sort_category">カテゴリ順(未実装)</string>
 
-    <string name="tv_music_detail_ranking_score">Score</string>
-    <string name="tv_music_detail_ranking_area">Area</string>
-    <string name="tv_music_detail_ranking_arcade">Arcade</string>
+    <string name="tv_music_detail_ranking_score">スコア</string>
+    <string name="tv_music_detail_ranking_area">エリア</string>
+    <string name="tv_music_detail_ranking_arcade">店舗</string>
 
-    <string name="tv_current_event_ranking">Ranking</string>
-    <string name="tv_current_event_point">Battle Point</string>
-    <string name="tv_current_event_ranking_ranking">Ranking</string>
+    <string name="tv_current_event_ranking">ランク</string>
+    <string name="tv_current_event_point">バトルポイント</string>
+    <string name="tv_current_event_ranking_ranking">ランキング</string>
     <string name="tv_current_event_awards_awards">Awards</string>
-    <string name="tv_current_event_awards_avatar">Avatar</string>
-    <string name="tv_current_event_awards_title">Title</string>
-    <string name="tv_current_event_awards_item">Item</string>
-    <string name="tv_current_event_awards_trophy">Trophy</string>
+    <string name="tv_current_event_awards_avatar">アバター</string>
+    <string name="tv_current_event_awards_title">称号</string>
+    <string name="tv_current_event_awards_item">アイテム</string>
+    <string name="tv_current_event_awards_trophy">トロフィー</string>
     <string name="tv_current_event_awards_dest_awards">Awards(Destination)</string>
-    <string name="tv_current_event_awards_dest_ranking">Ranking</string>
-    <string name="tv_current_event_awards_dest_point">Battle Point</string>
-    <string name="tv_current_event_awards_dest_avatar">Avatar</string>
-    <string name="tv_current_event_awards_dest_title">Title</string>
-    <string name="tv_current_event_awards_dest_item">Item</string>
-    <string name="tv_current_event_awards_dest_trophy"></string>
+    <string name="tv_current_event_awards_dest_ranking">ランキング</string>
+    <string name="tv_current_event_awards_dest_point">バトルポイント</string>
+    <string name="tv_current_event_awards_dest_avatar">アバター</string>
+    <string name="tv_current_event_awards_dest_title">称号</string>
+    <string name="tv_current_event_awards_dest_item">アイテム</string>
+    <string name="tv_current_event_awards_dest_trophy">トロフィー</string>
 
 </resources>
