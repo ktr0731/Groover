@@ -3,7 +3,6 @@ package com.syfm.api;
 import com.syfm.CustomRobolectricGradleTestRunner;
 import com.syfm.groover.BuildConfig;
 import com.syfm.groover.model.api.ApiClient;
-import com.syfm.groover.model.api.PlayDataApi;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,7 +26,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(CustomRobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
-public class PlayDataApiTest {
+public class ApiClientTest {
     ApiClient apiClient;
     ApiClient.ClientInterface client;
 

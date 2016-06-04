@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.syfm.groover.R;
 import com.syfm.groover.model.AppController;
-import com.syfm.groover.model.storage.Const;
+import com.syfm.groover.model.storage.Constants.Const;
 import com.syfm.groover.model.storage.databases.MusicData;
 import com.syfm.groover.model.storage.databases.ResultData;
 import com.syfm.groover.model.storage.databases.UserRank;

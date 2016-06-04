@@ -16,8 +16,8 @@ import android.widget.Toast;
 import com.syfm.groover.R;
 import com.syfm.groover.controller.entities.event.EventNameEntity;
 import com.syfm.groover.controller.usecases.RankingDataUseCase;
-import com.syfm.groover.model.storage.Const;
-import com.syfm.groover.model.storage.SharedPreferenceHelper;
+import com.syfm.groover.model.storage.Constants.Const;
+import com.syfm.groover.model.storage.Constants.SPConst;
 import com.syfm.groover.view.adapter.RankingAdapter;
 
 import java.util.Map;
@@ -71,27 +71,27 @@ public class RankingListFragment extends Fragment implements AppCompatSpinner.On
 //                SharedPreferenceHelper.setRankingListViewPosition(
 //                        listView.getFirstVisiblePosition(),
 //                        listView.getChildAt(0).getTop(),
-//                        Const.SP_RANKING_LEVEL_LIST_VIEW_POSITION, Const.SP_RANKING_LEVEL_LIST_VIEW_Y
+//                        SPConst.RANKING_LEVEL_LIST_VIEW_POSITION, SPConst.RANKING_LEVEL_LIST_VIEW_Y
 //                );
-//                SharedPreferenceHelper.setRankingSpinnerPosition(spinner.getSelectedItemPosition(), Const.SP_RANKING_LEVEL_SPINNER_POSITION);
+//                SharedPreferenceHelper.setRankingSpinnerPosition(spinner.getSelectedItemPosition(), SPConst.RANKING_LEVEL_SPINNER_POSITION);
                 break;
 
             case 1:
 //                SharedPreferenceHelper.setRankingListViewPosition(
 //                        listView.getFirstVisiblePosition(),
 //                        listView.getChildAt(0).getTop(),
-//                        Const.SP_RANKING_GENRE_LIST_VIEW_POSITION, Const.SP_RANKING_GENRE_LIST_VIEW_Y
+//                        SPConst.RANKING_GENRE_LIST_VIEW_POSITION, SPConst.RANKING_GENRE_LIST_VIEW_Y
 //                );
-//                SharedPreferenceHelper.setRankingSpinnerPosition(spinner.getSelectedItemPosition(), Const.SP_RANKING_GENRE_SPINNER_POSITION);
+//                SharedPreferenceHelper.setRankingSpinnerPosition(spinner.getSelectedItemPosition(), SPConst.RANKING_GENRE_SPINNER_POSITION);
                 break;
 
             case 2:
 //                SharedPreferenceHelper.setRankingListViewPosition(
 //                        listView.getFirstVisiblePosition(),
 //                        listView.getChildAt(0).getTop(),
-//                        Const.SP_RANKING_EVENT_LIST_VIEW_POSITION, Const.SP_RANKING_EVENT_LIST_VIEW_Y
+//                        SPConst.RANKING_EVENT_LIST_VIEW_POSITION, SPConst.RANKING_EVENT_LIST_VIEW_Y
 //                );
-//                SharedPreferenceHelper.setRankingSpinnerPosition(spinner.getSelectedItemPosition(), Const.SP_RANKING_EVENT_SPINNER_POSITION);
+//                SharedPreferenceHelper.setRankingSpinnerPosition(spinner.getSelectedItemPosition(), SPConst.RANKING_EVENT_SPINNER_POSITION);
                 break;
 
         }
@@ -114,20 +114,20 @@ public class RankingListFragment extends Fragment implements AppCompatSpinner.On
             case 0:
                 arraySpinner = getResources().getStringArray(R.array.ranking_level);
 
-//                list_positions = SharedPreferenceHelper.getRankingListViewPosition(Const.SP_RANKING_LEVEL_LIST_VIEW_POSITION, Const.SP_RANKING_LEVEL_LIST_VIEW_Y);
-//                spinner_position = SharedPreferenceHelper.getRankingSpinnerPosition(Const.SP_RANKING_LEVEL_SPINNER_POSITION);
+//                list_positions = SharedPreferenceHelper.getRankingListViewPosition(SPConst.RANKING_LEVEL_LIST_VIEW_POSITION, SPConst.RANKING_LEVEL_LIST_VIEW_Y);
+//                spinner_position = SharedPreferenceHelper.getRankingSpinnerPosition(SPConst.RANKING_LEVEL_SPINNER_POSITION);
 //                if (!list_positions.isEmpty()) {
-//                    //listView.setSelectionFromTop(list_positions.get(Const.SP_RANKING_LEVEL_LIST_VIEW_POSITION), list_positions.get(Const.SP_RANKING_LEVEL_LIST_VIEW_Y));
+//                    //listView.setSelectionFromTop(list_positions.get(SPConst.RANKING_LEVEL_LIST_VIEW_POSITION), list_positions.get(SPConst.RANKING_LEVEL_LIST_VIEW_Y));
 //                }
                 break;
 
             case 1:
                 arraySpinner = getResources().getStringArray(R.array.ranking_genre);
 
-//                list_positions = SharedPreferenceHelper.getRankingListViewPosition(Const.SP_RANKING_GENRE_LIST_VIEW_POSITION, Const.SP_RANKING_GENRE_LIST_VIEW_Y);
-//                spinner_position = SharedPreferenceHelper.getRankingSpinnerPosition(Const.SP_RANKING_GENRE_SPINNER_POSITION);
+//                list_positions = SharedPreferenceHelper.getRankingListViewPosition(SPConst.RANKING_GENRE_LIST_VIEW_POSITION, SPConst.RANKING_GENRE_LIST_VIEW_Y);
+//                spinner_position = SharedPreferenceHelper.getRankingSpinnerPosition(SPConst.RANKING_GENRE_SPINNER_POSITION);
 //                if (!list_positions.isEmpty()) {
-//                    //listView.setSelectionFromTop(list_positions.get(Const.SP_RANKING_GENRE_LIST_VIEW_POSITION), list_positions.get(Const.SP_RANKING_GENRE_LIST_VIEW_Y));
+//                    //listView.setSelectionFromTop(list_positions.get(SPConst.RANKING_GENRE_LIST_VIEW_POSITION), list_positions.get(SPConst.RANKING_GENRE_LIST_VIEW_Y));
 //                }
                 break;
 
@@ -135,10 +135,10 @@ public class RankingListFragment extends Fragment implements AppCompatSpinner.On
                 RankingDataUseCase useCase = new RankingDataUseCase();
                 useCase.getEventNameList();
 
-//                list_positions = SharedPreferenceHelper.getRankingListViewPosition(Const.SP_RANKING_EVENT_LIST_VIEW_POSITION, Const.SP_RANKING_EVENT_LIST_VIEW_Y);
-//                spinner_position = SharedPreferenceHelper.getRankingSpinnerPosition(Const.SP_RANKING_EVENT_SPINNER_POSITION);
+//                list_positions = SharedPreferenceHelper.getRankingListViewPosition(SPConst.RANKING_EVENT_LIST_VIEW_POSITION, SPConst.RANKING_EVENT_LIST_VIEW_Y);
+//                spinner_position = SharedPreferenceHelper.getRankingSpinnerPosition(SPConst.RANKING_EVENT_SPINNER_POSITION);
 //                if (!list_positions.isEmpty()) {
-//                    //listView.setSelectionFromTop(list_positions.get(Const.SP_RANKING_EVENT_LIST_VIEW_POSITION), list_positions.get(Const.SP_RANKING_EVENT_LIST_VIEW_Y));
+//                    //listView.setSelectionFromTop(list_positions.get(SPConst.RANKING_EVENT_LIST_VIEW_POSITION), list_positions.get(SPConst.RANKING_EVENT_LIST_VIEW_Y));
 //                }
                 break;
 
@@ -180,19 +180,19 @@ public class RankingListFragment extends Fragment implements AppCompatSpinner.On
 
                 switch (position) {
                     case 0:
-                        useCase.getRankingData(Const.SP_LEVEL_ALL_RANKING);
+                        useCase.getRankingData(SPConst.LEVEL_ALL_RANKING);
                         break;
                     case 1:
-                        useCase.getRankingData(Const.SP_LEVEL_SIMPLE_RANKING);
+                        useCase.getRankingData(SPConst.LEVEL_SIMPLE_RANKING);
                         break;
                     case 2:
-                        useCase.getRankingData(Const.SP_LEVEL_NORMAL_RANKING);
+                        useCase.getRankingData(SPConst.LEVEL_NORMAL_RANKING);
                         break;
                     case 3:
-                        useCase.getRankingData(Const.SP_LEVEL_HARD_RANKING);
+                        useCase.getRankingData(SPConst.LEVEL_HARD_RANKING);
                         break;
                     case 4:
-                        useCase.getRankingData(Const.SP_LEVEL_EXTRA_RANKING);
+                        useCase.getRankingData(SPConst.LEVEL_EXTRA_RANKING);
                         break;
                 }
                 break;
@@ -204,25 +204,25 @@ public class RankingListFragment extends Fragment implements AppCompatSpinner.On
                 switch (spinner.getSelectedItem().toString()) {
                     case Const.RANKING_GENRE_JPOP:
                         // Genreのgetメソッドの実装
-                        useCase.getRankingData(Const.SP_GENRE_JPOP_RANKING);
+                        useCase.getRankingData(SPConst.GENRE_JPOP_RANKING);
                         break;
                     case Const.RANKING_GENRE_ANIME:
-                        useCase.getRankingData(Const.SP_GENRE_ANIME_RANKING);
+                        useCase.getRankingData(SPConst.GENRE_ANIME_RANKING);
                         break;
                     case Const.RANKING_GENRE_VOCALOID:
-                        useCase.getRankingData(Const.SP_GENRE_VOCALOID_RANKING);
+                        useCase.getRankingData(SPConst.GENRE_VOCALOID_RANKING);
                         break;
                     case Const.RANKING_GENRE_TOHO:
-                        useCase.getRankingData(Const.SP_GENRE_TOUHOU_RANKING);
+                        useCase.getRankingData(SPConst.GENRE_TOUHOU_RANKING);
                         break;
                     case Const.RANKING_GENRE_GAME:
-                        useCase.getRankingData(Const.SP_GENRE_GAME_RANKING);
+                        useCase.getRankingData(SPConst.GENRE_GAME_RANKING);
                         break;
                     case Const.RANKING_GENRE_VARIETY:
-                        useCase.getRankingData(Const.SP_GENRE_VARIETY_RANKING);
+                        useCase.getRankingData(SPConst.GENRE_VARIETY_RANKING);
                         break;
                     case Const.RANKING_GENRE_ORIGINAL:
-                        useCase.getRankingData(Const.SP_GENRE_ORIGINAL_RANKING);
+                        useCase.getRankingData(SPConst.GENRE_ORIGINAL_RANKING);
                         break;
                 }
                 break;

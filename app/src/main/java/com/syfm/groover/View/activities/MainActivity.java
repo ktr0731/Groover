@@ -15,7 +15,8 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.syfm.groover.R;
 import com.syfm.groover.controller.usecases.LoginUseCase;
 import com.syfm.groover.model.AppController;
-import com.syfm.groover.model.storage.Const;
+import com.syfm.groover.model.storage.Constants.Const;
+import com.syfm.groover.model.storage.Constants.SPConst;
 import com.syfm.groover.model.storage.SharedPreferenceHelper;
 import com.syfm.groover.view.adapter.MainFragmentPagerAdapter;
 import com.syfm.groover.view.fragments.MusicListFragment;
@@ -51,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
         if (loginData.size() > 0 && !AppController.getInstance().checkLoginCookie()) {
             //入力させないでログイン
             LoginUseCase loginUseCase = new LoginUseCase();
-            String serialNo = loginData.get(Const.SP_LOGIN_NESICA_ID);
-            String password = loginData.get(Const.SP_LOGIN_PASSWORD);
+            String serialNo = loginData.get(SPConst.LOGIN_NESICA_ID);
+            String password = loginData.get(SPConst.LOGIN_PASSWORD);
             loginUseCase.checkLogin(serialNo, password);
 
         } else if (!AppController.getInstance().checkLoginCookie()) {

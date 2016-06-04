@@ -1,28 +1,22 @@
 package com.syfm.groover.model.api;
 
-import android.text.format.DateFormat;
 import android.util.Log;
 
 import com.syfm.groover.model.AppController;
 import com.syfm.groover.model.Utils;
-import com.syfm.groover.model.storage.Const;
+import com.syfm.groover.model.storage.Constants.Const;
+import com.syfm.groover.model.storage.Constants.SPConst;
 import com.syfm.groover.model.storage.SharedPreferenceHelper;
-import com.syfm.groover.model.storage.databases.AverageScore;
 import com.syfm.groover.model.storage.databases.MusicData;
-import com.syfm.groover.model.storage.databases.PlayerData;
 import com.syfm.groover.model.storage.databases.ResultData;
 import com.syfm.groover.model.storage.databases.ScoreRankData;
-import com.syfm.groover.model.storage.databases.ShopSalesData;
-import com.syfm.groover.model.storage.databases.StageData;
 import com.syfm.groover.model.storage.databases.UserRank;
 
-import org.jdeferred.android.AndroidDeferredManager;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Calendar;
 
 import io.realm.Realm;
 import io.realm.exceptions.RealmException;
@@ -36,7 +30,6 @@ import okhttp3.ResponseBody;
  */
 public class ApiClient {
     private Realm realm;
-    private AndroidDeferredManager deferred = new AndroidDeferredManager();
 
     public ClientInterface client = new ClientInterface() {
         @Override
@@ -48,7 +41,7 @@ public class ApiClient {
 
             Response response = AppController.getOkHttpClient().newCall(request).execute();
             if (!response.isSuccessful()) {
-                Log.d("PlayDataClient", "Bad Response");
+                Log.d("HttpRequest", "Bad Response");
                 return null;
             }
 
@@ -81,7 +74,7 @@ public class ApiClient {
     }
 
     /**
-     * Fetches shop_sales_data.php from mypage of Groove
+     * Fetches shop_sales_data.php from mypage of Groove Coaster.
      *
      * @return @{code JSONObject} Response json from shop_sales_data.php
      * @throws IOException
@@ -96,14 +89,6 @@ public class ApiClient {
         checkAuthorization(object);
 
         return object;
-    }
-
-    /**
-     * Send post request for fetching.
-     * sendRequest() is return body string written by JSON.
-     */
-    public interface ClientInterface {
-        String sendRequest(String target_url) throws IOException;
     }
 
     /**
@@ -371,51 +356,51 @@ public class ApiClient {
         String url = "http://groovecoaster.jp/xml/fmj2100/rank/";
 
         switch (RANKING_TYPE) {
-            case Const.SP_LEVEL_ALL_RANKING:
+            case SPConst.LEVEL_ALL_RANKING:
                 url += "all/rank_1.xml";
                 break;
 
-            case Const.SP_LEVEL_SIMPLE_RANKING:
+            case SPConst.LEVEL_SIMPLE_RANKING:
                 url += "diff/0/rank_1.xml";
                 break;
 
-            case Const.SP_LEVEL_NORMAL_RANKING:
+            case SPConst.LEVEL_NORMAL_RANKING:
                 url += "diff/1/rank_1.xml";
                 break;
 
-            case Const.SP_LEVEL_HARD_RANKING:
+            case SPConst.LEVEL_HARD_RANKING:
                 url += "diff/2/rank_1.xml";
                 break;
 
-            case Const.SP_LEVEL_EXTRA_RANKING:
+            case SPConst.LEVEL_EXTRA_RANKING:
                 url += "diff/3/rank_1.xml";
                 break;
 
-            case Const.SP_GENRE_JPOP_RANKING:
+            case SPConst.GENRE_JPOP_RANKING:
                 url += "genre/J-POP/rank_1.xml";
                 break;
 
-            case Const.SP_GENRE_ANIME_RANKING:
+            case SPConst.GENRE_ANIME_RANKING:
                 url += "genre/ANIME/rank_1.xml";
                 break;
 
-            case Const.SP_GENRE_VOCALOID_RANKING:
+            case SPConst.GENRE_VOCALOID_RANKING:
                 url += "genre/VOCALOID/rank_1.xml";
                 break;
 
-            case Const.SP_GENRE_TOUHOU_RANKING:
+            case SPConst.GENRE_TOUHOU_RANKING:
                 url += "genre/TOUHOU/rank_1.xml";
                 break;
 
-            case Const.SP_GENRE_GAME_RANKING:
+            case SPConst.GENRE_GAME_RANKING:
                 url += "genre/GAME/rank_1.xml";
                 break;
 
-            case Const.SP_GENRE_VARIETY_RANKING:
+            case SPConst.GENRE_VARIETY_RANKING:
                 url += "genre/VARIETY/rank_1.xml";
                 break;
 
-            case Const.SP_GENRE_ORIGINAL_RANKING:
+            case SPConst.GENRE_ORIGINAL_RANKING:
                 url += "genre/ORIGINAL/rank_1.xml";
                 break;
 
@@ -564,6 +549,14 @@ public class ApiClient {
                 }
             }
         }
+    }
+
+    /**
+     * Send post request for fetching.
+     * sendRequest() is return body string written by JSON.
+     */
+    public interface ClientInterface {
+        String sendRequest(String target_url) throws IOException;
     }
 
 }

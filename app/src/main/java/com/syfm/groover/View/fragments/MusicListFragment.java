@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +13,14 @@ import android.widget.Toast;
 
 import com.syfm.groover.R;
 import com.syfm.groover.controller.usecases.MusicDataUseCase;
-import com.syfm.groover.model.storage.Const;
+import com.syfm.groover.model.storage.Constants.Const;
+import com.syfm.groover.model.storage.Constants.SPConst;
 import com.syfm.groover.model.storage.SharedPreferenceHelper;
 import com.syfm.groover.model.storage.databases.MusicData;
 import com.syfm.groover.view.activities.MusicDetailActivity;
 import com.syfm.groover.view.adapter.MusicListAdapter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
@@ -116,7 +114,7 @@ public class MusicListFragment extends Fragment {
         // 位置をセット
         Map<String, Integer> positions = SharedPreferenceHelper.getMusicListViewPosition();
         if(!positions.isEmpty()) {
-            listView.setSelectionFromTop(positions.get(Const.SP_MUSIC_LIST_LIST_VIEW_POSITION), positions.get(Const.SP_MUSIC_LIST_LIST_VIEW_Y));
+            listView.setSelectionFromTop(positions.get(SPConst.MUSIC_LIST_LIST_VIEW_POSITION), positions.get(SPConst.MUSIC_LIST_LIST_VIEW_Y));
         }
 
         adapter.sortList();

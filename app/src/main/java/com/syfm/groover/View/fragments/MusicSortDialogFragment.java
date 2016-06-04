@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.syfm.groover.R;
 import com.syfm.groover.model.AppController;
-import com.syfm.groover.model.storage.Const;
+import com.syfm.groover.model.storage.Constants.Const;
 import com.syfm.groover.model.storage.SharedPreferenceHelper;
 
 import java.util.ArrayList;

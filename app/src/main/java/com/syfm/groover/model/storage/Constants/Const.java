@@ -1,46 +1,9 @@
-package com.syfm.groover.model.storage;
+package com.syfm.groover.model.storage.Constants;
 
 /**
  * Created by lycoris on 2015/10/06.
  */
 public class Const {
-
-    /*
-     *
-     *      パラメータ名は必ず
-     *          (API名) + (パラメータ名) とする(名前の衝突を防ぐため)
-     *
-     */
-
-    /*               PlayData ( PlayerData + ShopSalesData + AverageScore + StageData )           */
-
-    public final static String TABLE_NAME_PLAYER_DATA = "PlayerData";
-    public final static String TABLE_NAME_SHOP_SALES_DATA = "ShopSalesData";
-    public final static String TABLE_NAME_AVERAGE_SCORE = "AverageScores";
-    public final static String TABLE_NAME_STAGE_DATA = "StageData";
-
-    public final static String PLAYER_DATA_NAME = "player_name";
-    public final static String PLAYER_DATA_AVATAR = "avatar";
-    public final static String PLAYER_DATA_LEVEL = "level";
-    public final static String PLAYER_DATA_TITLE = "title";
-    public final static String PLAYER_DATA_TOTAL_SCORE = "total_score";
-    public final static String PLAYER_DATA_TOTAL_PLAY_MUSIC = "total_play_music";
-    public final static String PLAYER_DATA_TOTAL_MUSIC = "total_music";
-    public final static String PLAYER_DATA_TOTAL_TROPHY = "total_trophy";
-    public final static String PLAYER_DATA_RANK = "rank";
-    public final static String PLAYER_DATA_DATE = "date";
-
-    public final static String SHOP_SALES_DATA_COIN = "current_coin";
-
-    public final static String AVERAGE_SCORE_AVERAGE_SCORE = "average_score";
-
-    public final static String STAGE_DATA_ALL = "all_stage";
-    public final static String STAGE_DATA_CLEAR = "clear";
-    public final static String STAGE_DATA_FULL_CHAIN = "fullchain";
-    public final static String STAGE_DATA_NO_MISS = "nomiss";
-    public final static String STAGE_DATA_S = "s";
-    public final static String STAGE_DATA_SS = "ss";
-    public final static String STAGE_DATA_SSS = "sss";
 
 
     /*                      MusicData( MusicData + MusicDetail )                 */
@@ -92,43 +55,6 @@ public class Const {
     public final static int TIME = 500;
 
     public final static Boolean DEBUG_LOGIN = true;
-
-    public final static String SP_LOGIN_NESICA_ID = "login_nesica_id";
-    public final static String SP_LOGIN_PASSWORD  = "login_password";
-
-    public final static String SP_MUSIC_LIST_LIST_VIEW_POSITION = "music_list_list_view_position";
-    public final static String SP_MUSIC_LIST_LIST_VIEW_Y        = "music_list_list_view_y";
-    public final static String SP_MUSIC_LIST_SORT_ORDER_BY = "music_list_order_by";
-    public final static String SP_MUSIC_LIST_SORT_SORT_TYPE = "music_list_sort_type";
-
-    public final static String SP_LEVEL_ALL_RANKING = "level_all_ranking";
-    public final static String SP_LEVEL_SIMPLE_RANKING = "level_simple_ranking";
-    public final static String SP_LEVEL_NORMAL_RANKING = "level_normal_ranking";
-    public final static String SP_LEVEL_HARD_RANKING = "level_hard_ranking";
-    public final static String SP_LEVEL_EXTRA_RANKING = "level_extra_ranking";
-
-    public final static String SP_GENRE_JPOP_RANKING = "genre_jpop_ranking";
-    public final static String SP_GENRE_ANIME_RANKING = "genre_anime_ranking";
-    public final static String SP_GENRE_VOCALOID_RANKING = "genre_vocaloid_ranking";
-    public final static String SP_GENRE_TOUHOU_RANKING = "genre_touhou_ranking";
-    public final static String SP_GENRE_GAME_RANKING = "genre_game_ranking";
-    public final static String SP_GENRE_VARIETY_RANKING = "genre_variety_ranking";
-    public final static String SP_GENRE_ORIGINAL_RANKING = "genre_original_ranking";
-
-    public final static String SP_EVENT_LIST = "event_list";
-
-    public final static String SP_EVENT_RANKING = "event_ranking";
-
-    public final static String SP_RANKING_LEVEL_SPINNER_POSITION   = "ranking_level_spinner_position";
-    public final static String SP_RANKING_GENRE_SPINNER_POSITION   = "ranking_genre_spinner_position";
-    public final static String SP_RANKING_EVENT_SPINNER_POSITION   = "ranking_event_spinner_position";
-
-    public final static String SP_RANKING_LEVEL_LIST_VIEW_POSITION = "ranking_level_list_view_position";
-    public final static String SP_RANKING_LEVEL_LIST_VIEW_Y        = "ranking_level_list_view_y";
-    public final static String SP_RANKING_GENRE_LIST_VIEW_POSITION = "ranking_genre_list_view_position";
-    public final static String SP_RANKING_GENRE_LIST_VIEW_Y        = "ranking_genre_list_view_y";
-    public final static String SP_RANKING_EVENT_LIST_VIEW_POSITION = "ranking_event_list_view_position";
-    public final static String SP_RANKING_EVENT_LIST_VIEW_Y        = "ranking_event_list_view_y";
 
     public final static int RANKING_LEVEL = 0;
     public final static int RANKING_GENRE = 1;

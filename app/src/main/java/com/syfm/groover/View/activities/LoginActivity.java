@@ -2,7 +2,6 @@ package com.syfm.groover.view.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -13,8 +12,6 @@ import com.syfm.groover.R;
 import com.syfm.groover.controller.usecases.LoginUseCase;
 import com.syfm.groover.controller.usecases.MusicDataUseCase;
 import com.syfm.groover.controller.usecases.PlayDataUseCase;
-import com.syfm.groover.model.Utils;
-import com.syfm.groover.model.storage.Const;
 import com.syfm.groover.view.fragments.ProgressDialogFragment;
 
 import org.jdeferred.android.AndroidDeferredManager;

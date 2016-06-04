@@ -60,7 +60,7 @@ public class PlayDataUseCase {
             try {
                 realm.beginTransaction();
 
-                realm.createObjectFromJson(PlayerData.class,    apiClient.fetchPlayerData());
+//                realm.createObjectFromJson(PlayerData.class,    apiClient.fetchPlayerData());
                 realm.createObjectFromJson(ShopSalesData.class, apiClient.fetchShopSalesData());
 
                 realm.commitTransaction();

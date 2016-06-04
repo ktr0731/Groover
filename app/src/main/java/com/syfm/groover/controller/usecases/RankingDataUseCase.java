@@ -4,7 +4,8 @@ import android.util.Log;
 
 import com.syfm.groover.controller.entities.event.EventNameEntity;
 import com.syfm.groover.model.api.ApiClient;
-import com.syfm.groover.model.storage.Const;
+import com.syfm.groover.model.storage.Constants.Const;
+import com.syfm.groover.model.storage.Constants.PlayerDataConst;
 import com.syfm.groover.model.storage.SharedPreferenceHelper;
 import com.syfm.groover.controller.entities.ranking.RankingDataEntity;
 
@@ -174,7 +175,7 @@ public class RankingDataUseCase {
                         case Const.RANKING_DATA_RANK:
                             row.setRank(Integer.parseInt(e));
                             break;
-                        case Const.PLAYER_DATA_NAME:
+                        case PlayerDataConst.NAME:
                             row.setPlayer_name(URLDecoder.decode(e, "UTF-8"));
                             break;
                         case Const.RANKING_DATA_SCORE_BI1:

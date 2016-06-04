@@ -14,7 +14,8 @@ import android.widget.TextView;
 
 import com.syfm.groover.R;
 import com.syfm.groover.model.AppController;
-import com.syfm.groover.model.storage.Const;
+import com.syfm.groover.model.storage.Constants.Const;
+import com.syfm.groover.model.storage.Constants.SPConst;
 import com.syfm.groover.model.storage.SharedPreferenceHelper;
 import com.syfm.groover.model.storage.databases.MusicData;
 
@@ -206,8 +207,8 @@ public class MusicListAdapter extends RealmBaseAdapter<MusicData> implements Lis
         Map<String, String> info = SharedPreferenceHelper.getMusicSortInfo();
         if(!info.isEmpty()) {
             ArrayList<String> params = new ArrayList<>();
-            params.add(info.get(Const.SP_MUSIC_LIST_SORT_SORT_TYPE));
-            params.add(info.get(Const.SP_MUSIC_LIST_SORT_ORDER_BY));
+            params.add(info.get(SPConst.MUSIC_LIST_SORT_SORT_TYPE));
+            params.add(info.get(SPConst.MUSIC_LIST_SORT_ORDER_BY));
             sortList(params);
         }
     }
