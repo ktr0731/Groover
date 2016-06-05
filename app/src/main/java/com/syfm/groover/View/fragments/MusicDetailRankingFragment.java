@@ -47,7 +47,7 @@ public class MusicDetailRankingFragment extends Fragment {
         }
 
         // スコアランキングを取得する
-        Log.d("fetchMusicData", "MusicDataUseCase.getScoreRanking Start");
+        Log.d("fetchMusicList", "MusicDataUseCase.getScoreRanking Start");
         MusicDataUseCase useCase = new MusicDataUseCase();
         // まだ正規化していないため、一度停止
         //useCase.getScoreRanking(String.valueOf(id), String.valueOf(ex_flag));

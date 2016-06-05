@@ -45,12 +45,7 @@ public class ApiClientTest {
         String url = "https://mypage.groovecoaster.jp/sp/json/player_data.php";
         String player_data = "player_data";
 
-        InputStream stream = RuntimeEnvironment.application.getAssets().open("player_data_ok.json");
-        byte[] buffer = new byte[stream.available()];
-        stream.read(buffer);
-        stream.close();
-
-        String jsonString = new String(buffer, "UTF-8");
+        String jsonString = new String(getFileContent("player_data_ok.json"), "UTF-8");
 
         // Exercise
         when(client.sendRequest(url)).thenReturn(jsonString);
@@ -61,17 +56,12 @@ public class ApiClientTest {
         assertThat(apiClient.fetchPlayerData().toString(), equalTo(object.toString()));
     }
 
-    @Test(expected = JSONException.class)
+    @Test(expected = RuntimeException.class)
     public void fetchPlayerData_failure_unauthorized() throws Exception {
         // Set up
         String url = "https://mypage.groovecoaster.jp/sp/json/player_data.php";
 
-        InputStream stream = RuntimeEnvironment.application.getAssets().open("player_data_ng_unauthorized.json");
-        byte[] buffer = new byte[stream.available()];
-        stream.read(buffer);
-        stream.close();
-
-        String jsonString = new String(buffer, "UTF-8");
+        String jsonString = new String(getFileContent("player_data_ng_unauthorized.json"), "UTF-8");
 
         // Exercise
         when(client.sendRequest(url)).thenReturn(jsonString);
@@ -102,5 +92,23 @@ public class ApiClientTest {
 
         // Verify
         apiClient.fetchPlayerData();
+    }
+
+//    @Test
+//    public void fetchMusicList_success() throws Exception {
+//        // Set up
+//        String url = "https://mypage.groovecoaster.jp/sp/json/music_list.php";
+//
+//        // Exercise
+//        when(client.sendRequest(url)).thenReturn()
+//    }
+
+    private byte[] getFileContent(String fileName) throws Exception {
+        InputStream stream = RuntimeEnvironment.application.getAssets().open(fileName);
+        byte[] buffer = new byte[stream.available()];
+        stream.read(buffer);
+        stream.close();
+
+        return buffer;
     }
 }

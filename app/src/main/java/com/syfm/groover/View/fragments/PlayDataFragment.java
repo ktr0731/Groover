@@ -10,10 +10,6 @@ import android.widget.TextView;
 
 import com.syfm.groover.R;
 import com.syfm.groover.controller.usecases.PlayDataUseCase;
-import com.syfm.groover.model.storage.databases.AverageScore;
-import com.syfm.groover.model.storage.databases.PlayerData;
-import com.syfm.groover.model.storage.databases.ShopSalesData;
-import com.syfm.groover.model.storage.databases.StageData;
 
 import org.json.JSONException;
 import org.json.JSONObject;

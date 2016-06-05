@@ -101,161 +101,180 @@ public class ApiClient {
      * @throws IOException
      * @throws JSONException
      */
-    public void fetchMusicData() throws IOException, JSONException {
+    public JSONArray fetchMusicList() throws IOException, JSONException {
         String url = "https://mypage.groovecoaster.jp/sp/json/music_list.php";
         String music_list_data = "music_list";
 
         String jsonString = client.sendRequest(url);
+        JSONObject object = new JSONObject(jsonString);
+        checkAuthorization(object);
 
-        JSONArray array = new JSONObject(jsonString).getJSONArray(music_list_data);
-
-        for (int i = 0; i < array.length(); i++) {
-            // For DEBUG
-            if (i > 3) {
-                break;
-            }
-
-            Utils.sleep();
-
-            realm = Realm.getInstance(AppController.getContext());
-            realm.beginTransaction();
-
-            try {
-                MusicData musicData = fetchMusicDetail(array.getJSONObject(i), i, 3 - 1); //実際はlist.size() -1
-                byte[] thumbnail = fetchMusicThumbnail(array.getJSONObject(i).getInt(Const.MUSIC_LIST_MUSIC_ID), musicData, i, 3 - 1);
-
-                if (musicData == null || thumbnail == null) {
-                    Log.d("ktr", "fetchMusicData Error");
-                    realm.cancelTransaction();
-                }
-
-                musicData.setMusic_thumbnail(thumbnail);
-                realm.commitTransaction();
-            } catch (IOException e) {
-                realm.cancelTransaction();
-            } catch (JSONException e) {
-                realm.cancelTransaction();
-            } catch (RealmException e) {
-                realm.cancelTransaction();
-            }
-        }
+        return object.getJSONArray(music_list_data);
     }
+//
+//    /**
+//     * Fetches music_list.php from mypage of Groove Coaster.
+//     *
+//     * @throws IOException
+//     * @throws JSONException
+//     */
+//    public void fetchMusicList() throws IOException, JSONException {
+//        String url = "https://mypage.groovecoaster.jp/sp/json/music_list.php";
+//        String music_list_data = "music_list";
+//
+//        String jsonString = client.sendRequest(url);
+//
+//        JSONArray array = new JSONObject(jsonString).getJSONArray(music_list_data);
+//
+//        for (int i = 0; i < array.length(); i++) {
+//            // For DEBUG
+//            if (i > 3) {
+//                break;
+//            }
+//
+//            Utils.sleep();
+//
+//            realm = Realm.getInstance(AppController.getContext());
+//            realm.beginTransaction();
+//
+//            try {
+//                MusicData musicData = fetchMusicDetail(array.getJSONObject(i), i, 3 - 1); //実際はlist.size() -1
+//                byte[] thumbnail = fetchMusicThumbnail(array.getJSONObject(i).getInt(Const.MUSIC_LIST_MUSIC_ID), musicData, i, 3 - 1);
+//
+//                if (musicData == null || thumbnail == null) {
+//                    Log.d("ktr", "fetchMusicList Error");
+//                    realm.cancelTransaction();
+//                }
+//
+//                musicData.setMusic_thumbnail(thumbnail);
+//                realm.commitTransaction();
+//            } catch (IOException e) {
+//                realm.cancelTransaction();
+//            } catch (JSONException e) {
+//                realm.cancelTransaction();
+//            } catch (RealmException e) {
+//                realm.cancelTransaction();
+//            }
+//        }
+//    }
 
     /**
      * Fetches music_detail.php from mypage of Groove Coaster.
      *
-     * @param music A fetched list by fetchMusicData()
-     * @param count The index of music list
-     * @param size  A size of music list
-     * @return {@code MusicData} if fetching was successfully, {@code null} if cannot fetches data.
+     * @return {@code JSONObject} if fetching was successfully, {@code null} if cannot fetches data.
      * @throws IOException
      * @throws JSONException
      */
-    public MusicData fetchMusicDetail(final JSONObject music, final int count, final int size) throws IOException, JSONException {
+    public JSONObject fetchMusicDetail(int music_id) throws IOException, JSONException {
         String url = "https://mypage.groovecoaster.jp/sp/json/music_detail.php?music_id=";
-        String music_detail_data = "music_detail";
-        String simple = "simple_result_data";
-        String normal = "normal_result_data";
-        String hard = "hard_result_data";
-        String extra = "extra_result_data";
-        String user_rank = "user_rank";
-        String music_id = "music_id";
 
-        url += music.getString(music_id);
+        url += music_id;
 
-        Request request = new okhttp3.Request.Builder()
-                .url(url)
-                .get()
-                .build();
+        String jsonString = client.sendRequest(url);
+        JSONObject object = new JSONObject(jsonString);
+        checkAuthorization(object);
 
-        Response response = AppController.getOkHttpClient().newCall(request).execute();
-        if (!response.isSuccessful()) {
-            // TODO: エラー処理
-            return null;
-        }
-
-        ResponseBody body = response.body();
-
-        JSONObject object = new JSONObject(body.string()).getJSONObject(music_detail_data);
-
-        body.close();
-
-        if (object.length() <= 0) {
-            return null;
-        }
-
-        resultDataJsonReplaceNull(object, simple);
-        resultDataJsonReplaceNull(object, normal);
-        resultDataJsonReplaceNull(object, hard);
-        resultDataJsonReplaceNull(object, extra);
-
-        userRankJsonReplaceNull(object.getJSONArray(user_rank));
-
-        MusicData data = realm.createObjectFromJson(MusicData.class, object);
-        data.setLast_play_time(music.getString(Const.MUSIC_LIST_LAST_PLAY_TIME));
-        data.setPlay_count(music.getInt(Const.MUSIC_LIST_PLAY_COUNT));
-
-        // 各難易度をMusicDataの子としてインサート
-        // 要素にNULLがあると挙動がおかしくなるので気をつける
-
-        ResultData resultSimple = realm.createObjectFromJson(ResultData.class, object.getJSONObject(simple).toString());
-        data.getResult_data().add(resultSimple);
-
-        ResultData resultNormal = realm.createObjectFromJson(ResultData.class, object.getJSONObject(normal).toString());
-        data.getResult_data().add(resultNormal);
-
-        ResultData resultHard = realm.createObjectFromJson(ResultData.class, object.getJSONObject(hard).toString());
-        data.getResult_data().add(resultHard);
-
-        ResultData resultExtra = realm.createObjectFromJson(ResultData.class, object.getJSONObject(extra).toString());
-        data.getResult_data().add(resultExtra);
-
-        // UserRankの整形
-        JSONArray userRankRaw = object.getJSONArray(user_rank);
-
-        for (int i = 0; i < userRankRaw.length(); i++) {
-            UserRank userRank = realm.createObjectFromJson(UserRank.class, userRankRaw.get(i).toString());
-            data.getUser_rank().add(userRank);
-        }
-
-        return data;
+        return object;
     }
+
+//    /**
+//     * Fetches music_detail.php from mypage of Groove Coaster.
+//     *
+//     * @param music A fetched list by fetchMusicList()
+//     * @param count The index of music list
+//     * @param size  A size of music list
+//     * @return {@code MusicData} if fetching was successfully, {@code null} if cannot fetches data.
+//     * @throws IOException
+//     * @throws JSONException
+//     */
+//    public MusicData fetchMusicDetail(final JSONObject music, final int count, final int size) throws IOException, JSONException {
+//        String url = "https://mypage.groovecoaster.jp/sp/json/music_detail.php?music_id=";
+//        String music_detail_data = "music_detail";
+//        String simple = "simple_result_data";
+//        String normal = "normal_result_data";
+//        String hard = "hard_result_data";
+//        String extra = "extra_result_data";
+//        String user_rank = "user_rank";
+//        String music_id = "music_id";
+//
+//        url += music.getString(music_id);
+//
+//        Request request = new okhttp3.Request.Builder()
+//                .url(url)
+//                .get()
+//                .build();
+//
+//        Response response = AppController.getOkHttpClient().newCall(request).execute();
+//        if (!response.isSuccessful()) {
+//            // TODO: エラー処理
+//            return null;
+//        }
+//
+//        ResponseBody body = response.body();
+//
+//        JSONObject object = new JSONObject(body.string()).getJSONObject(music_detail_data);
+//
+//        body.close();
+//
+//        if (object.length() <= 0) {
+//            return null;
+//        }
+//
+//        resultDataJsonReplaceNull(object, simple);
+//        resultDataJsonReplaceNull(object, normal);
+//        resultDataJsonReplaceNull(object, hard);
+//        resultDataJsonReplaceNull(object, extra);
+//
+//        userRankJsonReplaceNull(object.getJSONArray(user_rank));
+//
+//        MusicData data = realm.createObjectFromJson(MusicData.class, object);
+//        data.setLast_play_time(music.getString(Const.MUSIC_LIST_LAST_PLAY_TIME));
+//        data.setPlay_count(music.getInt(Const.MUSIC_LIST_PLAY_COUNT));
+//
+//        // 各難易度をMusicDataの子としてインサート
+//        // 要素にNULLがあると挙動がおかしくなるので気をつける
+//
+//        ResultData resultSimple = realm.createObjectFromJson(ResultData.class, object.getJSONObject(simple).toString());
+//        data.getResult_data().add(resultSimple);
+//
+//        ResultData resultNormal = realm.createObjectFromJson(ResultData.class, object.getJSONObject(normal).toString());
+//        data.getResult_data().add(resultNormal);
+//
+//        ResultData resultHard = realm.createObjectFromJson(ResultData.class, object.getJSONObject(hard).toString());
+//        data.getResult_data().add(resultHard);
+//
+//        ResultData resultExtra = realm.createObjectFromJson(ResultData.class, object.getJSONObject(extra).toString());
+//        data.getResult_data().add(resultExtra);
+//
+//        // UserRankの整形
+//        JSONArray userRankRaw = object.getJSONArray(user_rank);
+//
+//        for (int i = 0; i < userRankRaw.length(); i++) {
+//            UserRank userRank = realm.createObjectFromJson(UserRank.class, userRankRaw.get(i).toString());
+//            data.getUser_rank().add(userRank);
+//        }
+//
+//        return data;
+//    }
 
     /**
      * Fetches music_image from mypage of Groove Coaster.
      *
-     * @param id        The id of the music's
-     * @param musicData Target music's data
-     * @param count     The index of music list
-     * @param maxSize   A size of music list
+     * @param music_id The id of the music's
      * @return {@code byte[]} if fetching was successfully, {@code null} fetching was failed.
      * @throws IOException
      */
-    public byte[] fetchMusicThumbnail(int id, final MusicData musicData, final int count, final int maxSize) throws IOException {
+    public byte[] fetchMusicThumbnail(int music_id) throws IOException, RuntimeException {
         String url = "https://mypage.groovecoaster.jp/sp/music/music_image.php?music_id=";
-        url += id;
+        url += music_id;
 
-        Request request = new okhttp3.Request.Builder()
-                .url(url)
-                .get()
-                .build();
+        String string = client.sendRequest(url);
 
-        Response response = AppController.getOkHttpClient().newCall(request).execute();
-        if (!response.isSuccessful()) {
-            // TODO: エラー処理
-            Log.d("ktr", "thumb error");
-            return null;
-        }
-
-        ResponseBody body = response.body();
-
-        byte bytes[] = body.bytes();
-
-        body.close();
+        byte bytes[] = string.getBytes();
 
         if (bytes.length <= 0) {
             Log.d("ktr", "thumb error");
-            return null;
+            throw new RuntimeException("サムネイルの取得に失敗しました。");
         }
 
         return bytes;
@@ -530,7 +549,7 @@ public class ApiClient {
      */
     private void checkAuthorization(JSONObject object) throws JSONException {
         if (object.getInt("status") == 1) {
-            throw new JSONException("Unauthorized access");
+            throw new RuntimeException("Unauthorized access");
         }
     }
 
