@@ -92,18 +92,6 @@ public class ApiClient {
     }
 
     /**
-     * Checks status from JSON
-     *
-     * @param object @{code JSONObject} Fetched JSON data
-     * @throws JSONException If status is 1
-     */
-    private void checkAuthorization(JSONObject object) throws JSONException {
-        if (object.getInt("status") == 1) {
-            throw new JSONException("Unauthorized access");
-        }
-    }
-
-    /**
      * MusicData API
      */
 
@@ -117,26 +105,9 @@ public class ApiClient {
         String url = "https://mypage.groovecoaster.jp/sp/json/music_list.php";
         String music_list_data = "music_list";
 
-        Request request = new okhttp3.Request.Builder()
-                .url(url)
-                .get()
-                .build();
+        String jsonString = client.sendRequest(url);
 
-        Response response = AppController.getOkHttpClient().newCall(request).execute();
-        if (!response.isSuccessful()) {
-            // TODO: エラー処理
-            return;
-        }
-
-        ResponseBody body = response.body();
-
-        JSONArray array = new JSONObject(body.string()).getJSONArray(music_list_data);
-
-        body.close();
-
-        if (array.length() <= 0) {
-            return;
-        }
+        JSONArray array = new JSONObject(jsonString).getJSONArray(music_list_data);
 
         for (int i = 0; i < array.length(); i++) {
             // For DEBUG
@@ -548,6 +519,18 @@ public class ApiClient {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    /**
+     * Checks status from JSON
+     *
+     * @param object @{code JSONObject} Fetched JSON data
+     * @throws JSONException If status is 1
+     */
+    private void checkAuthorization(JSONObject object) throws JSONException {
+        if (object.getInt("status") == 1) {
+            throw new JSONException("Unauthorized access");
         }
     }
 

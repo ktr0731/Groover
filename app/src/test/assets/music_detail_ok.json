@@ -1,0 +1,96 @@
+{
+  "status": 0,
+  "music_detail": {
+    "music_id": "357",
+    "music_title": "\u30b5\u30c9\u30de\u30df\u30db\u30ea\u30c3\u30af",
+    "artist": "\u30d3\u30fc\u30c8\u307e\u308a\u304a",
+    "skin_name": "DEFAULT",
+    "ex_flag": 1,
+    "simple_result_data": {
+      "rating": "S",
+      "no_miss": 1,
+      "full_chain": 1,
+      "perfect": 0,
+      "play_count": 1,
+      "is_clear_mark": false,
+      "is_failed_mark": false,
+      "music_level": "SIMPLE",
+      "score": 917569,
+      "max_chain": 1485,
+      "adlib": 15
+    },
+    "normal_result_data": {
+      "rating": "S",
+      "no_miss": 2,
+      "full_chain": 0,
+      "perfect": 0,
+      "play_count": 5,
+      "is_clear_mark": false,
+      "is_failed_mark": false,
+      "music_level": "NORMAL",
+      "score": 915225,
+      "max_chain": 2500,
+      "adlib": 19
+    },
+    "hard_result_data": {
+      "rating": "S",
+      "no_miss": 8,
+      "full_chain": 3,
+      "perfect": 0,
+      "play_count": 30,
+      "is_clear_mark": false,
+      "is_failed_mark": false,
+      "music_level": "HARD",
+      "score": 903707,
+      "max_chain": 2704,
+      "adlib": 19
+    },
+    "extra_result_data": {
+      "rating": "B",
+      "no_miss": 0,
+      "full_chain": 0,
+      "perfect": 0,
+      "play_count": 22,
+      "is_clear_mark": true,
+      "is_failed_mark": false,
+      "music_level": "EXTRA",
+      "score": 798707,
+      "max_chain": 2370,
+      "adlib": 19
+    },
+    "user_rank": [
+      {
+        "rank": 6783,
+        "difficulty": 0
+      },
+      {
+        "rank": 5654,
+        "difficulty": 1
+      },
+      {
+        "rank": 8792,
+        "difficulty": 2
+      },
+      {
+        "rank": 3531,
+        "difficulty": 3
+      }
+    ],
+    "difficulty": [
+      {
+        "music_difficulty": 0
+      },
+      {
+        "music_difficulty": 1
+      },
+      {
+        "music_difficulty": 2
+      },
+      {
+        "music_difficulty": 3
+      }
+    ],
+    "fav_flg": 0,
+    "message": null
+  }
+}
