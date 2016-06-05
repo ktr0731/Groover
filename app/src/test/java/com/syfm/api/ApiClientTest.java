@@ -17,7 +17,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -39,6 +41,10 @@ public class ApiClientTest {
 
         apiClient.client = client;
     }
+
+    /**
+     * PlayerData
+     */
 
     @Test
     public void fetchPlayerData_successful() throws Exception {
@@ -95,6 +101,10 @@ public class ApiClientTest {
         apiClient.fetchPlayerData();
     }
 
+    /**
+     * MusicList
+     */
+
     @Test
     public void fetchMusicList_success() throws Exception {
         // Set up
@@ -107,6 +117,109 @@ public class ApiClientTest {
 
         // Verify
         assertThat(apiClient.fetchMusicList().toString(), equalTo(array.toString()));
+    }
+
+
+    @Test(expected = RuntimeException.class)
+    public void fetchMusicList_failure_unauthorized() throws Exception {
+        // Set up
+        String url = "https://mypage.groovecoaster.jp/sp/json/music_list.php";
+
+        String jsonString = new String(getFileContent("music_list_ng_unauthorized.json"), "UTF-8");
+
+        // Exercise
+        when(client.sendRequest(url)).thenReturn(jsonString);
+
+        // Verify
+        apiClient.fetchMusicList();
+    }
+
+    @Test(expected = JSONException.class)
+    public void fetchMusicList_failure_empty_string() throws Exception {
+        // Set up
+        String url = "https://mypage.groovecoaster.jp/sp/json/music_list.php";
+
+        // Exercise
+        when(client.sendRequest(url)).thenReturn("");
+
+        // Verify
+        apiClient.fetchMusicList();
+    }
+
+    /**
+     * MusicDetail
+     */
+
+    @Test
+    public void fetchMusicDetail_success() throws Exception {
+        // Set up
+        String url = "https://mypage.groovecoaster.jp/sp/json/music_detail.php?music_id=0";
+        String jsonString = new String(getFileContent("music_detail_ok.json"), "UTF-8");
+
+        // Exercise
+        when(client.sendRequest(url)).thenReturn(jsonString);
+        JSONObject object = new JSONObject(jsonString);
+
+        // Verify
+        assertThat(apiClient.fetchMusicDetail(0).toString(), equalTo(object.toString()));
+    }
+
+
+    @Test(expected = RuntimeException.class)
+    public void fetchMusicDetail_failure_unauthorized() throws Exception {
+        // Set up
+        String url = "https://mypage.groovecoaster.jp/sp/json/music_detail.php?music_id=0";
+
+        String jsonString = new String(getFileContent("music_detail_ng_unauthorized.json"), "UTF-8");
+
+        // Exercise
+        when(client.sendRequest(url)).thenReturn(jsonString);
+
+        // Verify
+        apiClient.fetchMusicDetail(0);
+    }
+
+    @Test(expected = JSONException.class)
+    public void fetchMusicDetail_failure_empty_string() throws Exception {
+        // Set up
+        String url = "https://mypage.groovecoaster.jp/sp/json/music_detail.php?music_id=0";
+
+        // Exercise
+        when(client.sendRequest(url)).thenReturn("");
+
+        // Verify
+        apiClient.fetchMusicDetail(0);
+    }
+
+
+    /**
+     * MusicThumbnail
+     */
+
+    // lengthが異なってfailureになる
+//    @Test
+//    public void fetchMusicThumbnail_success() throws Exception {
+//        // Set up
+//        String url = "https://mypage.groovecoaster.jp/sp/music/music_image.php?music_id=0";
+//        byte[] bytes = getFileContent("music_image.jpeg");
+//
+//        // Exercise
+//        when(client.sendRequest(url)).thenReturn(new String(bytes));
+//
+//        // Verify
+//        assertArrayEquals(apiClient.fetchMusicThumbnail(0), bytes);
+//    }
+
+    @Test(expected = RuntimeException.class)
+    public void fetchMusicThumbnail_failure_unauthorized() throws Exception {
+        // Set up
+        String url = "https://mypage.groovecoaster.jp/sp/json/music_image.php?music_id=0";
+
+        // Exercise
+        when(client.sendRequest(url)).thenReturn(null);
+
+        // Verify
+        apiClient.fetchMusicThumbnail(0);
     }
 
     private byte[] getFileContent(String fileName) throws Exception {

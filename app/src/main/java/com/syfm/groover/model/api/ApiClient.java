@@ -270,7 +270,7 @@ public class ApiClient {
 
         String string = client.sendRequest(url);
 
-        byte bytes[] = string.getBytes();
+        byte[] bytes = string.getBytes();
 
         if (bytes.length <= 0) {
             Log.d("ktr", "thumb error");
