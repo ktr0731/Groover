@@ -4,6 +4,7 @@ import com.syfm.CustomRobolectricGradleTestRunner;
 import com.syfm.groover.BuildConfig;
 import com.syfm.groover.model.api.ApiClient;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
@@ -94,14 +95,19 @@ public class ApiClientTest {
         apiClient.fetchPlayerData();
     }
 
-//    @Test
-//    public void fetchMusicList_success() throws Exception {
-//        // Set up
-//        String url = "https://mypage.groovecoaster.jp/sp/json/music_list.php";
-//
-//        // Exercise
-//        when(client.sendRequest(url)).thenReturn()
-//    }
+    @Test
+    public void fetchMusicList_success() throws Exception {
+        // Set up
+        String url = "https://mypage.groovecoaster.jp/sp/json/music_list.php";
+        String jsonString = new String(getFileContent("music_list_ok.json"), "UTF-8");
+
+        // Exercise
+        when(client.sendRequest(url)).thenReturn(jsonString);
+        JSONArray array = new JSONObject(jsonString).getJSONArray("music_list");
+
+        // Verify
+        assertThat(apiClient.fetchMusicList().toString(), equalTo(array.toString()));
+    }
 
     private byte[] getFileContent(String fileName) throws Exception {
         InputStream stream = RuntimeEnvironment.application.getAssets().open(fileName);

@@ -38,10 +38,10 @@ public class AppController extends Application {
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
         CookieHandler.setDefault(cookieManager);
 
-//        client = new OkHttpClient.Builder()
-//                .cookieJar(new JavaNetCookieJar(cookieManager))
-//                .connectTimeout(5, TimeUnit.SECONDS)
-//                .build();
+        client = new OkHttpClient.Builder()
+                .cookieJar(new JavaNetCookieJar(cookieManager))
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .build();
 
         Stetho.initialize(
                 Stetho.newInitializerBuilder(this)

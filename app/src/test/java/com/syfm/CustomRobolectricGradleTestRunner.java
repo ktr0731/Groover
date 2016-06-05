@@ -22,7 +22,7 @@ public class CustomRobolectricGradleTestRunner extends RobolectricGradleTestRunn
         String buildVariant = (BuildConfig.FLAVOR.isEmpty() ? "" : BuildConfig.FLAVOR + "/")
                 + BuildConfig.BUILD_TYPE;
         return new AndroidManifest(
-                Fs.fileFromPath("src/main/AndroidManifest.xml"),
+                Fs.fileFromPath("src/test/AndroidManifest.xml"),
                 Fs.fileFromPath("build/intermediates/res/" + buildVariant),
                 Fs.fileFromPath("src/test/assets")
         );
