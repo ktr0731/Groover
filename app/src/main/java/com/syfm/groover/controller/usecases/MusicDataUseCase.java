@@ -3,6 +3,7 @@ package com.syfm.groover.controller.usecases;
 import com.syfm.groover.model.Utils;
 import com.syfm.groover.model.api.ApiClient;
 import com.syfm.groover.model.AppController;
+import com.syfm.groover.model.storage.databases.Music;
 import com.syfm.groover.model.storage.databases.MusicData;
 
 import org.jdeferred.android.AndroidDeferredManager;
@@ -46,13 +47,27 @@ public class MusicDataUseCase {
 
 
     public void setMusicData() {
-
-        Realm realm = Realm.getInstance(AppController.getContext());
+        ApiClient client = new ApiClient();
+        Realm realm      = Realm.getInstance(AppController.getContext());
 
         deferred.when(() -> {
-            ApiClient client = new ApiClient();
             try {
                 int music_id;
+                String title;
+                String artist;
+                String skin;
+                byte[] thumbnail;
+                boolean favorite;
+
+                JSONObject musicDetailJsonObject;
+                JSONObject musicDetailObject;
+                JSONObject simpleResultObject;
+                JSONObject normalResultObject;
+                JSONObject hardResultObject;
+                JSONObject extraResultObject;
+
+                JSONObject musicObject;
+
                 JSONArray musicListArray = client.fetchMusicList();
                 for (int i = 0; i < musicListArray.length(); i++) {
                     // For debug
@@ -62,8 +77,21 @@ public class MusicDataUseCase {
 
                     Utils.sleep();
 
-                    JSONObject music_detail = client.fetchMusicDetail(music_id);
-                    byte thumbnail[]        = client.fetchMusicThumbnail(music_id);
+                    musicDetailJsonObject = client.fetchMusicDetail(music_id);
+                    musicDetailObject     = musicDetailJsonObject.getJSONObject("music_detail");
+
+                    thumbnail             = client.fetchMusicThumbnail(music_id);
+
+                    // TODO: 抽出したほうが良い?
+                    title    = musicListArray.getJSONObject(i).getString("music_title");
+                    artist   = musicDetailObject.getString("artist");
+                    skin     = musicDetailObject.getString("skin_name");
+                    favorite = musicDetailObject.getInt("fav_flg") == 1;
+
+                    musicObject = new JSONObject();
+                    musicObject.accumulate("id", music_id);
+                    musicObject.accumulate("title", title);
+                    realm.createObjectFromJson(Music.class, object);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
