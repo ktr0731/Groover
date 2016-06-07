@@ -1,10 +1,12 @@
 package com.syfm.groover.view.activities;
 
 import android.app.Activity;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -12,50 +14,34 @@ import com.syfm.groover.R;
 import com.syfm.groover.controller.usecases.LoginUseCase;
 import com.syfm.groover.controller.usecases.MusicDataUseCase;
 import com.syfm.groover.controller.usecases.PlayDataUseCase;
+import com.syfm.groover.databinding.ActivityLoginBinding;
+import com.syfm.groover.view.eventHandler.LoginEventHandlers;
 import com.syfm.groover.view.fragments.ProgressDialogFragment;
 
 import org.jdeferred.android.AndroidDeferredManager;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
 /**
  * Created by lycoris on 2015/09/24.
  */
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity implements LoginEventHandlers {
 
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-
-    @Bind(R.id.editTextSerialNo)
-    EditText serialNo;
-    @Bind(R.id.editTextPassword)
-    EditText password;
+    private ActivityLoginBinding binding;
 
     private AndroidDeferredManager deferred = new AndroidDeferredManager();
 
     final ProgressDialogFragment dialogFragment =
             ProgressDialogFragment.newInstance(R.string.dialog_title_login);
 
-    @OnClick(R.id.loginButton)
-    public void onClickLoginButton() {
-        dialogFragment.show(getFragmentManager(), "dialog_fragment");
-
-        LoginUseCase loginUseCase = new LoginUseCase();
-        loginUseCase.checkLogin(serialNo.getText().toString(), password.getText().toString());
-    }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
+        binding.setActivity(this);
 
-        toolbar.setTitle(getResources().getString(R.string.activity_login));
-        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        binding.toolbar.setTitle(getResources().getString(R.string.activity_login));
+        binding.toolbar.setTitleTextColor(getResources().getColor(R.color.white));
     }
 
     @Override
@@ -105,11 +91,18 @@ public class LoginActivity extends Activity {
         return false;
     }
 
+    public void onClickLoginButton(View view) {
+        dialogFragment.show(getFragmentManager(), "dialog_fragment");
+
+        LoginUseCase loginUseCase = new LoginUseCase();
+        loginUseCase.checkLogin(binding.editTextSerialNo.getText().toString(), binding.editTextPassword.getText().toString());
+    }
+
     public void onEvent(PlayDataUseCase.SetPlayData event) {
         if(event.success) {
             Log.d("ktr", "playdata success");
         } else {
-            Toast.makeText(this, "プレイデータの取得に失敗しました\n" + event.message, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "プレイデータの取得に失敗しました" + event.message, Toast.LENGTH_SHORT).show();
         }
     }
 

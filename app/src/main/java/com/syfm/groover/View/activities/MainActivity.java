@@ -1,21 +1,20 @@
 package com.syfm.groover.view.activities;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 
-import com.astuetz.PagerSlidingTabStrip;
 import com.syfm.groover.R;
 import com.syfm.groover.controller.usecases.LoginUseCase;
+import com.syfm.groover.databinding.ContainerBinding;
 import com.syfm.groover.model.AppController;
-import com.syfm.groover.model.storage.Constants.Const;
 import com.syfm.groover.model.storage.Constants.SPConst;
 import com.syfm.groover.model.storage.SharedPreferenceHelper;
 import com.syfm.groover.view.adapter.MainFragmentPagerAdapter;
@@ -24,26 +23,17 @@ import com.syfm.groover.view.fragments.MusicSortDialogFragment;
 
 import java.util.Map;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 public class MainActivity extends AppCompatActivity {
-
-    @Bind(R.id.main_pager)
-    ViewPager pager;
-    @Bind(R.id.tab_strip)
-    PagerSlidingTabStrip tabStrip;
-    @Bind(R.id.toolbar_main)
-    Toolbar toolbar;
 
     private SearchView searchView;
     private MainFragmentPagerAdapter mainFragmentPagerAdapter;
+    private ContainerBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.container);
-        ButterKnife.bind(this);
+        binding = DataBindingUtil.setContentView(this, R.layout.container);
+        binding.setActivity(this);
 
         //SPにCookieがあったら
         SharedPreferenceHelper.create(getApplicationContext());
@@ -65,22 +55,22 @@ public class MainActivity extends AppCompatActivity {
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
         mainFragmentPagerAdapter = new MainFragmentPagerAdapter(fragmentManager, this);
-        pager.setAdapter(mainFragmentPagerAdapter);
-        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        binding.pager.setAdapter(mainFragmentPagerAdapter);
+        binding.pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
             @Override
             public void onPageSelected(int position) {
-                toolbar.getMenu().clear();
+                binding.toolbar.getMenu().clear();
                 switch (position) {
                     case 0:
-                        toolbar.inflateMenu(R.menu.menu_play_data);
+                        binding.toolbar.inflateMenu(R.menu.menu_play_data);
                         break;
                     case 1:
-                        toolbar.inflateMenu(R.menu.menu_music_list);
+                        binding.toolbar.inflateMenu(R.menu.menu_music_list);
 
-                        toolbar.setOnMenuItemClickListener(item -> {
+                        binding.toolbar.setOnMenuItemClickListener(item -> {
                             switch (item.getItemId()) {
                                 case R.id.menu_music_list_sort:
                                     MusicSortDialogFragment dialog = new MusicSortDialogFragment();
@@ -92,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                         });
 
                         // TODO: textColor等の変更
-                        searchView = (SearchView) toolbar.getMenu().findItem(R.id.menu_music_list_search).getActionView();
+                        searchView = (SearchView) binding.toolbar.getMenu().findItem(R.id.menu_music_list_search).getActionView();
 
                         searchView.setQueryHint("Music Name...");
                         searchView.setMinimumWidth(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -105,14 +95,14 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public boolean onQueryTextChange(String newText) {
                                 // TODO: マジックナンバーの定数化
-                                MusicListFragment fragment = (MusicListFragment) mainFragmentPagerAdapter.instantiateItem(pager, 1);
+                                MusicListFragment fragment = (MusicListFragment) mainFragmentPagerAdapter.instantiateItem(binding.pager, 1);
                                 fragment.searchMusic(newText);
                                 return false;
                             }
                         });
                         break;
                     default:
-                        toolbar.inflateMenu(R.menu.menu_play_data);
+                        binding.toolbar.inflateMenu(R.menu.menu_play_data);
                         break;
                 }
             }
@@ -121,10 +111,10 @@ public class MainActivity extends AppCompatActivity {
             public void onPageScrollStateChanged(int state) {}
         });
 
-        tabStrip.setViewPager(pager);
+        binding.tabStrip.setViewPager(binding.pager);
 
-        toolbar.setTitle(getResources().getString(R.string.app_name));
-        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        binding.toolbar.setTitle(getResources().getString(R.string.app_name));
+        binding.toolbar.setTitleTextColor(getResources().getColor(R.color.white));
     }
 
     @Override

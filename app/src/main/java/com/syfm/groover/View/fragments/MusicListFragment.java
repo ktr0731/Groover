@@ -105,10 +105,11 @@ public class MusicListFragment extends Fragment {
     }
 
     public void onEventMainThread(MusicDataUseCase.MusicDataEvent event) {
-        if (event.musicData == null || event.musicData.isEmpty()) {
+        if (event.music == null || event.music.isEmpty()) {
             return;
         }
-        adapter = new MusicListAdapter(getActivity(), 0, event.musicData, true);
+        adapter = new MusicListAdapter(getActivity(), 0, null, true);
+//        adapter = new MusicListAdapter(getActivity(), 0, event.music, true);
         listView.setAdapter(adapter);
 
         // 位置をセット

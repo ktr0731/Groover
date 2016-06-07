@@ -205,7 +205,7 @@ public class MusicListAdapter extends RealmBaseAdapter<MusicData> implements Lis
 
     public void sortList() {
         Map<String, String> info = SharedPreferenceHelper.getMusicSortInfo();
-        if(!info.isEmpty()) {
+        if (!info.isEmpty()) {
             ArrayList<String> params = new ArrayList<>();
             params.add(info.get(SPConst.MUSIC_LIST_SORT_SORT_TYPE));
             params.add(info.get(SPConst.MUSIC_LIST_SORT_ORDER_BY));
@@ -216,7 +216,7 @@ public class MusicListAdapter extends RealmBaseAdapter<MusicData> implements Lis
     public void sortList(ArrayList<String> params) {
         String tmp = params.get(1);
         Sort sort = null;
-        if(tmp == "asc") {
+        if (tmp == "asc") {
             sort = Sort.ASCENDING;
         } else {
             sort = Sort.DESCENDING;

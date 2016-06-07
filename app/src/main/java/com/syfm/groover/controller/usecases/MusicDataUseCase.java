@@ -1,17 +1,14 @@
 package com.syfm.groover.controller.usecases;
 
+import com.syfm.groover.model.AppController;
+import com.syfm.groover.model.api.ApiClient;
+import com.syfm.groover.model.storage.databases.Music;
 import com.syfm.groover.model.utility.MusicFormatter;
 import com.syfm.groover.model.utility.Utils;
-import com.syfm.groover.model.api.ApiClient;
-import com.syfm.groover.model.AppController;
-import com.syfm.groover.model.storage.databases.Music;
-import com.syfm.groover.model.storage.databases.MusicData;
-import com.syfm.groover.model.storage.databases.ResultData;
 
 import org.jdeferred.android.AndroidDeferredManager;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -30,10 +27,10 @@ public class MusicDataUseCase {
     // MusicDataを通知するためのクラス
     // MusicDataFragmentへ通知
     public class MusicDataEvent {
-        public final RealmResults<MusicData> musicData;
+        public final RealmResults<Music> music;
 
-        public MusicDataEvent(RealmResults<MusicData> musicData) {
-            this.musicData = musicData;
+        public MusicDataEvent(RealmResults<Music> music) {
+            this.music = music;
         }
     }
 
@@ -94,13 +91,14 @@ public class MusicDataUseCase {
         }).done(callback -> {
             EventBus.getDefault().post(new SetMusicData(true, null));
         }).fail(callback -> {
+            // TODO: catchの内容を捕捉したい
             EventBus.getDefault().post(new SetMusicData(false, "不明なエラーが発生しました。"));
         });
     }
 
     public void getMusicData() {
-        RealmResults<MusicData> musicData = realm.where(MusicData.class).findAll();
-        EventBus.getDefault().post(new MusicDataEvent(musicData));
+        RealmResults<Music> music = realm.where(Music.class).findAll();
+        EventBus.getDefault().post(new MusicDataEvent(music));
     }
 
     public void getScoreRanking(String id, String ex_flag) {

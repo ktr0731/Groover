@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.syfm.groover.R;
 import com.syfm.groover.model.AppController;
 import com.syfm.groover.model.storage.Constants.Const;
+import com.syfm.groover.model.storage.databases.Music;
 import com.syfm.groover.model.storage.databases.MusicData;
 import com.syfm.groover.model.storage.databases.ResultData;
 import com.syfm.groover.model.storage.databases.UserRank;
@@ -29,9 +30,7 @@ import io.realm.Realm;
  */
 public class MusicDetailFragment extends Fragment {
 
-    private MusicData musicData;
-    private List<ResultData> resultData;
-    private List<UserRank> userRank;
+    private Music music;
     private ResultData simple;
     private ResultData normal;
     private ResultData hard;
