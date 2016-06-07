@@ -17,9 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -158,7 +156,7 @@ public class ApiClientTest {
 
         // Exercise
         when(client.sendRequest(url)).thenReturn(jsonString);
-        JSONObject object = new JSONObject(jsonString);
+        JSONObject object = new JSONObject(jsonString).getJSONObject("music_detail");
 
         // Verify
         assertThat(apiClient.fetchMusicDetail(0).toString(), equalTo(object.toString()));

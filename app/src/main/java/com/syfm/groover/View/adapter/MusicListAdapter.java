@@ -84,27 +84,27 @@ public class MusicListAdapter extends RealmBaseAdapter<MusicData> implements Lis
             holder.tv_extra_score.setText(String.valueOf(row.getResult_data().get(3).getScore()));
         }
 
-        //FullChainを表示させるか (fullchainはFullChainした回数)
-        if (row.getResult_data().get(0).getFull_chain() > 0) {
-            holder.tv_simple_score.setBackgroundResource(R.drawable.full_chain_border);
-        } else if (row.getResult_data().get(0).getNo_miss() > 0) {
-            holder.tv_simple_score.setBackgroundResource(R.drawable.no_miss_border);
-        }
-        if (row.getResult_data().get(1).getFull_chain() > 0) {
-            holder.tv_normal_score.setBackgroundResource(R.drawable.full_chain_border);
-        } else if (row.getResult_data().get(1).getNo_miss() > 0) {
-            holder.tv_normal_score.setBackgroundResource(R.drawable.no_miss_border);
-        }
-        if (row.getResult_data().get(2).getFull_chain() > 0) {
-            holder.tv_hard_score.setBackgroundResource(R.drawable.full_chain_border);
-        } else if (row.getResult_data().get(2).getNo_miss() > 0) {
-            holder.tv_hard_score.setBackgroundResource(R.drawable.no_miss_border);
-        }
-        if (row.getResult_data().get(3).getFull_chain() > 0 && row.getEx_flag() == 1) {
-            holder.tv_extra_score.setBackgroundResource(R.drawable.full_chain_border);
-        } else if (row.getResult_data().get(3).getNo_miss() > 0 && row.getEx_flag() == 1) {
-            holder.tv_extra_score.setBackgroundResource(R.drawable.no_miss_border);
-        }
+//        //FullChainを表示させるか (fullchainはFullChainした回数)
+//        if (row.getResult_data().get(0).getFull_chain() > 0) {
+//            holder.tv_simple_score.setBackgroundResource(R.drawable.full_chain_border);
+//        } else if (row.getResult_data().get(0).getNo_miss() > 0) {
+//            holder.tv_simple_score.setBackgroundResource(R.drawable.no_miss_border);
+//        }
+//        if (row.getResult_data().get(1).getFull_chain() > 0) {
+//            holder.tv_normal_score.setBackgroundResource(R.drawable.full_chain_border);
+//        } else if (row.getResult_data().get(1).getNo_miss() > 0) {
+//            holder.tv_normal_score.setBackgroundResource(R.drawable.no_miss_border);
+//        }
+//        if (row.getResult_data().get(2).getFull_chain() > 0) {
+//            holder.tv_hard_score.setBackgroundResource(R.drawable.full_chain_border);
+//        } else if (row.getResult_data().get(2).getNo_miss() > 0) {
+//            holder.tv_hard_score.setBackgroundResource(R.drawable.no_miss_border);
+//        }
+//        if (row.getResult_data().get(3).getFull_chain() > 0 && row.getEx_flag() == 1) {
+//            holder.tv_extra_score.setBackgroundResource(R.drawable.full_chain_border);
+//        } else if (row.getResult_data().get(3).getNo_miss() > 0 && row.getEx_flag() == 1) {
+//            holder.tv_extra_score.setBackgroundResource(R.drawable.no_miss_border);
+//        }
 
 
         //いっぱい読込すると落ちるかもしれない

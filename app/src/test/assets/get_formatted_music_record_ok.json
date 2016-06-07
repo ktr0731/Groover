@@ -1,0 +1,61 @@
+{
+  "id" : 357,
+  "title" : "\u30b5\u30c9\u30de\u30df\u30db\u30ea\u30c3\u30af",
+  "artist" : "\u30d3\u30fc\u30c8\u307e\u308a\u304a",
+  "skin" : "DEFAULT",
+  "thumbnail" : "hoge",
+  "favorite" : false,
+  "exFlag" : true,
+  "simpleResult" : {
+    "rating" : "S",
+    "noMiss" : 1,
+    "fullChain" : 1,
+    "perfect" : 0,
+    "playCount" : 1,
+    "isClear" : false,
+    "score" : 917569,
+    "maxChain" : 1485,
+    "adlib" : 15,
+    "lastDate" : "2016-06-03 15:29:20",
+    "rank" : 6783
+  },
+  "normalResult" : {
+    "rating" : "S",
+    "noMiss" : 2,
+    "fullChain" : 0,
+    "perfect" : 0,
+    "playCount" : 5,
+    "isClear" : false,
+    "score" : 915225,
+    "maxChain" : 2500,
+    "adlib" : 19,
+    "lastDate" : "2016-06-03 15:29:20",
+    "rank" : 5654
+  },
+  "hardResult" : {
+    "rating" : "S",
+    "noMiss" : 8,
+    "fullChain" : 3,
+    "perfect" : 0,
+    "playCount" : 30,
+    "isClear" : false,
+    "score" : 903707,
+    "maxChain" : 2704,
+    "adlib" : 19,
+    "lastDate" : "2016-06-03 15:29:20",
+    "rank" : 8792
+  },
+  "extraResult" : {
+    "rating" : "B",
+    "noMiss" : 0,
+    "fullChain" : 0,
+    "perfect" : 0,
+    "playCount" : 22,
+    "isClear" : true,
+    "score" : 798707,
+    "maxChain" : 2370,
+    "adlib" : 19,
+    "lastDate" : "2016-06-03 15:29:20",
+    "rank" : 3531
+  }
+}

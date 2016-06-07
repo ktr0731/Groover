@@ -1,5 +1,8 @@
 package com.syfm.groover.model.storage.databases;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import io.realm.RealmObject;
 import io.realm.annotations.RealmClass;
 
@@ -8,80 +11,35 @@ import io.realm.annotations.RealmClass;
  */
 @RealmClass
 public class ResultData extends RealmObject {
-
-    private int    adlib;
-    private String music_level;
-    private int    full_chain;
-    private String is_clear_mark;
-    private String is_failed_mark;
-    private int    max_chain;
-    private int    no_miss;
-    private int    play_count;
     private String rating;
-    private int    score;
+    private int noMiss;
+    private int fullChain;
+    private int perfect;
+    private int playCount;
+    private boolean isClear;
+    private int score;
+    private int maxChain;
+    private int adlib;
+    private String lastDate;
+    private int rank;
 
-    public int getAdlib() {
-        return adlib;
+    public ResultData() {
+        super();
     }
 
-    public void setAdlib(int adlib) {
-        this.adlib = adlib;
-    }
-
-    public String getMusic_level() {
-        return music_level;
-    }
-
-    public void setMusic_level(String music_level) {
-        this.music_level = music_level;
-    }
-
-    public int getFull_chain() {
-        return full_chain;
-    }
-
-    public void setFull_chain(int full_chain) {
-        this.full_chain = full_chain;
-    }
-
-    public String getIs_clear_mark() {
-        return is_clear_mark;
-    }
-
-    public void setIs_clear_mark(String is_clear_mark) {
-        this.is_clear_mark = is_clear_mark;
-    }
-
-    public String getIs_failed_mark() {
-        return is_failed_mark;
-    }
-
-    public void setIs_failed_mark(String is_failed_mark) {
-        this.is_failed_mark = is_failed_mark;
-    }
-
-    public int getMax_chain() {
-        return max_chain;
-    }
-
-    public void setMax_chain(int max_chain) {
-        this.max_chain = max_chain;
-    }
-
-    public int getNo_miss() {
-        return no_miss;
-    }
-
-    public void setNo_miss(int no_miss) {
-        this.no_miss = no_miss;
-    }
-
-    public int getPlay_count() {
-        return play_count;
-    }
-
-    public void setPlay_count(int play_count) {
-        this.play_count = play_count;
+    public ResultData(JSONObject json) throws JSONException{
+        super();
+        this.rating = json.getString("rating");
+        this.noMiss = json.getInt("no_miss");
+        this.fullChain = json.getInt("full_chain");
+        this.perfect = json.getInt("perfect");
+        this.playCount = json.getInt("play_count");
+        this.isClear = json.getBoolean("is_clear_mark");
+        this.score = json.getInt("score");
+        this.maxChain = json.getInt("max_chain");
+        this.adlib = json.getInt("adlib");
+        this.lastDate = json.getString("lastDate");
+        this.rating = json.getString("rank");
     }
 
     public String getRating() {
@@ -92,11 +50,83 @@ public class ResultData extends RealmObject {
         this.rating = rating;
     }
 
+    public int getNoMiss() {
+        return noMiss;
+    }
+
+    public void setNoMiss(int noMiss) {
+        this.noMiss = noMiss;
+    }
+
+    public int getFullChain() {
+        return fullChain;
+    }
+
+    public void setFullChain(int fullChain) {
+        this.fullChain = fullChain;
+    }
+
+    public int getPerfect() {
+        return perfect;
+    }
+
+    public void setPerfect(int perfect) {
+        this.perfect = perfect;
+    }
+
+    public int getPlayCount() {
+        return playCount;
+    }
+
+    public void setPlayCount(int playCount) {
+        this.playCount = playCount;
+    }
+
+    public boolean isClear() {
+        return isClear;
+    }
+
+    public void setClear(boolean clear) {
+        isClear = clear;
+    }
+
     public int getScore() {
         return score;
     }
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public int getMaxChain() {
+        return maxChain;
+    }
+
+    public void setMaxChain(int maxChain) {
+        this.maxChain = maxChain;
+    }
+
+    public int getAdlib() {
+        return adlib;
+    }
+
+    public void setAdlib(int adlib) {
+        this.adlib = adlib;
+    }
+
+    public String getLastDate() {
+        return lastDate;
+    }
+
+    public void setLastDate(String lastDate) {
+        this.lastDate = lastDate;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
     }
 }

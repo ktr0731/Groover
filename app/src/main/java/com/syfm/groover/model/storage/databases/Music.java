@@ -14,6 +14,11 @@ public class Music extends RealmObject {
     private String skin;
     private byte[] thumbnail;
     private boolean favorite;
+    private boolean exFlag;
+    private ResultData simpleResult;
+    private ResultData normalResult;
+    private ResultData hardResult;
+    private ResultData extraResult;
 
     public int getId() {
         return id;
@@ -62,4 +67,45 @@ public class Music extends RealmObject {
     public void setFavorite(boolean favorite) {
         this.favorite = favorite;
     }
+
+    public boolean isExFlag() {
+        return exFlag;
+    }
+
+    public void setExFlag(boolean exFlag) {
+        this.exFlag = exFlag;
+    }
+
+    public ResultData getSimpleResult() {
+        return simpleResult;
+    }
+
+    public void setSimpleResult(ResultData simpleResult) {
+        this.simpleResult = simpleResult;
+    }
+
+    public ResultData getNormalResult() {
+        return normalResult;
+    }
+
+    public void setNormalResult(ResultData normalResult) {
+        this.normalResult = normalResult;
+    }
+
+    public ResultData getHardResult() {
+        return hardResult;
+    }
+
+    public void setHardResult(ResultData hardResult) {
+        this.hardResult = hardResult;
+    }
+
+    public ResultData getExtraResult() {
+        return extraResult;
+    }
+
+    public void setExtraResult(ResultData extraResult) {
+        this.extraResult = extraResult;
+    }
+
 }

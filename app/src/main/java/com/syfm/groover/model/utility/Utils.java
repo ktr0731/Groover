@@ -1,4 +1,4 @@
-package com.syfm.groover.model;
+package com.syfm.groover.model.utility;
 
 import android.util.Log;
 

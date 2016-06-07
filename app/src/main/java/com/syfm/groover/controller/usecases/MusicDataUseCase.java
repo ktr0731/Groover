@@ -1,10 +1,12 @@
 package com.syfm.groover.controller.usecases;
 
-import com.syfm.groover.model.Utils;
+import com.syfm.groover.model.utility.MusicFormatter;
+import com.syfm.groover.model.utility.Utils;
 import com.syfm.groover.model.api.ApiClient;
 import com.syfm.groover.model.AppController;
 import com.syfm.groover.model.storage.databases.Music;
 import com.syfm.groover.model.storage.databases.MusicData;
+import com.syfm.groover.model.storage.databases.ResultData;
 
 import org.jdeferred.android.AndroidDeferredManager;
 import org.json.JSONArray;
@@ -37,7 +39,7 @@ public class MusicDataUseCase {
 
     public class SetMusicData {
         public final boolean success;
-        public final String  message;
+        public final String message;
 
         public SetMusicData(boolean success, String message) {
             this.success = success;
@@ -48,59 +50,45 @@ public class MusicDataUseCase {
 
     public void setMusicData() {
         ApiClient client = new ApiClient();
-        Realm realm      = Realm.getInstance(AppController.getContext());
 
         deferred.when(() -> {
             try {
-                int music_id;
-                String title;
-                String artist;
-                String skin;
-                byte[] thumbnail;
-                boolean favorite;
-
-                JSONObject musicDetailJsonObject;
-                JSONObject musicDetailObject;
-                JSONObject simpleResultObject;
-                JSONObject normalResultObject;
-                JSONObject hardResultObject;
-                JSONObject extraResultObject;
-
-                JSONObject musicObject;
-
+                int musicId;
+                Music music;
                 JSONArray musicListArray = client.fetchMusicList();
+                Realm realm = Realm.getInstance(AppController.getContext());
+
+                realm.beginTransaction();
                 for (int i = 0; i < musicListArray.length(); i++) {
                     // For debug
                     if (i > 3) break;
 
-                    music_id = musicListArray.getJSONObject(i).getInt("music_id");
+                    musicId = musicListArray.getJSONObject(i).getInt("music_id");
 
                     Utils.sleep();
 
-                    musicDetailJsonObject = client.fetchMusicDetail(music_id);
-                    musicDetailObject     = musicDetailJsonObject.getJSONObject("music_detail");
+                    // 3つの取得したデータを元にRealmのテーブルにフォーマットしたオブジェクトを返す
+                    music = new MusicFormatter().getFormattedMusicRecord(
+                            musicId,
+                            musicListArray.getJSONObject(i).getString("last_play_time"),
+                            client.fetchMusicDetail(musicId),
+                            client.fetchMusicThumbnail(musicId)
+                    );
 
-                    thumbnail             = client.fetchMusicThumbnail(music_id);
-
-                    // TODO: 抽出したほうが良い?
-                    title    = musicListArray.getJSONObject(i).getString("music_title");
-                    artist   = musicDetailObject.getString("artist");
-                    skin     = musicDetailObject.getString("skin_name");
-                    favorite = musicDetailObject.getInt("fav_flg") == 1;
-
-                    musicObject = new JSONObject();
-                    musicObject.accumulate("id", music_id);
-                    musicObject.accumulate("title", title);
-                    realm.createObjectFromJson(Music.class, object);
+                    realm.copyToRealm(music);
                 }
+                realm.commitTransaction();
             } catch (IOException e) {
                 e.printStackTrace();
+                realm.cancelTransaction();
                 EventBus.getDefault().post(new SetMusicData(false, "ミュージックデータの取得に失敗しました。通信環境の良い場所で再取得して下さい。"));
             } catch (JSONException e) {
                 e.printStackTrace();
+                realm.cancelTransaction();
                 EventBus.getDefault().post(new SetMusicData(false, "JSONデータのパースに失敗しました。取得したデータが不正です。"));
             } catch (RuntimeException e) {
                 e.printStackTrace();
+                realm.cancelTransaction();
                 EventBus.getDefault().post(new SetMusicData(false, e.getMessage()));
             }
         }).done(callback -> {

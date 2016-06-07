@@ -152,126 +152,126 @@ public class MusicDetailFragment extends Fragment {
     }
 
     private void setMusicData(int id) {
-
-        musicData = realm.where(MusicData.class).equalTo(Const.MUSIC_LIST_MUSIC_ID, id).findFirst();
-
-        simple = musicData.getResult_data().get(0);
-        normal = musicData.getResult_data().get(1);
-        hard = musicData.getResult_data().get(2);
-        extra = musicData.getResult_data().get(3);
-
-        userRank = musicData.getUser_rank();Bitmap bmp = BitmapFactory.decodeByteArray(musicData.getMusic_thumbnail(), 0, musicData.getMusic_thumbnail().length);
-
-        iv_thumb.setImageBitmap(bmp);
-
-        tv_title.setText(musicData.getMusic_title());
-        tv_artist.setText(musicData.getArtist());
-
-        String numOfPlays = String.valueOf(simple.getPlay_count() + normal.getPlay_count() + hard.getPlay_count() + extra.getPlay_count());
-        tv_num_of_plays.setText(numOfPlays);
-        tv_last_played.setText(musicData.getLast_play_time());
-        tv_skin.setText(musicData.getSkin_name());
-
-
-        tv_simple_score.setText(String.valueOf(simple.getScore()));
-        tv_simple_num_of_plays.setText(String.valueOf(simple.getPlay_count()));
-        tv_simple_max_chain.setText(String.valueOf(simple.getMax_chain()));
-        tv_simple_num_of_full_chain.setText(String.valueOf(simple.getFull_chain()));
-        tv_simple_num_of_no_miss.setText(String.valueOf(simple.getNo_miss()));
-        tv_simple_rating.setText(simple.getRating());
-
-        if (simple.getScore() == 1000000) {
-            tv_simple_mark.setBackgroundResource(R.drawable.excellect_border);
-            tv_simple_mark.setText("EXCELLENT");
-        } else if (simple.getFull_chain() > 0) {
-            tv_simple_mark.setBackgroundResource(R.drawable.full_chain_border);
-            tv_simple_mark.setText("FULL CHAIN");
-        } else if (simple.getNo_miss() > 0) {
-            tv_simple_mark.setBackgroundResource(R.drawable.no_miss_border);
-            tv_simple_mark.setText("NO MISS");
-        } else if (simple.getIs_clear_mark().equals("true")) {
-            tv_simple_mark.setBackgroundResource(R.drawable.clear_border);
-            tv_simple_mark.setText("CLEAR");
-        } else if (simple.getIs_failed_mark().equals("true")) {
-            tv_simple_mark.setBackgroundResource(R.drawable.failed_border);
-            tv_simple_mark.setText("FAILED");
-        }
-
-        tv_normal_score.setText(String.valueOf(normal.getScore()));
-        tv_normal_num_of_plays.setText(String.valueOf(normal.getPlay_count()));
-        tv_normal_max_chain.setText(String.valueOf(normal.getMax_chain()));
-        tv_normal_num_of_full_chain.setText(String.valueOf(normal.getFull_chain()));
-        tv_normal_num_of_no_miss.setText(String.valueOf(normal.getNo_miss()));
-        tv_normal_rating.setText(normal.getRating());
-
-        if (normal.getScore() == 1000000) {
-            tv_normal_mark.setBackgroundResource(R.drawable.excellect_border);
-            tv_normal_mark.setText("EXCELLENT");
-        } else if (normal.getFull_chain() > 0) {
-            tv_normal_mark.setBackgroundResource(R.drawable.full_chain_border);
-            tv_normal_mark.setText("FULL CHAIN");
-        } else if (normal.getNo_miss() > 0) {
-            tv_normal_mark.setBackgroundResource(R.drawable.no_miss_border);
-            tv_normal_mark.setText("NO MISS");
-        } else if (normal.getIs_clear_mark().equals("true")) {
-            tv_normal_mark.setBackgroundResource(R.drawable.clear_border);
-            tv_normal_mark.setText("CLEAR");
-        } else if (normal.getIs_failed_mark().equals("true")) {
-            tv_normal_mark.setBackgroundResource(R.drawable.failed_border);
-            tv_normal_mark.setText("FAILED");
-        }
-
-        tv_hard_score.setText(String.valueOf(hard.getScore()));
-        tv_hard_num_of_plays.setText(String.valueOf(hard.getPlay_count()));
-        tv_hard_max_chain.setText(String.valueOf(hard.getMax_chain()));
-        tv_hard_num_of_full_chain.setText(String.valueOf(hard.getFull_chain()));
-        tv_hard_num_of_no_miss.setText(String.valueOf(hard.getNo_miss()));
-        tv_hard_rating.setText(hard.getRating());
-
-        if (hard.getScore() == 1000000) {
-            tv_hard_mark.setBackgroundResource(R.drawable.excellect_border);
-            tv_hard_mark.setText("EXCELLENT");
-        } else if (hard.getFull_chain() > 0) {
-            tv_hard_mark.setBackgroundResource(R.drawable.full_chain_border);
-            tv_hard_mark.setText("FULL CHAIN");
-        } else if (hard.getNo_miss() > 0) {
-            tv_hard_mark.setBackgroundResource(R.drawable.no_miss_border);
-            tv_hard_mark.setText("NO MISS");
-        } else if (hard.getIs_clear_mark().equals("true")) {
-            tv_hard_mark.setBackgroundResource(R.drawable.clear_border);
-            tv_hard_mark.setText("CLEAR");
-        } else if (hard.getIs_failed_mark().equals("true")) {
-            tv_hard_mark.setBackgroundResource(R.drawable.failed_border);
-            tv_hard_mark.setText("FAILED");
-        }
-
-        if (musicData.getEx_flag() > 0) {
-
-            cv_extra.setVisibility(View.VISIBLE);
-            tv_extra_score.setText(String.valueOf(extra.getScore()));
-            tv_extra_num_of_plays.setText(String.valueOf(extra.getPlay_count()));
-            tv_extra_max_chain.setText(String.valueOf(extra.getMax_chain()));
-            tv_extra_num_of_full_chain.setText(String.valueOf(extra.getFull_chain()));
-            tv_extra_num_of_no_miss.setText(String.valueOf(extra.getNo_miss()));
-            tv_extra_rating.setText(extra.getRating());
-
-            if (extra.getScore() == 1000000) {
-                tv_extra_mark.setBackgroundResource(R.drawable.excellect_border);
-                tv_extra_mark.setText("EXCELLENT");
-            } else if (extra.getFull_chain() > 0) {
-                tv_extra_mark.setBackgroundResource(R.drawable.full_chain_border);
-                tv_extra_mark.setText("FULL CHAIN");
-            } else if (extra.getNo_miss() > 0) {
-                tv_extra_mark.setBackgroundResource(R.drawable.no_miss_border);
-                tv_extra_mark.setText("NO MISS");
-            } else if (extra.getIs_clear_mark().equals("true")) {
-                tv_extra_mark.setBackgroundResource(R.drawable.clear_border);
-                tv_extra_mark.setText("CLEAR");
-            } else if (extra.getIs_failed_mark().equals("true")) {
-                tv_extra_mark.setBackgroundResource(R.drawable.failed_border);
-                tv_extra_mark.setText("FAILED");
-            }
-
-        }
+//
+//        musicData = realm.where(MusicData.class).equalTo(Const.MUSIC_LIST_MUSIC_ID, id).findFirst();
+//
+//        simple = musicData.getResult_data().get(0);
+//        normal = musicData.getResult_data().get(1);
+//        hard = musicData.getResult_data().get(2);
+//        extra = musicData.getResult_data().get(3);
+//
+//        userRank = musicData.getUser_rank();Bitmap bmp = BitmapFactory.decodeByteArray(musicData.getMusic_thumbnail(), 0, musicData.getMusic_thumbnail().length);
+//
+//        iv_thumb.setImageBitmap(bmp);
+//
+//        tv_title.setText(musicData.getMusic_title());
+//        tv_artist.setText(musicData.getArtist());
+//
+//        String numOfPlays = String.valueOf(simple.getPlay_count() + normal.getPlay_count() + hard.getPlay_count() + extra.getPlay_count());
+//        tv_num_of_plays.setText(numOfPlays);
+//        tv_last_played.setText(musicData.getLast_play_time());
+//        tv_skin.setText(musicData.getSkin_name());
+//
+//
+//        tv_simple_score.setText(String.valueOf(simple.getScore()));
+//        tv_simple_num_of_plays.setText(String.valueOf(simple.getPlay_count()));
+//        tv_simple_max_chain.setText(String.valueOf(simple.getMax_chain()));
+//        tv_simple_num_of_full_chain.setText(String.valueOf(simple.getFull_chain()));
+//        tv_simple_num_of_no_miss.setText(String.valueOf(simple.getNo_miss()));
+//        tv_simple_rating.setText(simple.getRating());
+//
+//        if (simple.getScore() == 1000000) {
+//            tv_simple_mark.setBackgroundResource(R.drawable.excellect_border);
+//            tv_simple_mark.setText("EXCELLENT");
+//        } else if (simple.getFull_chain() > 0) {
+//            tv_simple_mark.setBackgroundResource(R.drawable.full_chain_border);
+//            tv_simple_mark.setText("FULL CHAIN");
+//        } else if (simple.getNo_miss() > 0) {
+//            tv_simple_mark.setBackgroundResource(R.drawable.no_miss_border);
+//            tv_simple_mark.setText("NO MISS");
+//        } else if (simple.getIs_clear_mark().equals("true")) {
+//            tv_simple_mark.setBackgroundResource(R.drawable.clear_border);
+//            tv_simple_mark.setText("CLEAR");
+//        } else if (simple.getIs_failed_mark().equals("true")) {
+//            tv_simple_mark.setBackgroundResource(R.drawable.failed_border);
+//            tv_simple_mark.setText("FAILED");
+//        }
+//
+//        tv_normal_score.setText(String.valueOf(normal.getScore()));
+//        tv_normal_num_of_plays.setText(String.valueOf(normal.getPlay_count()));
+//        tv_normal_max_chain.setText(String.valueOf(normal.getMax_chain()));
+//        tv_normal_num_of_full_chain.setText(String.valueOf(normal.getFull_chain()));
+//        tv_normal_num_of_no_miss.setText(String.valueOf(normal.getNo_miss()));
+//        tv_normal_rating.setText(normal.getRating());
+//
+//        if (normal.getScore() == 1000000) {
+//            tv_normal_mark.setBackgroundResource(R.drawable.excellect_border);
+//            tv_normal_mark.setText("EXCELLENT");
+//        } else if (normal.getFull_chain() > 0) {
+//            tv_normal_mark.setBackgroundResource(R.drawable.full_chain_border);
+//            tv_normal_mark.setText("FULL CHAIN");
+//        } else if (normal.getNo_miss() > 0) {
+//            tv_normal_mark.setBackgroundResource(R.drawable.no_miss_border);
+//            tv_normal_mark.setText("NO MISS");
+//        } else if (normal.getIs_clear_mark().equals("true")) {
+//            tv_normal_mark.setBackgroundResource(R.drawable.clear_border);
+//            tv_normal_mark.setText("CLEAR");
+//        } else if (normal.getIs_failed_mark().equals("true")) {
+//            tv_normal_mark.setBackgroundResource(R.drawable.failed_border);
+//            tv_normal_mark.setText("FAILED");
+//        }
+//
+//        tv_hard_score.setText(String.valueOf(hard.getScore()));
+//        tv_hard_num_of_plays.setText(String.valueOf(hard.getPlay_count()));
+//        tv_hard_max_chain.setText(String.valueOf(hard.getMax_chain()));
+//        tv_hard_num_of_full_chain.setText(String.valueOf(hard.getFull_chain()));
+//        tv_hard_num_of_no_miss.setText(String.valueOf(hard.getNo_miss()));
+//        tv_hard_rating.setText(hard.getRating());
+//
+//        if (hard.getScore() == 1000000) {
+//            tv_hard_mark.setBackgroundResource(R.drawable.excellect_border);
+//            tv_hard_mark.setText("EXCELLENT");
+//        } else if (hard.getFull_chain() > 0) {
+//            tv_hard_mark.setBackgroundResource(R.drawable.full_chain_border);
+//            tv_hard_mark.setText("FULL CHAIN");
+//        } else if (hard.getNo_miss() > 0) {
+//            tv_hard_mark.setBackgroundResource(R.drawable.no_miss_border);
+//            tv_hard_mark.setText("NO MISS");
+//        } else if (hard.getIs_clear_mark().equals("true")) {
+//            tv_hard_mark.setBackgroundResource(R.drawable.clear_border);
+//            tv_hard_mark.setText("CLEAR");
+//        } else if (hard.getIs_failed_mark().equals("true")) {
+//            tv_hard_mark.setBackgroundResource(R.drawable.failed_border);
+//            tv_hard_mark.setText("FAILED");
+//        }
+//
+//        if (musicData.getEx_flag() > 0) {
+//
+//            cv_extra.setVisibility(View.VISIBLE);
+//            tv_extra_score.setText(String.valueOf(extra.getScore()));
+//            tv_extra_num_of_plays.setText(String.valueOf(extra.getPlay_count()));
+//            tv_extra_max_chain.setText(String.valueOf(extra.getMax_chain()));
+//            tv_extra_num_of_full_chain.setText(String.valueOf(extra.getFull_chain()));
+//            tv_extra_num_of_no_miss.setText(String.valueOf(extra.getNo_miss()));
+//            tv_extra_rating.setText(extra.getRating());
+//
+//            if (extra.getScore() == 1000000) {
+//                tv_extra_mark.setBackgroundResource(R.drawable.excellect_border);
+//                tv_extra_mark.setText("EXCELLENT");
+//            } else if (extra.getFull_chain() > 0) {
+//                tv_extra_mark.setBackgroundResource(R.drawable.full_chain_border);
+//                tv_extra_mark.setText("FULL CHAIN");
+//            } else if (extra.getNo_miss() > 0) {
+//                tv_extra_mark.setBackgroundResource(R.drawable.no_miss_border);
+//                tv_extra_mark.setText("NO MISS");
+//            } else if (extra.getIs_clear_mark().equals("true")) {
+//                tv_extra_mark.setBackgroundResource(R.drawable.clear_border);
+//                tv_extra_mark.setText("CLEAR");
+//            } else if (extra.getIs_failed_mark().equals("true")) {
+//                tv_extra_mark.setBackgroundResource(R.drawable.failed_border);
+//                tv_extra_mark.setText("FAILED");
+//            }
+//
+//        }
     }
 }

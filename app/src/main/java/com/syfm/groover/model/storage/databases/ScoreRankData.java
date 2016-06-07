@@ -9,7 +9,6 @@ public class ScoreRankData extends RealmObject {
 //    @PrimaryKey
 //    private String id;
     // TODO: Primary Keyがうまくいかない
-    // TODO: というか正規化しないといけない?
     private String id;
     private int rank;
     private String player_name;
