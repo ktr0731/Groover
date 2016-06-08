@@ -3,6 +3,12 @@
         <variable
             name="fragment"
             type="com.syfm.groover.view.fragments.PlayDataFragment" />
+        <variable
+            name="util"
+            type="com.syfm.groover.model.utility.Utils" />
+        <variable
+            name="playerData"
+            type="com.syfm.groover.model.databases.PlayerData" />
     </data>
 
     <LinearLayout
@@ -46,6 +52,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/black"
+                                android:text="@{playerData.name}"
                                 android:textSize="@dimen/card_view_title_size" />
 
                             <TextView
@@ -54,6 +61,7 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="end"
                                 android:textColor="@color/black"
+                                android:text='@{"Lv." + playerData.level}'
                                 android:textSize="@dimen/card_view_title_size" />
 
                         </LinearLayout>
@@ -64,6 +72,7 @@
                             android:layout_height="wrap_content"
                             android:paddingBottom="@dimen/card_view_padding_other"
                             android:textColor="@color/dark_glay"
+                            android:text='@{playerData.avatar + "/" + playerData.title}'
                             android:textSize="@dimen/medium_size" />
 
                         <LinearLayout
@@ -91,6 +100,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{playerData.totalScore}"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -111,6 +121,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{String.valueOf(playerData.rank)}"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -151,6 +162,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{playerData.totalTrophy}"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -221,6 +233,7 @@
                                         android:layout_weight="1"
                                         android:gravity="end"
                                         android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@{String.valueOf(playerData.totalPlayMusic)}"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
 
@@ -253,6 +266,7 @@
                                         android:layout_weight="1"
                                         android:gravity="end"
                                         android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@{String.valueOf(playerData.clear)}"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
 
@@ -285,6 +299,7 @@
                                         android:layout_weight="1"
                                         android:gravity="end"
                                         android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@{playerData.averageScore}"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
 
@@ -316,6 +331,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:gravity="end"
+                                        android:text="@{String.valueOf(playerData.noMiss)}"
                                         android:paddingRight="@dimen/card_view_table_padding"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
@@ -349,6 +365,7 @@
                                         android:layout_weight="1"
                                         android:gravity="end"
                                         android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@{String.valueOf(playerData.fullChain)}"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
 
@@ -381,6 +398,7 @@
                                         android:layout_weight="1"
                                         android:gravity="end"
                                         android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@{String.valueOf(playerData.s)}"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
 
@@ -413,6 +431,7 @@
                                         android:layout_weight="1"
                                         android:gravity="end"
                                         android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@{String.valueOf(playerData.ss)}"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
 
@@ -445,6 +464,7 @@
                                         android:layout_weight="1"
                                         android:gravity="end"
                                         android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@{String.valueOf(playerData.sss)}"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
 

@@ -1,4 +1,4 @@
-package com.syfm.groover.model.Constants;
+package com.syfm.groover.model.constants;
 
 /**
  * Created by lycoris on 2016/06/04.

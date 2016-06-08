@@ -21,7 +21,6 @@ import io.realm.RealmResults;
  */
 public class MusicDataUseCase {
 
-    Realm realm = Realm.getInstance(AppController.getInstance());
     private AndroidDeferredManager deferred = new AndroidDeferredManager();
 
     // MusicDataを通知するためのクラス
@@ -49,13 +48,14 @@ public class MusicDataUseCase {
         ApiClient client = new ApiClient();
 
         deferred.when(() -> {
+            Realm realm = Realm.getInstance(AppController.getContext());
+            realm.beginTransaction();
+
             try {
                 int musicId;
                 Music music;
                 JSONArray musicListArray = client.fetchMusicList();
-                Realm realm = Realm.getInstance(AppController.getContext());
 
-                realm.beginTransaction();
                 for (int i = 0; i < musicListArray.length(); i++) {
                     // For debug
                     if (i > 3) break;
@@ -65,7 +65,7 @@ public class MusicDataUseCase {
                     Utils.sleep();
 
                     // 3つの取得したデータを元にRealmのテーブルにフォーマットしたオブジェクトを返す
-                    music = new MusicFormatter().getFormattedMusicRecord(
+                    music = new MusicFormatter().getFormattedMusicObject(
                             musicId,
                             musicListArray.getJSONObject(i).getString("last_play_time"),
                             client.fetchMusicDetail(musicId),
@@ -87,6 +87,8 @@ public class MusicDataUseCase {
                 e.printStackTrace();
                 realm.cancelTransaction();
                 EventBus.getDefault().post(new SetMusicData(false, e.getMessage()));
+            } finally {
+                realm.close();
             }
         }).done(callback -> {
             EventBus.getDefault().post(new SetMusicData(true, null));
@@ -97,7 +99,9 @@ public class MusicDataUseCase {
     }
 
     public void getMusicData() {
+        Realm realm = Realm.getInstance(AppController.getInstance());
         RealmResults<Music> music = realm.where(Music.class).findAll();
+        realm.close();
         EventBus.getDefault().post(new MusicDataEvent(music));
     }
 

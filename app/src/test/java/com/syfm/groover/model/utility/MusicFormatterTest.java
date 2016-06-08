@@ -48,7 +48,7 @@ public class MusicFormatterTest {
 //        Music expected = gson.fromJson(expectString, Music.class);
 //
 //        // Exercise
-//        Music music = formatter.getFormattedMusicRecord(lastPlayTime, thumbnail, detail);
+//        Music music = formatter.getFormattedMusicObject(lastPlayTime, thumbnail, detail);
 //
 //        // Verify
 //        assertThat(music, is(0));

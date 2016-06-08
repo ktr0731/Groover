@@ -67,7 +67,7 @@ public class MusicDetailActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         //EventBus.getDefault().register(this);
-        new PlayDataUseCase().getPlayData();
+        new PlayDataUseCase().initialize();
     }
 
     @Override

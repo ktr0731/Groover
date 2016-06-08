@@ -11,9 +11,22 @@ import org.json.JSONObject;
  * Created by lycoris on 2016/06/07.
  */
 
+/**
+ * MusicFormatter formats arguments to Music class object.
+ * MusicFormatter is called by MusicUseCase class.
+ */
 public class MusicFormatter {
 
-    public Music getFormattedMusicRecord(int musicId, String lastPlayTime, JSONObject detail, byte[] thumbnail) throws JSONException {
+    /**
+     * Formats arguments to Music class object.
+     * @param musicId
+     * @param lastPlayTime
+     * @param detail Fetched JSON from getMusicDetail()
+     * @param thumbnail Fetched byte image from getMusicThumbnail()
+     * @return @{code Music} Formatted object
+     * @throws JSONException
+     */
+    public Music getFormattedMusicObject(int musicId, String lastPlayTime, JSONObject detail, byte[] thumbnail) throws JSONException {
         Music music = new Music();
 
         JSONObject simpleResultObject;

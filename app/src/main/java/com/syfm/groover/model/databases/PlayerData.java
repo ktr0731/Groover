@@ -8,41 +8,58 @@ import io.realm.annotations.RealmClass;
  */
 @RealmClass
 public class PlayerData extends RealmObject {
-
+    private String name;
+    private String totalScore;
+    private int totalPlayMusic;
+    private int totalMusic;
+    private int rank;
+    private int level;
     private String avatar;
-    private String level;
-    private String player_name;
-    private int    rank;
     private String title;
-    private int    total_music;
-    private int    total_play_music;
-    private int    total_score;
-    private int    total_trophy;
-    private String date;
+    private String totalTrophy;
+    private String trophyRank;
+    private String averageScore;
+    private String version;
+    private boolean friendApplication;
+    private int all;
+    private int clear;
+    private int noMiss;
+    private int fullChain;
+    private int perfect;
+    private int s;
+    private int ss;
+    private int sss;
 
-
-    public String getAvatar() {
-        return avatar;
+    public String getName() {
+        return name;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getLevel() {
-        return level;
+    public String getTotalScore() {
+        return totalScore;
     }
 
-    public void setLevel(String level) {
-        this.level = level;
+    public void setTotalScore(String totalScore) {
+        this.totalScore = totalScore;
     }
 
-    public String getPlayer_name() {
-        return player_name;
+    public int getTotalPlayMusic() {
+        return totalPlayMusic;
     }
 
-    public void setPlayer_name(String player_name) {
-        this.player_name = player_name;
+    public void setTotalPlayMusic(int totalPlayMusic) {
+        this.totalPlayMusic = totalPlayMusic;
+    }
+
+    public int getTotalMusic() {
+        return totalMusic;
+    }
+
+    public void setTotalMusic(int totalMusic) {
+        this.totalMusic = totalMusic;
     }
 
     public int getRank() {
@@ -53,6 +70,22 @@ public class PlayerData extends RealmObject {
         this.rank = rank;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -61,44 +94,107 @@ public class PlayerData extends RealmObject {
         this.title = title;
     }
 
-    public int getTotal_music() {
-        return total_music;
+    public String getTotalTrophy() {
+        return totalTrophy;
     }
 
-    public void setTotal_music(int total_music) {
-        this.total_music = total_music;
+    public void setTotalTrophy(String totalTrophy) {
+        this.totalTrophy = totalTrophy;
     }
 
-    public int getTotal_play_music() {
-        return total_play_music;
+    public String getTrophyRank() {
+        return trophyRank;
     }
 
-    public void setTotal_play_music(int total_play_music) {
-        this.total_play_music = total_play_music;
+    public void setTrophyRank(String trophyRank) {
+        this.trophyRank = trophyRank;
     }
 
-    public int getTotal_score() {
-        return total_score;
+    public String getAverageScore() {
+        return averageScore;
     }
 
-    public void setTotal_score(int total_score) {
-        this.total_score = total_score;
+    public void setAverageScore(String averageScore) {
+        this.averageScore = averageScore;
     }
 
-    public int getTotal_trophy() {
-        return total_trophy;
+    public String getVersion() {
+        return version;
     }
 
-    public void setTotal_trophy(int total_trophy) {
-        this.total_trophy = total_trophy;
+    public void setVersion(String version) {
+        this.version = version;
     }
 
-    public String getDate() {
-        return date;
+    public boolean isFriendApplication() {
+        return friendApplication;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setFriendApplication(boolean friendApplication) {
+        this.friendApplication = friendApplication;
     }
 
+    public int getAll() {
+        return all;
+    }
+
+    public void setAll(int all) {
+        this.all = all;
+    }
+
+    public int getClear() {
+        return clear;
+    }
+
+    public void setClear(int clear) {
+        this.clear = clear;
+    }
+
+    public int getNoMiss() {
+        return noMiss;
+    }
+
+    public void setNoMiss(int noMiss) {
+        this.noMiss = noMiss;
+    }
+
+    public int getFullChain() {
+        return fullChain;
+    }
+
+    public void setFullChain(int fullChain) {
+        this.fullChain = fullChain;
+    }
+
+    public int getPerfect() {
+        return perfect;
+    }
+
+    public void setPerfect(int perfect) {
+        this.perfect = perfect;
+    }
+
+    public int getS() {
+        return s;
+    }
+
+    public void setS(int s) {
+        this.s = s;
+    }
+
+    public int getSs() {
+        return ss;
+    }
+
+    public void setSs(int ss) {
+        this.ss = ss;
+    }
+
+    public int getSss() {
+        return sss;
+    }
+
+    public void setSss(int sss) {
+        this.sss = sss;
+    }
 }

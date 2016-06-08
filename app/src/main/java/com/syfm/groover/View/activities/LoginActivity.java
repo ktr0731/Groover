@@ -71,6 +71,8 @@ public class LoginActivity extends Activity implements LoginEventHandlers {
                 dialogFragment.changeMessage(getResources().getString(R.string.dialog_title_music_data));
                 MusicDataUseCase musicDataUseCase = new MusicDataUseCase();
                 musicDataUseCase.setMusicData();
+            }).fail(callback -> {
+                Toast.makeText(getApplicationContext(), "データ取得エラー", Toast.LENGTH_SHORT).show();
             });
 
         } else {

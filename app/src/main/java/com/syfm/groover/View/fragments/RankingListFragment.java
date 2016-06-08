@@ -16,8 +16,8 @@ import android.widget.Toast;
 import com.syfm.groover.R;
 import com.syfm.groover.controller.entities.event.EventNameEntity;
 import com.syfm.groover.controller.usecases.RankingDataUseCase;
-import com.syfm.groover.model.Constants.Const;
-import com.syfm.groover.model.Constants.SPConst;
+import com.syfm.groover.model.constants.Const;
+import com.syfm.groover.model.constants.SPConst;
 import com.syfm.groover.view.adapter.RankingAdapter;
 
 import java.util.Map;

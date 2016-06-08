@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
 
-import com.syfm.groover.model.Constants.SPConst;
+import com.syfm.groover.model.constants.SPConst;
 
 import org.json.JSONException;
 import org.json.JSONObject;

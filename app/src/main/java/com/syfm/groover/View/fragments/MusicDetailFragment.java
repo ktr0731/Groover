@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.syfm.groover.R;
 import com.syfm.groover.controller.entities.AppController;
-import com.syfm.groover.model.Constants.Const;
+import com.syfm.groover.model.constants.Const;
 import com.syfm.groover.model.databases.Music;
 import com.syfm.groover.model.databases.ResultData;
 

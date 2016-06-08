@@ -15,7 +15,7 @@ import com.syfm.groover.R;
 import com.syfm.groover.controller.usecases.LoginUseCase;
 import com.syfm.groover.databinding.ContainerBinding;
 import com.syfm.groover.controller.entities.AppController;
-import com.syfm.groover.model.Constants.SPConst;
+import com.syfm.groover.model.constants.SPConst;
 import com.syfm.groover.model.databases.SharedPreferenceHelper;
 import com.syfm.groover.view.adapter.MainFragmentPagerAdapter;
 import com.syfm.groover.view.fragments.MusicListFragment;

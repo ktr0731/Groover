@@ -1,8 +1,6 @@
 package com.syfm.groover.view.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
@@ -14,30 +12,28 @@ import android.widget.TextView;
 
 import com.syfm.groover.R;
 import com.syfm.groover.controller.entities.AppController;
-import com.syfm.groover.model.Constants.Const;
-import com.syfm.groover.model.Constants.SPConst;
+import com.syfm.groover.model.constants.Const;
+import com.syfm.groover.model.constants.SPConst;
+import com.syfm.groover.model.databases.Music;
 import com.syfm.groover.model.databases.SharedPreferenceHelper;
-import com.syfm.groover.model.databases.MusicData;
 
 import java.util.ArrayList;
 import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmBaseAdapter;
-import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
 /**
  * Created by lycoris on 2015/10/09.
  */
-public class MusicListAdapter extends RealmBaseAdapter<MusicData> implements ListAdapter {
+public class MusicListAdapter extends RealmBaseAdapter<Music> implements ListAdapter {
     private Realm realm;
 
-    public MusicListAdapter(Context context, int resource, RealmResults<MusicData> realmResults, Boolean autoUpdate) {
+    public MusicListAdapter(Context context, int resource, RealmResults<Music> realmResults, Boolean autoUpdate) {
         super(context, realmResults, autoUpdate);
         realm = Realm.getInstance(AppController.getInstance());
     }
@@ -67,22 +63,22 @@ public class MusicListAdapter extends RealmBaseAdapter<MusicData> implements Lis
          */
 
 
-        MusicData row = realmResults.get(position);
-
-        holder.tv_title.setText(row.getMusic_title());
-        holder.tv_simple_rate.setText(row.getResult_data().get(0).getRating());
-        holder.tv_simple_score.setText(String.valueOf(row.getResult_data().get(0).getScore()));
-        holder.tv_normal_rate.setText(row.getResult_data().get(1).getRating());
-        holder.tv_normal_score.setText(String.valueOf(row.getResult_data().get(1).getScore()));
-        holder.tv_hard_rate.setText(row.getResult_data().get(2).getRating());
-        holder.tv_hard_score.setText(String.valueOf(row.getResult_data().get(2).getScore()));
-
-        //Extraを表示させるか
-        if (row.getEx_flag() == 1) {
-            holder.ll_extra.setVisibility(View.VISIBLE);
-            holder.tv_extra_rate.setText(row.getResult_data().get(3).getRating());
-            holder.tv_extra_score.setText(String.valueOf(row.getResult_data().get(3).getScore()));
-        }
+//        MusicData row = realmResults.get(position);
+//
+//        holder.tv_title.setText(row.getMusic_title());
+//        holder.tv_simple_rate.setText(row.getResult_data().get(0).getRating());
+//        holder.tv_simple_score.setText(String.valueOf(row.getResult_data().get(0).getScore()));
+//        holder.tv_normal_rate.setText(row.getResult_data().get(1).getRating());
+//        holder.tv_normal_score.setText(String.valueOf(row.getResult_data().get(1).getScore()));
+//        holder.tv_hard_rate.setText(row.getResult_data().get(2).getRating());
+//        holder.tv_hard_score.setText(String.valueOf(row.getResult_data().get(2).getScore()));
+//
+//        //Extraを表示させるか
+//        if (row.getEx_flag() == 1) {
+//            holder.ll_extra.setVisibility(View.VISIBLE);
+//            holder.tv_extra_rate.setText(row.getResult_data().get(3).getRating());
+//            holder.tv_extra_score.setText(String.valueOf(row.getResult_data().get(3).getScore()));
+//        }
 
 //        //FullChainを表示させるか (fullchainはFullChainした回数)
 //        if (row.getResult_data().get(0).getFull_chain() > 0) {
@@ -108,8 +104,8 @@ public class MusicListAdapter extends RealmBaseAdapter<MusicData> implements Lis
 
 
         //いっぱい読込すると落ちるかもしれない
-        Bitmap bmp = BitmapFactory.decodeByteArray(row.getMusic_thumbnail(), 0, row.getMusic_thumbnail().length);
-        holder.iv_thumb.setImageBitmap(bmp);
+//        Bitmap bmp = BitmapFactory.decodeByteArray(row.getMusic_thumbnail(), 0, row.getMusic_thumbnail().length);
+//        holder.iv_thumb.setImageBitmap(bmp);
 
         return view;
     }
@@ -193,9 +189,9 @@ public class MusicListAdapter extends RealmBaseAdapter<MusicData> implements Lis
 
                 realm.beginTransaction();
 
-                RealmQuery<MusicData> query = realm.where(MusicData.class).contains(Const.MUSIC_LIST_MUSIC_TITLE, constraint.toString(), Case.INSENSITIVE);
-                RealmResults<MusicData> items = query.findAll();
-                realmResults = items;
+//                RealmQuery<MusicData> query = realm.where(MusicData.class).contains(Const.MUSIC_LIST_MUSIC_TITLE, constraint.toString(), Case.INSENSITIVE);
+//                RealmResults<MusicData> items = query.findAll();
+//                realmResults = items;
                 realm.commitTransaction();
                 notifyDataSetChanged();
             }
@@ -243,7 +239,7 @@ public class MusicListAdapter extends RealmBaseAdapter<MusicData> implements Lis
         notifyDataSetChanged();
     }
 
-    public RealmResults<MusicData> getRealmResults() {
-        return realmResults;
-    }
+//    public RealmResults<MusicData> getRealmResults() {
+//        return realmResults;
+//    }
 }

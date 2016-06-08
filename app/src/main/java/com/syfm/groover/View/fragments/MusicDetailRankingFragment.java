@@ -11,8 +11,7 @@ import android.widget.ListView;
 
 import com.syfm.groover.R;
 import com.syfm.groover.controller.usecases.MusicDataUseCase;
-import com.syfm.groover.model.Constants.Const;
-import com.syfm.groover.model.databases.MusicData;
+import com.syfm.groover.model.constants.Const;
 import com.syfm.groover.model.databases.ScoreRankData;
 import com.syfm.groover.view.adapter.MusicScoreRankingAdapter;
 
@@ -59,7 +58,7 @@ public class MusicDetailRankingFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         realm = Realm.getInstance(getActivity());
-        MusicData item = realm.where(MusicData.class).equalTo(Const.MUSIC_LIST_MUSIC_ID, id).findFirst();
+//        MusicData item = realm.where(MusicData.class).equalTo(Const.MUSIC_LIST_MUSIC_ID, id).findFirst();
 
         return view;
     }

@@ -12,6 +12,8 @@ import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.util.concurrent.TimeUnit;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import okhttp3.JavaNetCookieJar;
 import okhttp3.OkHttpClient;
 
@@ -32,6 +34,10 @@ public class AppController extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        RealmConfiguration configuration = new RealmConfiguration.Builder(this).build();
+        Realm.setDefaultConfiguration(configuration);
+
         sInstance = this;
         context = getApplicationContext();
         cookieManager = new CookieManager();

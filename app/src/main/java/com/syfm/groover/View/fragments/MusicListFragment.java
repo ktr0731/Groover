@@ -1,6 +1,5 @@
 package com.syfm.groover.view.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -13,11 +12,8 @@ import android.widget.Toast;
 
 import com.syfm.groover.R;
 import com.syfm.groover.controller.usecases.MusicDataUseCase;
-import com.syfm.groover.model.Constants.Const;
-import com.syfm.groover.model.Constants.SPConst;
+import com.syfm.groover.model.constants.SPConst;
 import com.syfm.groover.model.databases.SharedPreferenceHelper;
-import com.syfm.groover.model.databases.MusicData;
-import com.syfm.groover.view.activities.MusicDetailActivity;
 import com.syfm.groover.view.adapter.MusicListAdapter;
 
 import java.util.ArrayList;
@@ -82,19 +78,19 @@ public class MusicListFragment extends Fragment {
     public void OnListItemClick(AdapterView<?> parent, View view, int position, long id) {
         //選択されたアイテムを取得
         ListView listView = (ListView) parent;
-        MusicData item = (MusicData) listView.getItemAtPosition(position);
-
-        // ListViewの位置を記憶
-        SharedPreferenceHelper.setMusicListViewPosition(listView.getFirstVisiblePosition(), listView.getChildAt(0).getTop());
-
-        //IDをつける
-        Bundle bundle = new Bundle();
-        bundle.putInt("music_id", item.getMusic_id());
-
-        Intent i = new Intent(getActivity(), MusicDetailActivity.class);
-        i.putExtra(Const.INTENT_MUSIC_ID, item.getMusic_id());
-        i.putExtra(Const.INTENT_EX_FLAG, item.getEx_flag());
-        startActivity(i);
+//        MusicData item = (MusicData) listView.getItemAtPosition(position);
+//
+//        // ListViewの位置を記憶
+//        SharedPreferenceHelper.setMusicListViewPosition(listView.getFirstVisiblePosition(), listView.getChildAt(0).getTop());
+//
+//        //IDをつける
+//        Bundle bundle = new Bundle();
+//        bundle.putInt("music_id", item.getMusic_id());
+//
+//        Intent i = new Intent(getActivity(), MusicDetailActivity.class);
+//        i.putExtra(Const.INTENT_MUSIC_ID, item.getMusic_id());
+//        i.putExtra(Const.INTENT_EX_FLAG, item.getEx_flag());
+//        startActivity(i);
     }
 
     public void onEvent(MusicDataUseCase.SetMusicData event) {
@@ -105,20 +101,20 @@ public class MusicListFragment extends Fragment {
     }
 
     public void onEventMainThread(MusicDataUseCase.MusicDataEvent event) {
-        if (event.music == null || event.music.isEmpty()) {
-            return;
-        }
-        adapter = new MusicListAdapter(getActivity(), 0, null, true);
-//        adapter = new MusicListAdapter(getActivity(), 0, event.music, true);
-        listView.setAdapter(adapter);
-
-        // 位置をセット
-        Map<String, Integer> positions = SharedPreferenceHelper.getMusicListViewPosition();
-        if(!positions.isEmpty()) {
-            listView.setSelectionFromTop(positions.get(SPConst.MUSIC_LIST_LIST_VIEW_POSITION), positions.get(SPConst.MUSIC_LIST_LIST_VIEW_Y));
-        }
-
-        adapter.sortList();
+//        if (event.music == null || event.music.isEmpty()) {
+//            return;
+//        }
+//        adapter = new MusicListAdapter(getActivity(), 0, null, true);
+////        adapter = new MusicListAdapter(getActivity(), 0, event.music, true);
+//        listView.setAdapter(adapter);
+//
+//        // 位置をセット
+//        Map<String, Integer> positions = SharedPreferenceHelper.getMusicListViewPosition();
+//        if(!positions.isEmpty()) {
+//            listView.setSelectionFromTop(positions.get(SPConst.MUSIC_LIST_LIST_VIEW_POSITION), positions.get(SPConst.MUSIC_LIST_LIST_VIEW_Y));
+//        }
+//
+//        adapter.sortList();
     }
 
 

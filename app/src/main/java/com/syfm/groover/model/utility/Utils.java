@@ -2,7 +2,7 @@ package com.syfm.groover.model.utility;
 
 import android.util.Log;
 
-import com.syfm.groover.model.Constants.Const;
+import com.syfm.groover.model.constants.Const;
 
 /**
  * Created by lycoris on 2016/01/17.
@@ -16,4 +16,9 @@ public class Utils {
             Log.d("ktr", e.toString());
         }
     }
+
+    private static double calcPercentage(int p1, int p2) {
+        return (double) p1 / p2 * 100;
+    }
+
 }

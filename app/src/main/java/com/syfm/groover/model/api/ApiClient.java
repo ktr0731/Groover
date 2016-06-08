@@ -3,8 +3,8 @@ package com.syfm.groover.model.api;
 import android.util.Log;
 
 import com.syfm.groover.controller.entities.AppController;
-import com.syfm.groover.model.Constants.Const;
-import com.syfm.groover.model.Constants.SPConst;
+import com.syfm.groover.model.constants.Const;
+import com.syfm.groover.model.constants.SPConst;
 import com.syfm.groover.model.databases.SharedPreferenceHelper;
 import com.syfm.groover.model.databases.ScoreRankData;
 

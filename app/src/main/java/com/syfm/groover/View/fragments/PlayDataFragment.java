@@ -7,16 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.syfm.groover.R;
-import com.syfm.groover.controller.usecases.PlayDataUseCase;
 import com.syfm.groover.databinding.FragmentPlayDataBinding;
+import com.syfm.groover.model.databases.PlayerData;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import de.greenrobot.event.EventBus;
+import io.realm.Realm;
 
 /**
  * Created by lycoris on 2015/09/22.
@@ -24,6 +20,7 @@ import de.greenrobot.event.EventBus;
 public class PlayDataFragment extends Fragment {
 
     private FragmentPlayDataBinding binding;
+    private Realm realm;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup group, Bundle savedInstanceState) {
@@ -34,84 +31,26 @@ public class PlayDataFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         binding = FragmentPlayDataBinding.bind(getView());
+        binding.setFragment(this);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
 
-        // EventBusの登録より前に呼び出すとこっちのが早くて受け取れないので注意する
-        new PlayDataUseCase().getPlayData();
-    }
-
-    @Override
-    public void onStop() {
-        EventBus.getDefault().unregister(this);
-        super.onStop();
-    }
-
-    public void onEventMainThread(JSONObject playerDataJson) {
-        if (playerDataJson == null) {
+        realm = Realm.getDefaultInstance();
+        PlayerData data = realm.where(PlayerData.class).findFirst();
+        if (data == null) {
             Log.d("ktr", "event data is null");
             return;
         }
 
-        try {
-            JSONObject pd = playerDataJson.getJSONObject("player_data");
-            JSONObject sd = playerDataJson.getJSONObject("stage");
-
-            player_name.setText(pd.getString("player_name"));
-            player_level.setText("Lv." + pd.getString("level"));
-            player_avatar_title.setText(pd.getString("avatar") + "/" + pd.getString("title"));
-            player_total_score.setText(String.valueOf(pd.getString("total_score")));
-            player_rank.setText(String.valueOf(pd.getString("rank")));
-            player_trophy.setText(String.valueOf(pd.getString("total_trophy")));
-
-            int total_music = pd.getInt("total_music");
-            int total_play_music = pd.getInt("total_play_music");
-            int all = sd.getInt("all");
-            int clear = sd.getInt("clear");
-            int average_score = pd.getInt("average_score");
-            int nomiss = sd.getInt("nomiss");
-            int fullchain = sd.getInt("fullchain");
-            int s = sd.getInt("s");
-            int ss = sd.getInt("ss");
-            int sss = sd.getInt("sss");
-
-
-            music_play_music.setText(String.valueOf(total_play_music) + "/" + String.valueOf(total_music));
-            music_play_music_per.setText(String.format("%.2f%%", calcPercentage(total_play_music, total_music)));
-
-            music_clear_stage.setText(String.valueOf(clear) + "/" + String.valueOf(all));
-            music_clear_stage_per.setText(String.format(("%.2f%%"), calcPercentage(clear, all)));
-
-            music_average_score.setText(String.valueOf(average_score));
-            music_average_score_per.setText(String.format("%.2f%%", calcPercentage(average_score, 100000)));
-
-            music_no_miss.setText(String.valueOf(nomiss));
-            music_no_miss_per.setText(String.format("%.2f%%", calcPercentage(nomiss, all)));
-
-            music_full_chain.setText(String.valueOf(fullchain));
-            music_full_chain_per.setText(String.format("%.2f%%", calcPercentage(fullchain, all)));
-
-            music_s.setText(String.valueOf(s));
-            music_s_per.setText(String.format("%.2f%%", calcPercentage(s, all)));
-
-            music_ss.setText(String.valueOf(ss));
-            music_ss_per.setText(String.format("%.2f%%", calcPercentage(ss, all)));
-
-            music_sss.setText(String.valueOf(sss));
-            music_sss_per.setText(String.format("%.2f%%", calcPercentage(sss, all)));
-
-        } catch (JSONException e) {
-            // データが異常の場合だが、SPからの取得の時点で補足するのでなにもしない
-            e.printStackTrace();
-        }
+        binding.setPlayerData(data);
     }
 
-    private double calcPercentage(int p1, int p2) {
-        return (double) p1 / p2 * 100;
+    @Override
+    public void onDestroy() {
+        realm.close();
+        super.onDestroy();
     }
-
 }
