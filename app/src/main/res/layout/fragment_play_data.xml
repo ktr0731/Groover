@@ -1,11 +1,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
+
+        <import type="com.syfm.groover.model.utility.Utils" />
+
         <variable
             name="fragment"
             type="com.syfm.groover.view.fragments.PlayDataFragment" />
-        <variable
-            name="util"
-            type="com.syfm.groover.model.utility.Utils" />
+
         <variable
             name="playerData"
             type="com.syfm.groover.model.databases.PlayerData" />
@@ -51,8 +53,8 @@
                                 android:id="@+id/tv_player_data_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/black"
                                 android:text="@{playerData.name}"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/card_view_title_size" />
 
                             <TextView
@@ -60,8 +62,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="end"
-                                android:textColor="@color/black"
                                 android:text='@{"Lv." + playerData.level}'
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/card_view_title_size" />
 
                         </LinearLayout>
@@ -71,8 +73,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingBottom="@dimen/card_view_padding_other"
-                            android:textColor="@color/dark_glay"
                             android:text='@{playerData.avatar + "/" + playerData.title}'
+                            android:textColor="@color/dark_glay"
                             android:textSize="@dimen/medium_size" />
 
                         <LinearLayout
@@ -243,6 +245,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:gravity="end"
+                                        android:text='@{String.format("%.2f%%", Utils.calcPercentage(playerData.totalPlayMusic, playerData.totalMusic))}'
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
 
@@ -276,6 +279,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:gravity="end"
+                                        android:text='@{String.format("%.2f%%", Utils.calcPercentage(playerData.clear, playerData.all))}'
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
 
@@ -309,6 +313,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:gravity="end"
+                                        android:text='@{String.format("%.2f%%", Utils.calcPercentage(Integer.parseInt(playerData.averageScore), 1000000))}'
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
 
@@ -331,8 +336,8 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:gravity="end"
-                                        android:text="@{String.valueOf(playerData.noMiss)}"
                                         android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@{String.valueOf(playerData.noMiss)}"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
 
@@ -342,6 +347,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:gravity="end"
+                                        android:text='@{String.format("%.2f%%", Utils.calcPercentage(playerData.noMiss, playerData.all))}'
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
 
@@ -375,6 +381,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:gravity="end"
+                                        android:text='@{String.format("%.2f%%", Utils.calcPercentage(playerData.fullChain, playerData.all))}'
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
 
@@ -408,6 +415,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:gravity="end"
+                                        android:text='@{String.format("%.2f%%", Utils.calcPercentage(playerData.s, playerData.all))}'
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
 
@@ -441,6 +449,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:gravity="end"
+                                        android:text='@{String.format("%.2f%%", Utils.calcPercentage(playerData.ss, playerData.all))}'
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
 
@@ -474,6 +483,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:gravity="end"
+                                        android:text='@{String.format("%.2f%%", Utils.calcPercentage(playerData.sss, playerData.all))}'
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
 

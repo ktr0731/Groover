@@ -41,7 +41,7 @@ public class PlayDataFragment extends Fragment {
         realm = Realm.getDefaultInstance();
         PlayerData data = realm.where(PlayerData.class).findFirst();
         if (data == null) {
-            Log.d("ktr", "event data is null");
+            Log.d("ktr", "PlayerData is null");
             return;
         }
 

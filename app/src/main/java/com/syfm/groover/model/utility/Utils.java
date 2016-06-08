@@ -17,7 +17,7 @@ public class Utils {
         }
     }
 
-    private static double calcPercentage(int p1, int p2) {
+    public static double calcPercentage(int p1, int p2) {
         return (double) p1 / p2 * 100;
     }
 
