@@ -1,4 +1,4 @@
-package com.syfm.groover.model.storage.databases;
+package com.syfm.groover.model.databases;
 
 import org.json.JSONException;
 import org.json.JSONObject;

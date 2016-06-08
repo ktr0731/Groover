@@ -13,11 +13,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.syfm.groover.R;
-import com.syfm.groover.model.AppController;
-import com.syfm.groover.model.storage.Constants.Const;
-import com.syfm.groover.model.storage.Constants.SPConst;
-import com.syfm.groover.model.storage.SharedPreferenceHelper;
-import com.syfm.groover.model.storage.databases.MusicData;
+import com.syfm.groover.controller.entities.AppController;
+import com.syfm.groover.model.Constants.Const;
+import com.syfm.groover.model.Constants.SPConst;
+import com.syfm.groover.model.databases.SharedPreferenceHelper;
+import com.syfm.groover.model.databases.MusicData;
 
 import java.util.ArrayList;
 import java.util.Map;

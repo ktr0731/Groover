@@ -9,8 +9,8 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.syfm.groover.R;
-import com.syfm.groover.model.AppController;
-import com.syfm.groover.model.storage.databases.ScoreRankData;
+import com.syfm.groover.controller.entities.AppController;
+import com.syfm.groover.model.databases.ScoreRankData;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

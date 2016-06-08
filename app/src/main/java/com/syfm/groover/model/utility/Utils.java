@@ -2,7 +2,7 @@ package com.syfm.groover.model.utility;
 
 import android.util.Log;
 
-import com.syfm.groover.model.storage.Constants.Const;
+import com.syfm.groover.model.Constants.Const;
 
 /**
  * Created by lycoris on 2016/01/17.

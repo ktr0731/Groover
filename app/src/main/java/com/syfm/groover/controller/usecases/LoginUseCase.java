@@ -2,9 +2,9 @@ package com.syfm.groover.controller.usecases;
 
 import android.util.Log;
 
-import com.syfm.groover.model.AppController;
+import com.syfm.groover.controller.entities.AppController;
 import com.syfm.groover.model.api.LoginApi;
-import com.syfm.groover.model.storage.SharedPreferenceHelper;
+import com.syfm.groover.model.databases.SharedPreferenceHelper;
 
 import org.jdeferred.android.AndroidDeferredManager;
 

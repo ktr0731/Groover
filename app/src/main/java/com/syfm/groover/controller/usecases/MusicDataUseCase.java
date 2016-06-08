@@ -1,8 +1,8 @@
 package com.syfm.groover.controller.usecases;
 
-import com.syfm.groover.model.AppController;
+import com.syfm.groover.controller.entities.AppController;
 import com.syfm.groover.model.api.ApiClient;
-import com.syfm.groover.model.storage.databases.Music;
+import com.syfm.groover.model.databases.Music;
 import com.syfm.groover.model.utility.MusicFormatter;
 import com.syfm.groover.model.utility.Utils;
 

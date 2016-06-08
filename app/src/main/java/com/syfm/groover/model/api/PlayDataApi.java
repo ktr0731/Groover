@@ -2,7 +2,7 @@ package com.syfm.groover.model.api;
 
 import android.util.Log;
 
-import com.syfm.groover.model.AppController;
+import com.syfm.groover.controller.entities.AppController;
 
 import org.json.JSONException;
 import org.json.JSONObject;

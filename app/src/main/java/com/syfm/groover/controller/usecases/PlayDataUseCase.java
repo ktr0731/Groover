@@ -3,7 +3,7 @@ package com.syfm.groover.controller.usecases;
 import android.util.Log;
 
 import com.syfm.groover.model.api.ApiClient;
-import com.syfm.groover.model.storage.SharedPreferenceHelper;
+import com.syfm.groover.model.databases.SharedPreferenceHelper;
 
 import org.jdeferred.android.AndroidDeferredManager;
 import org.json.JSONException;

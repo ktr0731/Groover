@@ -1,8 +1,6 @@
 package com.syfm.groover.view.fragments;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -12,14 +10,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.syfm.groover.R;
-import com.syfm.groover.model.AppController;
-import com.syfm.groover.model.storage.Constants.Const;
-import com.syfm.groover.model.storage.databases.Music;
-import com.syfm.groover.model.storage.databases.MusicData;
-import com.syfm.groover.model.storage.databases.ResultData;
-import com.syfm.groover.model.storage.databases.UserRank;
-
-import java.util.List;
+import com.syfm.groover.controller.entities.AppController;
+import com.syfm.groover.model.Constants.Const;
+import com.syfm.groover.model.databases.Music;
+import com.syfm.groover.model.databases.ResultData;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

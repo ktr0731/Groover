@@ -11,9 +11,9 @@ import android.widget.ListView;
 
 import com.syfm.groover.R;
 import com.syfm.groover.controller.usecases.MusicDataUseCase;
-import com.syfm.groover.model.storage.Constants.Const;
-import com.syfm.groover.model.storage.databases.MusicData;
-import com.syfm.groover.model.storage.databases.ScoreRankData;
+import com.syfm.groover.model.Constants.Const;
+import com.syfm.groover.model.databases.MusicData;
+import com.syfm.groover.model.databases.ScoreRankData;
 import com.syfm.groover.view.adapter.MusicScoreRankingAdapter;
 
 import butterknife.Bind;

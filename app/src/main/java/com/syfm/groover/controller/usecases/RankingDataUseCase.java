@@ -4,9 +4,9 @@ import android.util.Log;
 
 import com.syfm.groover.controller.entities.event.EventNameEntity;
 import com.syfm.groover.model.api.ApiClient;
-import com.syfm.groover.model.storage.Constants.Const;
-import com.syfm.groover.model.storage.Constants.PlayerDataConst;
-import com.syfm.groover.model.storage.SharedPreferenceHelper;
+import com.syfm.groover.model.Constants.Const;
+import com.syfm.groover.model.Constants.PlayerDataConst;
+import com.syfm.groover.model.databases.SharedPreferenceHelper;
 import com.syfm.groover.controller.entities.ranking.RankingDataEntity;
 
 import org.jdeferred.android.AndroidDeferredManager;

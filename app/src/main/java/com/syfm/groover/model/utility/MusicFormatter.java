@@ -1,7 +1,7 @@
 package com.syfm.groover.model.utility;
 
-import com.syfm.groover.model.storage.databases.Music;
-import com.syfm.groover.model.storage.databases.ResultData;
+import com.syfm.groover.model.databases.Music;
+import com.syfm.groover.model.databases.ResultData;
 
 import org.json.JSONArray;
 import org.json.JSONException;

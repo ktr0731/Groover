@@ -1,11 +1,11 @@
-package com.syfm.groover.model.storage;
+package com.syfm.groover.model.databases;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
 
-import com.syfm.groover.model.storage.Constants.SPConst;
+import com.syfm.groover.model.Constants.SPConst;
 
 import org.json.JSONException;
 import org.json.JSONObject;

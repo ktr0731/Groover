@@ -13,10 +13,10 @@ import android.widget.Toast;
 
 import com.syfm.groover.R;
 import com.syfm.groover.controller.usecases.MusicDataUseCase;
-import com.syfm.groover.model.storage.Constants.Const;
-import com.syfm.groover.model.storage.Constants.SPConst;
-import com.syfm.groover.model.storage.SharedPreferenceHelper;
-import com.syfm.groover.model.storage.databases.MusicData;
+import com.syfm.groover.model.Constants.Const;
+import com.syfm.groover.model.Constants.SPConst;
+import com.syfm.groover.model.databases.SharedPreferenceHelper;
+import com.syfm.groover.model.databases.MusicData;
 import com.syfm.groover.view.activities.MusicDetailActivity;
 import com.syfm.groover.view.adapter.MusicListAdapter;
 

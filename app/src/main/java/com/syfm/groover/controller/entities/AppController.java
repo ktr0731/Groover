@@ -1,4 +1,4 @@
-package com.syfm.groover.model;
+package com.syfm.groover.controller.entities;
 
 import android.app.Application;
 import android.content.Context;

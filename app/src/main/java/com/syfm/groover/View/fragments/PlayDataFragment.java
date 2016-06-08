@@ -1,6 +1,7 @@
 package com.syfm.groover.view.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,12 +11,11 @@ import android.widget.TextView;
 
 import com.syfm.groover.R;
 import com.syfm.groover.controller.usecases.PlayDataUseCase;
+import com.syfm.groover.databinding.FragmentPlayDataBinding;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -23,73 +23,17 @@ import de.greenrobot.event.EventBus;
  */
 public class PlayDataFragment extends Fragment {
 
-    @Bind(R.id.tv_player_data_name)
-    TextView player_name;
-    @Bind(R.id.tv_player_data_level)
-    TextView player_level;
-    @Bind(R.id.tv_player_data_avatar_title)
-    TextView player_avatar_title;
-    @Bind(R.id.tv_player_data_total_score)
-    TextView player_total_score;
-    @Bind(R.id.tv_player_data_rank)
-    TextView player_rank;
-    @Bind(R.id.tv_player_data_coin)
-    TextView player_coin;
-    @Bind(R.id.tv_player_data_trophy)
-    TextView player_trophy;
-
-    @Bind(R.id.tv_music_result_play_music)
-    TextView music_play_music;
-    @Bind(R.id.tv_music_result_play_music_per)
-    TextView music_play_music_per;
-    @Bind(R.id.tv_music_result_clear_stage)
-    TextView music_clear_stage;
-    @Bind(R.id.tv_music_result_clear_stage_per)
-    TextView music_clear_stage_per;
-    @Bind(R.id.tv_music_result_average_score)
-    TextView music_average_score;
-    @Bind(R.id.tv_music_result_average_score_per)
-    TextView music_average_score_per;
-    @Bind(R.id.tv_music_result_no_miss)
-    TextView music_no_miss;
-    @Bind(R.id.tv_music_result_no_miss_per)
-    TextView music_no_miss_per;
-    @Bind(R.id.tv_music_result_full_chain)
-    TextView music_full_chain;
-    @Bind(R.id.tv_music_result_full_chain_per)
-    TextView music_full_chain_per;
-    @Bind(R.id.tv_music_result_s)
-    TextView music_s;
-    @Bind(R.id.tv_music_result_s_per)
-    TextView music_s_per;
-    @Bind(R.id.tv_music_result_ss)
-    TextView music_ss;
-    @Bind(R.id.tv_music_result_ss_per)
-    TextView music_ss_per;
-    @Bind(R.id.tv_music_result_sss)
-    TextView music_sss;
-    @Bind(R.id.tv_music_result_sss_per)
-    TextView music_sss_per;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
+    private FragmentPlayDataBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup group, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_play_data, group, false);
-        ButterKnife.bind(this, view);
-
-        return view;
+        return inflater.inflate(R.layout.fragment_play_data, group, false);
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-
-        ButterKnife.unbind(this);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        binding = FragmentPlayDataBinding.bind(getView());
     }
 
     @Override

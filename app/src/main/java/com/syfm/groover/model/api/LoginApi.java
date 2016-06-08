@@ -1,6 +1,6 @@
 package com.syfm.groover.model.api;
 
-import com.syfm.groover.model.AppController;
+import com.syfm.groover.controller.entities.AppController;
 
 import java.io.IOException;
 import java.util.HashMap;

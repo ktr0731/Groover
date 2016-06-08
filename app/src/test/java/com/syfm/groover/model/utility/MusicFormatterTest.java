@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.syfm.CustomRobolectricGradleTestRunner;
 import com.syfm.groover.BuildConfig;
-import com.syfm.groover.model.storage.databases.Music;
+import com.syfm.groover.model.databases.Music;
 
 import org.json.JSONObject;
 import org.junit.Before;

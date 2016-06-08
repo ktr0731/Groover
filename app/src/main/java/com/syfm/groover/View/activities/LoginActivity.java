@@ -3,11 +3,9 @@ package com.syfm.groover.view.activities;
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.syfm.groover.R;

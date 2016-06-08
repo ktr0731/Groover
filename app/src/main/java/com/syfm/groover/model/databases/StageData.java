@@ -1,4 +1,4 @@
-package com.syfm.groover.model.storage.databases;
+package com.syfm.groover.model.databases;
 
 import io.realm.RealmObject;
 import io.realm.annotations.RealmClass;
