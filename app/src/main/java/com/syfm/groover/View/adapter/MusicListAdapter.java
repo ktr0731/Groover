@@ -1,6 +1,10 @@
 package com.syfm.groover.view.adapter;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
@@ -12,9 +16,12 @@ import android.widget.TextView;
 
 import com.syfm.groover.R;
 import com.syfm.groover.controller.entities.AppController;
+import com.syfm.groover.databinding.FragmentMusicListBinding;
+import com.syfm.groover.databinding.RowMusicListBinding;
 import com.syfm.groover.model.constants.Const;
 import com.syfm.groover.model.constants.SPConst;
 import com.syfm.groover.model.databases.Music;
+import com.syfm.groover.model.databases.ResultData;
 import com.syfm.groover.model.databases.SharedPreferenceHelper;
 
 import java.util.ArrayList;
@@ -32,6 +39,7 @@ import io.realm.Sort;
  */
 public class MusicListAdapter extends RealmBaseAdapter<Music> implements ListAdapter {
     private Realm realm;
+    private RowMusicListBinding binding;
 
     public MusicListAdapter(Context context, int resource, RealmResults<Music> realmResults, Boolean autoUpdate) {
         super(context, realmResults, autoUpdate);
@@ -40,17 +48,15 @@ public class MusicListAdapter extends RealmBaseAdapter<Music> implements ListAda
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
-        final String url = "https://mypage.groovecoaster.jp/sp/music/music_image.php?music_id=";
-        ViewHolder holder;
 
         if (view != null) {
-            holder = (ViewHolder) view.getTag();
-            //使いまわすとデータが残ってしまうものがあるので毎回消す。
-            clearSetData(holder);
+            binding = (RowMusicListBinding) view.getTag();
+            // 使いまわすとデータが残ってしまうものがあるので毎回消す。
+            clearSetData(binding);
         } else {
-            view = inflater.inflate(R.layout.row_music_list, parent, false);
-            holder = new ViewHolder(view);
-            view.setTag(holder);
+            binding = DataBindingUtil.inflate(inflater, R.layout.row_music_list, parent, false);
+            view = binding.getRoot();
+            view.setTag(binding);
         }
 
         /*
@@ -62,102 +68,89 @@ public class MusicListAdapter extends RealmBaseAdapter<Music> implements ListAda
          *
          */
 
+        Music row = getItem(position);
 
-//        MusicData row = realmResults.get(position);
-//
-//        holder.tv_title.setText(row.getMusic_title());
-//        holder.tv_simple_rate.setText(row.getResult_data().get(0).getRating());
-//        holder.tv_simple_score.setText(String.valueOf(row.getResult_data().get(0).getScore()));
-//        holder.tv_normal_rate.setText(row.getResult_data().get(1).getRating());
-//        holder.tv_normal_score.setText(String.valueOf(row.getResult_data().get(1).getScore()));
-//        holder.tv_hard_rate.setText(row.getResult_data().get(2).getRating());
-//        holder.tv_hard_score.setText(String.valueOf(row.getResult_data().get(2).getScore()));
-//
-//        //Extraを表示させるか
-//        if (row.getEx_flag() == 1) {
-//            holder.ll_extra.setVisibility(View.VISIBLE);
-//            holder.tv_extra_rate.setText(row.getResult_data().get(3).getRating());
-//            holder.tv_extra_score.setText(String.valueOf(row.getResult_data().get(3).getScore()));
-//        }
+        Log.d("ktr", "title: " + row.getTitle());
 
-//        //FullChainを表示させるか (fullchainはFullChainした回数)
-//        if (row.getResult_data().get(0).getFull_chain() > 0) {
-//            holder.tv_simple_score.setBackgroundResource(R.drawable.full_chain_border);
-//        } else if (row.getResult_data().get(0).getNo_miss() > 0) {
-//            holder.tv_simple_score.setBackgroundResource(R.drawable.no_miss_border);
-//        }
-//        if (row.getResult_data().get(1).getFull_chain() > 0) {
-//            holder.tv_normal_score.setBackgroundResource(R.drawable.full_chain_border);
-//        } else if (row.getResult_data().get(1).getNo_miss() > 0) {
-//            holder.tv_normal_score.setBackgroundResource(R.drawable.no_miss_border);
-//        }
-//        if (row.getResult_data().get(2).getFull_chain() > 0) {
-//            holder.tv_hard_score.setBackgroundResource(R.drawable.full_chain_border);
-//        } else if (row.getResult_data().get(2).getNo_miss() > 0) {
-//            holder.tv_hard_score.setBackgroundResource(R.drawable.no_miss_border);
-//        }
-//        if (row.getResult_data().get(3).getFull_chain() > 0 && row.getEx_flag() == 1) {
-//            holder.tv_extra_score.setBackgroundResource(R.drawable.full_chain_border);
-//        } else if (row.getResult_data().get(3).getNo_miss() > 0 && row.getEx_flag() == 1) {
-//            holder.tv_extra_score.setBackgroundResource(R.drawable.no_miss_border);
-//        }
+        // コンストラクタでセットしたmusicsの実体がrealmResults
+        binding.setMusic(row);
+        binding.setSimple(row.getSimpleResult());
+        binding.setNormal(row.getNormalResult());
+        binding.setHard(row.getHardResult());
+        binding.setExtra(row.getExtraResult());
+
+        // FullChainを表示させるか (fullchainはFullChainした回数)
+        // XMLだと見づらいのでこちらでチェックする
+        // TODO: もう少し綺麗にしたい
+        if (row.getSimpleResult() != null) {
+            if (row.getSimpleResult().getPerfect() > 0) {
+                // TODO: Perfect用の色を用意する
+                binding.musicRowSimpleScore.setBackgroundResource(R.drawable.full_chain_border);
+            } else if (row.getSimpleResult().getFullChain() > 0) {
+                binding.musicRowSimpleScore.setBackgroundResource(R.drawable.full_chain_border);
+            } else if (row.getSimpleResult().getNoMiss() > 0) {
+                binding.musicRowSimpleScore.setBackgroundResource(R.drawable.no_miss_border);
+            }
+        }
+
+        if (row.getNormalResult() != null) {
+            if (row.getNormalResult().getPerfect() > 0) {
+                binding.musicRowNormalScore.setBackgroundResource(R.drawable.full_chain_border);
+            } else if (row.getNormalResult().getFullChain() > 0) {
+                binding.musicRowNormalScore.setBackgroundResource(R.drawable.full_chain_border);
+            } else if (row.getNormalResult().getNoMiss() > 0) {
+                binding.musicRowNormalScore.setBackgroundResource(R.drawable.no_miss_border);
+            }
+        }
+
+        if (row.getHardResult() != null) {
+            if (row.getHardResult().getPerfect() > 0) {
+                binding.musicRowHardScore.setBackgroundResource(R.drawable.full_chain_border);
+            } else if (row.getHardResult().getFullChain() > 0) {
+                binding.musicRowHardScore.setBackgroundResource(R.drawable.full_chain_border);
+            } else if (row.getHardResult().getNoMiss() > 0) {
+                binding.musicRowHardScore.setBackgroundResource(R.drawable.no_miss_border);
+            }
+        }
+
+        if (row.getExtraResult() != null) {
+            if (row.getExtraResult().getPerfect() > 0 && row.isExFlag()) {
+                binding.musicRowExtraScore.setBackgroundResource(R.drawable.full_chain_border);
+            } else if (row.getExtraResult().getFullChain() > 0 && row.isExFlag()) {
+                binding.musicRowExtraScore.setBackgroundResource(R.drawable.full_chain_border);
+            } else if (row.getExtraResult().getNoMiss() > 0 && row.isExFlag()) {
+                binding.musicRowExtraScore.setBackgroundResource(R.drawable.no_miss_border);
+            }
+        }
 
 
-        //いっぱい読込すると落ちるかもしれない
-//        Bitmap bmp = BitmapFactory.decodeByteArray(row.getMusic_thumbnail(), 0, row.getMusic_thumbnail().length);
-//        holder.iv_thumb.setImageBitmap(bmp);
+        // いっぱい読込すると落ちるかもしれない
+        // BitmapはXMLで指定できないのでここで行う
+        Log.d("ktr", "length: " + row.getThumbnail().length);
+        Bitmap bmp = BitmapFactory.decodeByteArray(
+                row.getThumbnail(),
+                0,
+                row.getThumbnail().length);
+        binding.musicRowThumb.setImageBitmap(bmp);
 
         return view;
     }
 
-    public static class ViewHolder {
-
-        @Bind(R.id.music_row_thumb)
-        ImageView iv_thumb;
-        @Bind(R.id.music_row_title)
-        TextView tv_title;
-        @Bind(R.id.music_row_simple_rate)
-        TextView tv_simple_rate;
-        @Bind(R.id.music_row_simple_score)
-        TextView tv_simple_score;
-        @Bind(R.id.music_row_normal_rate)
-        TextView tv_normal_rate;
-        @Bind(R.id.music_row_normal_score)
-        TextView tv_normal_score;
-        @Bind(R.id.music_row_hard_rate)
-        TextView tv_hard_rate;
-        @Bind(R.id.music_row_hard_score)
-        TextView tv_hard_score;
-        @Bind(R.id.music_row_extra_rate)
-        TextView tv_extra_rate;
-        @Bind(R.id.music_row_extra_score)
-        TextView tv_extra_score;
-        @Bind(R.id.ll_extra)
-        LinearLayout ll_extra;
-
-        @Bind(R.id.image_progress_bar)
-        ProgressBar image_progress_bar;
-
-        public ViewHolder(View view) {
-            ButterKnife.bind(this, view);
-        }
-    }
-
-    private void clearSetData(ViewHolder holder) {
-        holder.tv_simple_rate.setText("-");
-        holder.tv_simple_score.setText("0");
-        holder.tv_simple_score.setBackgroundResource(0);
-        holder.tv_normal_rate.setText("-");
-        holder.tv_normal_score.setText("0");
-        holder.tv_normal_score.setBackgroundResource(0);
-        holder.tv_hard_rate.setText("-");
-        holder.tv_hard_score.setText("0");
-        holder.tv_hard_score.setBackgroundResource(0);
-        holder.tv_extra_rate.setText("-");
-        holder.tv_extra_score.setText("0");
-        holder.tv_extra_score.setBackgroundResource(0);
-        holder.ll_extra.setVisibility(View.GONE);
-        holder.iv_thumb.setImageBitmap(null);
+    private void clearSetData(RowMusicListBinding binding) {
+        binding.musicRowSimpleRate.setText("-");
+        binding.musicRowSimpleScore.setText("0");
+        binding.musicRowSimpleScore.setBackgroundResource(0);
+        binding.musicRowNormalRate.setText("-");
+        binding.musicRowNormalScore.setText("0");
+        binding.musicRowNormalScore.setBackgroundResource(0);
+        binding.musicRowHardRate.setText("-");
+        binding.musicRowHardScore.setText("0");
+        binding.musicRowHardScore.setBackgroundResource(0);
+        binding.musicRowExtraRate.setText("-");
+        binding.musicRowExtraScore.setText("0");
+        binding.musicRowExtraScore.setBackgroundResource(0);
+        binding.llExtra.setVisibility(View.GONE);
+        binding.musicRowThumb.setImageBitmap(null);
     }
 
     // 検索用にオーバーライド
@@ -239,7 +232,4 @@ public class MusicListAdapter extends RealmBaseAdapter<Music> implements ListAda
         notifyDataSetChanged();
     }
 
-//    public RealmResults<MusicData> getRealmResults() {
-//        return realmResults;
-//    }
 }

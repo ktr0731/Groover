@@ -98,13 +98,6 @@ public class MusicDataUseCase {
         });
     }
 
-    public void getMusicData() {
-        Realm realm = Realm.getInstance(AppController.getInstance());
-        RealmResults<Music> music = realm.where(Music.class).findAll();
-        realm.close();
-        EventBus.getDefault().post(new MusicDataEvent(music));
-    }
-
     public void getScoreRanking(String id, String ex_flag) {
         // TODO: ここでデータが有るかを判定
         // TODO: 例外の修正

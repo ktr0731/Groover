@@ -68,13 +68,4 @@ public class PlayDataUseCase {
             EventBus.getDefault().post(new SetPlayData(false, e.getMessage()));
         });
     }
-
-    public void initialize() {
-        Realm realm = Realm.getInstance(AppController.getInstance());
-
-        PlayerData playerData = realm.where(PlayerData.class).findFirst();
-        realm.close();
-
-        EventBus.getDefault().post(playerData);
-    }
 }

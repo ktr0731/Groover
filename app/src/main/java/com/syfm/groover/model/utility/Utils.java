@@ -21,4 +21,5 @@ public class Utils {
         return (double) p1 / p2 * 100;
     }
 
+    // TODO: String.formatもUtilsに含めるべき?
 }

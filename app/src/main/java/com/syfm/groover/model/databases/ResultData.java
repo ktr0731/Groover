@@ -39,7 +39,7 @@ public class ResultData extends RealmObject {
         this.maxChain = json.getInt("max_chain");
         this.adlib = json.getInt("adlib");
         this.lastDate = json.getString("lastDate");
-        this.rating = json.getString("rank");
+        this.rank = json.getInt("rank");
     }
 
     public String getRating() {

@@ -1,195 +1,234 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:orientation="horizontal">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
 
-    <ImageView
-        android:id="@+id/music_row_thumb"
-        android:layout_height="110dp"
-        android:layout_width="110dp" />
+        <import type="android.view.View" />
 
-    <ProgressBar
-        android:id="@+id/image_progress_bar"
-        android:layout_width="0dp"
-        android:layout_height="0dp" />
+        <variable
+            name="simple"
+            type="com.syfm.groover.model.databases.ResultData" />
+
+        <variable
+            name="normal"
+            type="com.syfm.groover.model.databases.ResultData" />
+
+        <variable
+            name="hard"
+            type="com.syfm.groover.model.databases.ResultData" />
+
+        <variable
+            name="extra"
+            type="com.syfm.groover.model.databases.ResultData" />
+
+        <variable
+            name="music"
+            type="com.syfm.groover.model.databases.Music" />
+
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_vertical"
-        android:paddingTop="@dimen/list_padding_top"
-        android:paddingBottom="@dimen/list_padding_bottom"
-        android:paddingLeft="@dimen/list_padding_left"
-        android:paddingRight="@dimen/list_padding_right">
+        android:background="@color/white"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/music_row_title"
-            android:textColor="@color/black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/list_padding_bottom"
-            android:singleLine="true"
-            android:textSize="@dimen/medium_size" />
+        <ImageView
+            android:id="@+id/music_row_thumb"
+            android:layout_width="110dp"
+            android:layout_height="110dp" />
+
+        <ProgressBar
+            android:id="@+id/image_progress_bar"
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/list_padding_bottom"
+            android:paddingLeft="@dimen/list_padding_left"
+            android:paddingRight="@dimen/list_padding_right"
+            android:paddingTop="@dimen/list_padding_top">
+
+            <TextView
+                android:id="@+id/music_row_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/list_padding_bottom"
+                android:maxLines="1"
+                android:text="@{music.title}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/medium_size" />
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="@dimen/small_size"
-                    android:textColor="@color/diff_simple"
-                    android:paddingBottom="@dimen/list_text_title_padding_bottom"
-                    android:text="SIMPLE" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/music_row_simple_rate"
-                    android:textColor="@color/black"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/list_text_padding_bottom"
-                    android:textSize="@dimen/small_size" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/list_text_title_padding_bottom"
+                        android:text="SIMPLE"
+                        android:textColor="@color/diff_simple"
+                        android:textSize="@dimen/small_size" />
 
-                <TextView
-                    android:id="@+id/music_row_simple_score"
-                    android:textColor="@color/black"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingTop="@dimen/list_text_padding_bottom"
-                    android:paddingBottom="@dimen/list_text_padding_bottom"
-                    android:textSize="@dimen/small_size"
-                    android:layout_marginLeft="@dimen/list_border_margin"
-                    android:layout_marginRight="@dimen/list_border_margin" />
+                    <TextView
+                        android:id="@+id/music_row_simple_rate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/list_text_padding_bottom"
+                        android:text='@{simple.rating ?? "-"}'
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/small_size" />
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/music_row_simple_score"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/list_border_margin"
+                        android:layout_marginRight="@dimen/list_border_margin"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/list_text_padding_bottom"
+                        android:paddingTop="@dimen/list_text_padding_bottom"
+                        android:text='@{simple.score != 0 ? String.valueOf(simple.score) : "0"}'
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/small_size" />
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/list_text_title_padding_bottom"
-                    android:textSize="@dimen/small_size"
-                    android:textColor="@color/diff_normal"
-                    android:text="NORMAL"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/music_row_normal_rate"
-                    android:textColor="@color/black"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/list_text_padding_bottom"
-                    android:textSize="@dimen/small_size" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/list_text_title_padding_bottom"
+                        android:text="NORMAL"
+                        android:textColor="@color/diff_normal"
+                        android:textSize="@dimen/small_size" />
 
-                <TextView
-                    android:id="@+id/music_row_normal_score"
-                    android:textColor="@color/black"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingTop="@dimen/list_text_padding_bottom"
-                    android:paddingBottom="@dimen/list_text_padding_bottom"
-                    android:textSize="@dimen/small_size"
-                    android:layout_marginLeft="@dimen/list_border_margin"
-                    android:layout_marginRight="@dimen/list_border_margin" />
+                    <TextView
+                        android:id="@+id/music_row_normal_rate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/list_text_padding_bottom"
+                        android:text='@{normal.rating ?? "-"}'
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/small_size" />
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/music_row_normal_score"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/list_border_margin"
+                        android:layout_marginRight="@dimen/list_border_margin"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/list_text_padding_bottom"
+                        android:paddingTop="@dimen/list_text_padding_bottom"
+                        android:text='@{normal.score != 0 ? String.valueOf(normal.score) : "0"}'
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/small_size" />
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/list_text_title_padding_bottom"
-                    android:textSize="@dimen/small_size"
-                    android:textColor="@color/diff_hard"
-                    android:text="HARD"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/music_row_hard_rate"
-                    android:textColor="@color/black"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/list_text_padding_bottom"
-                    android:textSize="@dimen/small_size" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/list_text_title_padding_bottom"
+                        android:text="HARD"
+                        android:textColor="@color/diff_hard"
+                        android:textSize="@dimen/small_size" />
 
-                <TextView
-                    android:id="@+id/music_row_hard_score"
-                    android:textColor="@color/black"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingTop="@dimen/list_text_padding_bottom"
-                    android:paddingBottom="@dimen/list_text_padding_bottom"
-                    android:textSize="@dimen/small_size"
-                    android:layout_marginLeft="@dimen/list_border_margin"
-                    android:layout_marginRight="@dimen/list_border_margin" />
+                    <TextView
+                        android:id="@+id/music_row_hard_rate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/list_text_padding_bottom"
+                        android:text='@{hard.rating ?? "-"}'
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/small_size" />
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/music_row_hard_score"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/list_border_margin"
+                        android:layout_marginRight="@dimen/list_border_margin"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/list_text_padding_bottom"
+                        android:paddingTop="@dimen/list_text_padding_bottom"
+                        android:text='@{hard.score != 0 ? String.valueOf(hard.score) : "0"}'
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/small_size" />
 
-            <LinearLayout
-                android:id="@+id/ll_extra"
-                android:visibility="gone"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/list_text_title_padding_bottom"
-                    android:textSize="@dimen/small_size"
-                    android:textColor="@color/diff_extra"
-                    android:text="EXTRA"/>
+                <LinearLayout
+                    android:id="@+id/ll_extra"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:visibility="@{music.exFlag ? View.VISIBLE : View.GONE}"
+                    >
 
-                <TextView
-                    android:id="@+id/music_row_extra_rate"
-                    android:textColor="@color/black"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/list_text_padding_bottom"
-                    android:textSize="@dimen/small_size" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/list_text_title_padding_bottom"
+                        android:text="EXTRA"
+                        android:textColor="@color/diff_extra"
+                        android:textSize="@dimen/small_size" />
 
-                <TextView
-                    android:id="@+id/music_row_extra_score"
-                    android:textColor="@color/black"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingTop="@dimen/list_text_padding_bottom"
-                    android:paddingBottom="@dimen/list_text_padding_bottom"
-                    android:textSize="@dimen/small_size"
-                    android:layout_marginLeft="@dimen/list_border_margin"
-                    android:layout_marginRight="@dimen/list_border_margin" />
+                    <TextView
+                        android:id="@+id/music_row_extra_rate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/list_text_padding_bottom"
+                        android:text='@{extra.rating ?? "-"}'
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/small_size" />
+
+                    <TextView
+                        android:id="@+id/music_row_extra_score"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/list_border_margin"
+                        android:layout_marginRight="@dimen/list_border_margin"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/list_text_padding_bottom"
+                        android:paddingTop="@dimen/list_text_padding_bottom"
+                        android:text='@{extra.score != 0 ? String.valueOf(extra.score) : "0"}'
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/small_size" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -197,4 +236,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</layout>
