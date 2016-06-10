@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -195,18 +196,18 @@ public class ApiClientTest {
      */
 
     // lengthが異なってfailureになる
-//    @Test
-//    public void fetchMusicThumbnail_success() throws Exception {
-//        // Set up
-//        String url = "https://mypage.groovecoaster.jp/sp/music/music_image.php?music_id=0";
-//        byte[] bytes = getFileContent("music_image.jpeg");
-//
-//        // Exercise
-//        when(client.sendRequest(url)).thenReturn(new String(bytes));
-//
-//        // Verify
-//        assertArrayEquals(apiClient.fetchMusicThumbnail(0), bytes);
-//    }
+    @Test
+    public void fetchMusicThumbnail_success() throws Exception {
+        // Set up
+        String url = "https://mypage.groovecoaster.jp/sp/music/music_image.php?music_id=0";
+        byte[] bytes = getFileContent("music_image.jpeg");
+
+        // Exercise
+        when(client.sendRequestForByteArray(url)).thenReturn(bytes);
+
+        // Verify
+        assertArrayEquals(bytes, apiClient.fetchMusicThumbnail(0));
+    }
 
     @Test(expected = RuntimeException.class)
     public void fetchMusicThumbnail_failure_unauthorized() throws Exception {

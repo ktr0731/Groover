@@ -51,6 +51,7 @@ public class MusicListAdapter extends RealmBaseAdapter<Music> implements ListAda
 
         if (view != null) {
             binding = (RowMusicListBinding) view.getTag();
+
             // 使いまわすとデータが残ってしまうものがあるので毎回消す。
             clearSetData(binding);
         } else {
@@ -59,18 +60,7 @@ public class MusicListAdapter extends RealmBaseAdapter<Music> implements ListAda
             view.setTag(binding);
         }
 
-        /*
-         * get(n)
-         *   0: simple
-         *   1: normal
-         *   2: hard
-         *   3: extra(Extraのない曲もあるのでex_flagで確認すること)
-         *
-         */
-
         Music row = getItem(position);
-
-        Log.d("ktr", "title: " + row.getTitle());
 
         // コンストラクタでセットしたmusicsの実体がrealmResults
         binding.setMusic(row);
@@ -126,11 +116,11 @@ public class MusicListAdapter extends RealmBaseAdapter<Music> implements ListAda
 
         // いっぱい読込すると落ちるかもしれない
         // BitmapはXMLで指定できないのでここで行う
-        Log.d("ktr", "length: " + row.getThumbnail().length);
         Bitmap bmp = BitmapFactory.decodeByteArray(
                 row.getThumbnail(),
                 0,
-                row.getThumbnail().length);
+                row.getThumbnail().length
+        );
         binding.musicRowThumb.setImageBitmap(bmp);
 
         return view;

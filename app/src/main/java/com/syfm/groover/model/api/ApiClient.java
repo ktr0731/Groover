@@ -47,6 +47,27 @@ public class ApiClient {
 
             return json;
         }
+
+        @Override
+        public byte[] sendRequestForByteArray(String target_url) throws IOException {
+            Request request = new okhttp3.Request.Builder()
+                    .url(target_url)
+                    .get()
+                    .build();
+
+            Response response = AppController.getOkHttpClient().newCall(request).execute();
+            if (!response.isSuccessful()) {
+                Log.d("HttpRequest", "Bad Response");
+                return null;
+            }
+
+            ResponseBody body = response.body();
+
+            byte[] bytes = body.bytes();
+            body.close();
+
+            return bytes;
+        }
     };
 
     /**
@@ -137,9 +158,7 @@ public class ApiClient {
         String url = "https://mypage.groovecoaster.jp/sp/music/music_image.php?music_id=";
         url += music_id;
 
-        String string = client.sendRequest(url);
-
-        byte[] bytes = string.getBytes();
+        byte[] bytes = client.sendRequestForByteArray(url);
 
         if (bytes.length <= 0) {
             Log.d("ktr", "thumb error");
@@ -428,6 +447,7 @@ public class ApiClient {
      */
     public interface ClientInterface {
         String sendRequest(String target_url) throws IOException;
+        byte[] sendRequestForByteArray(String target_url) throws IOException;
     }
 
 }
