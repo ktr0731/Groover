@@ -174,7 +174,7 @@ public class MusicDetailFragment extends Fragment {
 //        tv_simple_rating.setText(simple.getRating());
 //
 //        if (simple.getScore() == 1000000) {
-//            tv_simple_mark.setBackgroundResource(R.drawable.excellect_border);
+//            tv_simple_mark.setBackgroundResource(R.drawable.perfect_border);
 //            tv_simple_mark.setText("EXCELLENT");
 //        } else if (simple.getFull_chain() > 0) {
 //            tv_simple_mark.setBackgroundResource(R.drawable.full_chain_border);
@@ -198,7 +198,7 @@ public class MusicDetailFragment extends Fragment {
 //        tv_normal_rating.setText(normal.getRating());
 //
 //        if (normal.getScore() == 1000000) {
-//            tv_normal_mark.setBackgroundResource(R.drawable.excellect_border);
+//            tv_normal_mark.setBackgroundResource(R.drawable.perfect_border);
 //            tv_normal_mark.setText("EXCELLENT");
 //        } else if (normal.getFull_chain() > 0) {
 //            tv_normal_mark.setBackgroundResource(R.drawable.full_chain_border);
@@ -222,7 +222,7 @@ public class MusicDetailFragment extends Fragment {
 //        tv_hard_rating.setText(hard.getRating());
 //
 //        if (hard.getScore() == 1000000) {
-//            tv_hard_mark.setBackgroundResource(R.drawable.excellect_border);
+//            tv_hard_mark.setBackgroundResource(R.drawable.perfect_border);
 //            tv_hard_mark.setText("EXCELLENT");
 //        } else if (hard.getFull_chain() > 0) {
 //            tv_hard_mark.setBackgroundResource(R.drawable.full_chain_border);
@@ -249,7 +249,7 @@ public class MusicDetailFragment extends Fragment {
 //            tv_extra_rating.setText(extra.getRating());
 //
 //            if (extra.getScore() == 1000000) {
-//                tv_extra_mark.setBackgroundResource(R.drawable.excellect_border);
+//                tv_extra_mark.setBackgroundResource(R.drawable.perfect_border);
 //                tv_extra_mark.setText("EXCELLENT");
 //            } else if (extra.getFull_chain() > 0) {
 //                tv_extra_mark.setBackgroundResource(R.drawable.full_chain_border);

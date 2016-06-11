@@ -1,5 +1,8 @@
 package com.syfm.groover.view.interfaces;
 
+import android.view.View;
+import android.widget.AdapterView;
+
 import com.syfm.groover.model.databases.Music;
 
 import io.realm.RealmResults;

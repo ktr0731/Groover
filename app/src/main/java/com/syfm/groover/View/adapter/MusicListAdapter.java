@@ -4,31 +4,22 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.syfm.groover.R;
 import com.syfm.groover.controller.entities.AppController;
-import com.syfm.groover.databinding.FragmentMusicListBinding;
 import com.syfm.groover.databinding.RowMusicListBinding;
 import com.syfm.groover.model.constants.Const;
 import com.syfm.groover.model.constants.SPConst;
 import com.syfm.groover.model.databases.Music;
-import com.syfm.groover.model.databases.ResultData;
 import com.syfm.groover.model.databases.SharedPreferenceHelper;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmBaseAdapter;
 import io.realm.RealmResults;
@@ -74,8 +65,7 @@ public class MusicListAdapter extends RealmBaseAdapter<Music> implements ListAda
         // TODO: もう少し綺麗にしたい
         if (row.getSimpleResult() != null) {
             if (row.getSimpleResult().getPerfect() > 0) {
-                // TODO: Perfect用の色を用意する
-                binding.musicRowSimpleScore.setBackgroundResource(R.drawable.full_chain_border);
+                binding.musicRowSimpleScore.setBackgroundResource(R.drawable.perfect_border);
             } else if (row.getSimpleResult().getFullChain() > 0) {
                 binding.musicRowSimpleScore.setBackgroundResource(R.drawable.full_chain_border);
             } else if (row.getSimpleResult().getNoMiss() > 0) {
@@ -85,7 +75,7 @@ public class MusicListAdapter extends RealmBaseAdapter<Music> implements ListAda
 
         if (row.getNormalResult() != null) {
             if (row.getNormalResult().getPerfect() > 0) {
-                binding.musicRowNormalScore.setBackgroundResource(R.drawable.full_chain_border);
+                binding.musicRowNormalScore.setBackgroundResource(R.drawable.perfect_border);
             } else if (row.getNormalResult().getFullChain() > 0) {
                 binding.musicRowNormalScore.setBackgroundResource(R.drawable.full_chain_border);
             } else if (row.getNormalResult().getNoMiss() > 0) {
@@ -95,7 +85,7 @@ public class MusicListAdapter extends RealmBaseAdapter<Music> implements ListAda
 
         if (row.getHardResult() != null) {
             if (row.getHardResult().getPerfect() > 0) {
-                binding.musicRowHardScore.setBackgroundResource(R.drawable.full_chain_border);
+                binding.musicRowHardScore.setBackgroundResource(R.drawable.perfect_border);
             } else if (row.getHardResult().getFullChain() > 0) {
                 binding.musicRowHardScore.setBackgroundResource(R.drawable.full_chain_border);
             } else if (row.getHardResult().getNoMiss() > 0) {
@@ -105,7 +95,7 @@ public class MusicListAdapter extends RealmBaseAdapter<Music> implements ListAda
 
         if (row.getExtraResult() != null) {
             if (row.getExtraResult().getPerfect() > 0 && row.isExFlag()) {
-                binding.musicRowExtraScore.setBackgroundResource(R.drawable.full_chain_border);
+                binding.musicRowExtraScore.setBackgroundResource(R.drawable.perfect_border);
             } else if (row.getExtraResult().getFullChain() > 0 && row.isExFlag()) {
                 binding.musicRowExtraScore.setBackgroundResource(R.drawable.full_chain_border);
             } else if (row.getExtraResult().getNoMiss() > 0 && row.isExFlag()) {
