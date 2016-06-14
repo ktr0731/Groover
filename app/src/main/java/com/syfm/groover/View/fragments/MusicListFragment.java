@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.syfm.groover.R;
 import com.syfm.groover.databinding.FragmentMusicListBinding;
@@ -23,7 +22,6 @@ import com.syfm.groover.view.interfaces.MusicListInterface;
 import java.util.ArrayList;
 import java.util.Map;
 
-import butterknife.OnItemClick;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -124,7 +122,7 @@ public class MusicListFragment extends Fragment implements MusicListInterface {
     @Override
     public void setListViewPosition() {
         Map<String, Integer> positions = SharedPreferenceHelper.getMusicListViewPosition();
-        if(!positions.isEmpty()) {
+        if (!positions.isEmpty()) {
             binding.listView.setSelectionFromTop(
                     positions.get(SPConst.MUSIC_LIST_LIST_VIEW_POSITION),
                     positions.get(SPConst.MUSIC_LIST_LIST_VIEW_Y)

@@ -1,909 +1,940 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ScrollView
+    <data>
+        <variable
+            name="music"
+            type="com.syfm.groover.model.databases.Music" />
+
+        <variable
+            name="simple"
+            type="com.syfm.groover.model.databases.ResultData" />
+
+        <variable
+            name="normal"
+            type="com.syfm.groover.model.databases.ResultData" />
+
+        <variable
+            name="hard"
+            type="com.syfm.groover.model.databases.ResultData" />
+
+        <variable
+            name="extra"
+            type="com.syfm.groover.model.databases.ResultData" />
+
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:orientation="vertical">
 
-                <com.syfm.groover.view.activities.RoundImageView
-                    android:id="@+id/tv_music_detail_thumbnail"
-                    android:layout_width="@dimen/music_detail_thumbnail_size"
-                    android:layout_height="@dimen/music_detail_thumbnail_size"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/music_detail_thumbnail_margin_top" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_music_detail_title"
+                    <com.syfm.groover.view.activities.RoundImageView
+                        android:id="@+id/tv_music_detail_thumbnail"
+                        android:layout_width="@dimen/music_detail_thumbnail_size"
+                        android:layout_height="@dimen/music_detail_thumbnail_size"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/music_detail_thumbnail_margin_top" />
+
+                    <TextView
+                        android:id="@+id/tv_music_detail_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/music_detail_margin_top"
+                        android:gravity="center"
+                        android:text="@{music.title}"
+                        android:textColor="@color/dialog_black"
+                        android:textSize="@dimen/music_detail_text_size" />
+
+                    <TextView
+                        android:id="@+id/tv_music_detail_artist"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/music_detail_artist_margin"
+                        android:layout_marginRight="@dimen/music_detail_artist_margin"
+                        android:layout_marginTop="@dimen/card_view_margin"
+                        android:gravity="right"
+                        android:text="@{music.artist}"
+                        android:textColor="@color/dialog_black"
+                        android:textSize="@dimen/small_size" />
+
+                </LinearLayout>
+
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/music_detail_margin_top"
-                    android:gravity="center"
-                    android:textColor="@color/dialog_black"
-                    android:textSize="@dimen/music_detail_text_size" />
+                    android:layout_margin="@dimen/card_view_margin">
 
-                <TextView
-                    android:id="@+id/tv_music_detail_artist"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingBottom="@dimen/card_view_padding_other"
+                        android:paddingLeft="@dimen/card_view_padding_other"
+                        android:paddingRight="@dimen/card_view_padding_other"
+                        android:paddingTop="@dimen/card_view_padding_top">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="@dimen/card_view_padding_other"
+                            android:text="@string/tv_music_detail_detail"
+                            android:textColor="@color/dialog_black"
+                            android:textSize="@dimen/card_view_title_size" />
+
+
+                        <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="@string/tv_music_detail_num_of_plays"
+                                    android:textColor="@color/dialog_black"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:id="@+id/tv_music_detail_num_of_plays"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="@{String.valueOf(simple.playCount + normal.playCount + hard.playCount + extra.playCount)}"
+                                    android:textColor="@color/dialog_black"
+                                    android:textSize="@dimen/medium_size" />
+
+                            </TableRow>
+
+                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="@string/tv_music_detail_last_played"
+                                    android:textColor="@color/dialog_black"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:id="@+id/tv_music_detail_last_played"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="@{music.lastPlayDate}"
+                                    android:textColor="@color/dialog_black"
+                                    android:textSize="@dimen/medium_size" />
+
+                            </TableRow>
+
+                            <TableRow>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="@string/tv_music_detail_skin"
+                                    android:textColor="@color/dialog_black"
+                                    android:textSize="@dimen/medium_size" />
+
+                                <TextView
+                                    android:id="@+id/tv_music_detail_skin"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:paddingRight="@dimen/card_view_table_padding"
+                                    android:text="@{music.skin}"
+                                    android:textColor="@color/dialog_black"
+                                    android:textSize="@dimen/medium_size" />
+
+                            </TableRow>
+
+                        </TableLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/music_detail_artist_margin"
-                    android:layout_marginRight="@dimen/music_detail_artist_margin"
+                    android:layout_marginLeft="@dimen/card_view_margin"
+                    android:layout_marginRight="@dimen/card_view_margin"
+                    android:layout_marginTop="@dimen/card_view_margin">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingBottom="@dimen/card_view_padding_other"
+                        android:paddingLeft="@dimen/card_view_padding_other"
+                        android:paddingRight="@dimen/card_view_padding_other"
+                        android:paddingTop="@dimen/card_view_padding_top">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingBottom="@dimen/card_view_text_bottom">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/tv_music_detail_title_simple"
+                                android:textColor="@color/diff_simple"
+                                android:textSize="@dimen/card_view_title_size" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:gravity="right">
+
+                                <TextView
+                                    android:id="@+id/tv_music_detail_simple_mark"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingBottom="@dimen/music_detail_mark_padding_side"
+                                    android:paddingLeft="@dimen/music_detail_mark_padding_other"
+                                    android:paddingRight="@dimen/music_detail_mark_padding_other"
+                                    android:paddingTop="@dimen/music_detail_mark_padding_side"
+                                    android:textColor="@color/dialog_black"
+                                    android:textSize="@dimen/medium_size" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TableLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_score"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_simple_score"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_rating"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_simple_rating"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_max_chain"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_simple_max_chain"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_num_of_plays"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_simple_num_of_plays"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_num_of_full_chain"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_simple_num_of_full_chain"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                                <TableRow>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_num_of_no_miss"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_simple_num_of_no_miss"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                            </TableLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/card_view_margin"
+                    android:layout_marginRight="@dimen/card_view_margin"
+                    android:layout_marginTop="@dimen/card_view_margin">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingBottom="@dimen/card_view_padding_other"
+                        android:paddingLeft="@dimen/card_view_padding_other"
+                        android:paddingRight="@dimen/card_view_padding_other"
+                        android:paddingTop="@dimen/card_view_padding_top">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingBottom="@dimen/card_view_text_bottom">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/tv_music_detail_title_normal"
+                                android:textColor="@color/diff_normal"
+                                android:textSize="@dimen/card_view_title_size" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:gravity="right">
+
+                                <TextView
+                                    android:id="@+id/tv_music_detail_normal_mark"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingBottom="@dimen/music_detail_mark_padding_side"
+                                    android:paddingLeft="@dimen/music_detail_mark_padding_other"
+                                    android:paddingRight="@dimen/music_detail_mark_padding_other"
+                                    android:paddingTop="@dimen/music_detail_mark_padding_side"
+                                    android:textColor="@color/dialog_black"
+                                    android:textSize="@dimen/medium_size" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TableLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_score"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_normal_score"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_rating"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_normal_rating"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_max_chain"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_normal_max_chain"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_num_of_plays"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_normal_num_of_plays"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_num_of_full_chain"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_normal_num_of_full_chain"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                                <TableRow>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_num_of_no_miss"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_normal_num_of_no_miss"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                            </TableLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/card_view_margin"
+                    android:layout_marginRight="@dimen/card_view_margin"
+                    android:layout_marginTop="@dimen/card_view_margin">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingBottom="@dimen/card_view_padding_other"
+                        android:paddingLeft="@dimen/card_view_padding_other"
+                        android:paddingRight="@dimen/card_view_padding_other"
+                        android:paddingTop="@dimen/card_view_padding_top">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingBottom="@dimen/card_view_text_bottom">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/tv_music_detail_title_hard"
+                                android:textColor="@color/diff_hard"
+                                android:textSize="@dimen/card_view_title_size" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:gravity="right">
+
+                                <TextView
+                                    android:id="@+id/tv_music_detail_hard_mark"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingBottom="@dimen/music_detail_mark_padding_side"
+                                    android:paddingLeft="@dimen/music_detail_mark_padding_other"
+                                    android:paddingRight="@dimen/music_detail_mark_padding_other"
+                                    android:paddingTop="@dimen/music_detail_mark_padding_side"
+                                    android:textColor="@color/dialog_black"
+                                    android:textSize="@dimen/medium_size" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TableLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_score"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_hard_score"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_rating"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_hard_rating"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_max_chain"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_hard_max_chain"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_num_of_plays"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_hard_num_of_plays"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_num_of_full_chain"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_hard_num_of_full_chain"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                                <TableRow>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_num_of_no_miss"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_hard_num_of_no_miss"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                            </TableLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_view_extra"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/card_view_margin"
+                    android:layout_marginLeft="@dimen/card_view_margin"
+                    android:layout_marginRight="@dimen/card_view_margin"
                     android:layout_marginTop="@dimen/card_view_margin"
-                    android:gravity="right"
-                    android:textColor="@color/dialog_black"
-                    android:textSize="@dimen/small_size" />
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingBottom="@dimen/card_view_padding_other"
+                        android:paddingLeft="@dimen/card_view_padding_other"
+                        android:paddingRight="@dimen/card_view_padding_other"
+                        android:paddingTop="@dimen/card_view_padding_top">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingBottom="@dimen/card_view_text_bottom">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/tv_music_detail_title_extra"
+                                android:textColor="@color/diff_extra"
+                                android:textSize="@dimen/card_view_title_size" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:gravity="right">
+
+                                <TextView
+                                    android:id="@+id/tv_music_detail_extra_mark"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingBottom="@dimen/music_detail_mark_padding_side"
+                                    android:paddingLeft="@dimen/music_detail_mark_padding_other"
+                                    android:paddingRight="@dimen/music_detail_mark_padding_other"
+                                    android:paddingTop="@dimen/music_detail_mark_padding_side"
+                                    android:textColor="@color/dialog_black"
+                                    android:textSize="@dimen/medium_size" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TableLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_score"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_extra_score"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_rating"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_extra_rating"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_max_chain"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_extra_max_chain"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_num_of_plays"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_extra_num_of_plays"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_num_of_full_chain"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_extra_num_of_full_chain"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_num_of_no_miss"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_extra_num_of_no_miss"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                            </TableLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
 
             </LinearLayout>
 
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/card_view_margin">
+        </ScrollView>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingBottom="@dimen/card_view_padding_other"
-                    android:paddingLeft="@dimen/card_view_padding_other"
-                    android:paddingRight="@dimen/card_view_padding_other"
-                    android:paddingTop="@dimen/card_view_padding_top">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="@dimen/card_view_padding_other"
-                        android:text="@string/tv_music_detail_detail"
-                        android:textColor="@color/dialog_black"
-                        android:textSize="@dimen/card_view_title_size" />
-
-
-                    <TableLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:paddingRight="@dimen/card_view_table_padding"
-                                android:text="@string/tv_music_detail_num_of_plays"
-                                android:textColor="@color/dialog_black"
-                                android:textSize="@dimen/medium_size" />
-
-                            <TextView
-                                android:id="@+id/tv_music_detail_num_of_plays"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="end"
-                                android:paddingRight="@dimen/card_view_table_padding"
-                                android:textColor="@color/dialog_black"
-                                android:textSize="@dimen/medium_size" />
-
-                        </TableRow>
-
-                        <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:paddingRight="@dimen/card_view_table_padding"
-                                android:text="@string/tv_music_detail_last_played"
-                                android:textColor="@color/dialog_black"
-                                android:textSize="@dimen/medium_size" />
-
-                            <TextView
-                                android:id="@+id/tv_music_detail_last_played"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="end"
-                                android:paddingRight="@dimen/card_view_table_padding"
-                                android:textColor="@color/dialog_black"
-                                android:textSize="@dimen/medium_size" />
-
-                        </TableRow>
-
-                        <TableRow>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:paddingRight="@dimen/card_view_table_padding"
-                                android:text="@string/tv_music_detail_skin"
-                                android:textColor="@color/dialog_black"
-                                android:textSize="@dimen/medium_size" />
-
-                            <TextView
-                                android:id="@+id/tv_music_detail_skin"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="end"
-                                android:paddingRight="@dimen/card_view_table_padding"
-                                android:textColor="@color/dialog_black"
-                                android:textSize="@dimen/medium_size" />
-
-                        </TableRow>
-
-                    </TableLayout>
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/card_view_margin"
-                android:layout_marginRight="@dimen/card_view_margin"
-                android:layout_marginTop="@dimen/card_view_margin">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingBottom="@dimen/card_view_padding_other"
-                    android:paddingLeft="@dimen/card_view_padding_other"
-                    android:paddingRight="@dimen/card_view_padding_other"
-                    android:paddingTop="@dimen/card_view_padding_top">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingBottom="@dimen/card_view_text_bottom">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tv_music_detail_title_simple"
-                            android:textColor="@color/diff_simple"
-                            android:textSize="@dimen/card_view_title_size" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom"
-                            android:gravity="right">
-
-                            <TextView
-                                android:id="@+id/tv_music_detail_simple_mark"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingBottom="@dimen/music_detail_mark_padding_side"
-                                android:paddingLeft="@dimen/music_detail_mark_padding_other"
-                                android:paddingRight="@dimen/music_detail_mark_padding_other"
-                                android:paddingTop="@dimen/music_detail_mark_padding_side"
-                                android:textColor="@color/dialog_black"
-                                android:textSize="@dimen/medium_size" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TableLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_detail_score"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_detail_simple_score"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_detail_rating"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_detail_simple_rating"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_detail_max_chain"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_detail_simple_max_chain"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_detail_num_of_plays"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_detail_simple_num_of_plays"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_detail_num_of_full_chain"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_detail_simple_num_of_full_chain"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                            <TableRow>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_detail_num_of_no_miss"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_detail_simple_num_of_no_miss"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                        </TableLayout>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/card_view_margin"
-                android:layout_marginRight="@dimen/card_view_margin"
-                android:layout_marginTop="@dimen/card_view_margin">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingBottom="@dimen/card_view_padding_other"
-                    android:paddingLeft="@dimen/card_view_padding_other"
-                    android:paddingRight="@dimen/card_view_padding_other"
-                    android:paddingTop="@dimen/card_view_padding_top">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingBottom="@dimen/card_view_text_bottom">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tv_music_detail_title_normal"
-                            android:textColor="@color/diff_normal"
-                            android:textSize="@dimen/card_view_title_size" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom"
-                            android:gravity="right">
-
-                            <TextView
-                                android:id="@+id/tv_music_detail_normal_mark"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingBottom="@dimen/music_detail_mark_padding_side"
-                                android:paddingLeft="@dimen/music_detail_mark_padding_other"
-                                android:paddingRight="@dimen/music_detail_mark_padding_other"
-                                android:paddingTop="@dimen/music_detail_mark_padding_side"
-                                android:textColor="@color/dialog_black"
-                                android:textSize="@dimen/medium_size" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TableLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_detail_score"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_detail_normal_score"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_detail_rating"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_detail_normal_rating"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_detail_max_chain"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_detail_normal_max_chain"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_detail_num_of_plays"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_detail_normal_num_of_plays"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_detail_num_of_full_chain"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_detail_normal_num_of_full_chain"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                            <TableRow>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_detail_num_of_no_miss"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_detail_normal_num_of_no_miss"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                        </TableLayout>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/card_view_margin"
-                android:layout_marginRight="@dimen/card_view_margin"
-                android:layout_marginTop="@dimen/card_view_margin">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingBottom="@dimen/card_view_padding_other"
-                    android:paddingLeft="@dimen/card_view_padding_other"
-                    android:paddingRight="@dimen/card_view_padding_other"
-                    android:paddingTop="@dimen/card_view_padding_top">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingBottom="@dimen/card_view_text_bottom">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tv_music_detail_title_hard"
-                            android:textColor="@color/diff_hard"
-                            android:textSize="@dimen/card_view_title_size" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom"
-                            android:gravity="right">
-
-                            <TextView
-                                android:id="@+id/tv_music_detail_hard_mark"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingBottom="@dimen/music_detail_mark_padding_side"
-                                android:paddingLeft="@dimen/music_detail_mark_padding_other"
-                                android:paddingRight="@dimen/music_detail_mark_padding_other"
-                                android:paddingTop="@dimen/music_detail_mark_padding_side"
-                                android:textColor="@color/dialog_black"
-                                android:textSize="@dimen/medium_size" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TableLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_detail_score"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_detail_hard_score"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_detail_rating"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_detail_hard_rating"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_detail_max_chain"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_detail_hard_max_chain"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_detail_num_of_plays"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_detail_hard_num_of_plays"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_detail_num_of_full_chain"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_detail_hard_num_of_full_chain"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                            <TableRow>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_detail_num_of_no_miss"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_detail_hard_num_of_no_miss"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                        </TableLayout>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/card_view_extra"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/card_view_margin"
-                android:layout_marginLeft="@dimen/card_view_margin"
-                android:layout_marginRight="@dimen/card_view_margin"
-                android:layout_marginTop="@dimen/card_view_margin"
-                android:visibility="gone">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingBottom="@dimen/card_view_padding_other"
-                    android:paddingLeft="@dimen/card_view_padding_other"
-                    android:paddingRight="@dimen/card_view_padding_other"
-                    android:paddingTop="@dimen/card_view_padding_top">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingBottom="@dimen/card_view_text_bottom">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tv_music_detail_title_extra"
-                            android:textColor="@color/diff_extra"
-                            android:textSize="@dimen/card_view_title_size" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom"
-                            android:gravity="right">
-
-                            <TextView
-                                android:id="@+id/tv_music_detail_extra_mark"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingBottom="@dimen/music_detail_mark_padding_side"
-                                android:paddingLeft="@dimen/music_detail_mark_padding_other"
-                                android:paddingRight="@dimen/music_detail_mark_padding_other"
-                                android:paddingTop="@dimen/music_detail_mark_padding_side"
-                                android:textColor="@color/dialog_black"
-                                android:textSize="@dimen/medium_size" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TableLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_detail_score"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_detail_extra_score"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_detail_rating"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_detail_extra_rating"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_detail_max_chain"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_detail_extra_max_chain"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_detail_num_of_plays"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_detail_extra_num_of_plays"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_detail_num_of_full_chain"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_detail_extra_num_of_full_chain"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                            <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="@string/tv_music_detail_num_of_no_miss"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-
-                                <TextView
-                                    android:id="@+id/tv_music_detail_extra_num_of_no_miss"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textColor="@color/dialog_black"
-                                    android:textSize="@dimen/medium_size" />
-                            </TableRow>
-
-                        </TableLayout>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-
-        </LinearLayout>
-
-    </ScrollView>
-
-</FrameLayout>
+    </FrameLayout>
+</layout>

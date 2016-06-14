@@ -20,14 +20,13 @@ public class ResultData extends RealmObject {
     private int score;
     private int maxChain;
     private int adlib;
-    private String lastDate;
     private int rank;
 
     public ResultData() {
         super();
     }
 
-    public ResultData(JSONObject json) throws JSONException{
+    public ResultData(JSONObject json) throws JSONException {
         super();
         this.rating = json.getString("rating");
         this.noMiss = json.getInt("no_miss");
@@ -38,7 +37,6 @@ public class ResultData extends RealmObject {
         this.score = json.getInt("score");
         this.maxChain = json.getInt("max_chain");
         this.adlib = json.getInt("adlib");
-        this.lastDate = json.getString("lastDate");
         this.rank = json.getInt("rank");
     }
 
@@ -112,14 +110,6 @@ public class ResultData extends RealmObject {
 
     public void setAdlib(int adlib) {
         this.adlib = adlib;
-    }
-
-    public String getLastDate() {
-        return lastDate;
-    }
-
-    public void setLastDate(String lastDate) {
-        this.lastDate = lastDate;
     }
 
     public int getRank() {

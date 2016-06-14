@@ -1,6 +1,7 @@
 package com.syfm.groover.view.fragments;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.syfm.groover.R;
 import com.syfm.groover.controller.entities.AppController;
+import com.syfm.groover.databinding.FragmentMusicDetailBinding;
 import com.syfm.groover.model.constants.Const;
 import com.syfm.groover.model.databases.Music;
 import com.syfm.groover.model.databases.ResultData;
@@ -25,11 +27,6 @@ import io.realm.Realm;
 public class MusicDetailFragment extends Fragment {
 
     private Music music;
-    private ResultData simple;
-    private ResultData normal;
-    private ResultData hard;
-    private ResultData extra;
-    private Realm realm = Realm.getInstance(AppController.getInstance());
 
     @Bind(R.id.tv_music_detail_thumbnail)
     com.syfm.groover.view.activities.RoundImageView iv_thumb;
@@ -107,6 +104,9 @@ public class MusicDetailFragment extends Fragment {
     @Bind(R.id.tv_music_detail_extra_num_of_no_miss)
     TextView tv_extra_num_of_no_miss;
 
+    private FragmentMusicDetailBinding binding;
+    Realm realm = Realm.getDefaultInstance();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,8 +114,7 @@ public class MusicDetailFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup group, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_music_detail, group, false);
-        ButterKnife.bind(this, view);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_music_detail, group, false);
 
         Intent i = getActivity().getIntent();
         int id = i.getIntExtra(Const.INTENT_MUSIC_ID, 0);
@@ -124,24 +123,21 @@ public class MusicDetailFragment extends Fragment {
             getActivity().finish();
         }
         setMusicData(id);
-        return view;
+
+        music = realm.where(Music.class).equalTo(Const.MUSIC_LIST_MUSIC_ID, id).findFirst();
+        binding.setMusic(music);
+        binding.setSimple(music.getSimpleResult());
+        binding.setNormal(music.getNormalResult());
+        binding.setHard(music.getHardResult());
+        binding.setExtra(music.getExtraResult());
+
+        return binding.getRoot();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
-        ButterKnife.unbind(this);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
+        realm.close();
     }
 
     private void setMusicData(int id) {

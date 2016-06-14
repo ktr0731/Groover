@@ -8,6 +8,7 @@ public class Const {
 
     /*                      MusicData( MusicData + MusicDetail )                 */
 
+    // TODO: 定数をできるかぎり減らしたい
     public final static String TABLE_NAME_MUSIC_DATA = "MusicData";
     public final static String TABLE_NAME_MUSIC_RESULT = "MusicResult";
     public final static String TABLE_NAME_MUSIC_RANK = "UserRank";
@@ -17,7 +18,7 @@ public class Const {
     public final static String MUSIC_RELATION_RESULT_HARD = "hard_result_data";
     public final static String MUSIC_RELATION_RESULT_EXTRA = "extra_result_data";
 
-    public final static String MUSIC_LIST_MUSIC_ID = "music_id";
+    public final static String MUSIC_LIST_MUSIC_ID = "id";
     public final static String MUSIC_LIST_MUSIC_TITLE = "music_title";
     public final static String MUSIC_LIST_PLAY_COUNT = "play_count";
     public final static String MUSIC_LIST_LAST_PLAY_TIME = "last_play_time";
@@ -45,7 +46,7 @@ public class Const {
     public final static String MUSIC_SORT_PLAY_TIMES = "Play times";
     public final static String MUSIC_SORT_CATEGORY = "Category";
 
-    public final static String INTENT_MUSIC_ID = "music_id";
+    public final static String INTENT_MUSIC_ID = "id";
     public final static String INTENT_EX_FLAG = "ex_flag";
 
     public final static String MUSIC_SCORE_RANKING_RANK = "rank";

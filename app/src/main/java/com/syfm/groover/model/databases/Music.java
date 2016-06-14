@@ -19,6 +19,7 @@ public class Music extends RealmObject {
     private ResultData normalResult;
     private ResultData hardResult;
     private ResultData extraResult;
+    private String lastPlayDate;
 
     public int getId() {
         return id;
@@ -108,4 +109,11 @@ public class Music extends RealmObject {
         this.extraResult = extraResult;
     }
 
+    public String getLastPlayDate() {
+        return lastPlayDate;
+    }
+
+    public void setLastPlayDate(String lastPlayDate) {
+        this.lastPlayDate = lastPlayDate;
+    }
 }
