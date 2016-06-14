@@ -1,19 +1,17 @@
 package com.syfm.groover.view.adapter;
 
 import android.content.Context;
-import android.util.Log;
+import android.databinding.DataBindingUtil;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.ListAdapter;
-import android.widget.TextView;
 
 import com.syfm.groover.R;
 import com.syfm.groover.controller.entities.AppController;
+import com.syfm.groover.databinding.RowMusicDetailRankingBinding;
 import com.syfm.groover.model.databases.ScoreRankData;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmBaseAdapter;
 import io.realm.RealmResults;
@@ -23,57 +21,35 @@ import io.realm.RealmResults;
  */
 public class MusicScoreRankingAdapter extends RealmBaseAdapter<ScoreRankData> implements ListAdapter {
     private Realm realm;
+    
+    private RowMusicDetailRankingBinding binding;
 
     public MusicScoreRankingAdapter(Context context, int resource, RealmResults<ScoreRankData> realmResults, Boolean autoUpdate) {
         super(context, realmResults, autoUpdate);
         realm = Realm.getInstance(AppController.getInstance());
-        Log.d("size", "size:" + realmResults.size());
     }
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
-        ViewHolder holder;
 
         if (view != null) {
-            holder = (ViewHolder) view.getTag();
+            binding = (RowMusicDetailRankingBinding) view.getTag();
         } else {
-            view = inflater.inflate(R.layout.row_music_detail_ranking, parent, false);
-            holder = new ViewHolder(view);
-            view.setTag(holder);
+            binding = DataBindingUtil.inflate(inflater, R.layout.row_music_detail_ranking, parent, false);
+            view = binding.getRoot();
+            view.setTag(binding);
         }
 
         ScoreRankData row = realmResults.get(position);
 
-        holder.tv_name.setText(row.getPlayer_name());
-        holder.tv_rank.setText(row.getRank() + getDaySuffix(row.getRank()));
-        holder.tv_title.setText(row.getTitle());
-        holder.tv_score.setText(String.valueOf(row.getEvent_point()));
-        holder.tv_area.setText(row.getPref());
-        holder.tv_arcade.setText(row.getLast_play_tenpo_name());
-
+        binding.tvMusicDetailRankingName.setText(row.getPlayer_name());
+        binding.tvMusicDetailRankingRank.setText(row.getRank() + getDaySuffix(row.getRank()));
+        binding.tvMusicDetailRankingTitle.setText(row.getTitle());
+        binding.tvMusicDetailRankingScore.setText(String.valueOf(row.getEvent_point()));
+        binding.tvMusicDetailRankingArea.setText(row.getPref());
+        binding.tvMusicDetailRankingArcade.setText(row.getLast_play_tenpo_name());
 
         return view;
-    }
-
-    public static class ViewHolder {
-
-        @Bind(R.id.tv_music_detail_ranking_name)
-        TextView tv_name;
-        @Bind(R.id.tv_music_detail_ranking_rank)
-        TextView tv_rank;
-        @Bind(R.id.tv_music_detail_ranking_title)
-        TextView tv_title;
-        @Bind(R.id.tv_music_detail_ranking_score)
-        TextView tv_score;
-        @Bind(R.id.tv_music_detail_ranking_area)
-        TextView tv_area;
-        @Bind(R.id.tv_music_detail_ranking_arcade)
-        TextView tv_arcade;
-
-
-        public ViewHolder(View view) {
-            ButterKnife.bind(this, view);
-        }
     }
 
     private String getDaySuffix(final int n) {
