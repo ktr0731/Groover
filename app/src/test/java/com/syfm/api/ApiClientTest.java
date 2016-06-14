@@ -195,7 +195,6 @@ public class ApiClientTest {
      * MusicThumbnail
      */
 
-    // lengthが異なってfailureになる
     @Test
     public void fetchMusicThumbnail_success() throws Exception {
         // Set up

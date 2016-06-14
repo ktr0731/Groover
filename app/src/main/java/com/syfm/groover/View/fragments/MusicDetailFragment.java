@@ -2,6 +2,8 @@ package com.syfm.groover.view.fragments;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -11,14 +13,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.syfm.groover.R;
-import com.syfm.groover.controller.entities.AppController;
 import com.syfm.groover.databinding.FragmentMusicDetailBinding;
 import com.syfm.groover.model.constants.Const;
 import com.syfm.groover.model.databases.Music;
-import com.syfm.groover.model.databases.ResultData;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import io.realm.Realm;
 
 /**
@@ -27,82 +26,6 @@ import io.realm.Realm;
 public class MusicDetailFragment extends Fragment {
 
     private Music music;
-
-    @Bind(R.id.tv_music_detail_thumbnail)
-    com.syfm.groover.view.activities.RoundImageView iv_thumb;
-    @Bind(R.id.tv_music_detail_title)
-    TextView tv_title;
-    @Bind(R.id.tv_music_detail_artist)
-    TextView tv_artist;
-
-    @Bind(R.id.tv_music_detail_num_of_plays)
-    TextView tv_num_of_plays;
-    @Bind(R.id.tv_music_detail_last_played)
-    TextView tv_last_played;
-    @Bind(R.id.tv_music_detail_skin)
-    TextView tv_skin;
-
-    @Bind(R.id.tv_music_detail_simple_score)
-    TextView tv_simple_score;
-    @Bind(R.id.tv_music_detail_simple_mark)
-    TextView tv_simple_mark;
-    @Bind(R.id.tv_music_detail_simple_rating)
-    TextView tv_simple_rating;
-    @Bind(R.id.tv_music_detail_simple_max_chain)
-    TextView tv_simple_max_chain;
-    @Bind(R.id.tv_music_detail_simple_num_of_plays)
-    TextView tv_simple_num_of_plays;
-    @Bind(R.id.tv_music_detail_simple_num_of_full_chain)
-    TextView tv_simple_num_of_full_chain;
-    @Bind(R.id.tv_music_detail_simple_num_of_no_miss)
-    TextView tv_simple_num_of_no_miss;
-
-    @Bind(R.id.tv_music_detail_normal_score)
-    TextView tv_normal_score;
-    @Bind(R.id.tv_music_detail_normal_mark)
-    TextView tv_normal_mark;
-    @Bind(R.id.tv_music_detail_normal_rating)
-    TextView tv_normal_rating;
-    @Bind(R.id.tv_music_detail_normal_max_chain)
-    TextView tv_normal_max_chain;
-    @Bind(R.id.tv_music_detail_normal_num_of_plays)
-    TextView tv_normal_num_of_plays;
-    @Bind(R.id.tv_music_detail_normal_num_of_full_chain)
-    TextView tv_normal_num_of_full_chain;
-    @Bind(R.id.tv_music_detail_normal_num_of_no_miss)
-    TextView tv_normal_num_of_no_miss;
-
-    @Bind(R.id.tv_music_detail_hard_score)
-    TextView tv_hard_score;
-    @Bind(R.id.tv_music_detail_hard_mark)
-    TextView tv_hard_mark;
-    @Bind(R.id.tv_music_detail_hard_rating)
-    TextView tv_hard_rating;
-    @Bind(R.id.tv_music_detail_hard_max_chain)
-    TextView tv_hard_max_chain;
-    @Bind(R.id.tv_music_detail_hard_num_of_plays)
-    TextView tv_hard_num_of_plays;
-    @Bind(R.id.tv_music_detail_hard_num_of_full_chain)
-    TextView tv_hard_num_of_full_chain;
-    @Bind(R.id.tv_music_detail_hard_num_of_no_miss)
-    TextView tv_hard_num_of_no_miss;
-
-    @Bind(R.id.card_view_extra)
-    CardView cv_extra;
-    @Bind(R.id.tv_music_detail_extra_score)
-    TextView tv_extra_score;
-    @Bind(R.id.tv_music_detail_extra_mark)
-    TextView tv_extra_mark;
-    @Bind(R.id.tv_music_detail_extra_rating)
-    TextView tv_extra_rating;
-    @Bind(R.id.tv_music_detail_extra_max_chain)
-    TextView tv_extra_max_chain;
-    @Bind(R.id.tv_music_detail_extra_num_of_plays)
-    TextView tv_extra_num_of_plays;
-    @Bind(R.id.tv_music_detail_extra_num_of_full_chain)
-    TextView tv_extra_num_of_full_chain;
-    @Bind(R.id.tv_music_detail_extra_num_of_no_miss)
-    TextView tv_extra_num_of_no_miss;
 
     private FragmentMusicDetailBinding binding;
     Realm realm = Realm.getDefaultInstance();
@@ -122,14 +45,8 @@ public class MusicDetailFragment extends Fragment {
         if (id == 0) {
             getActivity().finish();
         }
-        setMusicData(id);
 
-        music = realm.where(Music.class).equalTo(Const.MUSIC_LIST_MUSIC_ID, id).findFirst();
-        binding.setMusic(music);
-        binding.setSimple(music.getSimpleResult());
-        binding.setNormal(music.getNormalResult());
-        binding.setHard(music.getHardResult());
-        binding.setExtra(music.getExtraResult());
+        bindMusicData(id);
 
         return binding.getRoot();
     }
@@ -140,127 +57,81 @@ public class MusicDetailFragment extends Fragment {
         realm.close();
     }
 
-    private void setMusicData(int id) {
-//
-//        musicData = realm.where(MusicData.class).equalTo(Const.MUSIC_LIST_MUSIC_ID, id).findFirst();
-//
-//        simple = musicData.getResult_data().get(0);
-//        normal = musicData.getResult_data().get(1);
-//        hard = musicData.getResult_data().get(2);
-//        extra = musicData.getResult_data().get(3);
-//
-//        userRank = musicData.getUser_rank();Bitmap bmp = BitmapFactory.decodeByteArray(musicData.getMusic_thumbnail(), 0, musicData.getMusic_thumbnail().length);
-//
-//        iv_thumb.setImageBitmap(bmp);
-//
-//        tv_title.setText(musicData.getMusic_title());
-//        tv_artist.setText(musicData.getArtist());
-//
-//        String numOfPlays = String.valueOf(simple.getPlay_count() + normal.getPlay_count() + hard.getPlay_count() + extra.getPlay_count());
-//        tv_num_of_plays.setText(numOfPlays);
-//        tv_last_played.setText(musicData.getLast_play_time());
-//        tv_skin.setText(musicData.getSkin_name());
-//
-//
-//        tv_simple_score.setText(String.valueOf(simple.getScore()));
-//        tv_simple_num_of_plays.setText(String.valueOf(simple.getPlay_count()));
-//        tv_simple_max_chain.setText(String.valueOf(simple.getMax_chain()));
-//        tv_simple_num_of_full_chain.setText(String.valueOf(simple.getFull_chain()));
-//        tv_simple_num_of_no_miss.setText(String.valueOf(simple.getNo_miss()));
-//        tv_simple_rating.setText(simple.getRating());
-//
-//        if (simple.getScore() == 1000000) {
-//            tv_simple_mark.setBackgroundResource(R.drawable.perfect_border);
-//            tv_simple_mark.setText("EXCELLENT");
-//        } else if (simple.getFull_chain() > 0) {
-//            tv_simple_mark.setBackgroundResource(R.drawable.full_chain_border);
-//            tv_simple_mark.setText("FULL CHAIN");
-//        } else if (simple.getNo_miss() > 0) {
-//            tv_simple_mark.setBackgroundResource(R.drawable.no_miss_border);
-//            tv_simple_mark.setText("NO MISS");
-//        } else if (simple.getIs_clear_mark().equals("true")) {
-//            tv_simple_mark.setBackgroundResource(R.drawable.clear_border);
-//            tv_simple_mark.setText("CLEAR");
-//        } else if (simple.getIs_failed_mark().equals("true")) {
-//            tv_simple_mark.setBackgroundResource(R.drawable.failed_border);
-//            tv_simple_mark.setText("FAILED");
-//        }
-//
-//        tv_normal_score.setText(String.valueOf(normal.getScore()));
-//        tv_normal_num_of_plays.setText(String.valueOf(normal.getPlay_count()));
-//        tv_normal_max_chain.setText(String.valueOf(normal.getMax_chain()));
-//        tv_normal_num_of_full_chain.setText(String.valueOf(normal.getFull_chain()));
-//        tv_normal_num_of_no_miss.setText(String.valueOf(normal.getNo_miss()));
-//        tv_normal_rating.setText(normal.getRating());
-//
-//        if (normal.getScore() == 1000000) {
-//            tv_normal_mark.setBackgroundResource(R.drawable.perfect_border);
-//            tv_normal_mark.setText("EXCELLENT");
-//        } else if (normal.getFull_chain() > 0) {
-//            tv_normal_mark.setBackgroundResource(R.drawable.full_chain_border);
-//            tv_normal_mark.setText("FULL CHAIN");
-//        } else if (normal.getNo_miss() > 0) {
-//            tv_normal_mark.setBackgroundResource(R.drawable.no_miss_border);
-//            tv_normal_mark.setText("NO MISS");
-//        } else if (normal.getIs_clear_mark().equals("true")) {
-//            tv_normal_mark.setBackgroundResource(R.drawable.clear_border);
-//            tv_normal_mark.setText("CLEAR");
-//        } else if (normal.getIs_failed_mark().equals("true")) {
-//            tv_normal_mark.setBackgroundResource(R.drawable.failed_border);
-//            tv_normal_mark.setText("FAILED");
-//        }
-//
-//        tv_hard_score.setText(String.valueOf(hard.getScore()));
-//        tv_hard_num_of_plays.setText(String.valueOf(hard.getPlay_count()));
-//        tv_hard_max_chain.setText(String.valueOf(hard.getMax_chain()));
-//        tv_hard_num_of_full_chain.setText(String.valueOf(hard.getFull_chain()));
-//        tv_hard_num_of_no_miss.setText(String.valueOf(hard.getNo_miss()));
-//        tv_hard_rating.setText(hard.getRating());
-//
-//        if (hard.getScore() == 1000000) {
-//            tv_hard_mark.setBackgroundResource(R.drawable.perfect_border);
-//            tv_hard_mark.setText("EXCELLENT");
-//        } else if (hard.getFull_chain() > 0) {
-//            tv_hard_mark.setBackgroundResource(R.drawable.full_chain_border);
-//            tv_hard_mark.setText("FULL CHAIN");
-//        } else if (hard.getNo_miss() > 0) {
-//            tv_hard_mark.setBackgroundResource(R.drawable.no_miss_border);
-//            tv_hard_mark.setText("NO MISS");
-//        } else if (hard.getIs_clear_mark().equals("true")) {
-//            tv_hard_mark.setBackgroundResource(R.drawable.clear_border);
-//            tv_hard_mark.setText("CLEAR");
-//        } else if (hard.getIs_failed_mark().equals("true")) {
-//            tv_hard_mark.setBackgroundResource(R.drawable.failed_border);
-//            tv_hard_mark.setText("FAILED");
-//        }
-//
-//        if (musicData.getEx_flag() > 0) {
-//
-//            cv_extra.setVisibility(View.VISIBLE);
-//            tv_extra_score.setText(String.valueOf(extra.getScore()));
-//            tv_extra_num_of_plays.setText(String.valueOf(extra.getPlay_count()));
-//            tv_extra_max_chain.setText(String.valueOf(extra.getMax_chain()));
-//            tv_extra_num_of_full_chain.setText(String.valueOf(extra.getFull_chain()));
-//            tv_extra_num_of_no_miss.setText(String.valueOf(extra.getNo_miss()));
-//            tv_extra_rating.setText(extra.getRating());
-//
-//            if (extra.getScore() == 1000000) {
-//                tv_extra_mark.setBackgroundResource(R.drawable.perfect_border);
-//                tv_extra_mark.setText("EXCELLENT");
-//            } else if (extra.getFull_chain() > 0) {
-//                tv_extra_mark.setBackgroundResource(R.drawable.full_chain_border);
-//                tv_extra_mark.setText("FULL CHAIN");
-//            } else if (extra.getNo_miss() > 0) {
-//                tv_extra_mark.setBackgroundResource(R.drawable.no_miss_border);
-//                tv_extra_mark.setText("NO MISS");
-//            } else if (extra.getIs_clear_mark().equals("true")) {
-//                tv_extra_mark.setBackgroundResource(R.drawable.clear_border);
-//                tv_extra_mark.setText("CLEAR");
-//            } else if (extra.getIs_failed_mark().equals("true")) {
-//                tv_extra_mark.setBackgroundResource(R.drawable.failed_border);
-//                tv_extra_mark.setText("FAILED");
-//            }
-//
-//        }
+    private void bindMusicData(int id) {
+        music = realm.where(Music.class).equalTo(Const.MUSIC_LIST_MUSIC_ID, id).findFirst();
+        binding.setMusic(music);
+        binding.setSimple(music.getSimpleResult());
+        binding.setNormal(music.getNormalResult());
+        binding.setHard(music.getHardResult());
+        binding.setExtra(music.getExtraResult());
+
+
+        Bitmap bmp = BitmapFactory.decodeByteArray(music.getThumbnail(), 0, music.getThumbnail().length);
+        binding.tvMusicDetailThumbnail.setImageBitmap(bmp);
+
+        // TODO: FULL CHAIN等でアイコン表示
+        if (music.getSimpleResult() != null) {
+            if (music.getSimpleResult().getPerfect() > 0) {
+                binding.tvMusicDetailSimpleMark.setBackgroundResource(R.drawable.perfect_border);
+                binding.tvMusicDetailSimpleMark.setText("PERFECT");
+            } else if (music.getSimpleResult().getFullChain() > 0) {
+                binding.tvMusicDetailSimpleMark.setBackgroundResource(R.drawable.full_chain_border);
+                binding.tvMusicDetailSimpleMark.setText("FULL CHAIN");
+            } else if (music.getSimpleResult().getNoMiss() > 0) {
+                binding.tvMusicDetailSimpleMark.setBackgroundResource(R.drawable.no_miss_border);
+                binding.tvMusicDetailSimpleMark.setText("NO MISS");
+            } else if (!music.getSimpleResult().isClear()) {
+                binding.tvMusicDetailSimpleMark.setBackgroundResource(R.drawable.failed_border);
+                binding.tvMusicDetailSimpleMark.setText("FAILED");
+            }
+        }
+
+        if (music.getNormalResult() != null) {
+            if (music.getNormalResult().getPerfect() > 0) {
+                binding.tvMusicDetailNormalMark.setBackgroundResource(R.drawable.perfect_border);
+                binding.tvMusicDetailNormalMark.setText("PERFECT");
+            } else if (music.getNormalResult().getFullChain() > 0) {
+                binding.tvMusicDetailNormalMark.setBackgroundResource(R.drawable.full_chain_border);
+                binding.tvMusicDetailNormalMark.setText("FULL CHAIN");
+            } else if (music.getNormalResult().getNoMiss() > 0) {
+                binding.tvMusicDetailNormalMark.setBackgroundResource(R.drawable.no_miss_border);
+                binding.tvMusicDetailNormalMark.setText("NO MISS");
+            } else if (!music.getNormalResult().isClear()) {
+                binding.tvMusicDetailNormalMark.setBackgroundResource(R.drawable.failed_border);
+                binding.tvMusicDetailNormalMark.setText("FAILED");
+            }
+        }
+
+        if (music.getHardResult() != null) {
+            if (music.getHardResult().getPerfect() > 0) {
+                binding.tvMusicDetailHardMark.setBackgroundResource(R.drawable.perfect_border);
+                binding.tvMusicDetailHardMark.setText("PERFECT");
+            } else if (music.getHardResult().getFullChain() > 0) {
+                binding.tvMusicDetailHardMark.setBackgroundResource(R.drawable.full_chain_border);
+                binding.tvMusicDetailHardMark.setText("FULL CHAIN");
+            } else if (music.getHardResult().getNoMiss() > 0) {
+                binding.tvMusicDetailHardMark.setBackgroundResource(R.drawable.no_miss_border);
+                binding.tvMusicDetailHardMark.setText("NO MISS");
+            } else if (!music.getHardResult().isClear()) {
+                binding.tvMusicDetailHardMark.setBackgroundResource(R.drawable.failed_border);
+                binding.tvMusicDetailHardMark.setText("FAILED");
+            }
+        }
+
+        if (music.getExtraResult() != null) {
+            if (music.getExtraResult().getPerfect() > 0 && music.isExFlag()) {
+                binding.tvMusicDetailExtraMark.setBackgroundResource(R.drawable.perfect_border);
+                binding.tvMusicDetailExtraMark.setText("PERFECT");
+            } else if (music.getExtraResult().getFullChain() > 0 && music.isExFlag()) {
+                binding.tvMusicDetailExtraMark.setBackgroundResource(R.drawable.full_chain_border);
+                binding.tvMusicDetailExtraMark.setText("FULL CHAIN");
+            } else if (music.getExtraResult().getNoMiss() > 0 && music.isExFlag()) {
+                binding.tvMusicDetailExtraMark.setBackgroundResource(R.drawable.no_miss_border);
+                binding.tvMusicDetailExtraMark.setText("NO MISS");
+            } else if (!music.getExtraResult().isClear()) {
+                binding.tvMusicDetailExtraMark.setBackgroundResource(R.drawable.failed_border);
+                binding.tvMusicDetailExtraMark.setText("FAILED");
+            }
+        }
     }
 }

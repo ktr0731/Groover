@@ -63,6 +63,7 @@ public class MusicListAdapter extends RealmBaseAdapter<Music> implements ListAda
         // FullChainを表示させるか (fullchainはFullChainした回数)
         // XMLだと見づらいのでこちらでチェックする
         // TODO: もう少し綺麗にしたい
+        // TODO: null検査
         if (row.getSimpleResult() != null) {
             if (row.getSimpleResult().getPerfect() > 0) {
                 binding.musicRowSimpleScore.setBackgroundResource(R.drawable.perfect_border);

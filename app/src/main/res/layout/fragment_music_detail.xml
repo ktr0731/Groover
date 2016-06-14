@@ -2,6 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+        
+        <import type="android.view.View" />
+
         <variable
             name="music"
             type="com.syfm.groover.model.databases.Music" />
@@ -255,6 +258,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{String.valueOf(simple.score)}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -275,6 +279,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{simple.rating}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -295,6 +300,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{String.valueOf(simple.maxChain)}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -315,6 +321,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{String.valueOf(simple.playCount)}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -335,6 +342,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{String.valueOf(simple.fullChain)}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -355,6 +363,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{String.valueOf(simple.noMiss)}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -442,6 +451,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{String.valueOf(normal.score)}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -462,6 +472,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{normal.rating}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -482,6 +493,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{String.valueOf(normal.maxChain)}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -502,6 +514,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{String.valueOf(normal.playCount)}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -522,6 +535,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{String.valueOf(normal.fullChain)}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -542,6 +556,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{String.valueOf(normal.noMiss)}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -629,6 +644,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{String.valueOf(hard.score)}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -649,6 +665,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{hard.rating}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -669,6 +686,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{String.valueOf(hard.maxChain)}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -689,6 +707,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{String.valueOf(hard.playCount)}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -709,6 +728,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{String.valueOf(hard.fullChain)}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -729,6 +749,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{String.valueOf(hard.noMiss)}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -749,7 +770,7 @@
                     android:layout_marginLeft="@dimen/card_view_margin"
                     android:layout_marginRight="@dimen/card_view_margin"
                     android:layout_marginTop="@dimen/card_view_margin"
-                    android:visibility="gone">
+                    android:visibility="@{music.exFlag ? View.VISIBLE : View.GONE}">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -819,6 +840,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{String.valueOf(extra.score)}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -839,6 +861,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{extra.rating}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -859,6 +882,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{String.valueOf(extra.maxChain)}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -879,6 +903,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{String.valueOf(extra.playCount)}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -899,6 +924,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{String.valueOf(extra.fullChain)}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -919,6 +945,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:text="@{String.valueOf(extra.noMiss)}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
