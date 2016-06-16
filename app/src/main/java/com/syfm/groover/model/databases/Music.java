@@ -6,6 +6,7 @@ import io.realm.annotations.RealmClass;
 /**
  * Created by lycoris on 2016/06/05.
  */
+
 @RealmClass
 public class Music extends RealmObject {
     private int id;

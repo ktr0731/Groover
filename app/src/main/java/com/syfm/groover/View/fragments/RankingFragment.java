@@ -18,6 +18,11 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by lycoris on 2015/10/09.
  */
+
+/**
+ * RankingFragment
+ * This fragment is contains three fragments for display level/genre/event ranking list.
+ */
 public class RankingFragment extends Fragment implements TabLayout.OnTabSelectedListener {
 
     @Bind(R.id.ranking_tablayout)
