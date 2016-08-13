@@ -1,5 +1,6 @@
 package com.syfm.api;
 
+import com.syfm.CustomRobolectricGradleTestRunner;
 import com.syfm.groover.BuildConfig;
 import com.syfm.groover.model.api.LoginApi;
 
@@ -20,11 +21,9 @@ import static org.mockito.Mockito.when;
  * Created by lycoris on 2016/05/05.
  */
 
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(CustomRobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
 public class LoginApiTest {
-
-
     LoginApi api;
     LoginApi.LoginClient loginClient;
     HashMap<String, String> params;

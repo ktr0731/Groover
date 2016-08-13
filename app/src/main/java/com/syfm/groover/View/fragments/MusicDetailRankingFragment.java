@@ -31,7 +31,7 @@ public class MusicDetailRankingFragment extends Fragment {
 
     private Realm realm;
     private int id;
-    private int ex_flag;
+    private boolean ex_flag;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,7 @@ public class MusicDetailRankingFragment extends Fragment {
 
         Intent i = getActivity().getIntent();
         this.id = i.getIntExtra(Const.INTENT_MUSIC_ID, 0);
-        this.ex_flag = i.getIntExtra(Const.INTENT_EX_FLAG, 0);
+        this.ex_flag = i.getBooleanExtra(Const.INTENT_EX_FLAG, false);
 
         if (id == 0) {
             getActivity().finish();
