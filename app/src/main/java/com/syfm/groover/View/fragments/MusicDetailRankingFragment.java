@@ -86,8 +86,8 @@ public class MusicDetailRankingFragment extends Fragment {
         Log.d("ktr", "fetchScoreRanking: " + ready.toString());
         if(ready) {
             RealmResults<ScoreRankData> ranks = realm.where(ScoreRankData.class).contains(Const.MUSIC_SCORE_DATA_DIFF, "0").findAll();
-            MusicScoreRankingAdapter adapter = new MusicScoreRankingAdapter(getActivity(), 0, ranks, true);
-            listView.setAdapter(adapter);
+//            MusicScoreRankingAdapter adapter = new MusicScoreRankingAdapter(getActivity(), 0, ranks);
+//            listView.setAdapter(adapter);
         }
     }
 }

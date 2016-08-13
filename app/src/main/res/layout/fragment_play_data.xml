@@ -394,6 +394,40 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_result_perfect"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_result_perfect"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="end"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@{String.valueOf(playerData.perfect)}"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_result_perfect_per"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="end"
+                                        android:text='@{String.format("%.2f%%", Utils.calcPercentage(playerData.perfect, playerData.all))}'
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                </TableRow>
+
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
                                         android:text="@string/tv_music_result_s"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />

@@ -2,6 +2,7 @@ package com.syfm.groover.view.adapter;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -21,14 +22,16 @@ import com.syfm.groover.model.databases.ScoreRankData;
  *
  * SharedPreference key:
  * MUSIC_SCORE_RANKING + music_id
- *
  */
 public class MusicScoreRankingAdapter extends BaseAdapter {
 
     private RowMusicDetailRankingBinding binding;
+    private LayoutInflater inflater;
+    private Context context;
 
     public MusicScoreRankingAdapter(Context context, int music_id) {
-
+        this.context = context;
+        this.inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
     }
 
 
@@ -43,14 +46,14 @@ public class MusicScoreRankingAdapter extends BaseAdapter {
             view.setTag(binding);
         }
 
-        ScoreRankData row = realmResults.get(position);
-
-        binding.tvMusicDetailRankingName.setText(row.getPlayer_name());
-        binding.tvMusicDetailRankingRank.setText(row.getRank() + getDaySuffix(row.getRank()));
-        binding.tvMusicDetailRankingTitle.setText(row.getTitle());
-        binding.tvMusicDetailRankingScore.setText(String.valueOf(row.getEvent_point()));
-        binding.tvMusicDetailRankingArea.setText(row.getPref());
-        binding.tvMusicDetailRankingArcade.setText(row.getLast_play_tenpo_name());
+//        ScoreRankData row = realmResults.get(position);
+//
+//        binding.tvMusicDetailRankingName.setText(row.getPlayer_name());
+//        binding.tvMusicDetailRankingRank.setText(row.getRank() + getDaySuffix(row.getRank()));
+//        binding.tvMusicDetailRankingTitle.setText(row.getTitle());
+//        binding.tvMusicDetailRankingScore.setText(String.valueOf(row.getEvent_point()));
+//        binding.tvMusicDetailRankingArea.setText(row.getPref());
+//        binding.tvMusicDetailRankingArcade.setText(row.getLast_play_tenpo_name());
 
         return view;
     }
