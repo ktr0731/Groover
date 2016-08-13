@@ -71,6 +71,8 @@ public class MusicListAdapter extends RealmBaseAdapter<Music> implements ListAda
                 binding.musicRowSimpleScore.setBackgroundResource(R.drawable.full_chain_border);
             } else if (row.getSimpleResult().getNoMiss() > 0) {
                 binding.musicRowSimpleScore.setBackgroundResource(R.drawable.no_miss_border);
+            } else if (row.getSimpleResult().isClear()) {
+                binding.musicRowSimpleScore.setBackgroundResource(R.drawable.clear_border);
             }
         }
 
@@ -81,6 +83,8 @@ public class MusicListAdapter extends RealmBaseAdapter<Music> implements ListAda
                 binding.musicRowNormalScore.setBackgroundResource(R.drawable.full_chain_border);
             } else if (row.getNormalResult().getNoMiss() > 0) {
                 binding.musicRowNormalScore.setBackgroundResource(R.drawable.no_miss_border);
+            } else if (row.getNormalResult().isClear()) {
+                binding.musicRowNormalScore.setBackgroundResource(R.drawable.clear_border);
             }
         }
 
@@ -91,6 +95,8 @@ public class MusicListAdapter extends RealmBaseAdapter<Music> implements ListAda
                 binding.musicRowHardScore.setBackgroundResource(R.drawable.full_chain_border);
             } else if (row.getHardResult().getNoMiss() > 0) {
                 binding.musicRowHardScore.setBackgroundResource(R.drawable.no_miss_border);
+            } else if (row.getHardResult().isClear()) {
+                binding.musicRowHardScore.setBackgroundResource(R.drawable.clear_border);
             }
         }
 
@@ -101,9 +107,10 @@ public class MusicListAdapter extends RealmBaseAdapter<Music> implements ListAda
                 binding.musicRowExtraScore.setBackgroundResource(R.drawable.full_chain_border);
             } else if (row.getExtraResult().getNoMiss() > 0 && row.isExFlag()) {
                 binding.musicRowExtraScore.setBackgroundResource(R.drawable.no_miss_border);
+            } else if (row.getExtraResult().isClear()) {
+                binding.musicRowExtraScore.setBackgroundResource(R.drawable.clear_border);
             }
         }
-
 
         // いっぱい読込すると落ちるかもしれない
         // BitmapはXMLで指定できないのでここで行う

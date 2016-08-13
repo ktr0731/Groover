@@ -347,7 +347,7 @@
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
 
-                                <TableRow>
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -364,6 +364,27 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:text="@{String.valueOf(simple.noMiss)}"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                                <TableRow>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_num_of_perfect"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_simple_num_of_perfect"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="@{String.valueOf(simple.perfect)}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -540,7 +561,7 @@
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
 
-                                <TableRow>
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -557,6 +578,27 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:text="@{String.valueOf(normal.noMiss)}"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                                <TableRow>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_num_of_perfect"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_normal_num_of_perfect"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="@{String.valueOf(normal.perfect)}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -733,7 +775,7 @@
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
 
-                                <TableRow>
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -750,6 +792,27 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:text="@{String.valueOf(hard.noMiss)}"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                                <TableRow>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_num_of_perfect"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_hard_num_of_perfect"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="@{String.valueOf(hard.perfect)}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
@@ -946,6 +1009,27 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:text="@{String.valueOf(extra.noMiss)}"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+                                </TableRow>
+
+                                <TableRow>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_detail_num_of_perfect"
+                                        android:textColor="@color/dialog_black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_detail_extra_num_of_perfect"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="@{String.valueOf(extra.perfect)}"
                                         android:textColor="@color/dialog_black"
                                         android:textSize="@dimen/medium_size" />
                                 </TableRow>
