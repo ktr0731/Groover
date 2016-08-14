@@ -375,6 +375,50 @@ public class ApiClient {
     }
 
     /**
+     * Now event API
+     */
+
+    // TODO: イベントがない時の処理
+
+    /**
+     * Fetches now event information.
+     *
+     * @return @{code JSONObject} Response JSON from event_data.php
+     * @throws IOException
+     * @throws JSONException
+     */
+    public JSONObject fetchNowEventDetail() throws IOException, JSONException {
+        Log.d("NowEventApi", "fetchNowEventDetail");
+
+        String url = "https://mypage.groovecoaster.jp/sp/json/event_data.php";
+
+        JSONObject object = new JSONObject(client.sendRequest(url));
+
+        checkAuthorization(object);
+
+        return object;
+    }
+
+    // TODO: イベントがない時の処理
+    /**
+     * Fetches now event destination.
+     * @return @{code JSONObject} Response JSON from event_destination.php
+     * @throws IOException
+     * @throws JSONException
+     */
+    public JSONObject fetchNowEventDestination() throws IOException, JSONException {
+        Log.d("NowEventApi", "fetchNowEventDestination");
+
+        String url = "https://mypage.groovecoaster.jp/sp/json/event_destination.php";
+
+        JSONObject object = new JSONObject(client.sendRequest(url));
+
+        checkAuthorization(object);
+
+        return object;
+    }
+
+    /**
      * Other Methods
      */
 
