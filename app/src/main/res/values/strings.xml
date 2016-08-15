@@ -78,12 +78,12 @@
     <string name="tv_current_event_ranking">ランク</string>
     <string name="tv_current_event_point">バトルポイント</string>
     <string name="tv_current_event_ranking_ranking">ランキング</string>
-    <string name="tv_current_event_awards_awards">Awards</string>
+    <string name="tv_current_event_awards_awards">貰える報酬</string>
     <string name="tv_current_event_awards_avatar">アバター</string>
     <string name="tv_current_event_awards_title">称号</string>
     <string name="tv_current_event_awards_item">アイテム</string>
     <string name="tv_current_event_awards_trophy">トロフィー</string>
-    <string name="tv_current_event_awards_dest_awards">Awards(Destination)</string>
+    <string name="tv_current_event_awards_dest_awards">報酬 (あとXX BP)</string>
     <string name="tv_current_event_awards_dest_ranking">ランキング</string>
     <string name="tv_current_event_awards_dest_point">バトルポイント</string>
     <string name="tv_current_event_awards_dest_avatar">アバター</string>

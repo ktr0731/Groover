@@ -28,20 +28,14 @@
                     android:paddingRight="@dimen/card_view_padding_other"
                     android:paddingTop="@dimen/card_view_padding_top">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/tv_current_event_name"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingBottom="@dimen/card_view_text_bottom">
-
-                        <TextView
-                            android:id="@+id/tv_current_event_name"
-                            android:textColor="@color/black"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/card_view_subtitle_size" />
-
-                    </LinearLayout>
+                        android:text="東方星蓮船コラボイベント"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/card_view_title_size"
+                        android:paddingBottom="@dimen/card_view_text_bottom" />
 
                     <TextView
                         android:id="@+id/tv_current_event_date"
@@ -49,6 +43,7 @@
                         android:layout_height="wrap_content"
                         android:paddingBottom="@dimen/card_view_padding_other"
                         android:textColor="@color/dark_glay"
+                        android:text="2016.08.21 - 2016.07.29"
                         android:textSize="@dimen/medium_size" />
 
                     <LinearLayout
@@ -77,6 +72,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
+                                    android:text="7449位"
                                     android:textSize="@dimen/medium_size" />
                             </TableRow>
 
@@ -97,6 +93,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
+                                    android:text="43BP"
                                     android:textSize="@dimen/medium_size" />
                             </TableRow>
 
@@ -156,7 +153,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="1000"
+                                    android:text="1000位"
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
@@ -172,7 +169,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="54"
+                                    android:text="54 BP"
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
@@ -193,7 +190,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="1001"
+                                    android:text="1001位"
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
@@ -209,7 +206,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="51"
+                                    android:text="51 BP"
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
@@ -230,7 +227,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:paddingRight="@dimen/card_view_table_padding"
-                                    android:text="1002"
+                                    android:text="1002位"
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
@@ -246,7 +243,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="48"
+                                    android:text="48 BP"
                                     android:textSize="@dimen/medium_size" />
 
                                 <TextView
