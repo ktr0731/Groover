@@ -387,8 +387,8 @@ public class ApiClient {
      * @throws IOException
      * @throws JSONException
      */
-    public JSONObject fetchNowEventDetail() throws IOException, JSONException {
-        Log.d("NowEventApi", "fetchNowEventDetail");
+    public JSONObject fetchCurrentEventDetail() throws IOException, JSONException {
+        Log.d("CurrentEventApi", "fetchCurrentEventDetail");
 
         String url = "https://mypage.groovecoaster.jp/sp/json/event_data.php";
 
@@ -406,8 +406,8 @@ public class ApiClient {
      * @throws IOException
      * @throws JSONException
      */
-    public JSONObject fetchNowEventDestination() throws IOException, JSONException {
-        Log.d("NowEventApi", "fetchNowEventDestination");
+    public JSONObject fetchCurrentEventDestination() throws IOException, JSONException {
+        Log.d("CurrentEventApi", "fetchCurrentEventDestination");
 
         String url = "https://mypage.groovecoaster.jp/sp/json/event_destination.php";
 

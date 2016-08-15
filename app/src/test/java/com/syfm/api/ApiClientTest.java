@@ -230,14 +230,14 @@ public class ApiClientTest {
     }
 
     /**
-     * NowEvent
+     * CurrentEvent
      */
 
     @Test
-    public void fetchNowEventDetail_successful() throws Exception {
+    public void fetchCurrentEventDetail_successful() throws Exception {
         // Set up
         String url = "https://mypage.groovecoaster.jp/sp/json/event_data.php";
-        String jsonString = new String(getFileContent("now_event_detail_ok.json"), "UTF-8");
+        String jsonString = new String(getFileContent("current_event_detail_ok.json"), "UTF-8");
 
         // Exercise
         when(client.sendRequest(url)).thenReturn(jsonString);
@@ -245,14 +245,14 @@ public class ApiClientTest {
         JSONObject object = new JSONObject(jsonString);
 
         // Verify
-        assertThat(apiClient.fetchNowEventDetail().toString(), equalTo(object.toString()));
+        assertThat(apiClient.fetchCurrentEventDetail().toString(), equalTo(object.toString()));
     }
 
     @Test(expected = RuntimeException.class)
-    public void fetchNowEventDetail_failure_unauthorized() throws Exception {
+    public void fetchCurrentEventDetail_failure_unauthorized() throws Exception {
         // Set up
         String url = "https://mypage.groovecoaster.jp/sp/json/event_data.php";
-        String jsonString = new String(getFileContent("now_event_detail_ng_unauthorized.json"), "UTF-8");
+        String jsonString = new String(getFileContent("current_event_detail_ng_unauthorized.json"), "UTF-8");
 
         // Exercise
         when(client.sendRequest(url)).thenReturn(jsonString);
@@ -260,28 +260,28 @@ public class ApiClientTest {
         JSONObject object = new JSONObject(jsonString);
 
         // Verify
-        apiClient.fetchNowEventDetail();
+        apiClient.fetchCurrentEventDetail();
     }
 
     @Test(expected = JSONException.class)
-    public void fetchNowEventDetail_failure_empty_string() throws Exception {
+    public void fetchCurrentEventDetail_failure_empty_string() throws Exception {
         // Set up
         String url = "https://mypage.groovecoaster.jp/sp/json/event_data.php";
-        String jsonString = new String(getFileContent("now_event_detail_ng_unauthorized.json"), "UTF-8");
+        String jsonString = new String(getFileContent("current_event_detail_ng_unauthorized.json"), "UTF-8");
 
         // Exercise
         when(client.sendRequest(url)).thenReturn("");
 
         // Verify
-        apiClient.fetchNowEventDetail();
+        apiClient.fetchCurrentEventDetail();
     }
 
 
     @Test
-    public void fetchNowEventDestination_successful() throws Exception {
+    public void fetchCurrentEventDestination_successful() throws Exception {
         // Set up
         String url = "https://mypage.groovecoaster.jp/sp/json/event_destination.php";
-        String jsonString = new String(getFileContent("now_event_destination_ok.json"), "UTF-8");
+        String jsonString = new String(getFileContent("current_event_destination_ok.json"), "UTF-8");
 
         // Exercise
         when(client.sendRequest(url)).thenReturn(jsonString);
@@ -289,14 +289,14 @@ public class ApiClientTest {
         JSONObject object = new JSONObject(jsonString);
 
         // Verify
-        assertThat(apiClient.fetchNowEventDestination().toString(), equalTo(object.toString()));
+        assertThat(apiClient.fetchCurrentEventDestination().toString(), equalTo(object.toString()));
     }
 
     @Test(expected = RuntimeException.class)
-    public void fetchNowEventDestination_failure_unauthorized() throws Exception {
+    public void fetchCurrentEventDestination_failure_unauthorized() throws Exception {
         // Set up
         String url = "https://mypage.groovecoaster.jp/sp/json/event_destination.php";
-        String jsonString = new String(getFileContent("now_event_destination_ng_unauthorized.json"), "UTF-8");
+        String jsonString = new String(getFileContent("current_event_destination_ng_unauthorized.json"), "UTF-8");
 
         // Exercise
         when(client.sendRequest(url)).thenReturn(jsonString);
@@ -304,19 +304,19 @@ public class ApiClientTest {
         JSONObject object = new JSONObject(jsonString);
 
         // Verify
-        apiClient.fetchNowEventDestination();
+        apiClient.fetchCurrentEventDestination();
     }
 
     @Test(expected = JSONException.class)
-    public void fetchNowEventDestination_failure_empty_string() throws Exception {
+    public void fetchCurrentEventDestination_failure_empty_string() throws Exception {
         // Set up
         String url = "https://mypage.groovecoaster.jp/sp/json/event_destination.php";
-        String jsonString = new String(getFileContent("now_event_destination_ng_unauthorized.json"), "UTF-8");
+        String jsonString = new String(getFileContent("current_event_destination_ng_unauthorized.json"), "UTF-8");
 
         // Exercise
         when(client.sendRequest(url)).thenReturn("");
 
         // Verify
-        apiClient.fetchNowEventDestination();
+        apiClient.fetchCurrentEventDestination();
     }
 }
