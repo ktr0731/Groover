@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.syfm.groover.R;
+import com.syfm.groover.controller.usecases.EventDataUseCase;
 import com.syfm.groover.controller.usecases.LoginUseCase;
 import com.syfm.groover.controller.usecases.MusicDataUseCase;
 import com.syfm.groover.controller.usecases.PlayDataUseCase;
@@ -55,6 +56,8 @@ public class LoginActivity extends Activity implements LoginEventHandlers {
     }
 
     public void onEvent(LoginUseCase.LoginEvent event) {
+        // TODO: どっかに分離したほうが良さ気
+
         if (event.success) {
             dialogFragment.changeMessage(getResources().getString(R.string.dialog_title_play_data));
 
@@ -67,10 +70,17 @@ public class LoginActivity extends Activity implements LoginEventHandlers {
             deferred.when(() -> {
                 PlayDataUseCase playDataUseCase = new PlayDataUseCase();
                 playDataUseCase.setPlayData();
-            }).done(callback -> {
+            }).then(callback -> {
                 dialogFragment.changeMessage(getResources().getString(R.string.dialog_title_music_data));
                 MusicDataUseCase musicDataUseCase = new MusicDataUseCase();
                 musicDataUseCase.setMusicData();
+            }).then(callback -> {
+                // TODO: ミュージック取得終わる前に表示が切り替わる問題
+                dialogFragment.changeMessage("開催中のイベントデータを取得中");
+                EventDataUseCase eventDataUseCase = new EventDataUseCase();
+                eventDataUseCase.setEventData();
+            }).done(callback -> {
+                Log.d("LoginActivity", "Fetching all play data was completed.");
             }).fail(callback -> {
                 Toast.makeText(getApplicationContext(), "データ取得エラー", Toast.LENGTH_SHORT).show();
             });
