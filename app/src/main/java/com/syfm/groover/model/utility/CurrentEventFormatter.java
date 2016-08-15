@@ -18,7 +18,7 @@ public class CurrentEventFormatter {
     public CurrentEventData getFormattedCurrentEventDataObject(JSONObject json) throws JSONException {
         CurrentEventData eventData = new CurrentEventData();
 
-        json
+        return eventData;
     }
 
 }

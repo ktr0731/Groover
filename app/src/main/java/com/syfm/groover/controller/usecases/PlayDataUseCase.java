@@ -38,7 +38,7 @@ public class PlayDataUseCase {
     }
 
     public void setPlayData() {
-        // TODO: 接続されていなくてデータがある場合はそちらを使うd
+        // TODO: 接続されていなくてデータがある場合はそちらを使う
         ApiClient apiClient = new ApiClient();
 
         deferred.when(() -> {

@@ -9,49 +9,49 @@ import io.realm.annotations.RealmClass;
 
 @RealmClass
 public class CurrentEventData extends RealmObject {
-    private String title;
-    private String openDate;
-    private String closeDate;
-    private int scoreType;
-    private UserCurrentEventData userCurrentEventData;
+    private String title_name;
+    private String open_date;
+    private String close_date;
+    private int score_type;
+    private UserCurrentEventData user_event_data;
 
-    public String getTitle() {
-        return title;
+    public String getTitle_name() {
+        return title_name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTitle_name(String title_name) {
+        this.title_name = title_name;
     }
 
-    public String getOpenDate() {
-        return openDate;
+    public String getOpen_date() {
+        return open_date;
     }
 
-    public void setOpenDate(String openDate) {
-        this.openDate = openDate;
+    public void setOpen_date(String open_date) {
+        this.open_date = open_date;
     }
 
-    public String getCloseDate() {
-        return closeDate;
+    public String getClose_date() {
+        return close_date;
     }
 
-    public void setCloseDate(String closeDate) {
-        this.closeDate = closeDate;
+    public void setClose_date(String close_date) {
+        this.close_date = close_date;
     }
 
-    public int getScoreType() {
-        return scoreType;
+    public int getScore_type() {
+        return score_type;
     }
 
-    public void setScoreType(int scoreType) {
-        this.scoreType = scoreType;
+    public void setScore_type(int score_type) {
+        this.score_type = score_type;
     }
 
-    public UserCurrentEventData getUserCurrentEventData() {
-        return userCurrentEventData;
+    public UserCurrentEventData getUser_event_data() {
+        return user_event_data;
     }
 
-    public void setUserCurrentEventData(UserCurrentEventData userCurrentEventData) {
-        this.userCurrentEventData = userCurrentEventData;
+    public void setUser_event_data(UserCurrentEventData user_event_data) {
+        this.user_event_data = user_event_data;
     }
 }

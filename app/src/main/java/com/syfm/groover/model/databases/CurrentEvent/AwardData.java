@@ -10,40 +10,42 @@ import io.realm.annotations.RealmClass;
 
 @RealmClass
 public class AwardData extends RealmObject {
-    private RealmList<AvatarAward> avatarAwards;
-    private RealmList<ItemAward> itemAwards;
-    private RealmList<MusicAward> musicAwards;
-    private RealmList<TitleAward> titleAwards;
+    // String arrayは未サポートのため、その場合は自分で格納する必要あり
 
-    public RealmList<AvatarAward> getAvatarAwards() {
-        return avatarAwards;
+    private RealmList<AvatarAward> avatar_award;
+    private RealmList<ItemAward> item_award;
+    private RealmList<MusicAward> music_award;
+    private RealmList<TitleAward> title_award;
+
+    public RealmList<AvatarAward> getAvatar_award() {
+        return avatar_award;
     }
 
-    public void setAvatarAwards(RealmList<AvatarAward> avatarAwards) {
-        this.avatarAwards = avatarAwards;
+    public void setAvatar_award(RealmList<AvatarAward> avatar_award) {
+        this.avatar_award = avatar_award;
     }
 
-    public RealmList<ItemAward> getItemAwards() {
-        return itemAwards;
+    public RealmList<ItemAward> getItem_award() {
+        return item_award;
     }
 
-    public void setItemAwards(RealmList<ItemAward> itemAwards) {
-        this.itemAwards = itemAwards;
+    public void setItem_award(RealmList<ItemAward> item_award) {
+        this.item_award = item_award;
     }
 
-    public RealmList<MusicAward> getMusicAwards() {
-        return musicAwards;
+    public RealmList<MusicAward> getMusic_award() {
+        return music_award;
     }
 
-    public void setMusicAwards(RealmList<MusicAward> musicAwards) {
-        this.musicAwards = musicAwards;
+    public void setMusic_award(RealmList<MusicAward> music_award) {
+        this.music_award = music_award;
     }
 
-    public RealmList<TitleAward> getTitleAwards() {
-        return titleAwards;
+    public RealmList<TitleAward> getTitle_award() {
+        return title_award;
     }
 
-    public void setTitleAwards(RealmList<TitleAward> titleAwards) {
-        this.titleAwards = titleAwards;
+    public void setTitle_award(RealmList<TitleAward> title_award) {
+        this.title_award = title_award;
     }
 }

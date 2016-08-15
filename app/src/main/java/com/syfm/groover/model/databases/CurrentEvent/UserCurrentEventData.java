@@ -10,34 +10,34 @@ import io.realm.annotations.RealmClass;
 
 @RealmClass
 public class UserCurrentEventData extends RealmObject {
-    private AwardData awardData;
-    private int bp;
-    private int highScoreBp;
+    private AwardData award_data;
+    private int event_point;
+    private int high_score;
     private int rank;
-    private int trophyNum;
+    private int trophy_num;
 
-    public AwardData getAwardData() {
-        return awardData;
+    public AwardData getAward_data() {
+        return award_data;
     }
 
-    public void setAwardData(AwardData awardData) {
-        this.awardData = awardData;
+    public void setAward_data(AwardData award_data) {
+        this.award_data = award_data;
     }
 
-    public int getBp() {
-        return bp;
+    public int getEvent_point() {
+        return event_point;
     }
 
-    public void setBp(int bp) {
-        this.bp = bp;
+    public void setEvent_point(int event_point) {
+        this.event_point = event_point;
     }
 
-    public int getHighScoreBp() {
-        return highScoreBp;
+    public int getHigh_score() {
+        return high_score;
     }
 
-    public void setHighScoreBp(int highScoreBp) {
-        this.highScoreBp = highScoreBp;
+    public void setHigh_score(int high_score) {
+        this.high_score = high_score;
     }
 
     public int getRank() {
@@ -48,11 +48,11 @@ public class UserCurrentEventData extends RealmObject {
         this.rank = rank;
     }
 
-    public int getTrophyNum() {
-        return trophyNum;
+    public int getTrophy_num() {
+        return trophy_num;
     }
 
-    public void setTrophyNum(int trophyNum) {
-        this.trophyNum = trophyNum;
+    public void setTrophy_num(int trophy_num) {
+        this.trophy_num = trophy_num;
     }
 }

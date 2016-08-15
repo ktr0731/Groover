@@ -9,22 +9,22 @@ import io.realm.annotations.RealmClass;
 
 @RealmClass
 public class ItemAward extends RealmObject {
-    private String name;
-    private int number;
+    private String item_name;
+    private int item_num;
 
-    public String getName() {
-        return name;
+    public String getItem_name() {
+        return item_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setItem_name(String item_name) {
+        this.item_name = item_name;
     }
 
-    public int getNumber() {
-        return number;
+    public int getItem_num() {
+        return item_num;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setItem_num(int item_num) {
+        this.item_num = item_num;
     }
 }
