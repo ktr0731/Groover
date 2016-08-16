@@ -9,6 +9,7 @@ import com.syfm.groover.model.databases.CurrentEvent.MusicAward;
 import com.syfm.groover.model.databases.CurrentEvent.TitleAward;
 
 import org.jdeferred.android.AndroidDeferredManager;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,9 +35,12 @@ public class EventDataUseCase {
             try {
                 JSONObject object = apiClient.fetchCurrentEventDetail();
 
-                realm.createObjectFromJson(CurrentEventData.class, object.getJSONObject("event_data"));
+                // 現時点では何も報酬をもらえない時
+                if (!object.getJSONObject("event_data").getJSONObject("user_event_data").isNull("award_data")) {
+                    convertJSONArrayToJSONObject(object);
+                }
 
-                JSONObject awardData = object.getJSONObject("event_data").getJSONObject("user_event_data").getJSONObject("award_data");
+                realm.createObjectFromJson(CurrentEventData.class, object.getJSONObject("event_data"));
 
                 realm.commitTransaction();
             } catch (IOException e) {
@@ -49,5 +53,21 @@ public class EventDataUseCase {
                 realm.close();
             }
         });
+    }
+
+    public JSONObject convertJSONArrayToJSONObject(JSONObject object) throws JSONException {
+        JSONObject awardData = object.getJSONObject("event_data").getJSONObject("user_event_data").getJSONObject("award_data");
+        JSONArray avatarAward = awardData.getJSONArray("avatar_award");
+        JSONObject newAvatarAward = new JSONObject();
+
+        for (int i = 0; i < avatarAward.length(); i++) {
+            newAvatarAward.accumulate("name", avatarAward.get(i).toString());
+            Log.d("Hogeeeeeeeeeee", avatarAward.get(i).toString());
+        }
+
+        awardData.accumulate("avatar_award", newAvatarAward);
+        object.accumulate("award_data", awardData);
+
+        return object;
     }
 }

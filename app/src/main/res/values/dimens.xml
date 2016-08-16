@@ -34,4 +34,6 @@
     <dimen name="dialog_radio_padding">12dp</dimen>
     <dimen name="dialog_radio_item_margin">10dp</dimen>
 
+    <dimen name="dp0">0dp</dimen>
+
 </resources>

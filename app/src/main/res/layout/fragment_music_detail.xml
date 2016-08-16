@@ -616,7 +616,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/card_view_margin"
                     android:layout_marginRight="@dimen/card_view_margin"
-                    android:layout_marginTop="@dimen/card_view_margin">
+                    android:layout_marginTop="@dimen/card_view_margin"
+                    android:layout_marginBottom="@@dimen/card_view_margin" >
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -832,7 +833,6 @@
                     android:layout_marginBottom="@dimen/card_view_margin"
                     android:layout_marginLeft="@dimen/card_view_margin"
                     android:layout_marginRight="@dimen/card_view_margin"
-                    android:layout_marginTop="@dimen/card_view_margin"
                     android:visibility="@{music.exFlag ? View.VISIBLE : View.GONE}">
 
                     <LinearLayout
