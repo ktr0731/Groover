@@ -224,74 +224,6 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:paddingRight="@dimen/card_view_table_padding"
-                                        android:text="@string/tv_music_result_play_music"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/medium_size" />
-
-                                    <TextView
-                                        android:id="@+id/tv_music_result_play_music"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:gravity="end"
-                                        android:paddingRight="@dimen/card_view_table_padding"
-                                        android:text="@{String.valueOf(playerData.totalPlayMusic)}"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/medium_size" />
-
-                                    <TextView
-                                        android:id="@+id/tv_music_result_play_music_per"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:gravity="end"
-                                        android:text='@{String.format("%.2f%%", Utils.calcPercentage(playerData.totalPlayMusic, playerData.totalMusic))}'
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/medium_size" />
-
-                                </TableRow>
-
-                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:paddingRight="@dimen/card_view_table_padding"
-                                        android:text="@string/tv_music_result_clear_stage"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/medium_size" />
-
-                                    <TextView
-                                        android:id="@+id/tv_music_result_clear_stage"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:gravity="end"
-                                        android:paddingRight="@dimen/card_view_table_padding"
-                                        android:text="@{String.valueOf(playerData.clear)}"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/medium_size" />
-
-                                    <TextView
-                                        android:id="@+id/tv_music_result_clear_stage_per"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:gravity="end"
-                                        android:text='@{String.format("%.2f%%", Utils.calcPercentage(playerData.clear, playerData.all))}'
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/medium_size" />
-
-                                </TableRow>
-
-                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:paddingRight="@dimen/card_view_table_padding"
                                         android:text="@string/tv_music_result_average_score"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
@@ -326,6 +258,74 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_result_play_music"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_result_play_music"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="end"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text='@{String.valueOf(playerData.totalPlayMusic) + " / " + String.valueOf(playerData.totalMusic)}'
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_result_play_music_per"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="end"
+                                        android:text='@{String.format("%.2f%%", Utils.calcPercentage(playerData.totalPlayMusic, playerData.totalMusic))}'
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                </TableRow>
+
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text="@string/tv_music_result_clear_stage"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_result_clear_stage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="end"
+                                        android:paddingRight="@dimen/card_view_table_padding"
+                                        android:text='@{String.valueOf(playerData.clear) + " / " + String.valueOf(playerData.totalMusic)}'
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                    <TextView
+                                        android:id="@+id/tv_music_result_clear_stage_per"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="end"
+                                        android:text='@{String.format("%.2f%%", Utils.calcPercentage(playerData.clear, playerData.all))}'
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/medium_size" />
+
+                                </TableRow>
+
+                                <TableRow android:paddingBottom="@dimen/card_view_text_bottom">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingRight="@dimen/card_view_table_padding"
                                         android:text="@string/tv_music_result_no_miss"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
@@ -337,7 +337,7 @@
                                         android:layout_weight="1"
                                         android:gravity="end"
                                         android:paddingRight="@dimen/card_view_table_padding"
-                                        android:text="@{String.valueOf(playerData.noMiss)}"
+                                        android:text='@{String.valueOf(playerData.noMiss) + " / " + String.valueOf(playerData.totalMusic)}'
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
 
@@ -371,7 +371,7 @@
                                         android:layout_weight="1"
                                         android:gravity="end"
                                         android:paddingRight="@dimen/card_view_table_padding"
-                                        android:text="@{String.valueOf(playerData.fullChain)}"
+                                        android:text='@{String.valueOf(playerData.fullChain) + " / " + String.valueOf(playerData.totalMusic)}'
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
 
@@ -405,7 +405,7 @@
                                         android:layout_weight="1"
                                         android:gravity="end"
                                         android:paddingRight="@dimen/card_view_table_padding"
-                                        android:text="@{String.valueOf(playerData.perfect)}"
+                                        android:text='@{String.valueOf(playerData.perfect) + " / " + String.valueOf(playerData.totalMusic)}'
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
 
@@ -439,7 +439,7 @@
                                         android:layout_weight="1"
                                         android:gravity="end"
                                         android:paddingRight="@dimen/card_view_table_padding"
-                                        android:text="@{String.valueOf(playerData.s)}"
+                                        android:text='@{String.valueOf(playerData.s) + " / " + String.valueOf(playerData.totalMusic)}'
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
 
@@ -473,7 +473,7 @@
                                         android:layout_weight="1"
                                         android:gravity="end"
                                         android:paddingRight="@dimen/card_view_table_padding"
-                                        android:text="@{String.valueOf(playerData.ss)}"
+                                        android:text='@{String.valueOf(playerData.ss) + " / " + String.valueOf(playerData.totalMusic)}'
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
 
@@ -507,7 +507,7 @@
                                         android:layout_weight="1"
                                         android:gravity="end"
                                         android:paddingRight="@dimen/card_view_table_padding"
-                                        android:text="@{String.valueOf(playerData.sss)}"
+                                        android:text='@{String.valueOf(playerData.sss) + " / " + String.valueOf(playerData.totalMusic)}'
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/medium_size" />
 
