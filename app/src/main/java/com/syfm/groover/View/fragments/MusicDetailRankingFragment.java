@@ -57,7 +57,7 @@ public class MusicDetailRankingFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_music_detail_ranking, group, false);
         ButterKnife.bind(this, view);
 
-        realm = Realm.getInstance(getActivity());
+        realm = Realm.getDefaultInstance();
 //        MusicData item = realm.where(MusicData.class).equalTo(Const.MUSIC_LIST_MUSIC_ID, id).findFirst();
 
         return view;

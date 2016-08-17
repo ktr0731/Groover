@@ -10,9 +10,7 @@ import android.widget.Filter;
 import android.widget.ListAdapter;
 
 import com.syfm.groover.R;
-import com.syfm.groover.controller.entities.AppController;
 import com.syfm.groover.databinding.RowMusicListBinding;
-import com.syfm.groover.model.constants.Const;
 import com.syfm.groover.model.constants.SPConst;
 import com.syfm.groover.model.databases.Music;
 import com.syfm.groover.model.databases.SharedPreferenceHelper;
@@ -32,9 +30,9 @@ public class MusicListAdapter extends RealmBaseAdapter<Music> implements ListAda
     private Realm realm;
     private RowMusicListBinding binding;
 
-    public MusicListAdapter(Context context, int resource, RealmResults<Music> realmResults, Boolean autoUpdate) {
-        super(context, realmResults, autoUpdate);
-        realm = Realm.getInstance(AppController.getInstance());
+    public MusicListAdapter(Context context, int resource, RealmResults<Music> realmResults) {
+        super(context, realmResults);
+        realm = Realm.getDefaultInstance();
     }
 
     @Override
@@ -199,24 +197,24 @@ public class MusicListAdapter extends RealmBaseAdapter<Music> implements ListAda
             sort = Sort.DESCENDING;
         }
 
-        realm.beginTransaction();
-        switch (params.get(0).toString()) {
-            case Const.MUSIC_SORT_MUSIC_NAME:
-                realmResults.sort(Const.MUSIC_LIST_MUSIC_TITLE, sort);
-                break;
-            case Const.MUSIC_SORT_LAST_PLAYED:
-                realmResults.sort(Const.MUSIC_LIST_LAST_PLAY_TIME, sort);
-                break;
-            case Const.MUSIC_SORT_PLAY_TIMES:
-                realmResults.sort(Const.MUSIC_LIST_PLAY_COUNT, sort);
-                break;
-            case Const.MUSIC_SORT_CATEGORY:
-                // TODO: カテゴリを入手する
-                break;
-
-        }
-
-        realm.commitTransaction();
+//        realm.beginTransaction();
+//        switch (params.get(0).toString()) {
+//            case Const.MUSIC_SORT_MUSIC_NAME:
+//                realmResults.sort(Const.MUSIC_LIST_MUSIC_TITLE, sort);
+//                break;
+//            case Const.MUSIC_SORT_LAST_PLAYED:
+//                realmResults.sort(Const.MUSIC_LIST_LAST_PLAY_TIME, sort);
+//                break;
+//            case Const.MUSIC_SORT_PLAY_TIMES:
+//                realmResults.sort(Const.MUSIC_LIST_PLAY_COUNT, sort);
+//                break;
+//            case Const.MUSIC_SORT_CATEGORY:
+//                // TODO: カテゴリを入手する
+//                break;
+//
+//        }
+//
+//        realm.commitTransaction();
         notifyDataSetChanged();
     }
 

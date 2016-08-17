@@ -111,7 +111,7 @@ public class MusicListFragment extends Fragment implements MusicListInterface {
         if (music == null || music.isEmpty()) {
             return;
         }
-        adapter = new MusicListAdapter(getActivity(), 0, music, true);
+        adapter = new MusicListAdapter(getActivity(), 0, music);
         binding.listView.setAdapter(adapter);
 
         setListViewPosition();

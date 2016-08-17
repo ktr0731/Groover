@@ -177,7 +177,7 @@ public class ApiClient {
     public void fetchScoreRanking(final String id, final int diff) {
         final String url = "https://mypage.groovecoaster.jp/sp/json/score_ranking_bymusic_bydifficulty.php?music_id=" + id + "&difficulty=" + diff;
 
-        realm = Realm.getInstance(AppController.getContext());
+        realm = Realm.getDefaultInstance();
 
         String score_rank = "score_rank";
 

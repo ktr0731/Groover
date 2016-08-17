@@ -48,7 +48,7 @@ public class MusicDataUseCase {
         ApiClient client = new ApiClient();
 
         deferred.when(() -> {
-            Realm realm = Realm.getInstance(AppController.getContext());
+            Realm realm = Realm.getDefaultInstance();
             realm.beginTransaction();
 
             try {
