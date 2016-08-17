@@ -29,7 +29,7 @@ public class EventDataUseCaseTest {
     @Test
     public void convertJSONArrayToJSONObject_successful() throws Exception {
         // TODO: Not yet implemented.
-        String jsonString = new String(getFileContent(""));
+        //String jsonString = new String(getFileContent(""));
     }
 
     // From ApiClientTest.java
