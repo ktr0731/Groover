@@ -3,6 +3,7 @@ package com.syfm.groover.controller.usecases;
 import android.util.Log;
 
 import com.syfm.groover.controller.entities.AppController;
+import com.syfm.groover.model.api.ApiClient;
 import com.syfm.groover.model.api.LoginApi;
 import com.syfm.groover.model.databases.SharedPreferenceHelper;
 
@@ -35,8 +36,8 @@ public class LoginUseCase {
         deferred.when(() -> {
             try {
                 return api.tryLogin();
-
-            } catch (IOException e) {
+            } catch (IOException|ApiClient.InvalidResponseException e) {
+                Log.d("TryLogin Failed", e.toString());
                 return false;
             }
         }).done(loggedin -> {
